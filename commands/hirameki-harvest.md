@@ -3,7 +3,7 @@ description: 收割可行動的想法
 arguments: [save] — 可選，加 save 寫入
 ---
 
-先執行 _glint-init.md 中的 vault 偵測與資料夾解析，取得 vault 路徑和 analysis、daily-notes、inbox 資料夾位置。同時取得所有內容資料夾清單。
+先執行 _hirameki-init.md 中的 vault 偵測與資料夾解析，取得 vault 路徑和 analysis、daily-notes、inbox 資料夾位置。同時取得所有內容資料夾清單。
 
 掃描 vault 從既有內容中識別可行動的想法。
 
@@ -28,7 +28,7 @@ arguments: [save] — 可選，加 save 寫入
 【可以聯繫的人或社群】
 文章中提到的人物、組織、或社群，且與目前的工作方向相關。每筆：名稱、vault 中提及的脈絡、聯繫的理由。如果沒有，標註「無」。
 
-以 _glint-init.md 中偵測到的語言撰寫。
+以 _hirameki-init.md 中偵測到的語言撰寫。
 
 寫入邏輯（僅當 $ARGUMENTS 包含 "save" 時執行）：
 1. 檢查 {analysis}/harvest/ 中今天是否已有檔案

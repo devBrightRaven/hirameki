@@ -1,6 +1,6 @@
 # Example Vault Configuration
 
-Add this section to your project's `CLAUDE.md` to configure Glint commands.
+Add this section to your project's `CLAUDE.md` to configure Hirameki commands.
 
 ## Vault Structure
 
@@ -29,5 +29,5 @@ inbox: inbox/
 language: English
 ```
 
-All Glint commands read these paths from your CLAUDE.md at runtime.
+All Hirameki commands read these paths from your CLAUDE.md at runtime.
 If a path is not configured, the command will ask you where to read/write.

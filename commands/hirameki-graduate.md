@@ -2,7 +2,7 @@
 description: 想法畢業為獨立筆記
 ---
 
-先執行 _glint-init.md 中的 vault 偵測與資料夾解析，取得 vault 路徑和 daily-notes、logs、inbox 資料夾位置。同時取得所有內容資料夾清單。
+先執行 _hirameki-init.md 中的 vault 偵測與資料夾解析，取得 vault 路徑和 daily-notes、logs、inbox 資料夾位置。同時取得所有內容資料夾清單。
 
 掃描範圍：
 - daily-notes 資料夾最近 14 天（從 Wrap 區塊中找反覆出現在「下一步」但未執行的、「進行中」卡住的）
@@ -39,4 +39,4 @@ description: 想法畢業為獨立筆記
 寫入前顯示即將建立的檔案完整路徑，等確認後再執行。
 寫入後印出實際建立的完整路徑。
 
-以 _glint-init.md 中偵測到的語言撰寫。
+以 _hirameki-init.md 中偵測到的語言撰寫。

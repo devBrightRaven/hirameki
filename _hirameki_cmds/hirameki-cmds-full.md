@@ -1,10 +1,10 @@
-# Glint Commands — Full Specification
+# Hirameki Commands — Full Specification
 
-Complete prompt specifications for all Glint commands. This is a human-readable reference — the actual command prompts live in `commands/`.
+Complete prompt specifications for all Hirameki commands. This is a human-readable reference — the actual command prompts live in `commands/`.
 
 ---
 
-## Shared: `_glint-init`
+## Shared: `_hirameki-init`
 
 All commands begin by executing this initialization logic.
 
@@ -34,8 +34,8 @@ For each purpose, match the first existing folder from candidates:
 |---|---|
 | daily-notes | `Daily/`, `_daily/`, `daily/`, `Journal/`, `journal/` |
 | inbox | `Inbox/`, `_inbox/`, `inbox/`, `_Capture/`, `Capture/` |
-| analysis | `_glint_analysis/`, `_claude_code_analysis/`, `Analysis/`, `_analysis/`, `analysis/` |
-| logs | `_glint_logs/`, `_claude_code_feedback/`, `Logs/`, `_logs/`, `logs/` |
+| analysis | `_hirameki_analysis/`, `_claude_code_analysis/`, `Analysis/`, `_analysis/`, `analysis/` |
+| logs | `_hirameki_logs/`, `_claude_code_feedback/`, `Logs/`, `_logs/`, `logs/` |
 | templates | `Templates/`, `_templates/`, `templates/` |
 
 If not found: ask the user, create the folder, print the full path, save to vault's `CLAUDE.md` under `## Vault Structure`.
@@ -54,7 +54,7 @@ If no content folders exist, scan root-level `.md` files instead.
 
 ## Daily Rhythm
 
-### `/glint-status`
+### `/hirameki-status`
 
 **Purpose:** Vault overview.
 **Input:** None.
@@ -76,7 +76,7 @@ Empty sections show "None" instead of being omitted.
 
 ---
 
-### `/glint-catchup [days]`
+### `/hirameki-catchup [days]`
 
 **Purpose:** Progress catchup.
 **Input:** Optional number of days (default 1).
@@ -98,7 +98,7 @@ Output:
 
 ---
 
-### `/glint-wrap [description]`
+### `/hirameki-wrap [description]`
 
 **Purpose:** Progress snapshot written to daily note.
 **Input:** Optional focus description.
@@ -139,7 +139,7 @@ Rules:
 
 ---
 
-### `/glint-weekreview`
+### `/hirameki-weekreview`
 
 **Purpose:** Weekly review and gap analysis.
 **Input:** None.
@@ -165,7 +165,7 @@ If fewer than 3 daily notes, flag: "Insufficient records, gap analysis may be in
 
 ## Concept Archaeology
 
-### `/glint-arc {concept}`
+### `/hirameki-arc {concept}`
 
 **Purpose:** Track a concept's evolution across the vault.
 **Input:** Required — a concept or keyword.
@@ -225,7 +225,7 @@ Rules:
 
 ---
 
-### `/glint-bridge {topicA} and {topicB}`
+### `/hirameki-bridge {topicA} and {topicB}`
 
 **Purpose:** Find hidden connections between two topics.
 **Input:** Required — two topics (separator: "and" or locale equivalent).
@@ -274,7 +274,7 @@ Limit 5. Each with [[wiki link]].
 
 ---
 
-### `/glint-undercurrent [scope]`
+### `/hirameki-undercurrent [scope]`
 
 **Purpose:** Surface latent themes.
 **Input:** Optional scope (specific directory).
@@ -332,7 +332,7 @@ Rules: Sorted by frequency descending. Limit 10 themes.
 
 ---
 
-### `/glint-cluster [scope]`
+### `/hirameki-cluster [scope]`
 
 **Purpose:** Thought cluster analysis.
 **Input:** Optional scope.
@@ -388,7 +388,7 @@ Rules: Limit 5 clusters, sorted by maturity descending.
 
 ## Thinking Tools
 
-### `/glint-ghost {question} [save]`
+### `/hirameki-ghost {question} [save]`
 
 **Purpose:** Answer a question in the user's voice and stance.
 **Input:** Required question. Append `save` to write to file.
@@ -417,7 +417,7 @@ Write logic (only when `save` is in input):
 
 ---
 
-### `/glint-stress-test {topic} [save]`
+### `/hirameki-stress-test {topic} [save]`
 
 **Purpose:** Pressure-test arguments on a topic.
 **Input:** Required topic. Append `save` to write to file.
@@ -450,7 +450,7 @@ Write logic (only when `save` is in input):
 
 ---
 
-### `/glint-harvest [save]`
+### `/hirameki-harvest [save]`
 
 **Purpose:** Harvest actionable ideas from existing content.
 **Input:** Optional `save` to write to file.
@@ -475,7 +475,7 @@ Write logic (only when `save` is in input):
 
 ---
 
-### `/glint-graduate`
+### `/hirameki-graduate`
 
 **Purpose:** Graduate half-formed ideas into standalone notes.
 **Input:** None.
@@ -513,7 +513,7 @@ Show full file path before writing, confirm, print path after.
 
 ## Maintenance
 
-### `/glint-tidy [fix]`
+### `/hirameki-tidy [fix]`
 
 **Purpose:** Frontmatter properties audit and cleanup.
 **Input:** Optional — `fix` to auto-correct after confirmation.
@@ -592,7 +592,7 @@ Max 50 issues reported per run. If more, show total count and suggest batch proc
 
 ## Logging
 
-### `/glint-journal {description}`
+### `/hirameki-journal {description}`
 
 **Purpose:** Work log and thinking article.
 **Input:** Required — topic description.
@@ -664,17 +664,17 @@ Also check "Unfinished and Follow-up" section — if items are now done, mark wi
 
 | Command | Writes to | Trigger | Same-day repeat |
 |---|---|---|---|
-| `/glint-wrap` | daily-notes | Always | Appends new Wrap block |
-| `/glint-journal` | logs | Always | Same topic appends, different topic creates new |
-| `/glint-arc` | analysis/arc | Always | Same concept appends, different creates new |
-| `/glint-bridge` | analysis/bridge | Always | Same pair appends |
-| `/glint-undercurrent` | analysis/undercurrent | Always | Appends update |
-| `/glint-cluster` | analysis/cluster | Always | Appends update |
-| `/glint-ghost` | analysis/ghost | Only with `save` | Same question appends |
-| `/glint-stress-test` | analysis/stress-test | Only with `save` | Same topic appends |
-| `/glint-harvest` | analysis/harvest | Only with `save` | Appends update |
-| `/glint-graduate` | content folder | After confirmation | Independent each time |
-| `/glint-tidy` | analysis/tidy | Always | Appends update |
+| `/hirameki-wrap` | daily-notes | Always | Appends new Wrap block |
+| `/hirameki-journal` | logs | Always | Same topic appends, different topic creates new |
+| `/hirameki-arc` | analysis/arc | Always | Same concept appends, different creates new |
+| `/hirameki-bridge` | analysis/bridge | Always | Same pair appends |
+| `/hirameki-undercurrent` | analysis/undercurrent | Always | Appends update |
+| `/hirameki-cluster` | analysis/cluster | Always | Appends update |
+| `/hirameki-ghost` | analysis/ghost | Only with `save` | Same question appends |
+| `/hirameki-stress-test` | analysis/stress-test | Only with `save` | Same topic appends |
+| `/hirameki-harvest` | analysis/harvest | Only with `save` | Appends update |
+| `/hirameki-graduate` | content folder | After confirmation | Independent each time |
+| `/hirameki-tidy` | analysis/tidy | Always | Appends update |
 
 ## Common Rules
 
@@ -682,4 +682,4 @@ Also check "Unfinished and Follow-up" section — if items are now done, mark wi
 - All file references use [[wiki link]] format
 - All write commands show a preview and full path before writing, then confirm before execution
 - All write commands print the actual written path after execution
-- Output language is configured on first run via `_glint-init` and saved in the vault's CLAUDE.md
+- Output language is configured on first run via `_hirameki-init` and saved in the vault's CLAUDE.md
