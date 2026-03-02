@@ -1,4 +1,4 @@
-# BRW Toolkit
+# Glint
 
 Obsidian vault knowledge management commands for [Claude Code](https://claude.com/claude-code).
 
@@ -7,7 +7,7 @@ Help you build a habit of using AI to review and excavate your accumulated think
 ## Install
 
 ```bash
-claude /plugin install brw-toolkit
+claude /plugin install glint-commands
 ```
 
 Then add your vault path to `~/.claude/CLAUDE.md`:
@@ -29,40 +29,40 @@ Commands auto-detect your vault's folder structure. If a required folder doesn't
 
 | Command | What it does |
 |---------|-------------|
-| `/brw-status` | Vault overview — content topics, recent activity |
-| `/brw-catchup [days]` | Progress catchup — recent progress, inbox, suggested focus |
-| `/brw-wrap [description]` | Progress snapshot — appends to today's daily note |
-| `/brw-weekreview` | Weekly review with gap analysis |
+| `/glint-status` | Vault overview — content topics, recent activity |
+| `/glint-catchup [days]` | Progress catchup — recent progress, inbox, suggested focus |
+| `/glint-wrap [description]` | Progress snapshot — appends to today's daily note |
+| `/glint-weekreview` | Weekly review with gap analysis |
 
 ### Concept Archaeology
 
 | Command | What it does |
 |---------|-------------|
-| `/brw-arc {concept}` | Track how a concept evolves across your vault |
-| `/brw-bridge {A} and {B}` | Find hidden connections between two topics |
-| `/brw-undercurrent [scope]` | Surface recurring themes that lack dedicated articles |
-| `/brw-cluster [scope]` | Find groups of notes converging on unnamed themes |
+| `/glint-arc {concept}` | Track how a concept evolves across your vault |
+| `/glint-bridge {A} and {B}` | Find hidden connections between two topics |
+| `/glint-undercurrent [scope]` | Surface recurring themes that lack dedicated articles |
+| `/glint-cluster [scope]` | Find groups of notes converging on unnamed themes |
 
 ### Thinking Tools
 
 | Command | What it does |
 |---------|-------------|
-| `/brw-ghost {question} [save]` | Answer a question in your voice, based on your writing |
-| `/brw-stress-test {topic} [save]` | Pressure-test your arguments on a topic |
+| `/glint-ghost {question} [save]` | Answer a question in your voice, based on your writing |
+| `/glint-stress-test {topic} [save]` | Pressure-test your arguments on a topic |
 
 ### Maintenance
 
 | Command | What it does |
 |---------|-------------|
-| `/brw-tidy [fix]` | Frontmatter properties audit — missing fields, inconsistent tags, cleanup |
+| `/glint-tidy [fix]` | Frontmatter properties audit — missing fields, inconsistent tags, cleanup |
 
 ### Action Output
 
 | Command | What it does |
 |---------|-------------|
-| `/brw-harvest [save]` | Identify actionable ideas from existing content |
-| `/brw-graduate` | Graduate half-formed ideas into standalone notes |
-| `/brw-journal {topic}` | Work log with reasoning, connections, and follow-ups |
+| `/glint-harvest [save]` | Identify actionable ideas from existing content |
+| `/glint-graduate` | Graduate half-formed ideas into standalone notes |
+| `/glint-journal {topic}` | Work log with reasoning, connections, and follow-ups |
 
 ## How it works
 

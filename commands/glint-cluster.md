@@ -3,7 +3,7 @@ description: 想法群聚攏分析
 arguments: [範圍] — 可選，無則掃描全部
 ---
 
-先執行 _brw-init.md 中的 vault 偵測與資料夾解析，取得 vault 路徑和 analysis、daily-notes、inbox 資料夾位置。同時取得所有內容資料夾清單。
+先執行 _glint-init.md 中的 vault 偵測與資料夾解析，取得 vault 路徑和 analysis、daily-notes、inbox 資料夾位置。同時取得所有內容資料夾清單。
 
 分析 vault 中正在聚攏成形的想法群，並將結果存入分析資料夾。
 
@@ -74,4 +74,4 @@ arguments: [範圍] — 可選，無則掃描全部
 - 寫入後印出實際寫入的完整路徑
 - 同時在終端輸出完整分析結果
 
-以 _brw-init.md 中偵測到的語言撰寫。
+以 _glint-init.md 中偵測到的語言撰寫。

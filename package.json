@@ -1,5 +1,5 @@
 {
-  "name": "brw-toolkit",
+  "name": "glint",
   "version": "0.1.0",
   "description": "Obsidian vault knowledge management commands for Claude Code",
   "keywords": [
@@ -15,7 +15,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/devBrightRaven/brw-toolkit.git"
+    "url": "git+https://github.com/devBrightRaven/glint-commands.git"
   },
   "files": [
     "commands/",

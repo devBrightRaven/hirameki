@@ -2,7 +2,7 @@
 description: Vault 現況摘要
 ---
 
-先執行 _brw-init.md 中的 vault 偵測與資料夾解析，取得 vault 路徑和 daily-notes 資料夾位置。同時取得所有內容資料夾清單。
+先執行 _glint-init.md 中的 vault 偵測與資料夾解析，取得 vault 路徑和 daily-notes 資料夾位置。同時取得所有內容資料夾清單。
 
 掃描以下目錄：
 - 所有內容資料夾底下的子目錄（深度 2 層）
@@ -24,4 +24,4 @@ description: Vault 現況摘要
 
 如果某個區塊沒有內容，標註「無」而不是跳過。
 
-以 _brw-init.md 中偵測到的語言撰寫。
+以 _glint-init.md 中偵測到的語言撰寫。

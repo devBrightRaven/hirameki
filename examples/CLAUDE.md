@@ -1,6 +1,6 @@
 # Example Vault Configuration
 
-Add this section to your project's `CLAUDE.md` to configure BRW commands.
+Add this section to your project's `CLAUDE.md` to configure Glint commands.
 
 ## Vault Structure
 
@@ -29,5 +29,5 @@ inbox: inbox/
 language: English
 ```
 
-All BRW commands read these paths from your CLAUDE.md at runtime.
+All Glint commands read these paths from your CLAUDE.md at runtime.
 If a path is not configured, the command will ask you where to read/write.

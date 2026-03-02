@@ -3,7 +3,7 @@ description: 主題論述壓力測試
 arguments: {主題} [save] — 必填，加 save 寫入
 ---
 
-先執行 _brw-init.md 中的 vault 偵測與資料夾解析，取得 vault 路徑和 analysis 資料夾位置。
+先執行 _glint-init.md 中的 vault 偵測與資料夾解析，取得 vault 路徑和 analysis 資料夾位置。
 
 對一個主題的現有論述進行壓力測試。
 
@@ -31,7 +31,7 @@ arguments: {主題} [save] — 必填，加 save 寫入
 【整體評估】
 這個主題的論述整體穩固程度：穩固 / 大致穩固但有缺口 / 需要重大補強。列出最需要優先處理的 1 到 3 個弱點。
 
-以 _brw-init.md 中偵測到的語言撰寫。
+以 _glint-init.md 中偵測到的語言撰寫。
 
 寫入邏輯（僅當 $ARGUMENTS 末尾包含 "save" 時執行）：
 1. 從 $ARGUMENTS 中移除 "save" 關鍵詞，剩餘部分作為主題

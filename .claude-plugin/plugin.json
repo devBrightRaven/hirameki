@@ -1,13 +1,13 @@
 {
-  "name": "brw-toolkit",
+  "name": "glint",
   "version": "0.1.0",
   "description": "Obsidian vault knowledge management commands for Claude Code — daily rhythm, concept archaeology, thinking tools, and work logging",
   "author": {
     "name": "devBrightRaven",
     "url": "https://github.com/devBrightRaven"
   },
-  "homepage": "https://github.com/devBrightRaven/brw-toolkit",
-  "repository": "https://github.com/devBrightRaven/brw-toolkit",
+  "homepage": "https://github.com/devBrightRaven/glint-commands",
+  "repository": "https://github.com/devBrightRaven/glint-commands",
   "license": "MIT",
   "keywords": [
     "claude-code",
