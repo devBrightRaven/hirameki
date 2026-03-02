@@ -7,7 +7,7 @@ Help you build a habit of using AI to review and excavate your accumulated think
 ## Install
 
 ```bash
-claude /plugin install glint-commands
+claude /plugin install glintstone
 ```
 
 Then add your vault path to `~/.claude/CLAUDE.md`:

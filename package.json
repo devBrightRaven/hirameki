@@ -15,7 +15,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/devBrightRaven/glint-commands.git"
+    "url": "git+https://github.com/devBrightRaven/glintstone.git"
   },
   "files": [
     "commands/",
