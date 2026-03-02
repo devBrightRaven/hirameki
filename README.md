@@ -7,7 +7,7 @@ Help you build a habit of using AI to review and excavate your accumulated think
 ## Install
 
 ```bash
-claude /plugin install glintstone
+claude /plugin install hirameki
 ```
 
 Then add your vault path to `~/.claude/CLAUDE.md`:
