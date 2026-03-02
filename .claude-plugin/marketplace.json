@@ -6,7 +6,7 @@
   "plugins": [
     {
       "name": "hirameki",
-      "source": ".",
+      "source": "./",
       "description": "Obsidian vault knowledge management commands for Claude Code — daily rhythm, concept archaeology, thinking tools, and work logging"
     }
   ]
