@@ -1,0 +1,22 @@
+{
+  "name": "brw-toolkit",
+  "version": "0.1.0",
+  "description": "Obsidian vault knowledge management commands for Claude Code — daily rhythm, concept archaeology, thinking tools, and work logging",
+  "author": {
+    "name": "devBrightRaven",
+    "url": "https://github.com/devBrightRaven"
+  },
+  "homepage": "https://github.com/devBrightRaven/brw-toolkit",
+  "repository": "https://github.com/devBrightRaven/brw-toolkit",
+  "license": "MIT",
+  "keywords": [
+    "claude-code",
+    "obsidian",
+    "vault",
+    "knowledge-management",
+    "daily-notes",
+    "concept-tracking",
+    "writing"
+  ],
+  "skills": ["./commands/"]
+}
