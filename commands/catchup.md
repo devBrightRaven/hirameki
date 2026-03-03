@@ -3,7 +3,7 @@ description: 進度銜接與今日焦點
 arguments: [天數] — 可選，預設 1
 ---
 
-先執行 _hirameki-init.md 中的 vault 偵測與資料夾解析，取得 vault 路徑和 daily-notes、inbox 資料夾位置。
+先執行 _init.md 中的 vault 偵測與資料夾解析，取得 vault 路徑和 daily-notes、inbox 資料夾位置。
 
 進度銜接。讀取最近的進度紀錄，了解從哪裡接續。
 
@@ -35,4 +35,4 @@ arguments: [天數] — 可選，預設 1
 每個建議附上理由（為什麼是今天做而不是之後做）。
 不要超過 3 個。
 
-以 _hirameki-init.md 中偵測到的語言撰寫。
+以 _init.md 中偵測到的語言撰寫。

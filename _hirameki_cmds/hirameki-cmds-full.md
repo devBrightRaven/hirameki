@@ -4,7 +4,7 @@ Complete prompt specifications for all Hirameki commands. This is a human-readab
 
 ---
 
-## Shared: `_hirameki-init`
+## Shared: `_init`
 
 All commands begin by executing this initialization logic.
 
@@ -682,4 +682,4 @@ Also check "Unfinished and Follow-up" section — if items are now done, mark wi
 - All file references use [[wiki link]] format
 - All write commands show a preview and full path before writing, then confirm before execution
 - All write commands print the actual written path after execution
-- Output language is configured on first run via `_hirameki-init` and saved in the vault's CLAUDE.md
+- Output language is configured on first run via `_init` and saved in the vault's CLAUDE.md
