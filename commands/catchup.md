@@ -1,5 +1,5 @@
 ---
-description: Progress handoff and suggested focus for the current session
+description: Resume from yesterday + inbox scan
 arguments: [days] — optional, default 1
 ---
 

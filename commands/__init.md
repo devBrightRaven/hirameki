@@ -1,5 +1,5 @@
 ---
-description: Initial setup — vault detection, language setting, folder resolution, reference doc sync
+description: First-time setup and vault configuration
 ---
 
 ## Overview

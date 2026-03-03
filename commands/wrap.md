@@ -1,5 +1,5 @@
 ---
-description: Progress snapshot written to today's daily note
+description: Snapshot session progress to daily note
 arguments: [focus description] — optional, auto-detected from session if omitted
 ---
 

@@ -1,5 +1,5 @@
 ---
-description: Vault state overview (three modes)
+description: Vault overview, week gaps, or undercurrent patterns
 arguments: [week|patterns] — optional; no argument = instant snapshot
 ---
 

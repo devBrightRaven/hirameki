@@ -1,5 +1,5 @@
 ---
-description: Harvest actionable ideas from existing vault content
+description: Surface actionable ideas from vault
 arguments: [save] — optional; append "save" to write output to file
 ---
 

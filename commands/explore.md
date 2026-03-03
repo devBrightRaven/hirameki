@@ -1,5 +1,5 @@
 ---
-description: Concept excavation with automatic mode detection
+description: Concept analysis (arc / bridge / ghost / stress-test)
 arguments: {input} [save] — required; input shape determines mode; append "save" to write output
 ---
 

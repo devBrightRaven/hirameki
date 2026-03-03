@@ -1,5 +1,5 @@
 ---
-description: Work log and reasoning record
+description: Write or append a work log entry
 arguments: {topic} — required
 ---
 
