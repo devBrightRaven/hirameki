@@ -63,7 +63,7 @@ Writes to: `{analysis}/tidy/`
 ### `/hirameki:journal {description}`
 Work log with reasoning. Records what was done, why, inspiration connections, open follow-ups. Same topic same day appends.
 Example: `/hirameki:journal renamed slash command prefixes`
-Writes to: `{logs}/YYYY-MM-DD-{topic}.md`
+Writes to: `{logs}/YYYY-MM-DD-HHMM-{topic}.md`
 
 ---
 

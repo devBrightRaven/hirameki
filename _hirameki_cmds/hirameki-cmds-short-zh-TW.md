@@ -63,7 +63,7 @@
 ### `/hirameki:journal {描述}`
 工作紀錄與思考文章。記錄做了什麼、為什麼、靈感連結、未完成事項。同主題同天自動追加。
 範例：`/hirameki:journal 重構 slash command 前綴`
-寫入：`{logs}/YYYY-MM-DD-{主題}.md`
+寫入：`{logs}/YYYY-MM-DD-HHMM-{主題}.md`
 
 ---
 
