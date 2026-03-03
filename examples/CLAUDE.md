@@ -10,7 +10,7 @@ daily-template: _templates/daily.md
 analysis: _claude_code_analysis/
 writing: $ Writing/
 projects: $ Project/
-feedback: _claude_code_feedback/
+logs: _claude_code_logs/
 inbox: _inbox/
 language: 繁體中文
 ```
@@ -24,7 +24,7 @@ daily-notes: journal/daily/
 analysis: .analysis/
 writing: writing/
 projects: projects/
-feedback: work-logs/
+logs: work-logs/
 inbox: inbox/
 language: English
 ```

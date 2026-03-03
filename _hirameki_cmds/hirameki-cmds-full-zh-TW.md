@@ -27,7 +27,7 @@
 | daily-notes | `Daily/`, `_daily/`, `daily/`, `Journal/`, `journal/` |
 | inbox | `Inbox/`, `_inbox/`, `inbox/`, `_Capture/`, `Capture/` |
 | analysis | `_hirameki_analysis/`, `_agent_analysis/`, `_claude_code_analysis/`, `Analysis/`, `_analysis/`, `analysis/` |
-| logs | `_hirameki_logs/`, `_claude_code_feedback/`, `Logs/`, `_logs/`, `logs/` |
+| logs | `_hirameki_logs/`, `_agent_logs/`, `_claude_code_logs/`, `Logs/`, `_logs/`, `logs/` |
 | templates | `Templates/`, `_templates/`, `templates/` |
 
 找不到時：問使用者、建立資料夾、印出完整路徑、存入 `~/.claude/CLAUDE.md` 的 `## Vault Structure`。

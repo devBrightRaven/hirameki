@@ -27,7 +27,7 @@
 | daily-notes | `Daily/`, `_daily/`, `daily/`, `Journal/`, `journal/` |
 | inbox | `Inbox/`, `_inbox/`, `inbox/`, `_Capture/`, `Capture/` |
 | analysis | `_hirameki_analysis/`, `_agent_analysis/`, `_claude_code_analysis/`, `Analysis/`, `_analysis/`, `analysis/` |
-| logs | `_hirameki_logs/`, `_claude_code_feedback/`, `Logs/`, `_logs/`, `logs/` |
+| logs | `_hirameki_logs/`, `_agent_logs/`, `_claude_code_logs/`, `Logs/`, `_logs/`, `logs/` |
 | templates | `Templates/`, `_templates/`, `templates/` |
 
 見つからない場合：ユーザーに確認、フォルダを作成、完全パスを表示、`~/.claude/CLAUDE.md` の `## Vault Structure` に保存。
