@@ -177,6 +177,18 @@ Different from `wrap`: wrap records what happened in a session. Journal records 
 
 ---
 
+#### Decision Support
+
+**`/hirameki:decide {topic}`**
+
+*Use when: you're facing a decision and want to see what your vault already knows about it before committing.*
+
+Pre-decision scan. Searches all content folders and the last 14 days of notes for relevant context, then outputs three layers: **Current State** (what the vault knows, plus a reversibility check — two-way door vs. one-way door), **Friction** (inversion: what conditions would guarantee this fails?), and **Key Question** (one question — if you knew this, the decision would be clear).
+
+Does not write to file. To save the output, run `/hirameki:journal` afterward.
+
+---
+
 ### Why commands, not agents
 
 Hirameki is built as explicit commands rather than an autonomous background agent. Two reasons:
@@ -398,6 +410,18 @@ claude   # 任何地方
 
 ---
 
+#### 決策支援
+
+**`/hirameki:decide {主題}`**
+
+*適合：面對一個決定，想在承諾之前先看看 vault 裡已經知道什麼時。*
+
+決策前掃描。搜尋所有內容資料夾和最近 14 天的筆記，找出相關脈絡，輸出三層：**現況**（vault 找到的內容，含可逆性判斷：雙向門 vs 單向門）、**卡點**（反轉法：什麼條件會讓這個決定確定搞砸）、**關鍵問**（一個問題——知道了這件事，決定就清楚了）。
+
+不寫入檔案。想保存請接著執行 `/hirameki:journal`。
+
+---
+
 ### 為什麼是指令，而不是 Agent
 
 Hirameki 設計為明確的指令，而不是自主在背景運作的 Agent。兩個原因：
@@ -616,6 +640,18 @@ claude   # どこからでも
 作業ログと思考記録。構造化された記録を書き込み：背景・何をしたか・なぜしたか・インスピレーションのつながり・改善の可能性・未完了事項。同テーマ・同日：追記更新し完了した後続事項をマーク。関連する vault ノートを検索して文脈と [[wiki link]] を提供。
 
 `wrap` との違い：wrap はセッションで何が起きたかを記録。journal は特定の決断をなぜ下したかを記録。
+
+---
+
+#### 意思決定サポート
+
+**`/hirameki:decide {テーマ}`**
+
+*使うとき：何かを決断しようとしていて、コミットする前に vault が何を知っているか確認したいとき。*
+
+意思決定前スキャン。全コンテンツフォルダと直近 14 日のノートを検索して関連コンテキストを探し、3 層で出力：**現状**（vault が知っていること＋可逆性判定：両方向ドア vs 一方向ドア）、**詰まりポイント**（逆算法：この決定が確実に失敗する条件は何か）、**核心の問い**（1 つの問い――これを知れば決定が明確になる）。
+
+ファイルには書き込まない。保存したい場合は `/hirameki:journal` を続けて実行。
 
 ---
 

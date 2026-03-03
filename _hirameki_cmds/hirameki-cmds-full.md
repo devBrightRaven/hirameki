@@ -578,6 +578,47 @@ Also check "Unfinished and Follow-up" section — if items are now done, mark wi
 
 ---
 
+## Decision Support
+
+### `/hirameki:decide {topic}`
+
+**Purpose:** Pre-decision scan. Before committing, scans vault for relevant context and presents the structure of the decision.
+**Input:** Required — the decision you are considering.
+**Does not write to file.** To save the output, run `/hirameki:journal` afterward.
+
+Scans: all content folders + last 14 days of daily notes and journals.
+
+**Three-layer output:**
+
+**Current State** — what the vault knows about this. Includes a reversibility check:
+- **Two-way door**: can undo if wrong — bias toward action
+- **One-way door**: hard to undo — worth spending more time here
+
+**Friction** — inversion: what conditions would guarantee this decision fails? Work backwards from there to find where the real tension is.
+
+**Key Question** — one question. If you knew this, the decision would be clear. Not a recommendation. Not a list of options.
+
+```
+# Decision Scan: {topic}
+
+> Scanned: YYYY-MM-DD HH:MM
+> Related context: [[note1]], [[note2]]
+> Reversibility: Two-way door / One-way door
+
+## Current State
+[vault context, with source references]
+
+## Friction
+[where the tension is; failure conditions from inversion]
+
+## Key Question
+[one question]
+```
+
+Rules: if vault has little relevant context, say so directly — do not pad. Never write "I recommend...". Key Question must be exactly one question.
+
+---
+
 ## Write Behavior Overview
 
 | Command | Writes to | Trigger | Same-day repeat |
@@ -588,6 +629,7 @@ Also check "Unfinished and Follow-up" section — if items are now done, mark wi
 | `/hirameki:harvest` | analysis/harvest | With `save` | Appends update |
 | `/hirameki:harvest` (graduate) | content folder | After confirm | New file each time |
 | `/hirameki:tidy` | analysis/tidy | Always | Appends update |
+| `/hirameki:decide` | none | — | — |
 
 ## Common Rules
 
