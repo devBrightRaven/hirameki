@@ -19,6 +19,8 @@ Hirameki is inspired by [internetvin](https://x.com/internetvin) — specificall
 
 The idea: your Obsidian vault is a goldmine of accumulated thinking. Hirameki gives Claude Code the commands to excavate, connect, and act on what's already there — rather than starting from scratch every time.
 
+> **What is an Obsidian vault?** [Obsidian](https://obsidian.md) is a free note-taking app that stores everything as plain markdown files in a local folder — your "vault". No cloud lock-in, no proprietary format. Because it's just files, Claude Code can read and write directly to it.
+
 ---
 
 ### Install
@@ -133,6 +135,8 @@ Hirameki 的靈感來自 [internetvin](https://x.com/internetvin)，尤其是 [G
 
 核心概念：你的 Obsidian vault 是多年累積思考的寶庫。Hirameki 讓 Claude Code 能夠挖掘、串聯並行動 — 而不是每次都從零開始。
 
+> **什麼是 Obsidian vault？** [Obsidian](https://obsidian.md) 是一款免費的筆記軟體，所有內容以純 markdown 檔案儲存在本地資料夾（即「vault」）。沒有雲端鎖定、沒有專有格式。因為一切都是純文字檔案，Claude Code 可以直接讀寫。
+
 ---
 
 ### 安裝
@@ -246,6 +250,8 @@ Hirameki は [internetvin](https://x.com/internetvin) — 特に [The Idea Brows
 **[How I Use Obsidian + Claude Code to Run My Life](https://youtu.be/6MBq1paspVU)**
 
 コアコンセプト：Obsidian vault は長年蓄積してきた思考の宝庫です。Hirameki は Claude Code に、すでにそこにあるものを掘り起こし・つなげ・行動に移すためのコマンドを与えます — 毎回ゼロから始めるのではなく。
+
+> **Obsidian vault とは？** [Obsidian](https://obsidian.md) は無料のノートアプリで、すべてのコンテンツをローカルフォルダ（「vault」）にプレーンな markdown ファイルとして保存します。クラウドロックインなし、独自フォーマットなし。すべてがただのテキストファイルなので、Claude Code が直接読み書きできます。
 
 ---
 
