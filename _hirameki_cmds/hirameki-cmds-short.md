@@ -49,9 +49,13 @@ Writes to: `{analysis}/harvest/`; graduates to user content folder
 
 ## Maintenance
 
-### `/hirameki:tidy [fix]`
-Frontmatter health check. Reports missing fields, tag inconsistencies, redundancy, and convergence opportunities. Health score output.
-Add `fix` to auto-correct with confirmation for judgment calls.
+### `/hirameki:tidy [tags|fix|full]`
+Frontmatter health check. Default runs missing fields + consistency only (lightweight).
+- **`tidy`** — missing fields + consistency check
+- **`tidy tags`** — tag convergence analysis (top tags, singletons, merge suggestions)
+- **`tidy fix`** — missing fields + consistency + auto-correct
+- **`tidy full`** — all checks
+
 Writes to: `{analysis}/tidy/`
 
 ## Work Reasoning Log

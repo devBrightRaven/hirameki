@@ -420,45 +420,58 @@ File structure:
 
 ## Maintenance
 
-### `/hirameki:tidy [fix]`
+### `/hirameki:tidy [tags|fix|full]`
 
 **Purpose:** Frontmatter properties audit and cleanup.
-**Input:** Optional — `fix` to auto-correct after confirmation.
+**Input:** Optional mode flag — see table below.
 **Folders needed:** All content folders + inbox + daily-notes.
+
+**Modes:**
+
+| Call | What runs |
+|------|-----------|
+| `tidy` (no args) | Missing fields + consistency check |
+| `tidy tags` | Tag convergence analysis only |
+| `tidy fix` | Missing fields + consistency + auto-correct |
+| `tidy full` | All checks |
+
+Only the blocks for the selected mode are run and appear in the report.
 
 Scans:
 - All content folders (recursive)
 - inbox — all files
 - daily-notes — last 30 days
 
-**Checks performed:**
+**Check blocks:**
 
-1. **Missing fields** — files without frontmatter, missing `tags` or `status`
-2. **Consistency** — invalid `status`/`source` values (source allows: self, claude-code, agent, external), tag casing mismatches, underscore vs hyphen inconsistency
-3. **Redundancy** — tags used only once (possible typos), files with 6+ tags, `topic` duplicating a tag
-4. **Tag convergence** — frequency stats, merge candidates for semantically similar tags, top 10 core tags, orphan tags
+**Missing fields** (tidy / fix / full) — files without frontmatter, missing `tags` or `status`, empty tag arrays
 
-**Output:** Report with health score (clean files / total files).
+**Consistency** (tidy / fix / full) — invalid `status`/`source` values (source allows: self, claude-code, agent, external), tag casing mismatches, underscore vs hyphen inconsistency, `topic` duplicating a tag
+
+**Redundancy** (full only) — files with 6+ tags, `created` format inconsistency
+
+**Tag convergence** (tags / full) — top 10 core tags, merge candidates for semantically similar tags, orphan tags (used only once)
+
+**Output:** Report with health score (clean files / total files). Only executed blocks appear; skip sections are omitted entirely.
 
 ```
 # Frontmatter Audit Report
 
+> Mode: [tidy / tags / fix / full]
 > Checked: YYYY-MM-DD HH:MM
 > Scope: [directories scanned]
 > Files scanned: N
 
-## Missing Fields (N)
-- [[file]] — missing frontmatter / missing tags / missing status
+## Missing Fields (N)          ← tidy / fix / full only
+...
 
-## Consistency Issues (N)
-- [[file]] — status "xxx" not in allowed values
-- Tag casing mismatch: `AI-alignment` (3) vs `ai-alignment` (5) → suggest `ai-alignment`
+## Consistency Issues (N)      ← tidy / fix / full only
+...
 
-## Redundancy Issues (N)
-- [[file]] — 8 tags, suggest trimming
-- Tag `xxx` used only once, in [[file]]
+## Redundancy Issues (N)       ← full only
+...
 
-## Tag Overview
+## Tag Overview                ← tags / full only
 ### Core Tags (top 10)
 | Tag | Count |
 
@@ -469,8 +482,8 @@ Scans:
 | Tag | Found in |
 
 ## Summary
+- Blocks run: [list]
 - Needs fix: N files
-- Suggest trimming: N tags
 - Health: N%
 ```
 

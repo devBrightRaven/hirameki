@@ -420,45 +420,58 @@
 
 ## 維護
 
-### `/hirameki:tidy [fix]`
+### `/hirameki:tidy [tags|fix|full]`
 
 **用途：** Frontmatter 屬性健檢與清理。
-**輸入：** 可選 — `fix` 確認後自動修正。
+**輸入：** 可選模式參數，見下表。
 **需要的資料夾：** 所有內容資料夾 + inbox + daily-notes。
+
+**模式：**
+
+| 呼叫方式 | 執行內容 |
+|----------|---------|
+| `tidy`（無參數） | 缺漏欄位 + 一致性檢查 |
+| `tidy tags` | 僅 tag 收斂分析 |
+| `tidy fix` | 缺漏欄位 + 一致性 + 自動修正 |
+| `tidy full` | 全部區塊 |
+
+只執行對應模式的區塊，報告中不出現未執行的區塊。
 
 掃描：
 - 所有內容資料夾（遞迴）
 - inbox — 全部檔案
 - daily-notes — 最近 30 天
 
-**檢查項目：**
+**檢查區塊：**
 
-1. **缺漏欄位** — 無 frontmatter 的檔案、缺少 `tags` 或 `status`
-2. **一致性** — 無效的 `status`/`source` 值（source 允許：self、claude-code、agent、external）、tag 大小寫不一致、底線 vs 連字號不一致
-3. **冗餘** — 只出現 1 次的 tag（可能是拼錯）、超過 6 個 tag 的檔案、`topic` 欄位與 tag 重複
-4. **Tag 收斂** — 頻率統計、語意相似 tag 的合併候選、前 10 個核心 tag、孤立 tag
+**缺漏欄位**（tidy / fix / full）— 無 frontmatter 的檔案、缺少 `tags` 或 `status`、空 tag 陣列
 
-**輸出：** 健康度報告（無問題檔案數 / 總檔案數）。
+**一致性**（tidy / fix / full）— 無效的 `status`/`source` 值（source 允許：self、claude-code、agent、external）、tag 大小寫不一致、底線 vs 連字號不一致、`topic` 與 tag 重複
+
+**冗餘**（full 限定）— 超過 6 個 tag 的檔案、`created` 格式不一致
+
+**Tag 收斂**（tags / full）— 前 10 個核心 tag、語意相似 tag 的合併候選、孤立 tag（只出現 1 次）
+
+**輸出：** 健康度報告（無問題檔案數 / 總檔案數）。只顯示已執行的區塊。
 
 ```
 # Frontmatter 健檢報告
 
+> 模式：[tidy / tags / fix / full]
 > 檢查時間：YYYY-MM-DD HH:MM
 > 掃描範圍：[掃描的目錄]
 > 掃描檔案數：N
 
-## 缺漏欄位（N）
-- [[檔名]] — 無 frontmatter / 無 tags / 無 status
+## 缺漏欄位（N）          ← tidy / fix / full
+...
 
-## 一致性問題（N）
-- [[檔名]] — status「xxx」不在允許值中
-- Tag 大小寫不一致：`AI-alignment`（3 個）vs `ai-alignment`（5 個）→ 建議 `ai-alignment`
+## 一致性問題（N）         ← tidy / fix / full
+...
 
-## 冗餘問題（N）
-- [[檔名]] — 8 個 tag，建議精簡
-- Tag `xxx` 只出現 1 次，在 [[檔名]]
+## 冗餘問題（N）           ← full 限定
+...
 
-## Tag 概覽
+## Tag 概覽               ← tags / full
 ### 核心 Tag（前 10）
 | Tag | 數量 |
 
@@ -469,8 +482,8 @@
 | Tag | 出現在 |
 
 ## 摘要
+- 執行區塊：[列出]
 - 需要修正：N 個檔案
-- 建議精簡：N 個 tag
 - 健康度：N%
 ```
 
