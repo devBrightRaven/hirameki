@@ -4,93 +4,61 @@
 
 ---
 
-## 日常節奏
-
-### `/hirameki:status`
-Vault 現況摘要。掃描內容主題、各資料夾近期活動。
-無需輸入。適合在 session 開始時執行。
+## Session 開始
 
 ### `/hirameki:catchup [天數]`
 進度銜接。讀取最近的 Wrap 進度 + inbox 待處理項目，建議今日焦點。
 可選輸入：天數（預設 1），例如 `/hirameki:catchup 3` 回顧最近 3 天。
+
+## Session 結束
 
 ### `/hirameki:wrap [描述]`
 進度快照。記錄已完成、進行中、下一步 — 追加到當天的 daily note。一天可執行多次。
 可選輸入：本次 wrap 的重點描述。
 寫入：`{daily-notes}/YYYY-MM-DD.md`
 
-### `/hirameki:weekreview`
-週回顧。比對聲稱的優先事項與實際檔案變更，找出意圖與行動之間的落差。
-無需輸入。需至少 3 天的 daily notes 才能做落差分析。
+## 查看 Vault 狀態
 
----
+### `/hirameki:status [week|patterns]`
+三種模式：
+- **`status`** — 即時概覽：內容主題、近期活動、統計數據。適合 session 開始時執行。
+- **`status week`** — 週回顧：比對聲稱的優先事項與實際檔案變更，找出落差。
+- **`status patterns`** — 潛流與聚攏：找出反覆出現但沒有獨立文章的主題，以及正在形成的想法群。
 
-## 概念考古
+## 深入一個特定想法
 
-### `/hirameki:arc {概念}`
-追蹤一個概念在 vault 中的演化軌跡。從首次出現到目前狀態的時間軸。同概念同天追加更新。
-範例：`/hirameki:arc 能動性`、`/hirameki:arc 極簡主義`
-寫入：`{analysis}/arc/`
+### `/hirameki:explore {輸入} [save]`
+概念挖掘 — 根據輸入形式自動選擇模式：
+- **單一概念** → Arc：該概念在 vault 中的演化時間軸
+- **A 與 B**（或 A and B / A と B）→ Bridge：兩個主題之間的隱藏連結
+- **以 `?` 或 `？` 結尾** → Ghost：用你的語氣回答，標注 vault 依據與推測
+- **以 `test:` 開頭** → Stress-test：找出矛盾、缺口、未驗證假設
 
-### `/hirameki:bridge {主題A} 與 {主題B}`
-找出兩個主題之間的隱藏連結。列出直接交集、橋樑筆記、潛在深層連結假設。同組合同天追加更新。
-範例：`/hirameki:bridge 無障礙 與 prompt engineering`
-寫入：`{analysis}/bridge/`
+末尾加 `save` 可寫入檔案。
+寫入：`{analysis}/arc/`、`{analysis}/bridge/`、`{analysis}/ghost/`、`{analysis}/stress-test/`
 
-### `/hirameki:undercurrent [範圍]`
-發掘潛流主題。找出反覆出現但沒有獨立文章的主題。同天追加更新。
-可選輸入：聚焦特定目錄。
-寫入：`{analysis}/undercurrent/`
-
-### `/hirameki:cluster [範圍]`
-想法群聚分析。找出正在聚攏成形的筆記群。同天追加更新。
-可選輸入：聚焦特定範圍。
-寫入：`{analysis}/cluster/`
-
----
-
-## 思考工具
-
-### `/hirameki:ghost {問題} [save]`
-用你的語氣回答問題。根據你的寫作風格和既有立場。
-範例：`/hirameki:ghost AI agent 應該有多少自主權？`
-標註哪些部分有 vault 依據、哪些是推測延伸。
-末尾加 `save` 寫入檔案：`/hirameki:ghost AI 自主權的上限？ save`
-寫入：`{analysis}/ghost/`
-
-### `/hirameki:stress-test {主題} [save]`
-論述壓力測試。找出矛盾、未驗證假設、邏輯跳躍、證據缺口。
-範例：`/hirameki:stress-test prompt engineering 的極限`
-末尾加 `save` 寫入檔案。
-寫入：`{analysis}/stress-test/`
+## 行動規劃
 
 ### `/hirameki:harvest [save]`
-從既有內容中收割可行動的想法。四個類別：可以寫的文章、可以做的工具、值得研究的主題、可以聯繫的人。
-無需輸入。每類上限 5 個，附來源筆記。
-輸入 `save` 寫入檔案：`/hirameki:harvest save`
-寫入：`{analysis}/harvest/`
+從既有內容中收割可行動的想法。七個類別（各最多 5 個）：
+可以寫的文章 / 可以做的工具或專案 / 值得研究的主題 / 可以聯繫的人或社群 / 適合換個媒介的想法 / 尚未變現的價值 / 可以畢業的想法
 
-### `/hirameki:graduate`
-讓半成形想法畢業為獨立筆記。掃描最近 14 天的 daily notes、logs、inbox、drafts、thoughts。
-無需輸入。兩階段：先列候選清單，確認後再執行。
-寫入：使用者指定的內容資料夾
-
----
+畢業類別：兩階段 — 先確認候選清單，選擇後才建立檔案。
+末尾加 `save` 可寫入摘要。
+寫入：`{analysis}/harvest/`；畢業項目寫入使用者指定的內容資料夾
 
 ## 維護
 
 ### `/hirameki:tidy [fix]`
-屬性健檢。檢查 vault 所有檔案的 frontmatter 是否有缺漏欄位、tag 不一致、冗餘屬性。輸出健康度分數。
-無需輸入即可產出報告。輸入 `fix` 確認後自動修正：`/hirameki:tidy fix`
+屬性健檢。報告缺漏欄位、tag 不一致、冗餘與合併機會。輸出健康度分數。
+加 `fix` 自動修正可確定的問題，需判斷的逐一確認。
 寫入：`{analysis}/tidy/`
 
----
-
-## 紀錄
+## 工作推理紀錄
 
 ### `/hirameki:journal {描述}`
-工作紀錄與思考文章。記錄做了什麼、為什麼、靈感連結、可能的改進。同主題同天自動追加。
-範例：`/hirameki:journal slash command 命名重構`
+工作紀錄與思考文章。記錄做了什麼、為什麼、靈感連結、未完成事項。同主題同天自動追加。
+範例：`/hirameki:journal 重構 slash command 前綴`
 寫入：`{logs}/YYYY-MM-DD-{主題}.md`
 
 ---
@@ -98,19 +66,14 @@ Vault 現況摘要。掃描內容主題、各資料夾近期活動。
 ## 寫入行為一覽
 
 | 指令 | 寫入位置 | 觸發條件 | 同天重複 |
-|---|---|---|---|
+|------|----------|----------|----------|
 | `/hirameki:wrap` | daily-notes | 總是 | 追加新 Wrap 區塊 |
 | `/hirameki:journal` | logs | 總是 | 同主題追加，不同主題建新檔 |
-| `/hirameki:arc` | analysis/arc | 總是 | 同概念追加，不同概念建新檔 |
-| `/hirameki:bridge` | analysis/bridge | 總是 | 同組合追加 |
-| `/hirameki:undercurrent` | analysis/undercurrent | 總是 | 追加更新 |
-| `/hirameki:cluster` | analysis/cluster | 總是 | 追加更新 |
-| `/hirameki:ghost` | analysis/ghost | 僅加 `save` | 同問題追加 |
-| `/hirameki:stress-test` | analysis/stress-test | 僅加 `save` | 同主題追加 |
+| `/hirameki:explore` | analysis/arc, bridge, ghost, stress-test | 僅加 `save` | 同概念/問題追加 |
 | `/hirameki:harvest` | analysis/harvest | 僅加 `save` | 追加更新 |
-| `/hirameki:graduate` | 內容資料夾 | 確認後 | 每次獨立 |
+| `/hirameki:harvest`（畢業） | 內容資料夾 | 確認後 | 每次建新檔 |
 | `/hirameki:tidy` | analysis/tidy | 總是 | 追加更新 |
 
 所有寫入檔案的指令都會在寫入前顯示預覽和完整路徑。
 
-輸出語言在首次執行時設定，儲存在 `~/.claude/CLAUDE.md` 中。
+輸出語言在首次執行 `/hirameki:__init` 時設定，儲存在 `~/.claude/CLAUDE.md` 中。

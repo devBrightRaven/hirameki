@@ -4,9 +4,9 @@ Complete prompt specifications for all Hirameki commands. This is a human-readab
 
 ---
 
-## Shared: `_init`
+## Shared: `__init`
 
-All commands begin by executing this initialization logic.
+All commands begin by reading from `~/.claude/CLAUDE.md` under `## Vault Structure`.
 
 ### Vault Detection
 
@@ -16,29 +16,21 @@ All commands begin by executing this initialization logic.
 
 ### Language Detection
 
-Check vault's `CLAUDE.md` for `language` under `## Vault Structure`.
-
-If not set, ask the user with options:
-- English (default)
-- 繁體中文
-- 日本語
-- Other (user input)
-
-Save to vault's `CLAUDE.md`. All subsequent output uses this language.
+Check `~/.claude/CLAUDE.md` for `language` under `## Vault Structure`. All output uses this language.
 
 ### Folder Detection
 
 For each purpose, match the first existing folder from candidates:
 
 | Purpose | Candidates |
-|---|---|
+|---------|------------|
 | daily-notes | `Daily/`, `_daily/`, `daily/`, `Journal/`, `journal/` |
 | inbox | `Inbox/`, `_inbox/`, `inbox/`, `_Capture/`, `Capture/` |
 | analysis | `_hirameki_analysis/`, `_claude_code_analysis/`, `Analysis/`, `_analysis/`, `analysis/` |
 | logs | `_hirameki_logs/`, `_claude_code_feedback/`, `Logs/`, `_logs/`, `logs/` |
 | templates | `Templates/`, `_templates/`, `templates/` |
 
-If not found: ask the user, create the folder, print the full path, save to vault's `CLAUDE.md` under `## Vault Structure`.
+If not found: ask the user, create the folder, print the full path, save to `~/.claude/CLAUDE.md` under `## Vault Structure`.
 
 On subsequent runs, read cached config from `## Vault Structure` — skip detection.
 
@@ -46,35 +38,14 @@ On subsequent runs, read cached config from `## Vault Structure` — skip detect
 
 "Content folders" = all root-level vault folders EXCLUDING:
 - Dot-prefixed folders (`.obsidian/`, `.claude/`, `.git/`, etc.)
+- `_hirameki_cmds/`
 - System folders listed in `## Vault Structure`
 
 If no content folders exist, scan root-level `.md` files instead.
 
 ---
 
-## Daily Rhythm
-
-### `/hirameki:status`
-
-**Purpose:** Vault overview.
-**Input:** None.
-**Folders needed:** daily-notes + all content folders.
-
-Scans:
-- All content folders (depth 2)
-- daily-notes last 7 days
-
-Output:
-
-**Content Topics** — Each content folder and subfolders: name, note count, draft count, last modified date. Status: active (modified in 7 days) / dormant.
-
-**Recent Activity** — Files modified in last 7 days, reverse chronological. Each: filename, parent folder, modified time, change type (new / modified / major rewrite). Limit 15.
-
-**Vault Overview** — Total files, content folder count, active folders in last 7 days.
-
-Empty sections show "None" instead of being omitted.
-
----
+## Session Start
 
 ### `/hirameki:catchup [days]`
 
@@ -97,6 +68,8 @@ Output:
 **Suggested Focus** — 1-3 items worth pushing forward today. Each with reasoning (why today, not later). Max 3.
 
 ---
+
+## Session End
 
 ### `/hirameki:wrap [description]`
 
@@ -139,11 +112,31 @@ Rules:
 
 ---
 
-### `/hirameki:weekreview`
+## Vault State Check
 
-**Purpose:** Weekly review and gap analysis.
-**Input:** None.
-**Folders needed:** daily-notes + all content folders.
+### `/hirameki:status [week|patterns]`
+
+**Purpose:** Vault overview (three modes).
+**Input:** None / `week` / `patterns`
+**Folders needed:** daily-notes + all content folders (+ inbox for patterns mode).
+
+#### No-argument mode — Immediate snapshot
+
+Scans:
+- All content folders (depth 2)
+- daily-notes last 7 days
+
+Output:
+
+**Content Topics** — Each content folder and subfolders: name, note count, draft count, last modified date. Status: active (modified in 7 days) / dormant.
+
+**Recent Activity** — Files modified in last 7 days, reverse chronological. Each: filename, parent folder, modified time, change type (new / modified / major rewrite). Limit 15.
+
+**Vault Overview** — Total files, content folder count, active folders in last 7 days.
+
+Empty sections show "None" instead of being omitted.
+
+#### `status week` — Weekly gap analysis
 
 Reads:
 - All content folders' modification records (last 7 days)
@@ -153,7 +146,7 @@ Output:
 
 **This Week's Progress** — Each active content folder: name, what was pushed forward (based on file changes), next steps.
 
-**Recent Activity** — Notes added or modified last week, which are near completion (if drafts/ has content).
+**Recent Activity** — Notes added or modified last week, which are near completion.
 
 **Gap Analysis** — Compare daily note priorities vs actual file changes:
 - Said important but didn't act (claimed priority, no corresponding file changes)
@@ -161,15 +154,44 @@ Output:
 
 If fewer than 3 daily notes, flag: "Insufficient records, gap analysis may be inaccurate."
 
+#### `status patterns` — Undercurrents + clusters
+
+Scans: all content folders, daily-notes (last 30 days), all inbox.
+
+**Undercurrent Themes** — Recurring topics without a dedicated article. Criteria: appears in 3+ different files, no standalone article or draft. For each:
+- Theme name
+- Occurrence count and number of files (list up to 5 with [[wiki link]])
+- Assessment: worth expanding? why?
+Limit 10, sorted by frequency descending.
+
+**Clusters** — Groups of 3+ notes on similar concepts without a shared parent category, written across different dates. For each:
+- Suggested cluster name
+- Notes involved ([[wiki link]], limit 5)
+- Common theme (2-3 sentences)
+- Maturity: high / medium / low
+- Suggested direction: article / project / conceptual framework / keep accumulating
+Limit 5, sorted by maturity descending.
+
 ---
 
-## Concept Archaeology
+## Deep Work on a Specific Idea
 
-### `/hirameki:arc {concept}`
+### `/hirameki:explore {input} [save]`
 
-**Purpose:** Track a concept's evolution across the vault.
-**Input:** Required — a concept or keyword.
-**Folders needed:** analysis.
+**Purpose:** Concept excavation — mode detected from input shape.
+**Input:** Required. Shape determines mode. Append `save` to write to file.
+**Folders needed:** analysis + all content folders.
+
+#### Mode detection
+
+| Input shape | Mode |
+|-------------|------|
+| Single concept or keyword | **Arc** |
+| Two topics separated by `and` / `與` / `と` | **Bridge** |
+| Ends with `?` or `？` | **Ghost** |
+| Starts with `test:` | **Stress-test** |
+
+#### Arc mode — Concept evolution tracking
 
 Scans: Entire vault, prioritizing daily-notes and content folders.
 
@@ -190,8 +212,7 @@ Logic:
 Earliest file mentioning this concept, with context. Quote up to 3 sentences.
 
 ## Evolution Timeline
-Each file mentioning the concept, chronological:
-- YYYY-MM-DD HH:MM | [[filename]] | One-sentence summary of usage/stance
+- YYYY-MM-DD | [[filename]] | One-sentence summary of usage/stance
 
 ## Current State
 What topics this concept connects to, contradictory usage, any drafts developing it.
@@ -200,7 +221,7 @@ What topics this concept connects to, contradictory usage, any drafts developing
 Aspects of this concept not yet explored in the vault.
 ```
 
-**Append mode** — Add at end of existing file:
+**Append mode** — Add at end:
 
 ```
 ---
@@ -217,27 +238,13 @@ Aspects of this concept not yet explored in the vault.
 - [Re-evaluate unexplored aspects]
 ```
 
-Rules:
-- If >20 files found, list top 20 and note total count
-- All file references use [[wiki link]] format
-- Timestamps in local time HH:MM (24h)
-- Show preview before writing, confirm, print path after
-
----
-
-### `/hirameki:bridge {topicA} and {topicB}`
-
-**Purpose:** Find hidden connections between two topics.
-**Input:** Required — two topics (separator: "and" or locale equivalent).
-**Folders needed:** analysis.
+#### Bridge mode — Hidden connections
 
 Scans: Entire vault.
 
 Logic:
 1. Check `{analysis}/bridge/` for today's file matching the topic pair (order-independent)
-2. Match → append mode
-3. Ambiguous → list candidates, ask user
-4. No match → create mode
+2. Match → append; no match → create
 
 **Create mode** — Write to `{analysis}/bridge/YYYY-MM-DD-{topicA}-and-{topicB}.md`:
 
@@ -255,7 +262,7 @@ Files mentioning only one topic but potentially forming a link. Explain why it c
 Limit 5. Each with [[wiki link]].
 
 ## Potential Connection Hypotheses
-1-3 hypotheses about deep-level connections. Each rated: strong / medium / weak, with supporting evidence.
+1-3 hypotheses about deep connections. Each rated: strong / medium / weak, with evidence.
 ```
 
 **Append mode:**
@@ -272,129 +279,11 @@ Limit 5. Each with [[wiki link]].
 - [New supporting or contradicting evidence for previous hypotheses]
 ```
 
----
-
-### `/hirameki:undercurrent [scope]`
-
-**Purpose:** Surface latent themes.
-**Input:** Optional scope (specific directory).
-**Folders needed:** analysis, daily-notes, inbox + all content folders.
-
-Scans (no scope): all content folders, all daily-notes, all inbox.
-
-Logic:
-1. Check `{analysis}/undercurrent/` for today's file
-2. Exists → append mode
-3. Doesn't exist → create mode
-
-**Create mode** — Write to `{analysis}/undercurrent/YYYY-MM-DD.md`:
-
-```
-# Undercurrent Analysis
-
-> Analysis time: YYYY-MM-DD HH:MM
-> Scan scope: [list scanned directories]
-
-## Undercurrent Themes
-
-### 1. {theme/term}
-- Occurrences: {N} times across {M} files
-- Context:
-  - [[fileA]]: [one-sentence context]
-  - [[fileB]]: [same]
-  (limit 5 files)
-- Assessment: [Worth expanding? Why?]
-
-### 2. {theme/term}
-...
-```
-
-Criteria:
-- Appears in 3+ different files
-- No standalone article or draft dedicated to it
-- Not a common function word or structural word
-
-**Append mode:**
-
-```
----
-
-## Tracking Update [HH:MM]
-
-### Newly Discovered Undercurrents
-- [Themes not listed before, same format]
-
-### Changes in Existing Undercurrents
-- [Frequency or context changes for previously listed themes]
-```
-
-Rules: Sorted by frequency descending. Limit 10 themes.
-
----
-
-### `/hirameki:cluster [scope]`
-
-**Purpose:** Thought cluster analysis.
-**Input:** Optional scope.
-**Folders needed:** analysis, daily-notes, inbox + all content folders.
-
-Scans (no scope): all content folders, daily-notes (last 30 days), all inbox.
-
-Logic: Same as undercurrent (check today's file in `{analysis}/cluster/`).
-
-**Create mode** — Write to `{analysis}/cluster/YYYY-MM-DD.md`:
-
-```
-# Thought Cluster Analysis
-
-> Analysis time: YYYY-MM-DD HH:MM
-> Scan scope: [list scanned directories]
-
-## Clusters
-
-### 1. {suggested cluster name}
-- Notes involved:
-  - [[fileA]] (modified: YYYY-MM-DD)
-  - [[fileB]] (modified: YYYY-MM-DD)
-- Common theme: [2-3 sentence summary]
-- Maturity: high / medium / low
-- Suggested direction: article / project / conceptual framework / keep accumulating
-
-### 2. {suggested cluster name}
-...
-```
-
-Criteria:
-- 3+ notes on similar concepts without a shared parent category
-- Written across different dates (not a single-session output)
-
-**Append mode:**
-
-```
----
-
-## Tracking Update [HH:MM]
-
-### Newly Discovered Clusters
-- [New clusters, same format]
-
-### Changes in Existing Clusters
-- [New notes joining, maturity changes]
-```
-
-Rules: Limit 5 clusters, sorted by maturity descending.
-
----
-
-## Thinking Tools
-
-### `/hirameki:ghost {question} [save]`
-
-**Purpose:** Answer a question in the user's voice and stance.
-**Input:** Required question. Append `save` to write to file.
-**Folders needed:** analysis + all content folders.
+#### Ghost mode — Answer in your voice
 
 Scans: All content folders, excluding `drafts/` and `thoughts/` subdirectories (finished articles only).
+
+Input: Strip `save` from input if present, use remainder as the question.
 
 Steps:
 1. Analyze writing style: sentence patterns, word choices, argument structure, rhetorical habits
@@ -409,19 +298,12 @@ Output:
 
 **Confidence Markers** — Which parts have clear vault evidence vs which are style-extrapolated speculation.
 
-Write logic (only when `save` is in input):
-1. Remove "save" from input, use remainder as question
-2. Check `{analysis}/ghost/` for today's file matching the question
-3. Match → append with `## Follow-up Answer [HH:MM]` block
-4. No match → create `{analysis}/ghost/YYYY-MM-DD-{question-summary}.md`
+Write to: `{analysis}/ghost/YYYY-MM-DD-{question-summary}.md`
+Same day, same question: append with `## Follow-up Answer [HH:MM]` block.
 
----
+#### Stress-test mode — Pressure-test arguments
 
-### `/hirameki:stress-test {topic} [save]`
-
-**Purpose:** Pressure-test arguments on a topic.
-**Input:** Required topic. Append `save` to write to file.
-**Folders needed:** analysis.
+Input: Strip `test:` prefix, use remainder as the topic. Strip `save` if present.
 
 Scans: All vault files mentioning the topic.
 
@@ -436,19 +318,27 @@ Output:
 **Weakness Analysis** — For each claim, check (list only applicable):
 - Internal contradiction: different files say different things
 - Unverified assumption: claim built on unproven premise
-- Logic gap: missing intermediate steps in argument
+- Logic gap: missing intermediate steps
 - Evidence gap: claim lacks supporting data or examples
 Each weakness cites specific [[filename]] and passage.
 
 **Overall Assessment** — Solidity rating: solid / mostly solid with gaps / needs major reinforcement. Top 1-3 weaknesses to address first.
 
-Write logic (only when `save` is in input):
-1. Remove "save", use remainder as topic
-2. Check `{analysis}/stress-test/` for today's matching file
-3. Match → append with `## Tracking Update [HH:MM]` block
-4. No match → create `{analysis}/stress-test/YYYY-MM-DD-{topic-summary}.md`
+Write to: `{analysis}/stress-test/YYYY-MM-DD-{topic-summary}.md`
+Same day, same topic: append with `## Tracking Update [HH:MM]` block.
+
+#### Common rules
+
+- If >20 files found, list top 20 and note total count
+- All file references use [[wiki link]] format
+- Timestamps in local time HH:MM (24h)
+- Print full analysis to terminal in all cases
+- Write (when save is requested): show preview + full path before writing, confirm, print path after
+- Create folder if it doesn't exist, print path
 
 ---
+
+## Action Planning
 
 ### `/hirameki:harvest [save]`
 
@@ -458,56 +348,73 @@ Write logic (only when `save` is in input):
 
 Scans: all content folders, daily-notes (last 30 days), all inbox.
 
-Output — four categories, limit 5 each:
+Output — seven categories, limit 5 each:
 
 **Articles to Write** — Topics with enough material to develop into articles. Each: suggested title, source material ([[filename]] list), what's missing before writing.
 
-**Tools or Projects to Build** — Tool needs, workflow pain points, or explicit product ideas from notes. Each: description, source, estimated complexity (small / medium / large).
+**Tools or Projects to Build** — Tool needs, workflow pain points, or explicit product ideas. Each: description, source, estimated complexity (small / medium / large).
 
 **Topics to Research** — External concepts, theories, or technologies mentioned but not explored. Each: topic, vault context, why it's worth researching.
 
-**People or Communities to Contact** — People, organizations, or communities mentioned and relevant to current work direction. Each: name, vault context, reason to reach out. If none, mark "None."
+**People or Communities to Contact** — People, organizations, or communities mentioned and relevant to current direction. Each: name, vault context, reason to reach out. If none, mark "None."
 
-Write logic (only when `save` is in input):
+**Ideas for Different Media** — Content better suited to a different format (video, visual, talk, newsletter, podcast). Each: idea summary, suggested medium, why that format fits better than text.
+
+**Value Not Transacted** — Expertise or capabilities not yet converted to revenue. Each: skill or knowledge description, possible monetization form (course, consulting, product, licensing), vault evidence. If none, mark "None."
+
+**Ideas Ready to Graduate** — Half-formed ideas with enough density to become standalone notes. Each: source location ([[filename]] + paragraph description), core claim (one sentence), suggested destination content folder, related existing notes.
+
+Criteria for graduation: has a clear core claim (not just a question), relates to at least one existing vault topic, has sufficient content density (more than one sentence).
+
+### Graduate phase (always two-phase, regardless of `save`)
+
+After listing graduate candidates, pause and wait for user to select which ideas to execute.
+
+For each confirmed idea:
+1. Show full file path, wait for confirmation
+2. Create new markdown file in the chosen content folder:
+   - Title
+   - Core claim
+   - Origin context (which daily note or inbox item)
+   - Related vault notes ([[wiki link]])
+   - Directions to expand
+3. Print actual created path after execution
+
+### Write logic (when `save` is in input — covers main harvest summary only, not graduate)
+
 1. Check `{analysis}/harvest/` for today's file
 2. Exists → append with `## Tracking Update [HH:MM]` block
 3. Doesn't exist → create `{analysis}/harvest/YYYY-MM-DD.md`
 
----
+File structure:
 
-### `/hirameki:graduate`
+```
+# Idea Harvest
 
-**Purpose:** Graduate half-formed ideas into standalone notes.
-**Input:** None.
-**Folders needed:** daily-notes, logs, inbox + all content folders.
+> Analysis time: YYYY-MM-DD HH:MM
+> Scan scope: [list scanned directories]
 
-Scans:
-- daily-notes (last 14 days) — from Wrap blocks: items stuck in "Next Steps" or "In Progress" across multiple days
-- logs (last 14 days) — from Journal entries: inspiration links, possible improvements, unfinished items
-- inbox (all)
-- All content folders, recursively searching for subdirectories matching `draft*` or `thought*` (case-insensitive)
+## Articles to Write
+[list]
 
-Criteria for graduation:
-- Has a clear core claim (not just a question or fleeting thought)
-- Relates to at least one existing vault topic
-- Has enough content density (more than one sentence)
+## Tools or Projects to Build
+[list]
 
-**Phase 1: Candidate List** — List qualifying ideas:
-- Source file and location (which paragraph)
-- Core claim summary (one sentence)
-- Suggested destination content folder
-- Related existing notes
+## Topics to Research
+[list]
 
-Pause after listing. Wait for user to confirm which to graduate.
+## People or Communities to Contact
+[list]
 
-**Phase 2: Execute Graduation** (after confirmation) — For each confirmed idea, create a new markdown file in the chosen content folder:
-- Title
-- Core claim
-- Origin context (which daily note or inbox item it came from)
-- Related vault notes ([[wiki link]])
-- Directions to expand
+## Ideas for Different Media
+[list]
 
-Show full file path before writing, confirm, print path after.
+## Value Not Transacted
+[list]
+
+## Ideas Ready to Graduate
+[list]
+```
 
 ---
 
@@ -527,8 +434,8 @@ Scans:
 **Checks performed:**
 
 1. **Missing fields** — files without frontmatter, missing `tags` or `status`
-2. **Consistency** — invalid `status`/`source` values (source allows: self, claude-code, agent, external), tag casing mismatches (`AI-alignment` vs `ai-alignment`), underscore vs hyphen inconsistency
-3. **Redundancy** — tags used only once (possible typos), files with 6+ tags, `topic` duplicating a tag, inconsistent `created` formats
+2. **Consistency** — invalid `status`/`source` values (source allows: self, claude-code, agent, external), tag casing mismatches, underscore vs hyphen inconsistency
+3. **Redundancy** — tags used only once (possible typos), files with 6+ tags, `topic` duplicating a tag
 4. **Tag convergence** — frequency stats, merge candidates for semantically similar tags, top 10 core tags, orphan tags
 
 **Output:** Report with health score (clean files / total files).
@@ -554,14 +461,12 @@ Scans:
 ## Tag Overview
 ### Core Tags (top 10)
 | Tag | Count |
-|-----|-------|
 
 ### Merge Candidates
 - `ai_alignment` → `ai-alignment` (N files to update)
 
 ### Orphan Tags (used once)
 | Tag | Found in |
-|-----|----------|
 
 ## Summary
 - Needs fix: N files
@@ -586,11 +491,11 @@ After fixing, recalculate health score and output diff summary.
 
 **Write behavior:** Always writes report to `{analysis}/tidy/YYYY-MM-DD.md`. Same day appends update with change summary and health score delta.
 
-Max 50 issues reported per run. If more, show total count and suggest batch processing.
+Max 50 issues reported per run.
 
 ---
 
-## Logging
+## Work Reasoning Log
 
 ### `/hirameki:journal {description}`
 
@@ -663,17 +568,12 @@ Also check "Unfinished and Follow-up" section — if items are now done, mark wi
 ## Write Behavior Overview
 
 | Command | Writes to | Trigger | Same-day repeat |
-|---|---|---|---|
+|---------|-----------|---------|-----------------|
 | `/hirameki:wrap` | daily-notes | Always | Appends new Wrap block |
 | `/hirameki:journal` | logs | Always | Same topic appends, different topic creates new |
-| `/hirameki:arc` | analysis/arc | Always | Same concept appends, different creates new |
-| `/hirameki:bridge` | analysis/bridge | Always | Same pair appends |
-| `/hirameki:undercurrent` | analysis/undercurrent | Always | Appends update |
-| `/hirameki:cluster` | analysis/cluster | Always | Appends update |
-| `/hirameki:ghost` | analysis/ghost | Only with `save` | Same question appends |
-| `/hirameki:stress-test` | analysis/stress-test | Only with `save` | Same topic appends |
-| `/hirameki:harvest` | analysis/harvest | Only with `save` | Appends update |
-| `/hirameki:graduate` | content folder | After confirmation | Independent each time |
+| `/hirameki:explore` | analysis/arc, bridge, ghost, stress-test | With `save` | Same concept/question appends |
+| `/hirameki:harvest` | analysis/harvest | With `save` | Appends update |
+| `/hirameki:harvest` (graduate) | content folder | After confirm | New file each time |
 | `/hirameki:tidy` | analysis/tidy | Always | Appends update |
 
 ## Common Rules
@@ -682,4 +582,4 @@ Also check "Unfinished and Follow-up" section — if items are now done, mark wi
 - All file references use [[wiki link]] format
 - All write commands show a preview and full path before writing, then confirm before execution
 - All write commands print the actual written path after execution
-- Output language is configured on first run via `_init` and saved in the vault's CLAUDE.md
+- Output language is read from `~/.claude/CLAUDE.md` under `## Vault Structure`
