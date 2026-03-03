@@ -33,13 +33,31 @@ claude /plugin marketplace add devBrightRaven/hirameki
 claude /plugin install hirameki@hirameki
 ```
 
-Then run `/hirameki:__init` to set up your vault. It will:
-- Detect your Obsidian vault
-- Ask for your preferred output language
-- Map your folder structure
-- Copy reference docs into your vault
+---
 
-If you open Claude Code inside your vault directory, the path is auto-detected.
+### Setup (one time)
+
+Run `/hirameki:__init` once. It handles everything — vault detection, language, folder mapping, and copying reference docs into your vault.
+
+**Fastest path — open Claude Code from inside your vault:**
+
+```bash
+cd /path/to/your/obsidian-vault
+claude
+/hirameki:__init
+```
+
+Vault is auto-detected. No path needed.
+
+**From anywhere else — run it wherever you are:**
+
+```bash
+claude   # anywhere
+/hirameki:__init
+# → asks you to paste your vault path
+```
+
+Either way, the vault path is saved globally to `~/.claude/CLAUDE.md`. After setup, every Hirameki command works no matter where you open Claude Code.
 
 ---
 
@@ -214,13 +232,31 @@ claude /plugin marketplace add devBrightRaven/hirameki
 claude /plugin install hirameki@hirameki
 ```
 
-然後執行 `/hirameki:__init` 完成 vault 設定。它會：
-- 偵測你的 Obsidian vault
-- 詢問偏好的輸出語言
-- 解析資料夾結構
-- 把指令參考文件複製到 vault 中
+---
 
-如果在 vault 目錄內開啟 Claude Code，路徑會自動偵測。
+### 初始設定（只做一次）
+
+執行 `/hirameki:__init`，它會自動處理所有設定：vault 偵測、語言、資料夾對應、複製參考文件到 vault。
+
+**最快的方式 — 在 vault 目錄裡開啟 Claude Code：**
+
+```bash
+cd /path/to/your/obsidian-vault
+claude
+/hirameki:__init
+```
+
+路徑自動偵測，不需要手動輸入。
+
+**從其他地方開啟也可以：**
+
+```bash
+claude   # 任何地方
+/hirameki:__init
+# → 會詢問你的 vault 路徑
+```
+
+設定完成後，vault 路徑存入 `~/.claude/CLAUDE.md`。之後不管在哪裡開啟 Claude Code，所有 Hirameki 指令都能正常運作。
 
 ---
 
@@ -395,13 +431,31 @@ claude /plugin marketplace add devBrightRaven/hirameki
 claude /plugin install hirameki@hirameki
 ```
 
-次に `/hirameki:__init` を実行して vault をセットアップします。以下を行います：
-- Obsidian vault を検出
-- 希望する出力言語を確認
-- フォルダ構造をマッピング
-- リファレンスドキュメントを vault にコピー
+---
 
-vault ディレクトリ内で Claude Code を開いている場合、パスは自動検出されます。
+### セットアップ（1 回だけ）
+
+`/hirameki:__init` を 1 回実行します。vault の検出・言語設定・フォルダのマッピング・リファレンスドキュメントのコピーをすべて自動で行います。
+
+**最速の方法 — vault ディレクトリ内で Claude Code を開く：**
+
+```bash
+cd /path/to/your/obsidian-vault
+claude
+/hirameki:__init
+```
+
+パスは自動検出されます。手動入力不要。
+
+**どこからでも実行できます：**
+
+```bash
+claude   # どこからでも
+/hirameki:__init
+# → vault のパスを入力するよう求められます
+```
+
+セットアップ後、vault パスは `~/.claude/CLAUDE.md` にグローバルに保存されます。以降は Claude Code をどこで開いても、すべての Hirameki コマンドが正常に動作します。
 
 ---
 
