@@ -3,7 +3,7 @@ description: 屬性健檢與精簡
 arguments: [fix] — 可選，加 fix 直接修正
 ---
 
-從 vault 根目錄的 CLAUDE.md 讀取 `## Vault Structure`，取得 vault 路徑和所有內容資料夾清單。
+從 `~/.claude/CLAUDE.md` 讀取 `## Vault Structure`，取得 vault 路徑和所有內容資料夾清單。
 若不存在或缺少必要欄位，停止並回應：「尚未完成初始設定，請先執行 `/hirameki:__init`」
 
 定期檢查 vault 中所有 .md 檔案的 YAML frontmatter 屬性，找出缺漏、不一致、冗餘的問題，並提出精簡建議。

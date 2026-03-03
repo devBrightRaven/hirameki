@@ -3,7 +3,7 @@ description: 用你的語氣回答問題
 arguments: {問題} [save] — 必填，加 save 寫入
 ---
 
-從 vault 根目錄的 CLAUDE.md 讀取 `## Vault Structure`，取得 vault 路徑和 analysis 資料夾位置。同時取得所有內容資料夾清單。
+從 `~/.claude/CLAUDE.md` 讀取 `## Vault Structure`，取得 vault 路徑和 analysis 資料夾位置。同時取得所有內容資料夾清單。
 若不存在或缺少必要欄位，停止並回應：「尚未完成初始設定，請先執行 `/hirameki:__init`」
 
 根據 vault 中的寫作記錄，用我的語氣和立場回答一個問題。

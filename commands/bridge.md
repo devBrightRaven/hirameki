@@ -3,7 +3,7 @@ description: 兩主題間的隱藏連結
 arguments: {主題A} 與 {主題B} — 必填
 ---
 
-從 vault 根目錄的 CLAUDE.md 讀取 `## Vault Structure`，取得 vault 路徑和 analysis 資料夾位置。
+從 `~/.claude/CLAUDE.md` 讀取 `## Vault Structure`，取得 vault 路徑和 analysis 資料夾位置。
 若不存在或缺少必要欄位，停止並回應：「尚未完成初始設定，請先執行 `/hirameki:__init`」
 
 找出兩個主題之間的隱藏連結，並將結果存入分析資料夾。

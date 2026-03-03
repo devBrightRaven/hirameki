@@ -3,7 +3,7 @@ description: 工作紀錄與思考文章
 arguments: {主題描述} — 必填
 ---
 
-從 vault 根目錄的 CLAUDE.md 讀取 `## Vault Structure`，取得 vault 路徑和 logs 資料夾位置。同時取得內容資料夾清單用於搜尋相關筆記。
+從 `~/.claude/CLAUDE.md` 讀取 `## Vault Structure`，取得 vault 路徑和 logs 資料夾位置。同時取得內容資料夾清單用於搜尋相關筆記。
 若不存在或缺少必要欄位，停止並回應：「尚未完成初始設定，請先執行 `/hirameki:__init`」
 
 根據使用者提供的主題，撰寫或追加工作紀錄與思考文章。
