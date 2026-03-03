@@ -47,6 +47,12 @@
 末尾加 `save` 可寫入摘要。
 寫入：`{analysis}/harvest/`；畢業項目寫入使用者指定的內容資料夾
 
+## 決策支援
+
+### `/hirameki:decide {主題}`
+決策前掃描。掃描 vault 相關脈絡，輸出三層結構：現況（含可逆性判斷）、卡點（反轉法找出失敗條件）、關鍵問（一個問題，不是建議）。
+不寫入檔案。想保存請接著執行 `/hirameki:journal`。
+
 ## 維護
 
 ### `/hirameki:tidy [tags|fix|full]`

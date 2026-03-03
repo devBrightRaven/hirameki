@@ -47,6 +47,12 @@ Graduate category: two-phase — confirms candidates, then creates files after y
 Add `save` to write summary to file.
 Writes to: `{analysis}/harvest/`; graduates to user content folder
 
+## Decision Support
+
+### `/hirameki:decide {topic}`
+Pre-decision scan. Scans vault for relevant context, outputs three layers: Current State (with reversibility check), Friction (inversion: what would make this fail?), Key Question (one question, not a recommendation).
+Does not write to file. To save, run `/hirameki:journal` afterward.
+
 ## Maintenance
 
 ### `/hirameki:tidy [tags|fix|full]`
