@@ -58,6 +58,24 @@ description: Hirameki 系統共用的 vault 偵測與資料夾解析邏輯（供
 
 下次執行任何 hirameki command 時，如果 vault 的 CLAUDE.md 裡已有 `## Vault Structure`，直接讀取，不再偵測。
 
+## 參考文件同步
+
+_init 完成資料夾解析後，將 hirameki 的指令參考文件複製到 vault 中，方便使用者在 Obsidian 內查閱。
+
+目標位置：`{vault}/_hirameki_cmds/`
+
+邏輯：
+1. 檢查 vault 中是否存在 `_hirameki_cmds/` 資料夾，沒有則建立
+2. 根據語言設定選擇要複製的檔案：
+   - 繁體中文 → `hirameki-cmds-short-zh-TW.md` + `hirameki-cmds-full-zh-TW.md`
+   - English → `hirameki-cmds-short.md` + `hirameki-cmds-full.md`
+   - 日本語 → 英文版（尚無日文版）
+   - 其他 → 英文版
+3. 比對 vault 中現有檔案與 plugin 來源檔案的內容，有差異才覆寫
+4. 如果是首次複製，印出：「參考文件已複製到 {vault}/_hirameki_cmds/」
+5. 如果有更新，印出：「參考文件已更新」
+6. 如果沒有變化，不印出任何訊息
+
 ## 掃描範圍解析
 
 部分 commands 需要掃描使用者的內容資料夾。內容資料夾的定義是：vault 根目錄下的第一層資料夾，排除以下之後剩下的全部：
@@ -72,6 +90,6 @@ description: Hirameki 系統共用的 vault 偵測與資料夾解析邏輯（供
 - logs 對應的資料夾
 - templates 對應的資料夾
 
-排除以上之後，剩下的就是使用者的內容資料夾。例如使用者建了 `Writing/`、`Projects/`、`Research/`、`Notes/`，這些全部會被 hirameki-status、hirameki-weekplan、hirameki-harvest、hirameki-ghost、hirameki-graduate 等 command 掃描。
+排除以上之後，剩下的就是使用者的內容資料夾。例如使用者建了 `Writing/`、`Projects/`、`Research/`、`Notes/`，這些全部會被 status、weekreview、harvest、ghost、graduate 等 command 掃描。
 
 如果 vault 裡除了系統資料夾外沒有任何其他資料夾，commands 會掃描 vault 根目錄下的所有 .md 檔案。
