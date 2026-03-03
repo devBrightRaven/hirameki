@@ -3,7 +3,7 @@ description: 屬性健檢與精簡
 arguments: [fix] — 可選，加 fix 直接修正
 ---
 
-先執行 _init.md 中的 vault 偵測與資料夾解析，取得 vault 路徑和所有內容資料夾清單。
+先執行 __init.md 中的 vault 偵測與資料夾解析，取得 vault 路徑和所有內容資料夾清單。
 
 定期檢查 vault 中所有 .md 檔案的 YAML frontmatter 屬性，找出缺漏、不一致、冗餘的問題，並提出精簡建議。
 
@@ -86,7 +86,7 @@ arguments: [fix] — 可選，加 fix 直接修正
 
 如果某個區塊沒有問題，標註「無」而不是跳過。
 
-以 _init.md 中偵測到的語言撰寫。
+以 __init.md 中偵測到的語言撰寫。
 
 ## 修正邏輯（僅當 $ARGUMENTS 包含 "fix" 時執行）
 

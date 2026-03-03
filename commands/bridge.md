@@ -3,7 +3,7 @@ description: 兩主題間的隱藏連結
 arguments: {主題A} 與 {主題B} — 必填
 ---
 
-先執行 _init.md 中的 vault 偵測與資料夾解析，取得 vault 路徑和 analysis 資料夾位置。
+先執行 __init.md 中的 vault 偵測與資料夾解析，取得 vault 路徑和 analysis 資料夾位置。
 
 找出兩個主題之間的隱藏連結，並將結果存入分析資料夾。
 
@@ -65,4 +65,4 @@ arguments: {主題A} 與 {主題B} — 必填
 - 寫入後印出實際寫入的完整路徑
 - 同時在終端輸出完整分析結果
 
-以 _init.md 中偵測到的語言撰寫。
+以 __init.md 中偵測到的語言撰寫。

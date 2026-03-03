@@ -3,7 +3,7 @@ description: 用你的語氣回答問題
 arguments: {問題} [save] — 必填，加 save 寫入
 ---
 
-先執行 _init.md 中的 vault 偵測與資料夾解析，取得 vault 路徑和 analysis 資料夾位置。同時取得所有內容資料夾清單。
+先執行 __init.md 中的 vault 偵測與資料夾解析，取得 vault 路徑和 analysis 資料夾位置。同時取得所有內容資料夾清單。
 
 根據 vault 中的寫作記錄，用我的語氣和立場回答一個問題。
 
@@ -27,7 +27,7 @@ arguments: {問題} [save] — 必填，加 save 寫入
 【信心標註】
 標註這個回答中哪些部分有明確的 vault 依據，哪些是根據風格推測的延伸。
 
-以 _init.md 中偵測到的語言撰寫。
+以 __init.md 中偵測到的語言撰寫。
 
 寫入邏輯（僅當 $ARGUMENTS 末尾包含 "save" 時執行）：
 1. 從 $ARGUMENTS 中移除 "save" 關鍵詞，剩餘部分作為問題

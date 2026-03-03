@@ -2,7 +2,7 @@
 description: 週回顧與落差分析
 ---
 
-先執行 _init.md 中的 vault 偵測與資料夾解析，取得 vault 路徑和 daily-notes 資料夾位置。同時取得所有內容資料夾清單。
+先執行 __init.md 中的 vault 偵測與資料夾解析，取得 vault 路徑和 daily-notes 資料夾位置。同時取得所有內容資料夾清單。
 
 讀取以下來源：
 - 所有內容資料夾最近 7 天的修改紀錄
@@ -23,4 +23,4 @@ description: 週回顧與落差分析
 
 如果 daily notes 不足 3 天，標註「紀錄不足，落差分析可能不準確」。
 
-以 _init.md 中偵測到的語言撰寫。
+以 __init.md 中偵測到的語言撰寫。
