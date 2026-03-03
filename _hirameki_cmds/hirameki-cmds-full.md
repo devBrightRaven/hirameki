@@ -26,7 +26,7 @@ For each purpose, match the first existing folder from candidates:
 |---------|------------|
 | daily-notes | `Daily/`, `_daily/`, `daily/`, `Journal/`, `journal/` |
 | inbox | `Inbox/`, `_inbox/`, `inbox/`, `_Capture/`, `Capture/` |
-| analysis | `_hirameki_analysis/`, `_claude_code_analysis/`, `Analysis/`, `_analysis/`, `analysis/` |
+| analysis | `_hirameki_analysis/`, `_agent_analysis/`, `_claude_code_analysis/`, `Analysis/`, `_analysis/`, `analysis/` |
 | logs | `_hirameki_logs/`, `_claude_code_feedback/`, `Logs/`, `_logs/`, `logs/` |
 | templates | `Templates/`, `_templates/`, `templates/` |
 
