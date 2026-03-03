@@ -78,7 +78,8 @@ templates: {資料夾名稱}/
 
 語言對應：
 - 繁體中文 → `hirameki-cmds-short-zh-TW.md` + `hirameki-cmds-full-zh-TW.md`
-- English / 日本語 / 其他 → `hirameki-cmds-short.md` + `hirameki-cmds-full.md`
+- 日本語 → `hirameki-cmds-short-ja.md` + `hirameki-cmds-full-ja.md`
+- English / 其他 → `hirameki-cmds-short.md` + `hirameki-cmds-full.md`
 
 若 plugin 來源檔案找不到（cache 被清除）→ 跳過此步驟，告知使用者手動前往 GitHub 下載。
 

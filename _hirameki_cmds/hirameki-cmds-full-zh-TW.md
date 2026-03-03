@@ -54,7 +54,7 @@
 
 ## 日常節奏
 
-### `/hirameki-status`
+### `/hirameki:status`
 
 **用途：** Vault 現況摘要。
 **輸入：** 無。
@@ -76,7 +76,7 @@
 
 ---
 
-### `/hirameki-catchup [天數]`
+### `/hirameki:catchup [天數]`
 
 **用途：** 進度銜接。
 **輸入：** 可選天數（預設 1）。
@@ -98,7 +98,7 @@
 
 ---
 
-### `/hirameki-wrap [描述]`
+### `/hirameki:wrap [描述]`
 
 **用途：** 進度快照寫入 daily note。
 **輸入：** 可選重點描述。
@@ -139,7 +139,7 @@
 
 ---
 
-### `/hirameki-weekreview`
+### `/hirameki:weekreview`
 
 **用途：** 週回顧與落差分析。
 **輸入：** 無。
@@ -165,7 +165,7 @@
 
 ## 概念考古
 
-### `/hirameki-arc {概念}`
+### `/hirameki:arc {概念}`
 
 **用途：** 追蹤一個概念在 vault 中的演化軌跡。
 **輸入：** 必填 — 一個概念或關鍵詞。
@@ -225,7 +225,7 @@
 
 ---
 
-### `/hirameki-bridge {主題A} 與 {主題B}`
+### `/hirameki:bridge {主題A} 與 {主題B}`
 
 **用途：** 找出兩個主題之間的隱藏連結。
 **輸入：** 必填 — 兩個主題（分隔詞：「與」或對應語言的等價詞）。
@@ -274,7 +274,7 @@
 
 ---
 
-### `/hirameki-undercurrent [範圍]`
+### `/hirameki:undercurrent [範圍]`
 
 **用途：** 發掘潛流主題。
 **輸入：** 可選範圍（特定目錄）。
@@ -332,7 +332,7 @@
 
 ---
 
-### `/hirameki-cluster [範圍]`
+### `/hirameki:cluster [範圍]`
 
 **用途：** 想法群聚分析。
 **輸入：** 可選範圍。
@@ -388,7 +388,7 @@
 
 ## 思考工具
 
-### `/hirameki-ghost {問題} [save]`
+### `/hirameki:ghost {問題} [save]`
 
 **用途：** 用你的語氣和立場回答問題。
 **輸入：** 必填問題。末尾加 `save` 寫入檔案。
@@ -417,7 +417,7 @@
 
 ---
 
-### `/hirameki-stress-test {主題} [save]`
+### `/hirameki:stress-test {主題} [save]`
 
 **用途：** 對一個主題的論述進行壓力測試。
 **輸入：** 必填主題。末尾加 `save` 寫入檔案。
@@ -450,7 +450,7 @@
 
 ---
 
-### `/hirameki-harvest [save]`
+### `/hirameki:harvest [save]`
 
 **用途：** 從既有內容中收割可行動的想法。
 **輸入：** 可選 `save` 寫入檔案。
@@ -475,7 +475,7 @@
 
 ---
 
-### `/hirameki-graduate`
+### `/hirameki:graduate`
 
 **用途：** 讓半成形想法畢業為獨立筆記。
 **輸入：** 無。
@@ -513,7 +513,7 @@
 
 ## 維護
 
-### `/hirameki-tidy [fix]`
+### `/hirameki:tidy [fix]`
 
 **用途：** 屬性健檢與精簡。
 **輸入：** 可選 — 輸入 `fix` 確認後自動修正。
@@ -592,7 +592,7 @@
 
 ## 紀錄
 
-### `/hirameki-journal {描述}`
+### `/hirameki:journal {描述}`
 
 **用途：** 工作紀錄與思考文章。
 **輸入：** 必填 — 主題描述。
@@ -664,17 +664,17 @@
 
 | 指令 | 寫入位置 | 觸發條件 | 同天重複 |
 |---|---|---|---|
-| `/hirameki-wrap` | daily-notes | 總是 | 追加新 Wrap 區塊 |
-| `/hirameki-journal` | logs | 總是 | 同主題追加，不同主題建新檔 |
-| `/hirameki-arc` | analysis/arc | 總是 | 同概念追加，不同概念建新檔 |
-| `/hirameki-bridge` | analysis/bridge | 總是 | 同組合追加 |
-| `/hirameki-undercurrent` | analysis/undercurrent | 總是 | 追加更新 |
-| `/hirameki-cluster` | analysis/cluster | 總是 | 追加更新 |
-| `/hirameki-ghost` | analysis/ghost | 僅加 `save` | 同問題追加 |
-| `/hirameki-stress-test` | analysis/stress-test | 僅加 `save` | 同主題追加 |
-| `/hirameki-harvest` | analysis/harvest | 僅加 `save` | 追加更新 |
-| `/hirameki-graduate` | 內容資料夾 | 確認後 | 每次獨立 |
-| `/hirameki-tidy` | analysis/tidy | 總是 | 追加更新 |
+| `/hirameki:wrap` | daily-notes | 總是 | 追加新 Wrap 區塊 |
+| `/hirameki:journal` | logs | 總是 | 同主題追加，不同主題建新檔 |
+| `/hirameki:arc` | analysis/arc | 總是 | 同概念追加，不同概念建新檔 |
+| `/hirameki:bridge` | analysis/bridge | 總是 | 同組合追加 |
+| `/hirameki:undercurrent` | analysis/undercurrent | 總是 | 追加更新 |
+| `/hirameki:cluster` | analysis/cluster | 總是 | 追加更新 |
+| `/hirameki:ghost` | analysis/ghost | 僅加 `save` | 同問題追加 |
+| `/hirameki:stress-test` | analysis/stress-test | 僅加 `save` | 同主題追加 |
+| `/hirameki:harvest` | analysis/harvest | 僅加 `save` | 追加更新 |
+| `/hirameki:graduate` | 內容資料夾 | 確認後 | 每次獨立 |
+| `/hirameki:tidy` | analysis/tidy | 總是 | 追加更新 |
 
 ## 共通規則
 
@@ -682,4 +682,4 @@
 - 所有檔案引用使用 [[wiki link]] 格式
 - 所有寫入指令在寫入前顯示預覽和完整路徑，確認後再執行
 - 所有寫入指令在寫入後印出實際寫入的路徑
-- 輸出語言在首次執行 `_init` 時設定，儲存在 vault 的 CLAUDE.md 中
+- 輸出語言在首次執行 `_init` 時設定，儲存在 `~/.claude/CLAUDE.md` 中

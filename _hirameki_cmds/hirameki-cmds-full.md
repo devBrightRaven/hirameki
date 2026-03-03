@@ -54,7 +54,7 @@ If no content folders exist, scan root-level `.md` files instead.
 
 ## Daily Rhythm
 
-### `/hirameki-status`
+### `/hirameki:status`
 
 **Purpose:** Vault overview.
 **Input:** None.
@@ -76,7 +76,7 @@ Empty sections show "None" instead of being omitted.
 
 ---
 
-### `/hirameki-catchup [days]`
+### `/hirameki:catchup [days]`
 
 **Purpose:** Progress catchup.
 **Input:** Optional number of days (default 1).
@@ -98,7 +98,7 @@ Output:
 
 ---
 
-### `/hirameki-wrap [description]`
+### `/hirameki:wrap [description]`
 
 **Purpose:** Progress snapshot written to daily note.
 **Input:** Optional focus description.
@@ -139,7 +139,7 @@ Rules:
 
 ---
 
-### `/hirameki-weekreview`
+### `/hirameki:weekreview`
 
 **Purpose:** Weekly review and gap analysis.
 **Input:** None.
@@ -165,7 +165,7 @@ If fewer than 3 daily notes, flag: "Insufficient records, gap analysis may be in
 
 ## Concept Archaeology
 
-### `/hirameki-arc {concept}`
+### `/hirameki:arc {concept}`
 
 **Purpose:** Track a concept's evolution across the vault.
 **Input:** Required — a concept or keyword.
@@ -225,7 +225,7 @@ Rules:
 
 ---
 
-### `/hirameki-bridge {topicA} and {topicB}`
+### `/hirameki:bridge {topicA} and {topicB}`
 
 **Purpose:** Find hidden connections between two topics.
 **Input:** Required — two topics (separator: "and" or locale equivalent).
@@ -274,7 +274,7 @@ Limit 5. Each with [[wiki link]].
 
 ---
 
-### `/hirameki-undercurrent [scope]`
+### `/hirameki:undercurrent [scope]`
 
 **Purpose:** Surface latent themes.
 **Input:** Optional scope (specific directory).
@@ -332,7 +332,7 @@ Rules: Sorted by frequency descending. Limit 10 themes.
 
 ---
 
-### `/hirameki-cluster [scope]`
+### `/hirameki:cluster [scope]`
 
 **Purpose:** Thought cluster analysis.
 **Input:** Optional scope.
@@ -388,7 +388,7 @@ Rules: Limit 5 clusters, sorted by maturity descending.
 
 ## Thinking Tools
 
-### `/hirameki-ghost {question} [save]`
+### `/hirameki:ghost {question} [save]`
 
 **Purpose:** Answer a question in the user's voice and stance.
 **Input:** Required question. Append `save` to write to file.
@@ -417,7 +417,7 @@ Write logic (only when `save` is in input):
 
 ---
 
-### `/hirameki-stress-test {topic} [save]`
+### `/hirameki:stress-test {topic} [save]`
 
 **Purpose:** Pressure-test arguments on a topic.
 **Input:** Required topic. Append `save` to write to file.
@@ -450,7 +450,7 @@ Write logic (only when `save` is in input):
 
 ---
 
-### `/hirameki-harvest [save]`
+### `/hirameki:harvest [save]`
 
 **Purpose:** Harvest actionable ideas from existing content.
 **Input:** Optional `save` to write to file.
@@ -475,7 +475,7 @@ Write logic (only when `save` is in input):
 
 ---
 
-### `/hirameki-graduate`
+### `/hirameki:graduate`
 
 **Purpose:** Graduate half-formed ideas into standalone notes.
 **Input:** None.
@@ -513,7 +513,7 @@ Show full file path before writing, confirm, print path after.
 
 ## Maintenance
 
-### `/hirameki-tidy [fix]`
+### `/hirameki:tidy [fix]`
 
 **Purpose:** Frontmatter properties audit and cleanup.
 **Input:** Optional — `fix` to auto-correct after confirmation.
@@ -592,7 +592,7 @@ Max 50 issues reported per run. If more, show total count and suggest batch proc
 
 ## Logging
 
-### `/hirameki-journal {description}`
+### `/hirameki:journal {description}`
 
 **Purpose:** Work log and thinking article.
 **Input:** Required — topic description.
@@ -664,17 +664,17 @@ Also check "Unfinished and Follow-up" section — if items are now done, mark wi
 
 | Command | Writes to | Trigger | Same-day repeat |
 |---|---|---|---|
-| `/hirameki-wrap` | daily-notes | Always | Appends new Wrap block |
-| `/hirameki-journal` | logs | Always | Same topic appends, different topic creates new |
-| `/hirameki-arc` | analysis/arc | Always | Same concept appends, different creates new |
-| `/hirameki-bridge` | analysis/bridge | Always | Same pair appends |
-| `/hirameki-undercurrent` | analysis/undercurrent | Always | Appends update |
-| `/hirameki-cluster` | analysis/cluster | Always | Appends update |
-| `/hirameki-ghost` | analysis/ghost | Only with `save` | Same question appends |
-| `/hirameki-stress-test` | analysis/stress-test | Only with `save` | Same topic appends |
-| `/hirameki-harvest` | analysis/harvest | Only with `save` | Appends update |
-| `/hirameki-graduate` | content folder | After confirmation | Independent each time |
-| `/hirameki-tidy` | analysis/tidy | Always | Appends update |
+| `/hirameki:wrap` | daily-notes | Always | Appends new Wrap block |
+| `/hirameki:journal` | logs | Always | Same topic appends, different topic creates new |
+| `/hirameki:arc` | analysis/arc | Always | Same concept appends, different creates new |
+| `/hirameki:bridge` | analysis/bridge | Always | Same pair appends |
+| `/hirameki:undercurrent` | analysis/undercurrent | Always | Appends update |
+| `/hirameki:cluster` | analysis/cluster | Always | Appends update |
+| `/hirameki:ghost` | analysis/ghost | Only with `save` | Same question appends |
+| `/hirameki:stress-test` | analysis/stress-test | Only with `save` | Same topic appends |
+| `/hirameki:harvest` | analysis/harvest | Only with `save` | Appends update |
+| `/hirameki:graduate` | content folder | After confirmation | Independent each time |
+| `/hirameki:tidy` | analysis/tidy | Always | Appends update |
 
 ## Common Rules
 
