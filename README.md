@@ -13,7 +13,7 @@
 
 ### Inspiration
 
-Hirameki is inspired by [internetvin](https://x.com/internetvin) — specifically the workflow shown in this video by [Greg Isenberg](https://x.com/gregisenberg), founder of [The Idea Browser](https://theideabrowser.com):
+Hirameki is inspired by [internetvin](https://x.com/internetvin) — specifically the workflow shown in this video by [Greg Isenberg](https://x.com/gregisenberg), CEO of [Late Checkout](https://latecheckout.agency) and creator of [Idea Browser](https://www.ideabrowser.com):
 
 **[How I Use Obsidian + Claude Code to Run My Life](https://youtu.be/6MBq1paspVU)**
 
@@ -194,7 +194,7 @@ MIT
 
 ### 靈感來源
 
-Hirameki 的靈感來自 [internetvin](https://x.com/internetvin)，尤其是 [Greg Isenberg](https://x.com/gregisenberg)（[The Idea Browser](https://theideabrowser.com) 創辦人）在這支影片中展示的工作流程：
+Hirameki 的靈感來自 [internetvin](https://x.com/internetvin)，尤其是 [Greg Isenberg](https://x.com/gregisenberg)（[Late Checkout](https://latecheckout.agency) CEO、[Idea Browser](https://www.ideabrowser.com) 創辦人）在這支影片中展示的工作流程：
 
 **[How I Use Obsidian + Claude Code to Run My Life](https://youtu.be/6MBq1paspVU)**
 
@@ -375,7 +375,7 @@ MIT
 
 ### インスピレーション
 
-Hirameki は [internetvin](https://x.com/internetvin) — 特に [The Idea Browser](https://theideabrowser.com) の創業者 [Greg Isenberg](https://x.com/gregisenberg) がこの動画で紹介しているワークフローからインスパイアされています：
+Hirameki は [internetvin](https://x.com/internetvin) — 特に [Late Checkout](https://latecheckout.agency) CEO・[Idea Browser](https://www.ideabrowser.com) 創業者の [Greg Isenberg](https://x.com/gregisenberg) がこの動画で紹介しているワークフローからインスパイアされています：
 
 **[How I Use Obsidian + Claude Code to Run My Life](https://youtu.be/6MBq1paspVU)**
 
