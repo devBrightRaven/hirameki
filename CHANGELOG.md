@@ -1,0 +1,44 @@
+# Changelog
+
+All notable changes to hirameki are documented here.
+Versioning follows [Semantic Versioning](https://semver.org/): MAJOR = breaking changes, MINOR = new commands or modes, PATCH = bug fixes and docs.
+
+---
+
+## [0.2.0] — 2026-03-04
+
+### Added
+- `decide` command — pre-decision vault scan with three-layer structure: Current State (vault context + reversibility check) / Friction (inversion: what guarantees failure) / Key Question (one question, not a recommendation). Does not write to file.
+- Static CI validation — `tests/validate_commands.py` checks all command files for required sections and consistency. Runs automatically on GitHub Actions when `commands/` changes.
+
+### Changed
+- All 9 command files rewritten in English for maximum auditability and community accessibility. Output language is unchanged — still controlled by the `language` setting in `## Vault Structure`.
+- `tidy` redesigned with four modes: `tidy` (missing + consistency, lightweight), `tidy tags` (tag convergence only), `tidy fix` (missing + consistency + auto-fix), `tidy full` (all blocks). Default no longer runs all blocks.
+- `journal` filename now includes HHMM timestamp: `YYYY-MM-DD-HHMM-{slug}.md` for chronological sorting in Obsidian sidebar. Slug language follows `language` setting (Chinese/Japanese/English).
+- `__init` vault detection now reads Obsidian's `obsidian.json` to auto-list known vaults, filters out built-in Sandbox vaults, and marks currently-open vaults with `open: true`.
+
+### Removed
+- Standalone commands: `arc`, `bridge`, `ghost`, `stress-test` → merged into `explore` with automatic mode detection based on input shape
+- Standalone commands: `weekreview` → merged into `status week`
+- Standalone commands: `cluster`, `undercurrent` → merged into `status patterns`
+- Standalone command: `graduate` → merged into `harvest` as the seventh category with two-phase confirmation flow
+
+### Fixed
+- `_agent_analysis/` and `_agent_logs/` missing from folder candidate lists in all reference docs
+- `_claude_code_feedback` renamed to `_claude_code_logs` across all files
+- Greg Isenberg's URL and title in README
+
+### Migration note
+If you installed 0.1.x, the old commands (`arc`, `bridge`, `ghost`, `stress-test`, `weekreview`, `graduate`, `cluster`, `undercurrent`) will appear as phantom skills in your Claude Code skill list until you reinstall the plugin:
+```
+/plugin uninstall hirameki
+/plugin install hirameki@hirameki
+```
+
+---
+
+## [0.1.0] — 2026-02-xx
+
+Initial release as hirameki plugin for Claude Code.
+
+Commands: `__init`, `catchup`, `wrap`, `explore` (as arc/bridge/ghost/stress-test), `status` (as weekreview), `harvest` (as graduate), `tidy`, `journal`
