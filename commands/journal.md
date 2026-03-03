@@ -26,6 +26,13 @@ arguments: {主題描述} — 必填
 
 在 logs 資料夾建立檔案，檔名格式 YYYY-MM-DD-{主題摘要}.md。
 
+檔名 slug 語言規則：
+- language 為繁體中文 → 用中文（例如 `2026-03-03-hirameki指令精煉.md`）
+- language 為日本語 → 用日文（例如 `2026-03-03-hirameki指令改善.md`）
+- language 為 English 或其他 → 用英文（例如 `2026-03-03-hirameki-command-refactor.md`）
+
+空格一律用連字號取代，避免特殊符號。
+
 檔案結構：
 
 ```

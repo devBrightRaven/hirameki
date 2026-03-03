@@ -528,7 +528,7 @@ Logic:
 4. Ambiguous match → list candidates, ask user
 5. No match → create mode
 
-**Create mode** — Write to `{logs}/YYYY-MM-DD-{topic-summary}.md`:
+**Create mode** — Write to `{logs}/YYYY-MM-DD-{topic-summary}.md` (slug language matches the `language` setting: Chinese for 繁體中文, Japanese for 日本語, English otherwise; spaces replaced with hyphens):
 
 ```
 # {topic}
