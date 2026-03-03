@@ -3,7 +3,8 @@ description: 潛流主題發掘
 arguments: [範圍] — 可選，無則掃描全部
 ---
 
-先執行 __init.md 中的 vault 偵測與資料夾解析，取得 vault 路徑和 analysis、daily-notes、inbox 資料夾位置。同時取得所有內容資料夾清單。
+從 vault 根目錄的 CLAUDE.md 讀取 `## Vault Structure`，取得 vault 路徑和 analysis、daily-notes、inbox 資料夾位置。同時取得所有內容資料夾清單。
+若不存在或缺少必要欄位，停止並回應：「尚未完成初始設定，請先執行 `/hirameki:__init`」
 
 掃描 vault 找出潛流主題，並將結果存入分析資料夾。
 

@@ -3,7 +3,8 @@ description: 進度快照寫入 daily note
 arguments: [重點描述] — 可選，無則自動判斷
 ---
 
-先執行 __init.md 中的 vault 偵測與資料夾解析，取得 vault 路徑和 daily-notes、templates 資料夾位置。
+從 vault 根目錄的 CLAUDE.md 讀取 `## Vault Structure`，取得 vault 路徑和 daily-notes、templates 資料夾位置。
+若不存在或缺少必要欄位，停止並回應：「尚未完成初始設定，請先執行 `/hirameki:__init`」
 
 記錄當前的工作進度快照，寫入當天的 daily note。一天內可執行多次，每次追加一個帶時間戳的區塊。
 

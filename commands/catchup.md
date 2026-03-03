@@ -3,7 +3,8 @@ description: 進度銜接與今日焦點
 arguments: [天數] — 可選，預設 1
 ---
 
-先執行 __init.md 中的 vault 偵測與資料夾解析，取得 vault 路徑和 daily-notes、inbox 資料夾位置。
+從 vault 根目錄的 CLAUDE.md 讀取 `## Vault Structure`，取得 vault 路徑和 daily-notes、inbox 資料夾位置。
+若不存在或缺少必要欄位，停止並回應：「尚未完成初始設定，請先執行 `/hirameki:__init`」
 
 進度銜接。讀取最近的進度紀錄，了解從哪裡接續。
 

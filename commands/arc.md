@@ -3,7 +3,8 @@ description: 概念演化追蹤
 arguments: {概念} — 必填
 ---
 
-先執行 __init.md 中的 vault 偵測與資料夾解析，取得 vault 路徑和 analysis 資料夾位置。
+從 vault 根目錄的 CLAUDE.md 讀取 `## Vault Structure`，取得 vault 路徑和 analysis 資料夾位置。
+若不存在或缺少必要欄位，停止並回應：「尚未完成初始設定，請先執行 `/hirameki:__init`」
 
 追蹤一個特定概念在 vault 中的演化軌跡，並將結果存入分析資料夾。
 

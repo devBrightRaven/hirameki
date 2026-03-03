@@ -3,7 +3,8 @@ description: 主題論述壓力測試
 arguments: {主題} [save] — 必填，加 save 寫入
 ---
 
-先執行 __init.md 中的 vault 偵測與資料夾解析，取得 vault 路徑和 analysis 資料夾位置。
+從 vault 根目錄的 CLAUDE.md 讀取 `## Vault Structure`，取得 vault 路徑和 analysis 資料夾位置。
+若不存在或缺少必要欄位，停止並回應：「尚未完成初始設定，請先執行 `/hirameki:__init`」
 
 對一個主題的現有論述進行壓力測試。
 
