@@ -54,8 +54,9 @@ Vault is auto-detected. No path needed.
 ```bash
 claude   # anywhere
 /hirameki:__init
-# → asks you to paste your vault path
 ```
+
+`__init` reads Obsidian's app config to find your vaults automatically — no need to know the path. If you have multiple vaults, it shows a list to choose from.
 
 Either way, the vault path is saved globally to `~/.claude/CLAUDE.md`. After setup, every Hirameki command works no matter where you open Claude Code.
 
@@ -253,8 +254,9 @@ claude
 ```bash
 claude   # 任何地方
 /hirameki:__init
-# → 會詢問你的 vault 路徑
 ```
+
+`__init` 會自動讀取 Obsidian 的 app 設定檔，找出你已有的 vault，不需要手動輸入路徑。有多個 vault 時會列出清單讓你選擇。
 
 設定完成後，vault 路徑存入 `~/.claude/CLAUDE.md`。之後不管在哪裡開啟 Claude Code，所有 Hirameki 指令都能正常運作。
 
@@ -452,8 +454,9 @@ claude
 ```bash
 claude   # どこからでも
 /hirameki:__init
-# → vault のパスを入力するよう求められます
 ```
+
+`__init` は Obsidian のアプリ設定ファイルを自動的に読み込み、既存の vault を検出します。パスを手動で入力する必要はありません。複数の vault がある場合はリストから選択できます。
 
 セットアップ後、vault パスは `~/.claude/CLAUDE.md` にグローバルに保存されます。以降は Claude Code をどこで開いても、すべての Hirameki コマンドが正常に動作します。
 
