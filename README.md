@@ -15,7 +15,7 @@
 
 Hirameki is inspired by [internetvin](https://x.com/internetvin) — specifically the workflow shown in this video by [Greg Isenberg](https://x.com/gregisenberg), founder of [The Idea Browser](https://theideabrowser.com):
 
-**[How I Use AI to Turn My Notes Into Content (Obsidian + Claude Code)](https://youtu.be/6MBq1paspVU)**
+**[How I Use Obsidian + Claude Code to Run My Life](https://youtu.be/6MBq1paspVU)**
 
 The idea: your Obsidian vault is a goldmine of accumulated thinking. Hirameki gives Claude Code the commands to excavate, connect, and act on what's already there — rather than starting from scratch every time.
 
@@ -129,7 +129,7 @@ MIT
 
 Hirameki 的靈感來自 [internetvin](https://x.com/internetvin)，尤其是 [Greg Isenberg](https://x.com/gregisenberg)（[The Idea Browser](https://theideabrowser.com) 創辦人）在這支影片中展示的工作流程：
 
-**[How I Use AI to Turn My Notes Into Content (Obsidian + Claude Code)](https://youtu.be/6MBq1paspVU)**
+**[How I Use Obsidian + Claude Code to Run My Life](https://youtu.be/6MBq1paspVU)**
 
 核心概念：你的 Obsidian vault 是多年累積思考的寶庫。Hirameki 讓 Claude Code 能夠挖掘、串聯並行動 — 而不是每次都從零開始。
 
@@ -243,7 +243,7 @@ MIT
 
 Hirameki は [internetvin](https://x.com/internetvin) — 特に [The Idea Browser](https://theideabrowser.com) の創業者 [Greg Isenberg](https://x.com/gregisenberg) がこの動画で紹介しているワークフローからインスパイアされています：
 
-**[How I Use AI to Turn My Notes Into Content (Obsidian + Claude Code)](https://youtu.be/6MBq1paspVU)**
+**[How I Use Obsidian + Claude Code to Run My Life](https://youtu.be/6MBq1paspVU)**
 
 コアコンセプト：Obsidian vault は長年蓄積してきた思考の宝庫です。Hirameki は Claude Code に、すでにそこにあるものを掘り起こし・つなげ・行動に移すためのコマンドを与えます — 毎回ゼロから始めるのではなく。
 
