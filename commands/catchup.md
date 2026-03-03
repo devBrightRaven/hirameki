@@ -1,39 +1,39 @@
 ---
-description: 進度銜接與今日焦點
-arguments: [天數] — 可選，預設 1
+description: Progress handoff and suggested focus for the current session
+arguments: [days] — optional, default 1
 ---
 
-從 `~/.claude/CLAUDE.md` 讀取 `## Vault Structure`，取得 vault 路徑和 daily-notes、inbox 資料夾位置。
-若不存在或缺少必要欄位，停止並回應：「尚未完成初始設定，請先執行 `/hirameki:__init`」
+Read `## Vault Structure` from `~/.claude/CLAUDE.md` to get the vault path and the locations of the daily-notes and inbox folders.
+If the section does not exist or required fields are missing, stop and respond: "Setup not complete. Please run `/hirameki:__init` first."
 
-進度銜接。讀取最近的進度紀錄，了解從哪裡接續。
+Retrieve recent progress records and orient for the current session.
 
-輸入：$ARGUMENTS（可選。指定要回顧幾天前的紀錄，預設為 1 天。例如 "3" 代表回顧最近 3 天）
+Input: $ARGUMENTS (optional — number of days to look back, default 1. Example: "3" reviews the last 3 days)
 
-掃描來源：
-- daily-notes 資料夾中昨天的 daily note（或指定天數內的 daily notes）
-- inbox 資料夾中所有檔案
+Scan sources:
+- daily-notes folder: yesterday's daily note (or notes within the specified number of days)
+- inbox folder: all files
 
-讀取邏輯：
-1. 找到昨天的 {daily-notes}/YYYY-MM-DD.md
-2. 如果檔案中有多個 Wrap 區塊，只讀取最後一個（最新的進度快照）
-3. 從最後一個 Wrap 提取「進行中」和「下一步」
+Reading logic:
+1. Find {daily-notes}/YYYY-MM-DD.md for yesterday (or each day in range)
+2. If the file contains multiple Wrap blocks, read only the last one (most recent snapshot)
+3. Extract "In progress" and "Next" from the last Wrap block
 
-輸出分三個區塊：
+Output in three sections:
 
-【昨日進度銜接】
-列出昨天最後一個 Wrap 的「進行中」和「下一步」內容。
-如果昨天沒有 daily note 或沒有 Wrap 區塊，標註「昨日無進度紀錄」。
-如果 $ARGUMENTS 指定了多天，列出每天最後一個 Wrap 的銜接資訊，按時間倒序。
+**Yesterday's progress**
+List the "In progress" and "Next" items from the last Wrap block.
+If no daily note or no Wrap block exists for that day, note "No progress record found."
+If $ARGUMENTS specifies multiple days, list the last Wrap from each day in reverse chronological order.
 
-【Inbox 待處理】
-列出 inbox 資料夾中的檔案，每筆包含：檔名、建立日期、內容摘要（一句話）。
-如果 inbox 為空，標註「Inbox 清空」。
-上限 10 筆。
+**Inbox items**
+List all files in the inbox folder. For each: filename, creation date, one-sentence summary.
+If inbox is empty, note "Inbox is clear."
+Limit: 10 items.
 
-【建議今日焦點】
-根據以上資訊，建議 1 到 3 個今天最值得推進的事項。
-每個建議附上理由（為什麼是今天做而不是之後做）。
-不要超過 3 個。
+**Suggested focus**
+Based on the above, suggest 1–3 items most worth advancing today.
+For each, include a reason (why today rather than later).
+Do not exceed 3 suggestions.
 
-以 __init.md 中偵測到的語言撰寫。
+Write output in the language specified in `## Vault Structure` → `language`.

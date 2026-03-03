@@ -1,120 +1,121 @@
 ---
-description: Hirameki 初始設定 — vault 偵測、語言設定、資料夾解析、參考文件同步
+description: Initial setup — vault detection, language setting, folder resolution, reference doc sync
 ---
 
-## 概述
+## Overview
 
-__init 負責首次設定 Hirameki 環境。設定完成後，結果寫入 `~/.claude/CLAUDE.md`，日常 commands 直接讀取，不再呼叫 __init。
+`__init` handles first-time setup of the Hirameki environment. Once complete, the result is written to `~/.claude/CLAUDE.md`. All other commands read from there directly — they do not call `__init` again.
 
-## 日常 Commands 的讀取方式
+## How other commands read configuration
 
-所有其他 hirameki commands 在執行前：
+Before executing, every other hirameki command:
 
-1. 讀取 `~/.claude/CLAUDE.md` 中的 `## Vault Structure` 段落
-2. 若不存在或缺少必要欄位 → 停止，回應：「尚未完成初始設定，請先執行 `/hirameki:__init`」
-3. 若存在 → 直接使用，不做額外驗證
-4. 若執行過程中發現路徑無效或讀取失敗 → 回應：「設定異常，請執行 `/hirameki:__init` 重新設定」
+1. Reads the `## Vault Structure` section from `~/.claude/CLAUDE.md`
+2. If not found or missing required fields → stop and respond: "Setup not complete. Please run `/hirameki:__init` first."
+3. If found → use as-is, no further validation
+4. If a path is invalid or unreadable during execution → respond: "Configuration error. Please run `/hirameki:__init` to reconfigure."
 
-Vault 根目錄的判斷：`## Vault Structure` 中若有 `vault:` 欄位則使用該路徑；否則從 `~/.claude/CLAUDE.md` 的 `## Vault` 段落讀取 `path`。
+Vault root resolution: use the `vault:` field in `## Vault Structure` if present; otherwise read `path` from the `## Vault` section in `~/.claude/CLAUDE.md`.
 
-## 執行模式
+## Execution modes
 
-### 模式 A：首次設定
+### Mode A: First-time setup
 
-觸發條件：`~/.claude/CLAUDE.md` 不存在 `## Vault Structure`，或使用者主動執行 `/hirameki:__init` 且現有設定為空。
+Triggered when `## Vault Structure` does not exist in `~/.claude/CLAUDE.md`, or when the user runs `/hirameki:__init` with no existing configuration.
 
-**步驟 1 — Vault 偵測**
+**Step 1 — Vault detection**
 
-依序嘗試：
-1. 當前工作目錄有 `.obsidian/` → 設為 vault
-2. 讀取 `~/.claude/CLAUDE.md` 的 `## Vault` 段落中的 `path`
-3. 讀取 Obsidian app 的設定檔，取得已知 vault 清單：
-   - Windows：`%APPDATA%\Obsidian\obsidian.json`
-   - macOS：`~/Library/Application Support/obsidian/obsidian.json`
-   - Linux：`~/.config/obsidian/obsidian.json`
+Try in order:
+1. Current working directory contains `.obsidian/` → use as vault
+2. Read `path` from the `## Vault` section in `~/.claude/CLAUDE.md`
+3. Read the Obsidian app's configuration file to get the list of known vaults:
+   - Windows: `%APPDATA%\Obsidian\obsidian.json`
+   - macOS: `~/Library/Application Support/obsidian/obsidian.json`
+   - Linux: `~/.config/obsidian/obsidian.json`
 
-   解析前先過濾：排除路徑位於 Obsidian 本身 AppData/Application Support 資料夾內的 vault（這類是 Obsidian 內建的 Sandbox，不是使用者的 vault）。
+   Before using results from `obsidian.json`, filter out any vault whose path is inside Obsidian's own AppData or Application Support folder — those are Obsidian's built-in Sandbox, not the user's vault.
 
-   過濾後找到一個 vault → 直接使用並確認：「找到 vault：{路徑}，使用這個嗎？」
-   過濾後找到多個 vault → 列出清單讓使用者選擇，標註 `open: true` 的項目為「目前在 Obsidian 中開著的」
-4. 讀取失敗或找不到 → 詢問使用者提供完整路徑，確認路徑存在且含 `.obsidian/` 後，寫入 `~/.claude/CLAUDE.md`：
+   After filtering, if one vault remains → use it and confirm: "Found vault: {path}. Use this one?"
+   After filtering, if multiple vaults remain → list them and let the user choose. Mark any with `open: true` as "currently open in Obsidian."
+
+4. If reading fails or no vault is found → ask the user to provide the full path. Verify it exists and contains `.obsidian/`, then write to `~/.claude/CLAUDE.md`:
    ```
    ## Vault
-   path: {路徑}
+   path: {path}
    ```
 
-**步驟 2 — 語言設定**
+**Step 2 — Language setting**
 
-詢問使用者：「Hirameki 輸出要用什麼語言？」
-- 繁體中文
+Ask the user: "What language should Hirameki use for output?"
+- Traditional Chinese
 - English
-- 日本語
-- 其他（使用者自行輸入）
+- Japanese
+- Other (user types freely)
 
-**步驟 3 — 資料夾解析**
+**Step 3 — Folder resolution**
 
-在 vault 中依候選名稱順序匹配各用途資料夾（取第一個存在的）：
+Match each purpose to the first existing candidate folder in the vault:
 
-- **daily-notes**：`Daily/`, `_daily/`, `daily/`, `Journal/`, `journal/`
-- **inbox**：`Inbox/`, `_inbox/`, `inbox/`, `_Capture/`, `Capture/`
-- **analysis**：`_hirameki_analysis/`, `_agent_analysis/`, `_claude_code_analysis/`, `Analysis/`, `_analysis/`, `analysis/`
-- **logs**：`_hirameki_logs/`, `_agent_logs/`, `_claude_code_logs/`, `Logs/`, `_logs/`, `logs/`
-- **templates**：`Templates/`, `_templates/`, `templates/`
+- **daily-notes**: `Daily/`, `_daily/`, `daily/`, `Journal/`, `journal/`
+- **inbox**: `Inbox/`, `_inbox/`, `inbox/`, `_Capture/`, `Capture/`
+- **analysis**: `_hirameki_analysis/`, `_agent_analysis/`, `_claude_code_analysis/`, `Analysis/`, `_analysis/`, `analysis/`
+- **logs**: `_hirameki_logs/`, `_agent_logs/`, `_claude_code_logs/`, `Logs/`, `_logs/`, `logs/`
+- **templates**: `Templates/`, `_templates/`, `templates/`
 
-找不到的用途 → 詢問使用者建立位置（預設建議第一個候選名稱），確認後建立。
+If no match is found for a purpose → ask the user where to create it (suggest the first candidate name by default), then create it after confirmation.
 
-**步驟 4 — 寫入設定**
+**Step 4 — Write configuration**
 
-將以下內容寫入 `~/.claude/CLAUDE.md`（不存在則建立）：
+Write the following to `~/.claude/CLAUDE.md` (create if it does not exist):
 
 ```
 ## Vault Structure
-vault: {vault 完整路徑}
-language: {語言}
-daily-notes: {資料夾名稱}/
-inbox: {資料夾名稱}/
-analysis: {資料夾名稱}/
-logs: {資料夾名稱}/
-templates: {資料夾名稱}/
+vault: {full vault path}
+language: {language}
+daily-notes: {folder name}/
+inbox: {folder name}/
+analysis: {folder name}/
+logs: {folder name}/
+templates: {folder name}/
 ```
 
-**步驟 5 — 參考文件同步**
+**Step 5 — Reference doc sync**
 
-- 檢查 `{vault}/_hirameki_cmds/` 是否存在
-- 不存在 → 建立資料夾，複製對應語言的參考文件，印出：「參考文件已複製到 _hirameki_cmds/」
-- 存在且非空 → 詢問使用者是否覆寫（使用者可能已有自訂修改）
-- 存在且為空 → 直接複製
+- Check whether `{vault}/_hirameki_cmds/` exists
+- Does not exist → create folder, copy the reference docs for the chosen language, print: "Reference docs copied to _hirameki_cmds/"
+- Exists and non-empty → ask the user whether to overwrite (they may have local edits)
+- Exists and empty → copy directly
 
-語言對應：
-- 繁體中文 → `hirameki-cmds-short-zh-TW.md` + `hirameki-cmds-full-zh-TW.md`
-- 日本語 → `hirameki-cmds-short-ja.md` + `hirameki-cmds-full-ja.md`
-- English / 其他 → `hirameki-cmds-short.md` + `hirameki-cmds-full.md`
+Language mapping:
+- Traditional Chinese → `hirameki-cmds-short-zh-TW.md` + `hirameki-cmds-full-zh-TW.md`
+- Japanese → `hirameki-cmds-short-ja.md` + `hirameki-cmds-full-ja.md`
+- English or other → `hirameki-cmds-short.md` + `hirameki-cmds-full.md`
 
-若 plugin 來源檔案找不到（cache 被清除）→ 跳過此步驟，告知使用者手動前往 GitHub 下載。
+If the plugin source files are not found (cache cleared) → skip this step and tell the user to download manually from GitHub.
 
 ---
 
-### 模式 B：重新設定
+### Mode B: Reconfigure
 
-觸發條件：`## Vault Structure` 已存在，使用者主動執行 `/hirameki:__init`。
+Triggered when `## Vault Structure` already exists and the user runs `/hirameki:__init`.
 
-讀取現有設定後，詢問使用者要更新什麼：
-1. 語言設定
-2. 特定資料夾路徑
-3. 更新參考文件（`_hirameki_cmds/`）
-4. 全部重新來過
+Read the existing configuration, then ask the user what to update:
+1. Language setting
+2. A specific folder path
+3. Update reference docs (`_hirameki_cmds/`)
+4. Start over completely
 
-只修改使用者選擇的項目，其他欄位保留不動。
+Only modify what the user selects — leave all other fields unchanged.
 
-全部重新來過時，走模式 A 的完整流程，並在覆寫現有設定前先確認。
+"Start over completely" runs the full Mode A flow and asks for confirmation before overwriting the existing configuration.
 
-## 掃描範圍解析
+## Content folder resolution
 
-部分 commands 需要掃描使用者的內容資料夾時，計算方式如下：
+When commands need to scan the user's content folders, the scope is determined as follows:
 
-vault 根目錄第一層資料夾，排除：
-- `.` 開頭的隱藏資料夾（`.obsidian/`, `.claude/`, `.git/`, `.smart-env/` 等）
+Take all top-level folders in the vault root, then exclude:
+- Hidden folders starting with `.` (`.obsidian/`, `.claude/`, `.git/`, `.smart-env/`, etc.)
 - `_hirameki_cmds/`
-- `## Vault Structure` 中記錄的所有系統資料夾
+- All system folders recorded in `## Vault Structure`
 
-剩下的全部視為使用者內容資料夾。若無內容資料夾，掃描 vault 根目錄下的所有 `.md` 檔案。
+Everything remaining is treated as a user content folder. If no content folders remain, scan all `.md` files in the vault root directly.

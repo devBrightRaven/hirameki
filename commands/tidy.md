@@ -1,133 +1,133 @@
 ---
-description: 屬性健檢與精簡
-arguments: [tags|fix|full] — 可選，見下方模式說明
+description: Frontmatter health check and cleanup
+arguments: [tags|fix|full] — optional; see mode table
 ---
 
-從 `~/.claude/CLAUDE.md` 讀取 `## Vault Structure`，取得 vault 路徑和所有內容資料夾清單。
-若不存在或缺少必要欄位，停止並回應：「尚未完成初始設定，請先執行 `/hirameki:__init`」
+Read `## Vault Structure` from `~/.claude/CLAUDE.md` to get the vault path and the list of content folders.
+If the section does not exist or required fields are missing, stop and respond: "Setup not complete. Please run `/hirameki:__init` first."
 
-## 模式
+## Modes
 
-根據 $ARGUMENTS 決定執行哪些檢查：
+Select which checks to run based on $ARGUMENTS:
 
-| 呼叫方式 | 執行內容 |
-|----------|---------|
-| `tidy`（無參數） | 缺漏檢查 + 一致性檢查 |
-| `tidy tags` | tag 收斂分析（核心標籤、孤立標籤、合併建議） |
-| `tidy fix` | 缺漏 + 一致性 + 自動修正 |
-| `tidy full` | 全部（缺漏 + 一致性 + 冗餘 + tag 分析） |
+| Call | Runs |
+|------|------|
+| `tidy` (no argument) | Missing field check + Consistency check |
+| `tidy tags` | Tag convergence analysis only |
+| `tidy fix` | Missing + Consistency + Auto-fix |
+| `tidy full` | All blocks |
 
-只執行對應模式的區塊，不跑其他區塊。
+Only run the blocks for the selected mode — omit all others from the report.
 
-## 掃描範圍
+## Scan scope
 
-- 所有內容資料夾（遞迴）
-- inbox 資料夾全部
-- daily-notes 資料夾最近 30 天
+- All content folders (recursive)
+- All files in the inbox folder
+- Last 30 days in the daily-notes folder
 
-## 檢查區塊
+## Check blocks
 
-### 缺漏檢查（tidy / fix / full）
-- 沒有 frontmatter 的檔案
-- 有 frontmatter 但缺少必要欄位（必要欄位：tags, status）
-- `tags` 為空陣列或未填寫
-- `status` 未填寫
+### Missing field check (tidy / fix / full)
+- Files with no frontmatter
+- Files with frontmatter but missing required fields (required: tags, status)
+- `tags` is an empty array or blank
+- `status` is blank
 
-### 一致性檢查（tidy / fix / full）
-- `status` 值是否在允許範圍內（published, draft, reference, outline, spec, log, archive）
-- `source` 值是否在允許範圍內（self, claude-code, agent, external）——如果有填寫的話
-- `tags` 中是否有大小寫不一致的同義標籤
-- `tags` 中是否有底線 vs 連字號不一致
-- `topic` 與 `tags` 是否有明顯重複
+### Consistency check (tidy / fix / full)
+- `status` value is not in the allowed set (published, draft, reference, outline, spec, log, archive)
+- `source` value is not in the allowed set (self, claude-code, agent, external) — only if the field exists
+- Case-inconsistent synonymous tags in `tags` (e.g. `AI-alignment` vs `ai-alignment`)
+- Underscore vs hyphen inconsistency in `tags` (e.g. `ai_alignment` vs `ai-alignment`)
+- Obvious duplication between `topic` and `tags`
 
-### 冗餘檢查（full 限定）
-- 超過 6 個 tags 的檔案
-- `created` 欄位格式是否一致（應為 YYYY-MM 或 YYYY-MM-DD）
+### Redundancy check (full only)
+- Files with more than 6 tags
+- `created` field format is inconsistent (should be YYYY-MM or YYYY-MM-DD)
 
-### Tag 收斂分析（tags / full）
-統計全 vault 的 tag 使用頻率，找出：
-- 使用次數最多的前 10 個 tags（核心標籤）
-- 語意相近但命名不同的 tags（候選合併組）
-- 使用次數只有 1 次的 tags（孤立標籤，逐一列出）
+### Tag convergence analysis (tags / full)
+Count tag usage across the entire vault and surface:
+- Top 10 most-used tags (core tags)
+- Semantically similar but differently named tags (candidate merge groups)
+- Tags that appear only once (isolated tags — list each one)
 
-## 輸出格式
+## Output format
 
-只輸出本次執行的區塊。未執行的區塊不出現在報告中。
+Only include sections for blocks that were run. Omit sections for blocks that were not run.
 
 ```
-# 屬性健檢報告
+# Frontmatter health report
 
-> 模式：[tidy / tags / fix / full]
-> 檢查時間：YYYY-MM-DD HH:MM
-> 掃描範圍：[列出實際掃描的目錄]
-> 掃描檔案數：N
+> Mode: [tidy / tags / fix / full]
+> Check time: YYYY-MM-DD HH:MM
+> Scan scope: [list of folders scanned]
+> Files scanned: N
 
-## 缺漏問題（N 個）          ← 缺漏模式才有
+## Missing fields (N)          ← missing check only
 ...
 
-## 一致性問題（N 個）         ← 一致性模式才有
+## Consistency issues (N)      ← consistency check only
 ...
 
-## 冗餘問題（N 個）           ← full 才有
+## Redundancy issues (N)       ← full only
 ...
 
-## Tag 總覽                   ← tags / full 才有
-### 核心標籤（前 10）
+## Tag overview                ← tags / full only
+### Core tags (top 10)
 ...
-### 建議合併
+### Merge candidates
 ...
-### 孤立標籤（僅出現 1 次）
+### Isolated tags (appear once)
 ...
 
-## 摘要
-- 執行區塊：[列出]
-- 需修正：N 個檔案
-- 健康度：N%（無問題檔案數 / 總檔案數）
+## Summary
+- Blocks run: [list]
+- Files needing attention: N
+- Health: N% (files with no issues / total files)
 ```
 
-如果某個已執行的區塊沒有問題，標註「無」而不是跳過。
+If a block that was run has no issues, write "None" — do not skip it.
 
-以 `~/.claude/CLAUDE.md` 中的 language 設定撰寫。
+Write output in the language specified in `## Vault Structure` → `language`.
 
-## 修正邏輯（僅 fix 模式）
+## Fix logic (fix mode only)
 
-修正前先顯示即將執行的所有變更清單，等確認後再執行。
+Show the full list of all planned changes and wait for confirmation before executing.
 
-可自動修正的項目：
-- 補上缺少的 frontmatter 骨架（空的 tags 和 status: draft）
-- 統一 tag 大小寫（以使用次數多的為準）
-- 統一底線 vs 連字號（以連字號為準）
-- 移除 `topic` 與 `tags` 的明顯重複（保留 tags 中的，移除 topic）
+Auto-fixable:
+- Add missing frontmatter skeleton (empty tags array and status: draft)
+- Normalise tag casing (use whichever variant appears more often)
+- Normalise underscore vs hyphen (use hyphen)
+- Remove obvious duplication between `topic` and `tags` (keep the tags entry, remove topic)
 
-需要使用者逐一確認的項目：
-- 合併語意相近的 tags
-- 精簡超過 6 個 tags 的檔案
-- 刪除孤立標籤
+Requires per-item confirmation:
+- Merging semantically similar tags
+- Trimming files with more than 6 tags
+- Deleting isolated tags
 
-修正後重新計算健康度並輸出差異摘要。
+After fixing, recalculate health score and output a diff summary.
 
-## 寫入邏輯
+## Write logic
 
-每次執行都將報告寫入：`{analysis}/tidy/YYYY-MM-DD.md`
-如果資料夾不存在，先建立。
+Write the report to: `{analysis}/tidy/YYYY-MM-DD.md`
+Create the folder if it does not exist.
 
-如果同一天已有報告，追加在末尾：
+If a report for today already exists, append:
 
 ```
 ---
 
-## 追蹤更新 [HH:MM] [模式]
+## Follow-up update [HH:MM] [mode]
 
-### 變更摘要
-- [本次執行了哪些區塊、修正了什麼、還剩什麼未處理]
+### Change summary
+- [Which blocks were run, what was fixed, what remains]
 
-### 健康度變化
-- 上次：N% → 本次：N%
+### Health change
+- Previous: N% → This run: N%
 ```
 
-規則：
-- 所有檔案引用使用 [[wiki link]] 格式
-- 時間戳使用本地時間 HH:MM 格式（24 小時制）
-- 寫入前顯示即將寫入的檔名和完整路徑，等確認後再執行
-- 寫入後印出實際寫入的完整路徑
-- 每次掃描最多報告 50 個問題，超過的標註總數並建議分批處理
+Rules:
+- Use [[wiki link]] format for all file references
+- Timestamps use local time in HH:MM format (24-hour)
+- Show filename and full path, then wait for confirmation before writing
+- Print the full path after writing
+- Report at most 50 issues per run; if more exist, note the total and suggest processing in batches

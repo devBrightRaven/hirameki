@@ -1,90 +1,89 @@
 ---
-description: Vault 現況摘要（三種模式）
-arguments: [week|patterns] — 可選，無則顯示即時概覽
+description: Vault state overview (three modes)
+arguments: [week|patterns] — optional; no argument = instant snapshot
 ---
 
-從 `~/.claude/CLAUDE.md` 讀取 `## Vault Structure`，取得 vault 路徑和 daily-notes 資料夾位置。同時取得所有內容資料夾清單。
-若不存在或缺少必要欄位，停止並回應：「尚未完成初始設定，請先執行 `/hirameki:__init`」
+Read `## Vault Structure` from `~/.claude/CLAUDE.md` to get the vault path, the daily-notes folder location, and the list of content folders.
+If the section does not exist or required fields are missing, stop and respond: "Setup not complete. Please run `/hirameki:__init` first."
 
-輸入：$ARGUMENTS（可選。無參數 = 即時概覽；`week` = 週回顧；`patterns` = 潛流與聚攏分析）
-
----
-
-## 無參數模式 — 即時概覽
-
-掃描以下目錄：
-- 所有內容資料夾底下的子目錄（深度 2 層）
-- daily-notes 資料夾底下最近 7 天內修改的檔案
-
-輸出分三個區塊：
-
-【內容主題】
-列出每個內容資料夾及其子目錄：名稱、筆記總數、drafts/ 內未完成草稿數（如果有）、最近修改日期。
-標註狀態：活躍（7 天內有修改）/ 休眠（超過 7 天未修改）。
-
-【近期活動】
-列出最近 7 天修改過的檔案，按時間倒序，每筆包含：檔名、所屬目錄、修改時間、變更性質（新建 / 修改 / 大幅改寫）。上限 15 筆。
-
-【Vault 概覽】
-- 總檔案數
-- 內容資料夾數量
-- 最近 7 天活躍的資料夾
-
-如果某個區塊沒有內容，標註「無」而不是跳過。
+Input: $ARGUMENTS (optional — no argument = instant snapshot; `week` = weekly gap analysis; `patterns` = undercurrent and cluster scan)
 
 ---
 
-## `status week` — 週回顧與落差分析
+## Default mode — instant snapshot
 
-讀取以下來源：
-- 所有內容資料夾最近 7 天的修改紀錄
-- daily-notes 資料夾底下最近 7 天的 daily notes
+Scan:
+- All content folders, 2 levels deep
+- Files modified in the last 7 days in the daily-notes folder
 
-輸出分三個區塊：
+Output in three sections:
 
-【本週進度】
-每個有活動的內容資料夾：名稱、上週推進了什麼（根據檔案變更判斷）、下一步是什麼。
+**Content themes**
+For each content folder and its subdirectories: name, total note count, number of unfinished drafts in drafts/ (if any), most recent modification date. Mark status: active (modified in last 7 days) / dormant (not modified in 7+ days).
 
-【近期動態】
-上週新增或修改了哪些筆記，哪些接近完成（如果 drafts/ 中有內容）。
+**Recent activity**
+Files modified in the last 7 days, in reverse chronological order. For each: filename, folder, modification time, change type (new / modified / major rewrite). Limit: 15 files.
 
-【落差分析】
-比對 daily notes 中提到的優先事項，跟實際檔案變更紀錄。找出：
-- 說了重要但沒動手的（聲稱優先但無對應檔案變更）
-- 沒提到但花了時間的（有檔案變更但 daily notes 未提及）
+**Vault overview**
+- Total file count
+- Number of content folders
+- Folders active in the last 7 days
 
-如果 daily notes 不足 3 天，標註「紀錄不足，落差分析可能不準確」。
-
----
-
-## `status patterns` — 潛流與聚攏分析
-
-掃描範圍：
-- 所有內容資料夾（深度不限）
-- daily-notes 資料夾最近 30 天
-- inbox 資料夾全部
-
-輸出分兩個區塊：
-
-【潛流主題】
-繁複出現但沒有獨立文章的主題。每筆：
-- 主題名稱
-- 出現次數，涉及幾個檔案（上限 5 個範例，用 [[wiki link]] 引用）
-- 判斷：這個主題值得展開嗎？
-
-判斷標準：出現在 3 個以上不同檔案中，且沒有以它為主題的獨立文章或 draft。
-上限 10 個潛流主題，按出現頻率倒序。
-
-【聚攏中的想法群】
-3 篇以上筆記涉及相似概念但沒有共同分類的群組。每筆：
-- 建議群組名稱
-- 涉及筆記列表（[[wiki link]] 格式，上限 5 個）
-- 共同主題摘要（2 到 3 句）
-- 成熟度：高 / 中 / 低
-- 建議發展方向：文章 / 專案 / 概念框架 / 繼續累積
-
-上限 5 個想法群，按成熟度倒序。
+If a section has no content, write "None" — do not skip it.
 
 ---
 
-以 `~/.claude/CLAUDE.md` 的 `## Vault Structure` 中偵測到的語言撰寫。
+## `status week` — weekly gap analysis
+
+Read:
+- Modification history of all content folders over the last 7 days
+- Daily notes from the last 7 days in the daily-notes folder
+
+Output in three sections:
+
+**This week's progress**
+For each content folder with activity: name, what was advanced (inferred from file changes), what comes next.
+
+**Recent updates**
+Notes added or modified this week. Flag any that appear close to completion (if drafts/ has content).
+
+**Gap analysis**
+Compare stated priorities in daily notes against actual file changes. Find:
+- Declared important but untouched (mentioned as priority but no matching file changes)
+- Worked on but unmentioned (file changes with no mention in daily notes)
+
+If fewer than 3 days of daily notes are available, note "Insufficient records — gap analysis may be inaccurate."
+
+---
+
+## `status patterns` — undercurrent and cluster scan
+
+Scan scope:
+- All content folders (unlimited depth)
+- Last 30 days in the daily-notes folder
+- All files in the inbox folder
+
+Output in two sections:
+
+**Undercurrents**
+Themes that recur across notes but have no standalone article. For each:
+- Theme name
+- Occurrence count and number of files involved (up to 5 example [[wiki links]])
+- Assessment: is this theme worth developing?
+
+Criteria: appears in 3+ distinct files, no standalone article or draft uses it as the primary subject.
+Limit: 10 undercurrents, sorted by frequency descending.
+
+**Forming idea clusters**
+Groups of 3+ notes covering similar concepts without a shared category. For each:
+- Suggested cluster name
+- Notes involved ([[wiki link]] format, limit 5)
+- Shared theme summary (2–3 sentences)
+- Maturity: high / medium / low
+- Suggested direction: article / project / conceptual framework / keep accumulating
+
+Limit: 5 clusters, sorted by maturity descending.
+
+---
+
+Write output in the language specified in `## Vault Structure` → `language`.

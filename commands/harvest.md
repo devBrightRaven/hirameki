@@ -1,114 +1,114 @@
 ---
-description: 收割可行動的想法
-arguments: [save] — 可選，加 save 寫入
+description: Harvest actionable ideas from existing vault content
+arguments: [save] — optional; append "save" to write output to file
 ---
 
-從 `~/.claude/CLAUDE.md` 讀取 `## Vault Structure`，取得 vault 路徑和 analysis、daily-notes、inbox 資料夾位置。同時取得所有內容資料夾清單。
-若不存在或缺少必要欄位，停止並回應：「尚未完成初始設定，請先執行 `/hirameki:__init`」
+Read `## Vault Structure` from `~/.claude/CLAUDE.md` to get the vault path and the locations of the analysis, daily-notes, and inbox folders, plus the list of content folders.
+If the section does not exist or required fields are missing, stop and respond: "Setup not complete. Please run `/hirameki:__init` first."
 
-掃描 vault 從既有內容中識別可行動的想法。
+Scan the vault and surface actionable ideas from existing content.
 
-輸入：$ARGUMENTS（可選。無參數則純輸出。輸入 "save" 則將結果寫入檔案）
+Input: $ARGUMENTS (optional — no argument = display only; "save" = write result to file)
 
-掃描範圍：
-- 所有內容資料夾
-- daily-notes 資料夾最近 30 天
-- inbox 資料夾全部
+Scan scope:
+- All content folders
+- Last 30 days in the daily-notes folder
+- All files in the inbox folder
 
-輸出分七類，每類上限 5 個：
+Output in seven categories, limit 5 items each:
 
-【可以寫的文章】
-已有足夠素材或觀點可以發展成文章的主題。每筆：建議標題、素材來源（[[檔名]] 列表）、缺什麼才能動筆。
+**Articles you could write**
+Topics with enough existing material or perspective to develop into an article. For each: suggested title, source notes ([[filename]] list), what is still missing before writing can begin.
 
-【可以做的工具或專案】
-文章中提到的工具需求、流程痛點、或明確的產品想法。每筆：描述、來源、預估複雜度（小 / 中 / 大）。
+**Tools or projects to build**
+Tool needs, workflow pain points, or product ideas mentioned in the vault. For each: description, source, estimated complexity (small / medium / large).
 
-【值得研究的主題】
-被提及但未深入探討的外部概念、理論、或技術。每筆：主題、vault 中提及的脈絡、為什麼值得研究。
+**Topics worth researching**
+External concepts, theories, or technologies mentioned but not explored in depth. For each: topic, the context in which it was mentioned, why it is worth researching.
 
-【可以聯繫的人或社群】
-文章中提到的人物、組織、或社群，且與目前的工作方向相關。每筆：名稱、vault 中提及的脈絡、聯繫的理由。如果沒有，標註「無」。
+**People or communities to contact**
+Individuals, organisations, or communities mentioned in the vault that are relevant to the current direction. For each: name, context, reason to reach out. If none, write "None."
 
-【適合換個媒介的想法】
-適合以不同形式呈現的內容（影片、視覺圖表、演講、電子報、podcast 等）。每筆：想法摘要、建議媒介、理由（為什麼這個形式比文字更合適）。
+**Ideas for a different medium**
+Content that might work better in a non-text format (video, visual, talk, newsletter, podcast, etc.). For each: idea summary, suggested medium, reason why that format is more suitable than text.
 
-【尚未變現的價值】
-你有但還沒有轉換成收益的專業知識或能力。每筆：技能或知識描述、可能的變現形式（課程、顧問、產品、授權）、vault 中的依據。如果沒有，標註「無」。
+**Untransacted value**
+Expertise or capability you have but have not converted into any form of exchange. For each: skill or knowledge description, possible form (course, consulting, product, licensing), vault evidence. If none, write "None."
 
-【可以畢業的想法】
-半成形但已有足夠密度可以獨立成筆記的想法。每筆：來源位置（[[檔名]] + 段落描述）、核心主張（一句話）、建議歸屬的內容資料夾、與哪些既有筆記相關。
+**Ideas ready to graduate**
+Half-formed ideas with enough density to become a standalone note. For each: source location ([[filename]] + section description), core claim (one sentence), suggested destination folder, related existing notes.
 
-判斷標準：有明確的核心主張（不只是隨想）、與 vault 中至少一個既有主題相關、有足夠的內容密度（不只是一句話）。
+Graduation criteria: has a clear core claim (not just a passing thought), relates to at least one existing theme in the vault, has enough content density to stand alone (not just a single line).
 
-### 畢業確認流程
+### Graduation confirmation flow
 
-列出「可以畢業的想法」後暫停，等待確認哪些要執行畢業。確認後，對每個選中的想法：
-1. 顯示即將建立的完整路徑，等再次確認後再執行
-2. 在對應的內容資料夾下建立新的 markdown 檔案，包含：
-   - 標題
-   - 核心主張
-   - 出處脈絡（從哪個 daily note 或 inbox 項目發展來的）
-   - 與 vault 其他筆記的關聯（[[wiki link]] 格式）
-   - 待展開的方向
-3. 寫入後印出實際建立的完整路徑
+After listing "Ideas ready to graduate," pause and wait for the user to confirm which ones to act on. For each selected idea:
+1. Show the full intended path and wait for a second confirmation before proceeding
+2. Create a new markdown file in the appropriate content folder containing:
+   - Title
+   - Core claim
+   - Origin context (which daily note or inbox item this developed from)
+   - Connections to other vault notes ([[wiki link]] format)
+   - Directions to develop further
+3. Print the full path after writing
 
 ---
 
-以 `~/.claude/CLAUDE.md` 的 `## Vault Structure` 中偵測到的語言撰寫。
+Write output in the language specified in `## Vault Structure` → `language`.
 
-寫入邏輯（僅當 $ARGUMENTS 包含 "save" 時執行，不包括畢業流程）：
-1. 檢查 `{analysis}/harvest/` 中今天是否已有檔案
-2. 如果有 → 在既有檔案末尾追加：
+Write logic (only when $ARGUMENTS contains "save" — does not apply to the graduation flow):
+1. Check `{analysis}/harvest/` for a file created today
+2. If found → append to the existing file:
 
 ```
 ---
 
-## 追蹤更新 [HH:MM]
+## Update [HH:MM]
 
-### 新發現的想法
-[今天掃描發現的、之前未列出的想法，按七類格式]
+### Newly found ideas
+[Ideas found in this scan not listed before, using the seven-category format]
 
-### 已有想法的變化
-[之前列出的想法，狀態有無變化]
+### Changes to existing ideas
+[Status changes to previously listed ideas, if any]
 ```
 
-3. 如果沒有 → 建立新檔
+3. If not found → create a new file
 
-寫入目標：`{analysis}/harvest/YYYY-MM-DD.md`
-如果資料夾不存在，先建立並印出完整路徑。
+Write target: `{analysis}/harvest/YYYY-MM-DD.md`
+Create the folder if it does not exist.
 
-檔案結構：
+File structure (new file):
 
 ```
-# 想法收割
+# Idea harvest
 
-> 分析時間：YYYY-MM-DD HH:MM
-> 掃描範圍：[列出實際掃描的目錄]
+> Analysis time: YYYY-MM-DD HH:MM
+> Scan scope: [list of folders actually scanned]
 
-## 可以寫的文章
-[列表]
+## Articles you could write
+[list]
 
-## 可以做的工具或專案
-[列表]
+## Tools or projects to build
+[list]
 
-## 值得研究的主題
-[列表]
+## Topics worth researching
+[list]
 
-## 可以聯繫的人或社群
-[列表]
+## People or communities to contact
+[list]
 
-## 適合換個媒介的想法
-[列表]
+## Ideas for a different medium
+[list]
 
-## 尚未變現的價值
-[列表]
+## Untransacted value
+[list]
 
-## 可以畢業的想法
-[列表]
+## Ideas ready to graduate
+[list]
 ```
 
-規則：
-- 所有檔案引用使用 [[wiki link]] 格式
-- 時間戳使用本地時間 HH:MM 格式（24 小時制）
-- 寫入前顯示即將寫入的檔名、模式（建立/追加）、內容摘要和完整路徑，等確認後再執行
-- 寫入後印出實際寫入的完整路徑
+Rules:
+- Use [[wiki link]] format for all file references
+- Timestamps use local time in HH:MM format (24-hour)
+- Show filename, mode (create / append), content summary, and full path, then wait for confirmation before writing
+- Print the full path after writing

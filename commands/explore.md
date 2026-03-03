@@ -1,193 +1,193 @@
 ---
-description: 概念挖掘（自動偵測模式）
-arguments: {輸入} [save] — 必填，格式決定模式，加 save 寫入
+description: Concept excavation with automatic mode detection
+arguments: {input} [save] — required; input shape determines mode; append "save" to write output
 ---
 
-從 `~/.claude/CLAUDE.md` 讀取 `## Vault Structure`，取得 vault 路徑和 analysis 資料夾位置。同時取得所有內容資料夾清單。
-若不存在或缺少必要欄位，停止並回應：「尚未完成初始設定，請先執行 `/hirameki:__init`」
+Read `## Vault Structure` from `~/.claude/CLAUDE.md` to get the vault path, the analysis folder location, and the list of content folders.
+If the section does not exist or required fields are missing, stop and respond: "Setup not complete. Please run `/hirameki:__init` first."
 
-根據輸入的形式，自動選擇分析模式：
+Analyse the input and automatically select a mode based on its shape.
 
-輸入：$ARGUMENTS
+Input: $ARGUMENTS
 
-## 模式偵測
+## Mode detection
 
-| 輸入格式 | 模式 | 範例 |
-|----------|------|------|
-| 單一概念或詞彙 | **Arc** — 概念演化時間軸 | `explore 能動性` |
-| 兩個主題，以「與」、「and」或「と」分隔 | **Bridge** — 兩主題間的隱藏連結 | `explore 設計 與 工程` |
-| 以 `?` 或 `？` 結尾的問題 | **Ghost** — 用你的語氣回答 | `explore AI 應該有多少自主權？` |
-| 以 `test:` 開頭 | **Stress-test** — 論述壓力測試 | `explore test: prompt engineering 的極限` |
+| Input shape | Mode | Example |
+|-------------|------|---------|
+| Single concept or word | **Arc** — concept evolution timeline | `explore agency` |
+| Two topics separated by `and`, `與`, or `と` | **Bridge** — hidden connections between two topics | `explore design and engineering` |
+| Ends with `?` or `？` | **Ghost** — answer in your voice | `explore how much autonomy should AI have?` |
+| Starts with `test:` | **Stress-test** — pressure-test the argument | `explore test: the limits of prompt engineering` |
 
-在輸入末尾加上 `save` 可將結果寫入檔案。
-
----
-
-## Arc 模式 — 概念演化追蹤
-
-掃描範圍：整個 vault，優先搜尋 daily-notes 和內容資料夾。
-
-執行邏輯：
-1. 檢查 `{analysis}/arc/` 中今天是否已有同概念的檔案（比對檔名關鍵詞）
-2. 如果有 → 追加模式
-3. 如果有疑似相關但不確定的檔案 → 列出候選，詢問使用者要追加還是建新檔
-4. 如果沒有 → 建立模式
-
-輸出結構：
-
-```
-# 概念追蹤：{概念}
-
-> 分析時間：YYYY-MM-DD HH:MM
-
-## 首次出現
-該概念最早出現在哪個檔案、什麼脈絡下。引用相關段落（不超過 3 句）。
-標註時間：YYYY-MM-DD
-
-## 演化時間軸
-- YYYY-MM-DD | [[檔名]] | 該檔案中這個概念的用法或立場摘要（一句話）
-
-## 目前狀態
-這個概念目前連結到哪些主題、是否有矛盾的用法、是否有 draft 正在發展它。
-
-## 空白地帶
-這個概念有哪些面向在 vault 中尚未被探討。
-```
-
-追加模式在既有檔案末尾加上：
-
-```
----
-
-## 追蹤更新 [HH:MM]
-
-### 演化時間軸（新增）
-- [自上次分析以來新出現的提及]
-
-### 狀態變化
-- [與上次分析相比有什麼變化。如果沒有，標註「無顯著變化」]
-
-### 空白地帶（更新）
-- [重新評估尚未探討的面向]
-```
-
-寫入目標（save 時）：`{analysis}/arc/YYYY-MM-DD-{概念}.md`
+Append `save` to any input to write the result to a file.
 
 ---
 
-## Bridge 模式 — 兩主題間的隱藏連結
+## Arc mode — concept evolution tracking
 
-掃描範圍：整個 vault。
+Scan scope: entire vault, prioritising daily-notes and content folders.
 
-執行邏輯：
-1. 檢查 `{analysis}/bridge/` 中今天是否已有同組主題的檔案（比對檔名關鍵詞，不分順序）
-2. 如果有 → 追加模式；如果沒有 → 建立模式
+Logic:
+1. Check `{analysis}/arc/` for an existing file about the same concept today (match by filename keyword)
+2. If found → append mode
+3. If a possibly related file is found but uncertain → list candidates and ask whether to append or create new
+4. If not found → create mode
 
-輸出結構：
+Output structure:
 
 ```
-# 橋接分析：{主題A} 與 {主題B}
+# Concept tracking: {concept}
 
-> 分析時間：YYYY-MM-DD HH:MM
+> Analysis time: YYYY-MM-DD HH:MM
 
-## 直接交集
-同時提及兩個主題的檔案。每筆：[[檔名]]、兩個主題在該檔案中如何被關聯。
-如果沒有，標註「無直接交集」。
+## First appearance
+Earliest file where this concept appeared, and the context. Quote up to 3 sentences.
+Date: YYYY-MM-DD
 
-## 橋樑筆記
-只提及其中一個主題、但內容可能構成連結的檔案。說明為什麼它可能是橋樑。
-上限 5 筆。
+## Evolution timeline
+- YYYY-MM-DD | [[filename]] | How this concept was used or positioned in this file (one line)
 
-## 潛在連結假設
-根據以上分析，提出 1 到 3 個兩個主題可能的深層連結假設。
-每個假設標註信心程度（強 / 中 / 弱）和依據。
+## Current state
+Which topics this concept connects to now, any contradictory uses, any drafts developing it.
+
+## Unexplored angles
+Aspects of this concept not yet addressed anywhere in the vault.
 ```
 
-追加模式在既有檔案末尾加上：
+Append mode adds to the existing file:
 
 ```
 ---
 
-## 追蹤更新 [HH:MM]
+## Tracking update [HH:MM]
 
-### 新發現的交集
-- [自上次分析以來新出現的交集或橋樑筆記]
+### Timeline additions
+- [New mentions since last analysis]
 
-### 假設驗證
-- [之前的假設是否有新的支持或反駁證據]
+### State changes
+- [What changed since last analysis. If nothing, write "No significant change"]
+
+### Unexplored angles (updated)
+- [Re-evaluate what remains unexplored]
 ```
 
-寫入目標（save 時）：`{analysis}/bridge/YYYY-MM-DD-{主題A}-與-{主題B}.md`
+Write target (when saving): `{analysis}/arc/YYYY-MM-DD-{concept}.md`
 
 ---
 
-## Ghost 模式 — 用你的語氣回答
+## Bridge mode — hidden connections between two topics
 
-掃描範圍：所有內容資料夾底下的已完成文章（排除 drafts/ 和 thoughts/ 子目錄）。
+Scan scope: entire vault.
 
-執行步驟：
-1. 分析文章的寫作風格特徵：句式偏好、用詞習慣、論述結構、常用修辭
-2. 提取與問題相關的既有立場和論點
-3. 用這個風格和立場組成回答
+Logic:
+1. Check `{analysis}/bridge/` for an existing file about the same pair today (match by keywords, order-independent)
+2. If found → append mode; if not → create mode
 
-輸出結構：
+Output structure:
 
 ```
-【回答】
-用我的語氣回答該問題。長度與我的文章段落長度一致。
+# Bridge analysis: {topic A} and {topic B}
 
-【依據】
-列出回答中引用或參考的筆記：[[檔名]]、引用的具體段落或立場。上限 5 筆。
+> Analysis time: YYYY-MM-DD HH:MM
 
-【信心標註】
-標註這個回答中哪些部分有明確的 vault 依據，哪些是根據風格推測的延伸。
+## Direct intersections
+Files that mention both topics. For each: [[filename]], how the two topics are related there.
+If none, write "No direct intersections."
+
+## Bridge notes
+Files that mention only one topic but could form a connection. Explain why each might be a bridge.
+Limit: 5 files.
+
+## Connection hypotheses
+1–3 hypotheses about deeper connections between the two topics.
+For each: hypothesis, confidence level (strong / medium / weak), evidence.
 ```
 
-寫入目標（save 時）：`{analysis}/ghost/YYYY-MM-DD-{問題摘要}.md`
+Append mode adds to the existing file:
+
+```
+---
+
+## Tracking update [HH:MM]
+
+### New intersections
+- [New intersections or bridge notes since last analysis]
+
+### Hypothesis validation
+- [New evidence supporting or contradicting earlier hypotheses]
+```
+
+Write target (when saving): `{analysis}/bridge/YYYY-MM-DD-{topic-A}-and-{topic-B}.md`
 
 ---
 
-## Stress-test 模式 — 論述壓力測試
+## Ghost mode — answer in your voice
 
-輸入：移除開頭的 `test:` 後剩餘部分作為主題。
+Scan scope: all completed articles in content folders (exclude drafts/ and thoughts/ subdirectories).
 
-掃描範圍：vault 中所有提及該主題的檔案。
+Steps:
+1. Analyse writing style: sentence patterns, vocabulary, argument structure, recurring rhetorical moves
+2. Extract existing positions and arguments relevant to the question
+3. Compose an answer using that style and those positions
 
-執行步驟：
-1. 收集所有相關檔案中關於該主題的論點和主張
-2. 逐一檢驗每個主張的邏輯結構和證據基礎
-
-輸出結構：
+Output structure:
 
 ```
-【主張清單】
-列出在 vault 中找到的所有關於該主題的主要主張。每筆：主張內容（一句話）、來源 [[檔名]]。
+[Answer]
+Answer the question in the author's voice. Match the length of a typical paragraph from their writing.
 
-【弱點分析】
-對每個主張，檢查以下項目（適用的才列）：
-- 內部矛盾：vault 中不同檔案對同一件事說法不一致
-- 未驗證假設：主張建立在未被證明的前提上
-- 邏輯跳躍：論證中缺少中間步驟
-- 證據缺口：主張缺乏支撐的資料或案例
-每個弱點引用具體的 [[檔名]] 和段落。
+[Evidence]
+List the notes referenced: [[filename]], the specific passage or position drawn from. Limit: 5.
 
-【整體評估】
-這個主題的論述整體穩固程度：穩固 / 大致穩固但有缺口 / 需要重大補強。
-列出最需要優先處理的 1 到 3 個弱點。
+[Confidence annotation]
+Note which parts of the answer have direct vault support, and which are style-inferred extensions.
 ```
 
-寫入目標（save 時）：`{analysis}/stress-test/YYYY-MM-DD-{主題摘要}.md`
+Write target (when saving): `{analysis}/ghost/YYYY-MM-DD-{question-summary}.md`
 
 ---
 
-## 共用規則
+## Stress-test mode — pressure-test the argument
 
-- 如果搜尋結果超過 20 個檔案，只列出最重要的 20 個並標註總數
-- 所有檔案引用使用 [[wiki link]] 格式
-- 時間戳使用本地時間 HH:MM 格式（24 小時制）
-- 同時在終端輸出完整分析結果
-- 寫入前顯示即將寫入的檔名、模式（建立/追加）、內容摘要和完整路徑，等確認後再執行
-- 寫入後印出實際寫入的完整路徑
-- 如果資料夾不存在，先建立並印出完整路徑
+Input: strip the leading `test:` — the remainder is the topic.
 
-以 `~/.claude/CLAUDE.md` 的 `## Vault Structure` 中偵測到的語言撰寫。
+Scan scope: all files in the vault that mention the topic.
+
+Steps:
+1. Collect all claims and arguments about the topic from the vault
+2. Examine the logical structure and evidence base of each claim
+
+Output structure:
+
+```
+[Claim list]
+All major claims about this topic found in the vault. For each: claim (one sentence), source [[filename]].
+
+[Weakness analysis]
+For each claim, check the following (only list what applies):
+- Internal contradiction: conflicting statements across vault files
+- Unverified assumption: claim rests on an unproven premise
+- Logic gap: missing steps in the argument
+- Evidence gap: claim lacks supporting data or examples
+Cite specific [[filename]] and passage for each weakness.
+
+[Overall assessment]
+How solid is the overall argument for this topic: solid / mostly solid with gaps / needs major work.
+List the 1–3 weaknesses most worth addressing first.
+```
+
+Write target (when saving): `{analysis}/stress-test/YYYY-MM-DD-{topic-summary}.md`
+
+---
+
+## Shared rules
+
+- If search results exceed 20 files, list only the 20 most relevant and note the total count
+- Use [[wiki link]] format for all file references
+- Timestamps use local time in HH:MM format (24-hour)
+- Always print the full analysis output to the terminal
+- Show the filename, mode (create / append), content summary, and full path, then wait for confirmation before writing
+- Print the full path after writing
+- Create the folder if it does not exist, and print the full path
+
+Write output in the language specified in `## Vault Structure` → `language`.

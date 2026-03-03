@@ -1,60 +1,60 @@
 ---
-description: 決策前掃描
-arguments: {主題} — 必填，描述你正在考慮的決定
+description: Pre-decision vault scan
+arguments: {topic} — required; describe the decision you are considering
 ---
 
-從 `~/.claude/CLAUDE.md` 讀取 `## Vault Structure`，取得 vault 路徑和所有內容資料夾清單。
-若不存在或缺少必要欄位，停止並回應：「尚未完成初始設定，請先執行 `/hirameki:__init`」
+Read `## Vault Structure` from `~/.claude/CLAUDE.md` to get the vault path and the list of content folders.
+If the section does not exist or required fields are missing, stop and respond: "Setup not complete. Please run `/hirameki:__init` first."
 
-輸入：$ARGUMENTS（正在考慮的決定，必填）
+Input: $ARGUMENTS (the decision being considered — required)
 
-在承諾之前，掃描 vault 中的相關脈絡，呈現決策的結構。不給建議，不做結論。
+Before committing, scan the vault for relevant context and surface the structure of the decision. No recommendations. No conclusions.
 
-## 執行流程
+## Execution
 
-1. 掃描所有內容資料夾，找出與主題相關的筆記（標題、tags、內文關鍵詞）
-2. 掃描最近 14 天的 daily notes 和 journal，找出與主題有關的記錄
-3. 依三層結構組織輸出
+1. Scan all content folders for notes related to the topic (title, tags, body keywords)
+2. Scan the last 14 days of daily notes and journal files for relevant records
+3. Organise output using the three-layer structure below
 
-## 三層結構
+## Three-layer structure
 
-### 現況
-vault 掃描到的相關脈絡。你已經知道什麼、有什麼前例、有什麼相關的在進行中。
+### Current state
+Relevant context found in the vault — what you already know, any prior examples, anything in progress that touches this decision.
 
-同時判斷可逆性：
-- **雙向門** — 做錯了可以回頭，不需要深度分析，偏向直接行動
-- **單向門** — 做了就很難回頭，值得在這裡停久一點
+Also assess reversibility:
+- **Two-way door** — can reverse if wrong; deep analysis is not essential; bias toward action
+- **One-way door** — hard to reverse once made; worth spending more time here
 
-### 卡點
-什麼讓這件事還沒有答案。用反轉法：什麼條件會讓這個決定確定搞砸？從那裡反推張力在哪。如果 vault 裡有相關的失敗紀錄或猶豫紀錄，引用出來。
+### Friction
+What is keeping this decision unresolved. Apply inversion: what conditions would guarantee this decision fails? Work backward from failure to find where the tension actually lies. If the vault contains relevant failure records or hesitation logs, surface them.
 
-### 關鍵問
-一個問題。不是答案，不是建議，不是選項清單。是：如果知道這件事，這個決定就清楚了。
+### Key question
+One question only. Not an answer, not a recommendation, not a list of options. The question is: if you knew this, the decision would become clear.
 
-## 輸出格式
+## Output format
 
 ```
-# 決策掃描：{主題}
+# Decision scan: {topic}
 
-> 掃描時間：YYYY-MM-DD HH:MM
-> 相關脈絡：[[筆記1]], [[筆記2]], ...（掃描到的來源）
-> 可逆性：雙向門 / 單向門
+> Scan time: YYYY-MM-DD HH:MM
+> Relevant context: [[note1]], [[note2]], ... (sources found)
+> Reversibility: two-way door / one-way door
 
-## 現況
-[vault 脈絡，有引用來源]
+## Current state
+[vault context, with cited sources]
 
-## 卡點
-[張力所在，反轉法找出的失敗條件]
+## Friction
+[where the tension lies, failure conditions from inversion]
 
-## 關鍵問
-[一個問題]
+## Key question
+[one question]
 ```
 
-規則：
-- 所有筆記引用使用 [[wiki link]] 格式
-- 如果 vault 裡幾乎沒有相關脈絡，在現況裡直接說明，不要填充
-- 不寫「建議你...」、「你應該...」、「最好的選擇是...」
-- 關鍵問只能是一個問題，不能是清單
-- 這個命令不寫入檔案，只輸出到畫面——如果使用者想保存，請他們執行 `/hirameki:journal` 追加
+Rules:
+- Use [[wiki link]] format for all note references
+- If the vault has almost no relevant context, say so directly in Current state — do not fill in
+- Do not write "I recommend...", "You should...", or "The best option is..."
+- Key question must be a single question — never a list
+- This command does not write to any file — output goes to the terminal only. To save the result, run `/hirameki:journal` afterward
 
-以 `~/.claude/CLAUDE.md` 中的 language 設定撰寫。
+Write output in the language specified in `## Vault Structure` → `language`.

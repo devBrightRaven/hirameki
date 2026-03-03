@@ -1,92 +1,92 @@
 ---
-description: 工作紀錄與思考文章
-arguments: {主題描述} — 必填
+description: Work log and reasoning record
+arguments: {topic} — required
 ---
 
-從 `~/.claude/CLAUDE.md` 讀取 `## Vault Structure`，取得 vault 路徑和 logs 資料夾位置。同時取得內容資料夾清單用於搜尋相關筆記。
-若不存在或缺少必要欄位，停止並回應：「尚未完成初始設定，請先執行 `/hirameki:__init`」
+Read `## Vault Structure` from `~/.claude/CLAUDE.md` to get the vault path and the logs folder location. Also retrieve the list of content folders for searching related notes.
+If the section does not exist or required fields are missing, stop and respond: "Setup not complete. Please run `/hirameki:__init` first."
 
-根據使用者提供的主題，撰寫或追加工作紀錄與思考文章。
+Write or append a work log and reasoning record for the given topic.
 
-輸入：$ARGUMENTS（主題描述，必填）
+Input: $ARGUMENTS (topic description — required)
 
-掃描來源：
-- 本次 session 的操作紀錄
-- vault 中與主題相關的既有筆記（搜尋所有內容資料夾）
-- logs 資料夾中今天日期開頭的既有 journal 檔案
+Scan sources:
+- Session activity
+- Existing notes in the vault related to the topic (search all content folders)
+- Existing journal files in the logs folder starting with today's date
 
-執行邏輯：
-1. 掃描 logs 資料夾中所有 YYYY-MM-DD-*.md 檔案（今天日期）
-2. 比對每個檔案的檔名和標題，判斷是否與輸入主題的關鍵詞匹配
-3. 如果找到明確匹配 → 追加模式
-4. 如果找到疑似相關但不確定的檔案 → 列出候選，詢問使用者要追加到哪個還是建新檔
-5. 如果沒有匹配 → 建立模式
+Execution logic:
+1. Scan the logs folder for all YYYY-MM-DD-*.md files starting with today's date
+2. Compare each file's name and title against the keywords of the input topic
+3. If a clear match is found → Append mode
+4. If a possibly related file is found but uncertain → List candidates and ask whether to append or create new
+5. If no match → Create mode
 
-【建立模式】
+### Create mode
 
-在 logs 資料夾建立檔案，檔名格式 YYYY-MM-DD-HHMM-{主題摘要}.md（HHMM 為建立時的本地時間，無冒號）。
+Create a file in the logs folder. Filename format: `YYYY-MM-DD-HHMM-{topic-slug}.md` (HHMM is the local time of creation, no colon).
 
-檔名 slug 語言規則：
-- language 為繁體中文 → 用中文（例如 `2026-03-03-hirameki指令精煉.md`）
-- language 為日本語 → 用日文（例如 `2026-03-03-hirameki指令改善.md`）
-- language 為 English 或其他 → 用英文（例如 `2026-03-03-hirameki-command-refactor.md`）
+Filename slug language rules:
+- Language is Traditional Chinese → use Chinese (e.g. `2026-03-03-1430-hirameki指令精煉.md`)
+- Language is Japanese → use Japanese (e.g. `2026-03-03-1430-hirameki指令改善.md`)
+- Language is English or other → use English (e.g. `2026-03-03-1430-hirameki-command-refactor.md`)
 
-空格一律用連字號取代，避免特殊符號。
+Replace spaces with hyphens. Avoid special characters.
 
-檔案結構：
+File structure:
 
 ```
-# {主題}
+# {topic}
 
-> 建立時間：YYYY-MM-DD HH:MM
+> Created: YYYY-MM-DD HH:MM
 
-## 背景
-這件事的起因。如果 vault 中有前情筆記，用 [[wiki link]] 引用。
+## Background
+What prompted this. If related prior notes exist in the vault, reference them with [[wiki links]].
 
-## 做了什麼
-具體操作和決策紀錄，有因果敘述的段落。
+## What was done
+Specific actions and decisions taken, with cause-and-effect narrative.
 
-## 為什麼這樣做
-關鍵決策的理由。有取捨的話，說明選了什麼、放棄了什麼。
+## Why this approach
+Reasoning behind key decisions. If trade-offs were made, describe what was chosen and what was set aside.
 
-## 靈感連結
-與其他想法的關聯、延伸可能、跨主題的連結。用 [[wiki link]] 指向相關筆記。如果沒有，標註「無」。
+## Inspiration connections
+Links to other ideas, possible extensions, cross-topic connections. Use [[wiki links]]. If none, write "None."
 
-## 可能的改進方向
-尚未驗證但值得探索的方向、替代方案、潛在風險。如果沒有，標註「無」。
+## Possible improvements
+Unexplored directions, alternatives, potential risks worth investigating. If none, write "None."
 
-## 未完成與後續
-需跟進事項。都完成了就標註「無待辦」。
+## Open items
+Things still to follow up on. If all done, write "No open items."
 ```
 
-【追加模式】
+### Append mode
 
-在匹配的檔案末尾追加：
+Add to the end of the matched file:
 
 ```
 ---
 
-## 追加紀錄 [HH:MM]
+## Addendum [HH:MM]
 
-### 做了什麼
-[新增的操作與決策]
+### What was done
+[New actions and decisions]
 
-### 為什麼這樣做
-[新增決策的理由]
+### Why this approach
+[Reasoning for new decisions]
 
-### 靈感連結
-[新的關聯或延伸。如果沒有，標註「無」]
+### Inspiration connections
+[New connections or extensions. If none, write "None."]
 
-### 可能的改進方向
-[新的探索方向。如果沒有，標註「無」]
+### Possible improvements
+[New directions to explore. If none, write "None."]
 ```
 
-同時檢查「未完成與後續」區塊，如果有項目已完成，在該項目後標註「✓ 已完成 [HH:MM]」。
+Also check the "Open items" section — if any items are now complete, mark them with "✓ Done [HH:MM]".
 
-規則：
-- 所有時間戳使用本地時間 HH:MM 格式（24 小時制）
-- 寫入前顯示即將寫入的檔名、模式（建立/追加）、內容摘要和完整路徑，等確認後再執行
-- 寫入後印出實際寫入的完整路徑
-- 追加模式不修改檔案中已有的內容，只在末尾添加和更新完成狀態
+Rules:
+- Timestamps use local time in HH:MM format (24-hour)
+- Show filename, mode (create / append), content summary, and full path, then wait for confirmation before writing
+- Print the full path after writing
+- Append mode does not modify existing content — only adds to the end and updates completion status
 
-以 __init.md 中偵測到的語言撰寫。
+Write output in the language specified in `## Vault Structure` → `language`.
