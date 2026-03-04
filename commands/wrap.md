@@ -1,6 +1,6 @@
 ---
 description: Snapshot session progress to daily note
-arguments: [focus description] — optional, auto-detected from session if omitted
+arguments: [focus] — optional, auto-detected from session if omitted
 ---
 
 Read `## Vault Structure` from `~/.claude/CLAUDE.md` to get the vault path and the locations of the daily-notes and templates folders.
@@ -19,26 +19,23 @@ Write target: {daily-notes}/YYYY-MM-DD.md (today's date)
 - If the file does not exist and no template is found, create it with only a `# YYYY-MM-DD` heading
 - If the file already exists, append a new Wrap block at the end, separated by a horizontal rule
 
-Block format:
+Block format (append after a `---` horizontal rule):
 
-```
----
+    ## Wrap [HH:MM]
 
-## Wrap [HH:MM]
+    ### Done
+    - item
 
-### Done
-- [Specific items completed this session, one per line]
+    ### In progress
+    - item or "None"
 
-### In progress
-- [Started but not finished. If none, write "None"]
-
-### Next
-- [What comes next. If unknown, write "TBD"]
-```
+    ### Next
+    - item or "TBD"
 
 Rules:
 - Timestamp uses local time in HH:MM format (24-hour)
 - Do not modify earlier Wrap blocks already in the file — append only
+- If $ARGUMENTS is empty, do NOT ask the user for input — proceed immediately by inferring focus from session activity
 - If $ARGUMENTS contains a description, use it to organise the content around that focus
 - Show the full content and full path of the target file, and wait for confirmation before writing
 - Print the full path after writing

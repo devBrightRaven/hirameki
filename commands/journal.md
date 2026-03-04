@@ -1,6 +1,6 @@
 ---
 description: Write or append a work log entry
-arguments: {topic} — required
+arguments: [topic] — optional, inferred from session activity if omitted
 ---
 
 Read `## Vault Structure` from `~/.claude/CLAUDE.md` to get the vault path and the logs folder location. Also retrieve the list of content folders for searching related notes.
@@ -8,7 +8,9 @@ If the section does not exist or required fields are missing, stop and respond: 
 
 Write or append a work log and reasoning record for the given topic.
 
-Input: $ARGUMENTS (topic description — required)
+Input: $ARGUMENTS (topic description — optional)
+- If $ARGUMENTS is provided, use it as the topic directly.
+- If $ARGUMENTS is empty, infer the topic from session activity (recently modified files, tasks completed, decisions made). Show the inferred topic as a single line — "Topic: {inferred topic} — proceed?" — and wait for a yes/no confirmation before continuing. Do NOT ask open-ended questions.
 
 Scan sources:
 - Session activity
