@@ -150,7 +150,6 @@ REQUIRED_CONTENT = {
         # One question only
         "one question",
     ],
-    "dev": [],  # meta-skill: no per-command content requirements
 }
 
 # Must appear in every command file (language-independent — paths and command names)
