@@ -2,12 +2,15 @@
 """
 Static validation for hirameki command files.
 
+Written as a spec: defines what the English versions of each command MUST contain.
+Commands must be rewritten in English to pass these checks.
+
 Checks:
 1. YAML frontmatter (description field)
-2. Universal required phrases (config read, error handling, language output)
-3. Write commands have confirm-before-write rule
-4. Per-command required sections/phrases
-5. decide command explicitly does not write to file
+2. Universal phrases present in every command
+3. Write commands have confirm-before-write and print-after-write rules
+4. Per-command required sections and concepts
+5. decide command explicitly states it does not write to file
 """
 
 import sys
@@ -15,116 +18,156 @@ from pathlib import Path
 
 COMMANDS_DIR = Path(__file__).parent.parent / "commands"
 
-# Commands that write to files (must have confirm-before-write)
+# Commands that write to files — must have confirm-before-write rules
 WRITE_COMMANDS = {"wrap", "explore", "harvest", "tidy", "journal"}
 
-# Per-command required content (substring checks against file text)
+# Per-command required content (substring checks).
+# These define the ENGLISH spec — commands must contain these phrases.
 REQUIRED_CONTENT = {
     "__init": [
-        "Vault 偵測",
-        "語言設定",
-        "資料夾解析",
-        "寫入設定",
-        "參考文件同步",
+        # Detection steps
+        "Vault detection",
+        "Language",
+        "Folder",
+        # Write output
+        "Vault Structure",
+        # Folder candidates
         "_agent_analysis",
         "_agent_logs",
         "_claude_code_logs",
+        # Obsidian auto-detection
         "obsidian.json",
+        # Ref doc sync
+        "_hirameki_cmds",
     ],
     "catchup": [
         "daily-notes",
         "inbox",
-        "昨日進度銜接",
-        "Inbox 待處理",
-        "建議今日焦點",
+        # Three output sections
+        "progress",
+        "Inbox",
+        "focus",
     ],
     "wrap": [
-        "寫入目標",
+        # Write target
+        "daily-notes",
+        # Block format
         "## Wrap [HH:MM]",
-        "完成",
-        "進行中",
-        "下一步",
+        "Done",
+        "In progress",
+        "Next",
+        # Template handling
         "templates",
     ],
     "explore": [
-        "模式偵測",
-        "Arc 模式",
-        "Bridge 模式",
-        "Ghost 模式",
-        "Stress-test 模式",
+        # Mode detection table
+        "Mode detection",
+        # Four modes
+        "Arc",
+        "Bridge",
+        "Ghost",
+        "Stress-test",
+        # Save flag
         "save",
+        # Write targets
         "analysis}/arc/",
         "analysis}/bridge/",
         "analysis}/ghost/",
         "analysis}/stress-test/",
     ],
     "status": [
-        "無參數模式",
+        # Three modes
         "status week",
         "status patterns",
-        "潛流",
-        "落差分析",
+        # Patterns mode concepts
+        "ndercurrent",        # matches "Undercurrent" or "undercurrent"
+        # Week mode concept
+        "gap",               # matches "gap analysis" or "Gap analysis"
     ],
     "harvest": [
-        "可以寫的文章",
-        "可以做的工具或專案",
-        "值得研究的主題",
-        "可以聯繫的人或社群",
-        "適合換個媒介的想法",
-        "尚未變現的價值",
-        "可以畢業的想法",
-        "畢業確認流程",
+        # Seven categories
+        "Articles",
+        "Tools",
+        "Topics",
+        "People",
+        "medium",            # "different medium" or "Medium"
+        "value",             # "Untransacted value" or "Value"
+        "graduate",          # "Graduate" or "ready to graduate"
+        # Two-phase graduation
+        "graduation",
+        # Write target
         "analysis}/harvest/",
     ],
     "tidy": [
+        # Mode variants
         "tidy tags",
         "tidy fix",
         "tidy full",
-        "缺漏檢查",
-        "一致性檢查",
-        "Tag 收斂分析",
-        "修正邏輯",
+        # Check blocks
+        "Missing",           # "Missing field check"
+        "Consistency",
+        "Tag",
+        # Fix logic
+        "fix",
+        # Write target
         "analysis}/tidy/",
     ],
     "journal": [
+        # Filename format
         "HHMM",
-        "建立模式",
-        "追加模式",
-        "language 為繁體中文",
-        "language 為日本語",
-        "language 為 English",
+        # Two modes
+        "Create",
+        "Append",
+        # Language-based slug rules
+        "Traditional Chinese",
+        "Japanese",
+        "English",
+    ],
+    "lucky": [
+        # Random selection
+        "random",
+        "neglected",         # weighting toward old notes
+        # Constellation concept
+        "constellation",
+        "hidden theme",
+        # No pairwise bridge
+        "one question",
+        # No file write
+        "does not write",
     ],
     "decide": [
-        "現況",
-        "卡點",
-        "關鍵問",
-        "雙向門",
-        "單向門",
-        "反轉法",
-        "不寫入檔案",
-        "一個問題",
+        # Three-layer structure
+        "Current state",     # or "Current State"
+        "Friction",
+        "Key question",      # or "Key Question"
+        # Reversibility
+        "two-way door",
+        "one-way door",
+        # Inversion method
+        "inversion",
+        # No file write
+        "does not write",
+        # One question only
+        "one question",
     ],
+    "dev": [],  # meta-skill: no per-command content requirements
 }
 
-# Must appear in every command file
+# Must appear in every command file (language-independent — paths and command names)
 UNIVERSAL_REQUIRED = [
-    ("~/.claude/CLAUDE.md",     "config read path"),
-    ("Vault Structure",          "config section name"),
-    ("尚未完成初始設定",          "missing-init error message"),
-    ("/hirameki:__init",         "recovery instruction"),
+    ("~/.claude/CLAUDE.md",  "config file path"),
+    ("Vault Structure",       "config section name"),
+    ("/hirameki:__init",      "recovery command reference"),
 ]
 
 # Must appear in every command that writes files
 WRITE_REQUIRED = [
-    ("等確認後再執行", "confirm-before-write rule"),
-    ("寫入後印出",     "print-path-after-write rule"),
+    ("confirm",   "confirm-before-write rule"),   # "confirm before writing" etc.
+    ("full path", "print-path-after-write rule"),  # "print full path after writing" etc.
 ]
 
-# Language output instruction — at least one of these must appear
-LANGUAGE_PHRASES = [
-    "language",
-    "語言",
-]
+# At least one of these must appear (language output instruction)
+LANGUAGE_PHRASES = ["language", "Language"]
 
 
 def check_file(name: str, content: str) -> list[str]:
@@ -141,20 +184,21 @@ def check_file(name: str, content: str) -> list[str]:
         if phrase not in content:
             errors.append(f"Missing {label}: {phrase!r}")
 
-    # 3. Write commands: confirm-before-write
+    # 3. Write commands: confirm-before-write and print-after-write
     if name in WRITE_COMMANDS:
         for phrase, label in WRITE_REQUIRED:
-            if phrase not in content:
+            if phrase.lower() not in content.lower():
                 errors.append(f"Write command missing {label}: {phrase!r}")
 
-    # 4. decide must not write to file
+    # 4. decide must explicitly state no file write
     if name == "decide":
-        if "不寫入檔案" not in content and "不寫入" not in content:
+        if "does not write" not in content and "no file" not in content.lower():
             errors.append("decide must state it does not write to file")
 
     # 5. Per-command required content
     for phrase in REQUIRED_CONTENT.get(name, []):
-        if phrase not in content:
+        # Case-sensitive for paths and format strings; case-insensitive for concepts
+        if phrase not in content and phrase.lower() not in content.lower():
             errors.append(f"Missing required content: {phrase!r}")
 
     # 6. Language output instruction
@@ -187,7 +231,6 @@ def main() -> None:
         if errors:
             all_passed = False
 
-    # Print results
     for name, errors in results:
         if errors:
             print(f"FAIL  {name}.md")
