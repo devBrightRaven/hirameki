@@ -1,6 +1,5 @@
 ---
 description: Concept analysis (arc / bridge / ghost / stress-test)
-arguments: {input} [save] — required; input shape determines mode; append "save" to write output
 ---
 
 Read `## Vault Structure` from `~/.claude/CLAUDE.md` to get the vault path, the analysis folder location, and the list of content folders.
@@ -9,6 +8,7 @@ If the section does not exist or required fields are missing, stop and respond: 
 Analyse the input and automatically select a mode based on its shape.
 
 Input: $ARGUMENTS
+- If $ARGUMENTS is empty, ask: "探索什麼？（概念、兩個主題、問題、或 test: 論點）" and wait for the answer before continuing.
 
 ## Mode detection
 
