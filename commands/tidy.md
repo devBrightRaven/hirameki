@@ -1,6 +1,5 @@
 ---
 description: Frontmatter health check and cleanup
-arguments: [tags|fix|full] — optional; see mode table
 ---
 
 Read `## Vault Structure` from `~/.claude/CLAUDE.md` to get the vault path and the list of content folders.

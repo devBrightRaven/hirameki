@@ -1,6 +1,5 @@
 ---
 description: Vault overview, week gaps, or undercurrent patterns
-arguments: [week|patterns] — optional; no argument = instant snapshot
 ---
 
 Read `## Vault Structure` from `~/.claude/CLAUDE.md` to get the vault path, the daily-notes folder location, and the list of content folders.

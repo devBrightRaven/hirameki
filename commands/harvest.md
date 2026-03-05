@@ -1,6 +1,5 @@
 ---
 description: Surface actionable ideas from vault
-arguments: [save] — optional; append "save" to write output to file
 ---
 
 Read `## Vault Structure` from `~/.claude/CLAUDE.md` to get the vault path and the locations of the analysis, daily-notes, and inbox folders, plus the list of content folders.

@@ -1,6 +1,5 @@
 ---
 description: Snapshot session progress to daily note
-arguments: [focus] — optional, auto-detected from session if omitted
 ---
 
 Read `## Vault Structure` from `~/.claude/CLAUDE.md` to get the vault path and the locations of the daily-notes and templates folders.

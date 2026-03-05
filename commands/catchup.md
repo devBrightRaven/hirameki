@@ -1,6 +1,5 @@
 ---
 description: Resume from yesterday + inbox scan
-arguments: [days] — optional, default 1
 ---
 
 Read `## Vault Structure` from `~/.claude/CLAUDE.md` to get the vault path and the locations of the daily-notes and inbox folders.

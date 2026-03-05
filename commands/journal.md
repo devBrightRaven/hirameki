@@ -1,6 +1,5 @@
 ---
 description: Write or append a work log entry
-arguments: [topic] — optional, inferred from session activity if omitted
 ---
 
 Read `## Vault Structure` from `~/.claude/CLAUDE.md` to get the vault path and the logs folder location. Also retrieve the list of content folders for searching related notes.
