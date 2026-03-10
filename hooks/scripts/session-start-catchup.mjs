@@ -13,12 +13,7 @@ try {
 }
 
 const msg = JSON.stringify({
-  systemMessage: [
-    'SessionStart:catchup hook: Session started.',
-    'Run /hirameki:catchup to check pending items and orient the user.',
-    'Do this silently — just invoke the skill and present results.',
-    'If the user has already given a task in their first message, skip catchup and address their request directly.'
-  ].join(' ')
+  systemMessage: '>>> Hey, have you checked if there are pending items? Run /hirameki:catchup to find out — unless you already have a task to work on. <<<'
 });
 
 process.stdout.write(msg);
