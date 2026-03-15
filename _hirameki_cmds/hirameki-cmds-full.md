@@ -114,7 +114,7 @@ Rules:
 
 ## Vault State Check
 
-### `/hirameki:status [week|patterns]`
+### `/hirameki:pulse [week|patterns]`
 
 **Purpose:** Vault overview (three modes).
 **Input:** None / `week` / `patterns`
@@ -136,7 +136,7 @@ Output:
 
 Empty sections show "None" instead of being omitted.
 
-#### `status week` — Weekly gap analysis
+#### `pulse week` — Weekly gap analysis
 
 Reads:
 - All content folders' modification records (last 7 days)
@@ -154,7 +154,7 @@ Output:
 
 If fewer than 3 daily notes, flag: "Insufficient records, gap analysis may be inaccurate."
 
-#### `status patterns` — Undercurrents + clusters
+#### `pulse patterns` — Undercurrents + clusters
 
 Scans: all content folders, daily-notes (last 30 days), all inbox.
 

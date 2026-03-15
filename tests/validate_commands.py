@@ -75,10 +75,10 @@ REQUIRED_CONTENT = {
         "analysis}/ghost/",
         "analysis}/stress-test/",
     ],
-    "status": [
+    "pulse": [
         # Three modes
-        "status week",
-        "status patterns",
+        "pulse week",
+        "pulse patterns",
         # Patterns mode concepts
         "ndercurrent",        # matches "Undercurrent" or "undercurrent"
         # Week mode concept

@@ -2,13 +2,13 @@
 description: Concept analysis (arc / bridge / ghost / stress-test)
 ---
 
-Read `## Vault Structure` from `~/.claude/CLAUDE.md` to get the vault path, the analysis folder location, and the list of content folders.
+Read `## Vault Structure` from `~/.claude/CLAUDE.md` to get the vault path, the research folder location, and the list of content folders.
 If the section does not exist or required fields are missing, stop and respond: "Setup not complete. Please run `/hirameki:__init` first."
 
 Analyse the input and automatically select a mode based on its shape.
 
 Input: $ARGUMENTS
-- If $ARGUMENTS is empty, ask: "探索什麼？（概念、兩個主題、問題、或 test: 論點）" and wait for the answer before continuing.
+- If $ARGUMENTS is empty, ask: "Explore what? (concept, two topics, question, or test: argument)" and wait for the answer before continuing. Ask in the language specified in `## Vault Structure` → `language`.
 
 ## Mode detection
 
@@ -25,10 +25,10 @@ Append `save` to any input to write the result to a file.
 
 ## Arc mode — concept evolution tracking
 
-Scan scope: entire vault, prioritising daily-notes and content folders.
+Scan scope: entire vault, prioritising daily and content folders.
 
 Logic:
-1. Check `{analysis}/arc/` for an existing file about the same concept today (match by filename keyword)
+1. Check `{research}/arc/` for an existing file about the same concept today (match by filename keyword)
 2. If found → append mode
 3. If a possibly related file is found but uncertain → list candidates and ask whether to append or create new
 4. If not found → create mode
@@ -71,7 +71,7 @@ Append mode adds to the existing file:
 - [Re-evaluate what remains unexplored]
 ```
 
-Write target (when saving): `{analysis}/arc/YYYY-MM-DD-{concept}.md`
+Write target (when saving): `{research}/arc/YYYY-MM-DD-{concept}.md`
 
 ---
 
@@ -80,7 +80,7 @@ Write target (when saving): `{analysis}/arc/YYYY-MM-DD-{concept}.md`
 Scan scope: entire vault.
 
 Logic:
-1. Check `{analysis}/bridge/` for an existing file about the same pair today (match by keywords, order-independent)
+1. Check `{research}/bridge/` for an existing file about the same pair today (match by keywords, order-independent)
 2. If found → append mode; if not → create mode
 
 Output structure:
@@ -117,7 +117,7 @@ Append mode adds to the existing file:
 - [New evidence supporting or contradicting earlier hypotheses]
 ```
 
-Write target (when saving): `{analysis}/bridge/YYYY-MM-DD-{topic-A}-and-{topic-B}.md`
+Write target (when saving): `{research}/bridge/YYYY-MM-DD-{topic-A}-and-{topic-B}.md`
 
 ---
 
@@ -143,7 +143,7 @@ List the notes referenced: [[filename]], the specific passage or position drawn 
 Note which parts of the answer have direct vault support, and which are style-inferred extensions.
 ```
 
-Write target (when saving): `{analysis}/ghost/YYYY-MM-DD-{question-summary}.md`
+Write target (when saving): `{research}/ghost/YYYY-MM-DD-{question-summary}.md`
 
 ---
 
@@ -176,7 +176,7 @@ How solid is the overall argument for this topic: solid / mostly solid with gaps
 List the 1–3 weaknesses most worth addressing first.
 ```
 
-Write target (when saving): `{analysis}/stress-test/YYYY-MM-DD-{topic-summary}.md`
+Write target (when saving): `{research}/stress-test/YYYY-MM-DD-{topic-summary}.md`
 
 ---
 

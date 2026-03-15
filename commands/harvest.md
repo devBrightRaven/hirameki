@@ -2,7 +2,7 @@
 description: Surface actionable ideas from vault
 ---
 
-Read `## Vault Structure` from `~/.claude/CLAUDE.md` to get the vault path and the locations of the analysis, daily-notes, and inbox folders, plus the list of content folders.
+Read `## Vault Structure` from `~/.claude/CLAUDE.md` to get the vault path and the locations of the research, daily, and inbox folders, plus the list of content folders.
 If the section does not exist or required fields are missing, stop and respond: "Setup not complete. Please run `/hirameki:__init` first."
 
 Scan the vault and surface actionable ideas from existing content.
@@ -11,7 +11,7 @@ Input: $ARGUMENTS (optional — no argument = display only; "save" = write resul
 
 Scan scope:
 - All content folders
-- Last 30 days in the daily-notes folder
+- Last 30 days in the daily folder
 - All files in the inbox folder
 
 Output in seven categories, limit 5 items each:
@@ -56,7 +56,7 @@ After listing "Ideas ready to graduate," pause and wait for the user to confirm 
 Write output in the language specified in `## Vault Structure` → `language`.
 
 Write logic (only when $ARGUMENTS contains "save" — does not apply to the graduation flow):
-1. Check `{analysis}/harvest/` for a file created today
+1. Check `{research}/harvest/` for a file created today
 2. If found → append to the existing file:
 
 ```
@@ -73,7 +73,7 @@ Write logic (only when $ARGUMENTS contains "save" — does not apply to the grad
 
 3. If not found → create a new file
 
-Write target: `{analysis}/harvest/YYYY-MM-DD.md`
+Write target: `{research}/harvest/YYYY-MM-DD.md`
 Create the folder if it does not exist.
 
 File structure (new file):

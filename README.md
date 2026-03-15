@@ -90,17 +90,17 @@ Progress snapshot. Scans session file activity, appends a timestamped block to t
 
 #### Vault State Check
 
-**`/hirameki:status [week|patterns]`**
+**`/hirameki:pulse [week|patterns]`**
 
 *Use when: you want to know what's going on across your vault without diving in manually.*
 
 Three modes depending on what you need:
 
-- **`/hirameki:status`** — Immediate snapshot. Scans all content folders (depth 2) and the last 7 days of daily notes. Shows content topics per folder, recent file changes, and vault-wide counts. Good to run at session start.
+- **`/hirameki:pulse`** — Immediate snapshot. Scans all content folders (depth 2) and the last 7 days of daily notes. Shows content topics per folder, recent file changes, and vault-wide counts. Good to run at session start.
 
-- **`/hirameki:status week`** — Weekly gap analysis. Compares what you said was a priority (from daily notes) against what you actually worked on (from file changes). Surfaces drift between intentions and effort. Requires at least 3 days of daily notes.
+- **`/hirameki:pulse week`** — Weekly gap analysis. Compares what you said was a priority (from daily notes) against what you actually worked on (from file changes). Surfaces drift between intentions and effort. Requires at least 3 days of daily notes.
 
-- **`/hirameki:status patterns`** — Undercurrents and clusters. Surfaces recurring themes without dedicated articles (appears in 3+ files, no standalone write-up), and groups of notes converging on unnamed themes. Good for finding what's been quietly accumulating.
+- **`/hirameki:pulse patterns`** — Undercurrents and clusters. Surfaces recurring themes without dedicated articles (appears in 3+ files, no standalone write-up), and groups of notes converging on unnamed themes. Good for finding what's been quietly accumulating.
 
 ---
 
@@ -193,7 +193,7 @@ Does not write to file. To save the output, run `/hirameki:journal` afterward.
 
 Hirameki is built as explicit commands rather than an autonomous background agent. Two reasons:
 
-**Safety.** Every command that writes a file shows you the full content and target path before anything happens. Read-only commands (`status`, `explore`) produce output you can act on or discard — they never touch your vault unless you explicitly ask. Write commands (`wrap`, `journal`, `harvest`) require confirmation at the point of writing. `tidy fix` separates what it can safely automate from what needs your judgment.
+**Safety.** Every command that writes a file shows you the full content and target path before anything happens. Read-only commands (`pulse`, `explore`) produce output you can act on or discard — they never touch your vault unless you explicitly ask. Write commands (`wrap`, `journal`, `harvest`) require confirmation at the point of writing. `tidy fix` separates what it can safely automate from what needs your judgment.
 
 > **Limitation**: these safety behaviors are instructions written into each command prompt — not hard-coded enforcement. Claude follows them reliably in practice, but there is no programmatic gate that makes confirmation technically impossible to skip. This is a current constraint of how Claude Code commands work, not something Hirameki can resolve on its own.
 
@@ -335,17 +335,17 @@ claude   # 任何地方
 
 #### 查看 Vault 狀態
 
-**`/hirameki:status [week|patterns]`**
+**`/hirameki:pulse [week|patterns]`**
 
 *適合：想不深入文件就能掌握 vault 整體狀況時。*
 
 三種模式：
 
-- **`/hirameki:status`** — 即時概覽。掃描所有內容資料夾（深度 2 層）和最近 7 天 daily notes。顯示各資料夾的主題與活躍狀態、最近的檔案變更、vault 整體統計。適合每次 session 開始時執行。
+- **`/hirameki:pulse`** — 即時概覽。掃描所有內容資料夾（深度 2 層）和最近 7 天 daily notes。顯示各資料夾的主題與活躍狀態、最近的檔案變更、vault 整體統計。適合每次 session 開始時執行。
 
-- **`/hirameki:status week`** — 週回顧與落差分析。比對 daily notes 中聲稱的優先事項與實際的檔案變更，找出意圖與行動之間的落差。需要至少 3 天的 daily notes。
+- **`/hirameki:pulse week`** — 週回顧與落差分析。比對 daily notes 中聲稱的優先事項與實際的檔案變更，找出意圖與行動之間的落差。需要至少 3 天的 daily notes。
 
-- **`/hirameki:status patterns`** — 潛流與聚攏分析。找出繁複出現但沒有獨立文章的主題（出現在 3 個以上不同檔案），以及正在聚攏成形但尚未命名的筆記群。適合找出悄悄在積累的東西。
+- **`/hirameki:pulse patterns`** — 潛流與聚攏分析。找出繁複出現但沒有獨立文章的主題（出現在 3 個以上不同檔案），以及正在聚攏成形但尚未命名的筆記群。適合找出悄悄在積累的東西。
 
 ---
 
@@ -438,7 +438,7 @@ claude   # 任何地方
 
 Hirameki 設計為明確的指令，而不是自主在背景運作的 Agent。兩個原因：
 
-**安全性。** 所有寫入檔案的指令在執行前都會顯示完整內容和目標路徑。唯讀指令（`status`、`explore`）產出的結果你可以採用或忽略 — 沒有你的明確要求，它們不會動你的 vault。寫入指令（`wrap`、`journal`、`harvest`）在寫入時需要確認。`tidy fix` 把可以安全自動化的部分與需要你判斷的部分分開處理。
+**安全性。** 所有寫入檔案的指令在執行前都會顯示完整內容和目標路徑。唯讀指令（`pulse`、`explore`）產出的結果你可以採用或忽略 — 沒有你的明確要求，它們不會動你的 vault。寫入指令（`wrap`、`journal`、`harvest`）在寫入時需要確認。`tidy fix` 把可以安全自動化的部分與需要你判斷的部分分開處理。
 
 > **限制**：這些安全行為是寫入每個指令 prompt 中的規則 — 不是程式碼層面的強制機制。Claude 在實際執行時會遵守，但沒有任何程式閘道能從技術上確保確認步驟不可跳過。這是 Claude Code 指令系統目前的限制，不是 Hirameki 能自行解決的問題。
 
@@ -580,17 +580,17 @@ claude   # どこからでも
 
 #### Vault の状態確認
 
-**`/hirameki:status [week|patterns]`**
+**`/hirameki:pulse [week|patterns]`**
 
 *使うとき：ファイルを深く掘り下げずに vault 全体の状況を把握したいとき。*
 
 3 つのモード：
 
-- **`/hirameki:status`** — 即時スナップショット。すべてのコンテンツフォルダ（深さ 2 層）と直近 7 日の daily notes をスキャン。各フォルダのコンテンツテーマとアクティビティ状態・最近のファイル変更・vault 全体の統計を表示。セッション開始時に実行するのに最適。
+- **`/hirameki:pulse`** — 即時スナップショット。すべてのコンテンツフォルダ（深さ 2 層）と直近 7 日の daily notes をスキャン。各フォルダのコンテンツテーマとアクティビティ状態・最近のファイル変更・vault 全体の統計を表示。セッション開始時に実行するのに最適。
 
-- **`/hirameki:status week`** — 週次レビューとギャップ分析。daily notes で宣言した優先事項と実際のファイル変更を比較し、意図と行動のずれを表面化。最低 3 日分の daily notes が必要。
+- **`/hirameki:pulse week`** — 週次レビューとギャップ分析。daily notes で宣言した優先事項と実際のファイル変更を比較し、意図と行動のずれを表面化。最低 3 日分の daily notes が必要。
 
-- **`/hirameki:status patterns`** — 潜流とクラスター分析。独立した記事がないのに繰り返し登場するテーマ（3 つ以上の異なるファイルに出現）と、名前のついていないテーマに収束しつつあるノートのグループを表面化。静かに蓄積されてきたものを見つけるのに最適。
+- **`/hirameki:pulse patterns`** — 潜流とクラスター分析。独立した記事がないのに繰り返し登場するテーマ（3 つ以上の異なるファイルに出現）と、名前のついていないテーマに収束しつつあるノートのグループを表面化。静かに蓄積されてきたものを見つけるのに最適。
 
 ---
 
@@ -683,7 +683,7 @@ claude   # どこからでも
 
 Hirameki は、バックグラウンドで自律的に動くエージェントではなく、明示的なコマンドとして設計されています。理由は 2 つです。
 
-**安全性。** ファイルを書き込むすべてのコマンドは、実行前に完全な内容と書き込み先パスを表示します。読み取り専用のコマンド（`status`・`explore`）は採用しても無視してもいい出力を生成するだけで、明示的な要求なしには vault に触れません。書き込みコマンド（`wrap`・`journal`・`harvest`）は書き込み時に確認を求めます。`tidy fix` は安全に自動化できる部分と、あなたの判断が必要な部分を分けて処理します。
+**安全性。** ファイルを書き込むすべてのコマンドは、実行前に完全な内容と書き込み先パスを表示します。読み取り専用のコマンド（`pulse`・`explore`）は採用しても無視してもいい出力を生成するだけで、明示的な要求なしには vault に触れません。書き込みコマンド（`wrap`・`journal`・`harvest`）は書き込み時に確認を求めます。`tidy fix` は安全に自動化できる部分と、あなたの判断が必要な部分を分けて処理します。
 
 > **制限**：これらの安全動作は各コマンドのプロンプトに書かれた指示であり、コードレベルの強制機構ではありません。Claude は実際の動作でこれを守りますが、確認ステップを技術的にスキップ不可能にするプログラムのゲートは存在しません。これは Claude Code のコマンドシステム現在の制約であり、Hirameki 単独では解決できない問題です。
 

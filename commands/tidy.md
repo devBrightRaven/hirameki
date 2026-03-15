@@ -22,7 +22,7 @@ Only run the blocks for the selected mode — omit all others from the report.
 
 - All content folders (recursive)
 - All files in the inbox folder
-- Last 30 days in the daily-notes folder
+- Last 30 days in the daily folder
 
 ## Check blocks
 
@@ -107,7 +107,7 @@ After fixing, recalculate health score and output a diff summary.
 
 ## Write logic
 
-Write the report to: `{analysis}/tidy/YYYY-MM-DD.md`
+Write the report to: `{research}/tidy/YYYY-MM-DD.md`
 Create the folder if it does not exist.
 
 If a report for today already exists, append:

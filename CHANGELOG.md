@@ -5,6 +5,15 @@ Versioning follows [Semantic Versioning](https://semver.org/): MAJOR = breaking 
 
 ---
 
+## [0.4.0] — 2026-03-16
+
+### Changed
+- **BREAKING:** `status` command renamed to `pulse` to avoid confusion with system-level status commands. All subcommands preserved: `pulse`, `pulse week`, `pulse patterns`.
+- Updated all command reference docs (6 files across EN/zh-TW/ja) and test validation.
+- Added known limitations section to README in all three languages.
+
+---
+
 ## [0.2.0] — 2026-03-04
 
 ### Added

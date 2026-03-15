@@ -56,10 +56,10 @@ Ask the user: "What language should Hirameki use for output?"
 
 Match each purpose to the first existing candidate folder in the vault:
 
-- **daily-notes**: `Daily/`, `_daily/`, `daily/`, `Journal/`, `journal/`
+- **daily**: `_yorozuya/daily/`, `Daily/`, `_daily/`, `daily/`, `Journal/`, `journal/`
 - **inbox**: `Inbox/`, `_inbox/`, `inbox/`, `_Capture/`, `Capture/`
-- **analysis**: `_hirameki_analysis/`, `_agent_analysis/`, `_claude_code_analysis/`, `Analysis/`, `_analysis/`, `analysis/`
-- **logs**: `_hirameki_logs/`, `_agent_logs/`, `_claude_code_logs/`, `Logs/`, `_logs/`, `logs/`
+- **research**: `_yorozuya/research/`, `_hirameki_analysis/`, `_agent_analysis/`, `_claude_code_analysis/`, `Analysis/`, `_analysis/`, `analysis/`
+- **journal**: `_yorozuya/journal/`, `_hirameki_logs/`, `_agent_logs/`, `_claude_code_logs/`, `Logs/`, `_logs/`, `logs/`
 - **templates**: `Templates/`, `_templates/`, `templates/`
 
 If no match is found for a purpose → ask the user where to create it (suggest the first candidate name by default), then create it after confirmation.
@@ -72,10 +72,10 @@ Write the following to `~/.claude/CLAUDE.md` (create if it does not exist):
 ## Vault Structure
 vault: {full vault path}
 language: {language}
-daily-notes: {folder name}/
+daily: {folder name}/
 inbox: {folder name}/
-analysis: {folder name}/
-logs: {folder name}/
+research: {folder name}/
+journal: {folder name}/
 templates: {folder name}/
 ```
 

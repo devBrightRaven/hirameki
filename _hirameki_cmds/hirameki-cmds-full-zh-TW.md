@@ -114,7 +114,7 @@
 
 ## 查看 Vault 狀態
 
-### `/hirameki:status [week|patterns]`
+### `/hirameki:pulse [week|patterns]`
 
 **用途：** Vault 現況（三種模式）。
 **輸入：** 無 / `week` / `patterns`
@@ -136,7 +136,7 @@
 
 空的區塊標註「無」，不跳過。
 
-#### `status week` — 週回顧與落差分析
+#### `pulse week` — 週回顧與落差分析
 
 讀取：
 - 所有內容資料夾最近 7 天的修改紀錄
@@ -154,7 +154,7 @@
 
 如果 daily notes 不足 3 天，標註「紀錄不足，落差分析可能不準確」。
 
-#### `status patterns` — 潛流與聚攏分析
+#### `pulse patterns` — 潛流與聚攏分析
 
 掃描：所有內容資料夾、daily-notes（最近 30 天）、所有 inbox。
 

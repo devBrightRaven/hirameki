@@ -19,11 +19,11 @@ Writes to: `{daily-notes}/YYYY-MM-DD.md`
 
 ## Vault State Check
 
-### `/hirameki:status [week|patterns]`
+### `/hirameki:pulse [week|patterns]`
 Three modes:
-- **`status`** — Vault overview: content topics, recent activity, stats. Good to run at session start.
-- **`status week`** — Weekly gap analysis: stated priorities vs. actual file changes.
-- **`status patterns`** — Undercurrents (recurring themes without articles) + idea clusters forming.
+- **`pulse`** — Vault overview: content topics, recent activity, stats. Good to run at session start.
+- **`pulse week`** — Weekly gap analysis: stated priorities vs. actual file changes.
+- **`pulse patterns`** — Undercurrents (recurring themes without articles) + idea clusters forming.
 
 ## Deep Work on a Specific Idea
 

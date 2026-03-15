@@ -15,7 +15,7 @@ Draw N notes from content folders with the following weighting:
 
 - **Prefer neglected notes** — not modified in the last 30 days (weight: 3×)
 - **Include recent notes** — modified in the last 30 days (weight: 1×)
-- **Exclude** system folders, `_hirameki_cmds/`, daily-notes, inbox, analysis, logs
+- **Exclude** system folders, `_hirameki_cmds/`, daily, inbox, research, journal
 
 If the vault has fewer than N eligible notes, draw all available and note the actual count.
 

@@ -6,7 +6,7 @@ Read `## Vault Structure` from `~/.claude/CLAUDE.md` to get the vault path and t
 If the section does not exist or required fields are missing, stop and respond: "Setup not complete. Please run `/hirameki:__init` first."
 
 Input: $ARGUMENTS (the decision being considered — required)
-- If $ARGUMENTS is empty, ask: "什麼決定？（一句話描述）" and wait for the answer before continuing.
+- If $ARGUMENTS is empty, ask: "What decision? (one sentence)" and wait for the answer before continuing. Ask in the language specified in `## Vault Structure` → `language`.
 
 Before committing, scan the vault for relevant context and surface the structure of the decision. No recommendations. No conclusions.
 

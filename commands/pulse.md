@@ -1,8 +1,8 @@
 ---
-description: Vault overview, week gaps, or undercurrent patterns
+description: Vault pulse check — instant snapshot, weekly gaps, or undercurrent patterns
 ---
 
-Read `## Vault Structure` from `~/.claude/CLAUDE.md` to get the vault path, the daily-notes folder location, and the list of content folders.
+Read `## Vault Structure` from `~/.claude/CLAUDE.md` to get the vault path, the daily folder location, and the list of content folders.
 If the section does not exist or required fields are missing, stop and respond: "Setup not complete. Please run `/hirameki:__init` first."
 
 Input: $ARGUMENTS (optional — no argument = instant snapshot; `week` = weekly gap analysis; `patterns` = undercurrent and cluster scan)
@@ -13,7 +13,7 @@ Input: $ARGUMENTS (optional — no argument = instant snapshot; `week` = weekly 
 
 Scan:
 - All content folders, 2 levels deep
-- Files modified in the last 7 days in the daily-notes folder
+- Files modified in the last 7 days in the daily folder
 
 Output in three sections:
 
@@ -32,11 +32,11 @@ If a section has no content, write "None" — do not skip it.
 
 ---
 
-## `status week` — weekly gap analysis
+## `pulse week` — weekly gap analysis
 
 Read:
 - Modification history of all content folders over the last 7 days
-- Daily notes from the last 7 days in the daily-notes folder
+- Daily notes from the last 7 days in the daily folder
 
 Output in three sections:
 
@@ -55,11 +55,11 @@ If fewer than 3 days of daily notes are available, note "Insufficient records �
 
 ---
 
-## `status patterns` — undercurrent and cluster scan
+## `pulse patterns` — undercurrent and cluster scan
 
 Scan scope:
 - All content folders (unlimited depth)
-- Last 30 days in the daily-notes folder
+- Last 30 days in the daily folder
 - All files in the inbox folder
 
 Output in two sections:

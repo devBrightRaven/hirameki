@@ -114,7 +114,7 @@
 
 ## Vault の状態確認
 
-### `/hirameki:status [week|patterns]`
+### `/hirameki:pulse [week|patterns]`
 
 **目的：** Vault の現況（3 つのモード）。
 **入力：** なし / `week` / `patterns`
@@ -136,7 +136,7 @@
 
 空のセクションは「なし」と表示（省略しない）。
 
-#### `status week` — 週次レビューとギャップ分析
+#### `pulse week` — 週次レビューとギャップ分析
 
 読み込み：
 - 全コンテンツフォルダの直近 7 日の更新記録
@@ -154,7 +154,7 @@
 
 3 日分未満の daily notes なら「記録不足、ギャップ分析が不正確な可能性あり」と注記。
 
-#### `status patterns` — 潜流とクラスター分析
+#### `pulse patterns` — 潜流とクラスター分析
 
 スキャン：全コンテンツフォルダ・daily-notes（直近 30 日）・全 inbox。
 

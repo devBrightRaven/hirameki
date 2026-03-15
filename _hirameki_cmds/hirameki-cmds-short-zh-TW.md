@@ -19,11 +19,11 @@
 
 ## 查看 Vault 狀態
 
-### `/hirameki:status [week|patterns]`
+### `/hirameki:pulse [week|patterns]`
 三種模式：
-- **`status`** — 即時概覽：內容主題、近期活動、統計數據。適合 session 開始時執行。
-- **`status week`** — 週回顧：比對聲稱的優先事項與實際檔案變更，找出落差。
-- **`status patterns`** — 潛流與聚攏：找出反覆出現但沒有獨立文章的主題，以及正在形成的想法群。
+- **`pulse`** — 即時概覽：內容主題、近期活動、統計數據。適合 session 開始時執行。
+- **`pulse week`** — 週回顧：比對聲稱的優先事項與實際檔案變更，找出落差。
+- **`pulse patterns`** — 潛流與聚攏：找出反覆出現但沒有獨立文章的主題，以及正在形成的想法群。
 
 ## 深入一個特定想法
 
