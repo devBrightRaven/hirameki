@@ -2,7 +2,7 @@
 description: Vault pulse check — instant snapshot, weekly gaps, or undercurrent patterns
 ---
 
-Read `## Vault Structure` from `~/.claude/CLAUDE.md` to get the vault path, the daily folder location, and the list of content folders.
+Read `## Vault Structure` from `~/.claude/vault-local.md` (fall back to `~/.claude/CLAUDE.md` if not found) to get the vault path, the daily folder location, and the list of content folders.
 If the section does not exist or required fields are missing, stop and respond: "Setup not complete. Please run `/hirameki:__init` first."
 
 Input: $ARGUMENTS (optional — no argument = instant snapshot; `week` = weekly gap analysis; `patterns` = undercurrent and cluster scan)

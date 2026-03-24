@@ -5,6 +5,16 @@ Versioning follows [Semantic Versioning](https://semver.org/): MAJOR = breaking 
 
 ---
 
+## [0.5.0] — 2026-03-24
+
+### Changed
+- **Config location**: `__init` now writes `## Vault Structure` to `~/.claude/vault-local.md` instead of `~/.claude/CLAUDE.md`. This separates machine-specific vault paths from the shared global config, enabling cross-machine sync of `~/.claude/` via git.
+- All commands now read from `vault-local.md` first, falling back to `CLAUDE.md` for backwards compatibility.
+- `__init` Mode A (Step 4) migrates existing config from `CLAUDE.md` to `vault-local.md` if found.
+- Updated README (EN/zh-TW/ja) and example CLAUDE.md.
+
+---
+
 ## [0.4.0] — 2026-03-16
 
 ### Changed

@@ -2,7 +2,7 @@
 description: Write or append a work log entry. Use "review" to extract rule updates from recent corrections.
 ---
 
-Read `## Vault Structure` from `~/.claude/CLAUDE.md` to get the vault path and the journal folder location. Also retrieve the list of content folders for searching related notes.
+Read `## Vault Structure` from `~/.claude/vault-local.md` (fall back to `~/.claude/CLAUDE.md` if not found) to get the vault path and the journal folder location. Also retrieve the list of content folders for searching related notes.
 If the section does not exist or required fields are missing, stop and respond: "Setup not complete. Please run `/hirameki:__init` first."
 
 Write or append a work log and reasoning record for the given topic.

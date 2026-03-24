@@ -2,7 +2,7 @@
 description: Aggregate next actions from daily notes and journal. Use "stuck" to find recurring unfinished tasks.
 ---
 
-Read `## Vault Structure` from `~/.claude/CLAUDE.md` to get the vault path, daily folder, and journal folder.
+Read `## Vault Structure` from `~/.claude/vault-local.md` (fall back to `~/.claude/CLAUDE.md` if not found) to get the vault path, daily folder, and journal folder.
 If the section does not exist or required fields are missing, stop and respond: "Setup not complete. Please run `/hirameki:__init` first."
 
 Input: $ARGUMENTS (optional)

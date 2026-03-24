@@ -2,7 +2,7 @@
 description: Resume from yesterday + inbox scan. Use "plan" to generate a written checklist.
 ---
 
-Read `## Vault Structure` from `~/.claude/CLAUDE.md` to get the vault path and the locations of the daily, journal, and inbox folders.
+Read `## Vault Structure` from `~/.claude/vault-local.md` (fall back to `~/.claude/CLAUDE.md` if not found) to get the vault path and the locations of the daily, journal, and inbox folders.
 If the section does not exist or required fields are missing, stop and respond: "Setup not complete. Please run `/hirameki:__init` first."
 
 Retrieve recent progress records and orient for the current session.

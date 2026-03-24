@@ -4,16 +4,17 @@ description: First-time setup and vault configuration
 
 ## Overview
 
-`__init` handles first-time setup of the Hirameki environment. Once complete, the result is written to `~/.claude/CLAUDE.md`. All other commands read from there directly — they do not call `__init` again.
+`__init` handles first-time setup of the Hirameki environment. Once complete, the result is written to `~/.claude/vault-local.md`. All other commands read from there directly — they do not call `__init` again.
 
 ## How other commands read configuration
 
 Before executing, every other hirameki command:
 
-1. Reads the `## Vault Structure` section from `~/.claude/CLAUDE.md`
-2. If not found or missing required fields → stop and respond: "Setup not complete. Please run `/hirameki:__init` first."
-3. If found → use as-is, no further validation
-4. If a path is invalid or unreadable during execution → respond: "Configuration error. Please run `/hirameki:__init` to reconfigure."
+1. Reads the `## Vault Structure` section from `~/.claude/vault-local.md`
+2. If not found, falls back to `~/.claude/CLAUDE.md`
+3. If neither contains `## Vault Structure` or required fields are missing → stop and respond: "Setup not complete. Please run `/hirameki:__init` first."
+4. If found → use as-is, no further validation
+5. If a path is invalid or unreadable during execution → respond: "Configuration error. Please run `/hirameki:__init` to reconfigure."
 
 Vault root resolution: use the `vault:` field in `## Vault Structure` if present; otherwise read `path` from the `## Vault` section in `~/.claude/CLAUDE.md`.
 
@@ -21,7 +22,7 @@ Vault root resolution: use the `vault:` field in `## Vault Structure` if present
 
 ### Mode A: First-time setup
 
-Triggered when `## Vault Structure` does not exist in `~/.claude/CLAUDE.md`, or when the user runs `/hirameki:__init` with no existing configuration.
+Triggered when `## Vault Structure` does not exist in either `~/.claude/vault-local.md` or `~/.claude/CLAUDE.md`, or when the user runs `/hirameki:__init` with no existing configuration.
 
 **Step 1 — Vault detection**
 
@@ -66,7 +67,7 @@ If no match is found for a purpose → ask the user where to create it (suggest 
 
 **Step 4 — Write configuration**
 
-Write the following to `~/.claude/CLAUDE.md` (create if it does not exist):
+Write the following to `~/.claude/vault-local.md` (create if it does not exist):
 
 ```
 ## Vault Structure
@@ -78,6 +79,10 @@ research: {folder name}/
 journal: {folder name}/
 templates: {folder name}/
 ```
+
+Note: `vault-local.md` is machine-specific (platform-dependent vault paths) and should be gitignored if `~/.claude/` is synced across machines. Each machine runs `/hirameki:__init` once to generate it locally.
+
+If `## Vault Structure` previously existed in `~/.claude/CLAUDE.md`, remove it from there and inform the user that configuration has been migrated to `vault-local.md`.
 
 **Step 5 — Reference doc sync**
 
@@ -97,7 +102,7 @@ If the plugin source files are not found (cache cleared) → skip this step and 
 
 ### Mode B: Reconfigure
 
-Triggered when `## Vault Structure` already exists and the user runs `/hirameki:__init`.
+Triggered when `## Vault Structure` already exists (in either `vault-local.md` or `CLAUDE.md`) and the user runs `/hirameki:__init`.
 
 Read the existing configuration, then ask the user what to update:
 1. Language setting
@@ -105,7 +110,7 @@ Read the existing configuration, then ask the user what to update:
 3. Update reference docs (`_hirameki_cmds/`)
 4. Start over completely
 
-Only modify what the user selects — leave all other fields unchanged.
+Only modify what the user selects — leave all other fields unchanged. Always write the result to `~/.claude/vault-local.md`.
 
 "Start over completely" runs the full Mode A flow and asks for confirmation before overwriting the existing configuration.
 

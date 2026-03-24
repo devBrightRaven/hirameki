@@ -2,7 +2,7 @@
 description: Constellation reading — random notes reveal a hidden theme
 ---
 
-Read `## Vault Structure` from `~/.claude/CLAUDE.md` to get the vault path and the list of content folders.
+Read `## Vault Structure` from `~/.claude/vault-local.md` (fall back to `~/.claude/CLAUDE.md` if not found) to get the vault path and the list of content folders.
 If the section does not exist or required fields are missing, stop and respond: "Setup not complete. Please run `/hirameki:__init` first."
 
 Input: $ARGUMENTS (optional — number of notes to draw, default 5. Range: 2–20)
