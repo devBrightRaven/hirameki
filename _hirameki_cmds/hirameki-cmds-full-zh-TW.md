@@ -47,6 +47,18 @@
 
 ## Session 開始
 
+### `/hirameki:next`
+
+**用途：** 恢復 session 後定向。
+**輸入：** 無。
+**需要的資料夾：** 無（讀取 session 狀態）。
+
+掃描本次 session 的任務清單、檔案活動（建立或修改的檔案）、做出的決定和推送的 commit。產生簡潔的定向摘要：已完成的工作、未處理的事項、下一步。
+
+不寫入檔案。
+
+---
+
 ### `/hirameki:catchup [天數]`
 
 **用途：** 進度銜接。
@@ -112,7 +124,7 @@
 
 ---
 
-## 查看 Vault 狀態
+## Vault 狀態
 
 ### `/hirameki:pulse [week|patterns]`
 
@@ -174,7 +186,65 @@
 
 ---
 
-## 深入一個特定想法
+### `/hirameki:tasks [天數|stuck]`
+
+**用途：** 從 daily notes 和 journal 彙整下一步行動。
+**輸入：** 可選 — 天數（預設 3）或 `stuck` / `stuck N`。
+**不寫入檔案。**
+
+#### 預設模式 — 行動彙整
+
+掃描最近的 daily notes 和 journal。
+
+1. **收集**：讀取過去 N 天的 `{daily}/YYYY-MM-DD.md`（從每個 Wrap 區塊提取「下一步」項目）。讀取今天和昨天所有 `{journal}/YYYY-MM-DD-*.md`（提取「Open items」中未標記完成的項目）。
+2. **去重和排序**：正規化後將相同任務歸組（模糊匹配），按出現次數倒序，再按最近出現時間倒序。
+3. **輸出**：附來源的有序清單。出現 3 次以上的項目加 ⚠ 前綴。
+
+#### Stuck 模式 — `tasks stuck [N]`
+
+掃描 N 天（預設 7）。找出在「下一步」區塊出現 2 次以上且從未出現在「完成」區塊的任務。分類為：**blocked（被阻擋）** / **deferred（延後）** / **forgotten（遺忘）** / **persistent（持續）**。
+
+規則：唯讀，不修改任何檔案。不詢問輸入，立即執行。
+
+---
+
+## 深入探索
+
+### `/hirameki:lucky [n]`
+
+**用途：** 星座閱讀 — 隨機筆記揭示隱藏主題。
+**輸入：** 可選 — 抽取筆記數量（預設 5，範圍 2–20）。
+**不寫入檔案。**
+
+從內容資料夾隨機抽取 N 篇筆記：
+- **權重 3×**：超過 30 天未修改的遺忘筆記
+- **權重 1×**：最近 30 天修改過的筆記
+- **排除**：系統資料夾、`_hirameki_cmds/`、daily、inbox、research、journal
+
+每篇筆記最多讀取 500 字。
+
+**分析：** 找出這 N 篇筆記中心的概念或問題 — 不是表面的關鍵字匹配，而是可能產生這些筆記的底層張力或未解決的執念。
+
+**輸出格式：**
+
+```
+# Constellation: [日期]
+
+> 抽取時間：YYYY-MM-DD HH:MM
+> 抽取筆記數：N
+
+[[筆記1]], [[筆記2]], [[筆記3]], [[筆記4]], [[筆記5]]
+
+## 隱藏主題
+[3–5 句話。引用哪些筆記指向哪個面向。]
+
+## 你可能在問的問題
+[一個問題 — 這些筆記一直在繞但沒有直接說出的問題。]
+```
+
+規則：所有引用使用 [[wiki link]] 格式。問題只能是一句話。如果筆記沒有共同點，直接說明，不捏造連結。
+
+---
 
 ### `/hirameki:explore {輸入} [save]`
 
@@ -418,6 +488,125 @@
 
 ---
 
+## 創作
+
+### `/hirameki:frame {想法} [save]`
+
+**用途：** 創作前檢查站 — 在投入心力之前驗證核心想法。
+**輸入：** 必填 — 文章想法、產品概念、設計方向，或現有草稿的路徑。
+**需要的資料夾：** 所有內容資料夾 + daily notes + journal。
+
+適用於文章、產品、設計或任何創作輸出。
+
+#### 第一階段：理解想法
+
+從輸入信號判斷類型（文章 / 產品 / 設計）。若是檔案路徑，讀取檔案並提取論點。在繼續之前印出論點和類型。
+
+#### 第二階段：五問框架測試
+
+**Q1 — Only-I 測試**：「這個想法有什麼只有我能說或能做的？」掃描 vault 中的獨特經歷、技能或立場。評估：強 / 弱 / 無。
+
+**Q2 — 碰撞掃描**：「我已經做過類似的東西了嗎？」掃描內容資料夾和草稿。兩個層級：
+- **Tier 1（已發表）**：每個碰撞的裁決 — 已吸收 / 相鄰 / 已取代。Tier 1「已吸收」碰撞觸發 KILL。
+- **Tier 2（草稿）**：裁決 — 競爭 / 相鄰 / 素材。觸發 CONSOLIDATE 問題，不觸發 KILL。
+
+**Q3 — 賭注**：「讀者/用戶遇到這個之後會有什麼改變？」評估：重新框架 / 賦予工具 / 引發思考 / 無。「只是提供資訊」= 賭注太低。
+
+**Q4 — 張力**：「有什麼令人驚訝、反直覺或不舒服的部分？」沒有張力 = 摘要，不是創作。
+
+**Q5 — 證據**：「什麼樣的親身經歷、數據或具體例子讓這個論點有信服力？」評估：親身體驗 / 研究支撐 / 推測性。
+
+#### 第三階段：裁決
+
+| 裁決 | 條件 |
+|------|------|
+| **PROCEED** | Q1 強 + Q3/Q4 至少一個強 + 無 Tier 1 已吸收碰撞 |
+| **RETHINK** | Q1 弱，或 Tier 1 相鄰碰撞，或 Q3「只是提供資訊」 |
+| **KILL** | Q1 無，或 Tier 1 已吸收碰撞，或 Q3 和 Q4 都為空 |
+| **CONSOLIDATE** | 多篇 Tier 2 競爭草稿涵蓋相同論點 |
+
+規則：不要軟化裁決。KILL 就是停止，不是轉向。印出完整分析至終端機。加 `save` 時寫入 `{research}/frame/YYYY-MM-DD-{想法slug}.md`。frame 不產生內容。
+
+---
+
+### `/hirameki:critique {檔案|文字}`
+
+**用途：** 多模型寫作評審。
+**輸入：** 必填 — 檔案路徑、[[wikilink]] 或貼上的文字。
+**需要的資料夾：** vault（解析 wikilink）、`_writing_lab/benchmark/`（輸出）。
+
+#### 第一階段：載入文字
+
+解析輸入：檔案路徑 → 讀取；[[wikilink]] → 在 vault 中找到並讀取；貼上文字 → 直接使用。若超過 3000 字，寫入暫存檔並傳路徑給評審。
+
+#### 第二階段：三模型平行評審
+
+三個維度，各評 1–10 分：
+- **感官密度** — 讀者能否看到、聽到、聞到、嚐到、觸摸到所描述的東西？
+- **結構張力** — 文章是否能拉著讀者往前走？
+- **觸動力** — 情感是否有落地？讀者明天還記得嗎？
+
+**評審 1：Claude Opus**（Agent 子代理）— 整體品質、結構流暢度、情感落地。
+
+**評審 2：Codex CLI**
+```bash
+codex exec "Review this writing. Score three dimensions (sensory density, structural tension, resonance) each 1-10. Then list: strongest line, weakest line, one structural suggestion, one thing to cut. Output in the vault language. Text: $(cat /tmp/critique-input.txt)"
+```
+失敗時退回 Claude Sonnet 子代理（標註說明）。
+
+**評審 3：Gemini CLI**
+```bash
+gemini -p "Review this writing. Score three dimensions..." < /tmp/critique-input.txt
+```
+失敗時退回 Claude Haiku 子代理（標註說明）。
+
+#### 第三階段：整合
+
+比較表（Opus / Codex / Gemini / 平均），共識，分歧（分差 3 分以上），最強句、最弱句、推薦修改。
+
+#### 第四階段：儲存
+
+寫入 `{vault}/_writing_lab/benchmark/YYYY-MM-DD-{標題slug}-critique.md`，frontmatter 包含各維度分數。
+
+規則：分歧是最有價值的部分 — 重點呈現。不因禮貌而軟化評分。最強/最弱句必須引用實際文字。
+
+---
+
+## 外部
+
+### `/hirameki:mekiki {github-url}`
+
+**用途：** 分析 GitHub repo，提取可遷移技術並評估引入適合度。
+**輸入：** 必填 — GitHub URL（`https://github.com/owner/repo` 或 `owner/repo`）。
+**需要的資料夾：** research 資料夾（輸出）。
+
+#### 第一階段：抓取（平行）
+
+```bash
+gh repo view owner/repo --json description,url,stargazerCount,primaryLanguage,updatedAt
+gh api repos/owner/repo/readme -q .content | base64 -d
+gh api repos/owner/repo/git/trees/HEAD?recursive=1 -q '.tree[].path' | head -150
+```
+
+取得檔案樹後，識別 3–5 個關鍵原始碼檔案並抓取內容。
+
+#### 第二階段：分析
+
+**Track A — 技術提取**（總是執行）：對每個有趣的部分提取：模式名稱、是什麼（1–2 句）、為什麼有趣、可遷移至（使用者的實際專案）、行動（具體下一步，不是「記住」或「留意」）。跳過標準做法和語言特定慣例。
+
+**Track B — 引入評估**（純模式/示範 repo 跳過）：讀取使用者的 CLAUDE.md 和專案記憶，找出實際使用的工具名稱。將 repo 分類為工具 / 框架 / 函式庫 / 模式。建立比較表（功能 / Repo 提供 / 我們目前使用 / 落差）。裁決：**adopt**（附下一步和時程）/ **defer**（附觸發條件）/ **reject**（附替代方案）。
+
+#### 第三階段：驗證（Sonnet 子代理）
+
+檢查：完整性、可信度（無未驗證聲明，有真實工具名稱，落差可衡量）、可執行性（每個裁決都有下一步）。失敗則修正後再呈現。不超過 10 個檔案的小型 repo 跳過子代理。
+
+#### 分析完成後
+
+- **adopt**：提供克隆/安裝選項，並將 vault 筆記儲存至 `{research}/mekiki-{repo名稱}.md`，`tags: [mekiki, adopt]`，`status: reference`
+- **defer/reject**：儲存簡短 vault 筆記至 `{research}/mekiki-{repo名稱}.md`，記錄決定依據，避免未來重複評估
+
+---
+
 ## 維護
 
 ### `/hirameki:tidy [tags|fix|full]`
@@ -630,6 +819,12 @@
 | `/hirameki:harvest`（畢業） | 內容資料夾 | 確認後 | 每次建新檔 |
 | `/hirameki:tidy` | analysis/tidy | 總是 | 追加更新 |
 | `/hirameki:decide` | 不寫入 | — | — |
+| `/hirameki:frame` | research/frame/ | 加 `save` | 每個想法建新檔 |
+| `/hirameki:critique` | _writing_lab/benchmark/ | 總是 | 每次建新檔 |
+| `/hirameki:mekiki` | research/ | 總是 | 每個 repo 建新檔 |
+| `/hirameki:tasks` | 不寫入 | — | — |
+| `/hirameki:lucky` | 不寫入 | — | — |
+| `/hirameki:next` | 不寫入 | — | — |
 
 ## 共用規則
 

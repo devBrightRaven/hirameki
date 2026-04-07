@@ -10,6 +10,9 @@ Use in Claude Code CLI. All commands start with `/hirameki:`.
 Progress catchup. Reads recent Wrap progress + inbox items, suggests today's focus.
 Optional input: number of days (default 1), e.g. `/hirameki:catchup 3` to review last 3 days.
 
+### `/hirameki:next`
+Orient after resuming a session. Summarises what was done, what's open, and what to do next.
+
 ## Session End
 
 ### `/hirameki:wrap [description]`
@@ -17,7 +20,7 @@ Progress snapshot. Records completed, in-progress, next steps — appends to tod
 Optional input: focus description for this wrap.
 Writes to: `{daily-notes}/YYYY-MM-DD.md`
 
-## Vault State Check
+## Vault State
 
 ### `/hirameki:pulse [week|patterns]`
 Three modes:
@@ -25,7 +28,16 @@ Three modes:
 - **`pulse week`** — Weekly gap analysis: stated priorities vs. actual file changes.
 - **`pulse patterns`** — Undercurrents (recurring themes without articles) + idea clusters forming.
 
-## Deep Work on a Specific Idea
+### `/hirameki:tasks [days|stuck]`
+Aggregate next actions from daily notes and journal. Deduplicates and ranks by recurrence. Items appearing 3+ times flagged as potential procrastination.
+- **`tasks`** — default: last 3 days
+- **`tasks N`** — look back N days
+- **`tasks stuck`** — find recurring unfinished tasks that never appeared in a Done section
+
+## Deep Work
+
+### `/hirameki:lucky [n]`
+Constellation reading — picks N random notes (default 5, range 2–20), weighted toward neglected notes (not modified in 30+ days). Finds the hidden theme at their intersection and one question the vault is orbiting without stating directly. Output goes to terminal only.
 
 ### `/hirameki:explore {input} [save]`
 Concept excavation — mode detected from input shape:
@@ -46,6 +58,23 @@ articles to write / tools to build / topics to research / people to contact / id
 Graduate category: two-phase — confirms candidates, then creates files after your selection.
 Add `save` to write summary to file.
 Writes to: `{analysis}/harvest/`; graduates to user content folder
+
+## Creation
+
+### `/hirameki:frame {idea} [save]`
+Pre-creation checkpoint. Five questions (Only-I test, collision scan, stakes, tension, evidence). Four verdicts: PROCEED / RETHINK / KILL / CONSOLIDATE. Does not generate content — only evaluates whether it should exist.
+Add `save` to write result to file.
+Writes to: `{research}/frame/YYYY-MM-DD-{idea-slug}.md`
+
+### `/hirameki:critique {file|text}`
+Multi-model writing critique. Three reviewers in parallel (Opus / Codex / Gemini), each scoring sensory density, structural tension, and resonance (1–10). Synthesises into comparison table. Highlights disagreements (3+ point gaps).
+Writes to: `{vault}/_writing_lab/benchmark/`
+
+## External
+
+### `/hirameki:mekiki {github-url}`
+GitHub repo analysis. Extracts transferable techniques + evaluates adoption fit. Two tracks: technique extraction (patterns with concrete next steps) and adoption evaluation (feature comparison + adopt/defer/reject verdict).
+Saves result to: `{research}/mekiki-{repo-name}.md`
 
 ## Decision Support
 
@@ -83,6 +112,11 @@ Writes to: `{logs}/YYYY-MM-DD-HHMM-{topic}.md`
 | `/hirameki:harvest` | analysis/harvest | With `save` | Appends update |
 | `/hirameki:harvest` (graduate) | content folder | After confirm | New file each time |
 | `/hirameki:tidy` | analysis/tidy | Always | Appends update |
+| `/hirameki:frame` | research/frame/ | With `save` | New file per idea |
+| `/hirameki:critique` | _writing_lab/benchmark/ | Always | New file per critique |
+| `/hirameki:mekiki` | research/ | Always | New file per repo |
+| `/hirameki:tasks` | none | — | — |
+| `/hirameki:lucky` | none | — | — |
 
 All commands that write files show a preview and full path before writing.
 

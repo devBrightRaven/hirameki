@@ -64,7 +64,7 @@ Either way, the vault path is saved locally to `~/.claude/vault-local.md`. After
 
 ### Commands
 
-7 commands, grouped by when you reach for them.
+15 commands, grouped by when you reach for them.
 
 ---
 
@@ -78,6 +78,14 @@ Progress catchup. Reads the last Wrap block from recent daily notes and all inbo
 
 ---
 
+**`/hirameki:next`**
+
+*Use when: you're resuming mid-session and need a quick orientation.*
+
+Orient after resuming a session. Summarises what was done, what's open, and what to do next. Scans the current session's task list, file activity, and recent decisions.
+
+---
+
 #### Session End
 
 **`/hirameki:wrap [description]`**
@@ -88,7 +96,7 @@ Progress snapshot. Scans session file activity, appends a timestamped block to t
 
 ---
 
-#### Vault State Check
+#### Vault State
 
 **`/hirameki:pulse [week|patterns]`**
 
@@ -104,7 +112,23 @@ Three modes depending on what you need:
 
 ---
 
-#### Deep Work on a Specific Idea
+**`/hirameki:tasks [days|stuck]`**
+
+*Use when: you want a single prioritised list of everything you said you'd do next.*
+
+Aggregates next actions from daily notes and journal entries. Default: scans the last 3 days, deduplicates and ranks by recurrence. Items appearing 3+ times are flagged as potential procrastination. Use `tasks stuck` to find recurring unfinished tasks that have never appeared in a "Done" section.
+
+---
+
+#### Deep Work
+
+**`/hirameki:lucky [n]`**
+
+*Use when: you feel stuck or want to be surprised by what your vault already holds.*
+
+Constellation reading. Randomly draws N notes (default 5, range 2–20) from your vault, weighted toward neglected notes not touched in 30+ days. Finds the hidden theme at their intersection — not a surface keyword match, but the underlying tension or unresolved question that could have generated all of them. Outputs the notes drawn, the hidden theme, and one question the vault is orbiting without stating directly. Output goes to terminal only.
+
+---
 
 **`/hirameki:explore {input} [save]`**
 
@@ -152,6 +176,34 @@ Harvests actionable ideas from existing content. Scans content folders, 30 days 
 The graduate category has a second phase: after seeing the candidates, you confirm which ones to execute. Each selected idea gets a new note in the appropriate content folder, with source context and wiki links back to related notes.
 
 Add `save` to write the harvest summary to file.
+
+---
+
+#### Creation
+
+**`/hirameki:frame {idea} [save]`**
+
+*Use when: you have a creative idea (article, product, design) and want to validate it before investing effort.*
+
+Pre-creation checkpoint. Runs five questions against your vault: Only-I test (what makes this uniquely yours?), collision scan (have you already published this?), stakes (what changes for the reader/user?), tension (what's the surprising or uncomfortable part?), and evidence (what grounds this in lived experience?). Produces one of four verdicts: **PROCEED** / **RETHINK** / **KILL** / **CONSOLIDATE**. Does not generate content — only evaluates whether content should exist. Add `save` to write result to file.
+
+---
+
+**`/hirameki:critique {file|text}`**
+
+*Use when: you want independent feedback on a piece of writing.*
+
+Multi-model writing critique. Dispatches three reviewers in parallel — Claude Opus, Codex CLI, and Gemini CLI — each scoring three dimensions: sensory density, structural tension, and resonance (1–10). Synthesises results into a comparison table highlighting where reviewers agree and where they diverge by 3+ points. Strongest line, weakest line, and recommended edits from all three. Saves output to `_writing_lab/benchmark/`.
+
+---
+
+#### External
+
+**`/hirameki:mekiki {github-url}`**
+
+*Use when: someone shares a GitHub repo and you want to know if it's worth adopting or what's worth learning from it.*
+
+GitHub repo analysis. Fetches metadata, README, file tree, and key source files. Runs two tracks: technique extraction (transferable patterns with concrete next steps) and adoption evaluation (feature comparison against your current tools, with a verdict: adopt / defer / reject). Validates the output for grounding and actionability before presenting. Results saved to your vault's research folder.
 
 ---
 
@@ -309,7 +361,7 @@ claude   # 任何地方
 
 ### 指令說明
 
-7 個指令，依照使用時機分組。
+15 個指令，依照使用時機分組。
 
 ---
 
@@ -323,6 +375,14 @@ claude   # 任何地方
 
 ---
 
+**`/hirameki:next`**
+
+*適合：在 session 中途回來，需要快速定向時。*
+
+恢復 session 後定向。整理已完成的工作、待處理的事項、下一步。掃描本次 session 的任務清單、檔案活動和近期決定。
+
+---
+
 #### Session 結束
 
 **`/hirameki:wrap [描述]`**
@@ -333,7 +393,7 @@ claude   # 任何地方
 
 ---
 
-#### 查看 Vault 狀態
+#### Vault 狀態
 
 **`/hirameki:pulse [week|patterns]`**
 
@@ -349,7 +409,23 @@ claude   # 任何地方
 
 ---
 
-#### 深入一個特定想法
+**`/hirameki:tasks [天數|stuck]`**
+
+*適合：想把所有「下一步」整合成一份清單時。*
+
+從 daily notes 和 journal 彙整下一步行動。預設掃描最近 3 天，去重後依出現頻率排序。出現 3 次以上的項目會標記為可能的拖延信號。使用 `tasks stuck` 可找出反覆出現、從未進入「完成」的卡住任務。
+
+---
+
+#### 深入探索
+
+**`/hirameki:lucky [n]`**
+
+*適合：感到卡住，或想被 vault 裡已有的內容給驚喜時。*
+
+星座閱讀。從 vault 隨機抽取 N 篇筆記（預設 5，範圍 2–20），偏好超過 30 天未動的被遺忘筆記。找出這些筆記交叉點上的隱藏主題 — 不是表面的關鍵字匹配，而是可能產生這些筆記的底層張力或未解問題。輸出抽到的筆記、隱藏主題，以及一個你的 vault 一直在繞但沒有直接說出來的問題。輸出僅顯示於終端機。
+
+---
 
 **`/hirameki:explore {輸入} [save]`**
 
@@ -397,6 +473,34 @@ claude   # 任何地方
 「可以畢業的想法」有第二階段：看到候選清單後，你確認哪些要執行畢業。每個選中的想法會在對應的內容資料夾下建立新筆記，附上出處脈絡和 wiki link 連回相關筆記。
 
 末尾加 `save` 可將收割摘要寫入檔案。
+
+---
+
+#### 創作
+
+**`/hirameki:frame {想法} [save]`**
+
+*適合：有一個創作想法（文章、產品、設計），想在投入心力之前先驗證時。*
+
+創作前檢查站。針對 vault 執行五個問題：Only-I 測試（這個想法有什麼只有你能做的？）、碰撞掃描（你已經發表過這個了嗎？）、賭注（讀者/用戶會有什麼改變？）、張力（有什麼出人意料或令人不安的部分？）、證據（什麼支撐了你的說法？）。產出四種裁決之一：**PROCEED** / **RETHINK** / **KILL** / **CONSOLIDATE**。不產生內容 — 只評估內容是否應該存在。加 `save` 可寫入檔案。
+
+---
+
+**`/hirameki:critique {檔案|文字}`**
+
+*適合：想對一篇文章獲得獨立回饋時。*
+
+多模型寫作評審。同時啟動三位評審：Claude Opus、Codex CLI、Gemini CLI，各自對三個維度評分：感官密度、結構張力、觸動力（1–10）。整合結果為比較表，重點標出評審之間分差 3 分以上的地方。三方各自的最強句、最弱句和修改建議。輸出儲存至 `_writing_lab/benchmark/`。
+
+---
+
+#### 外部
+
+**`/hirameki:mekiki {github-url}`**
+
+*適合：有人分享了一個 GitHub repo，想知道是否值得引入或有什麼可以學習時。*
+
+GitHub repo 分析。抓取元資料、README、檔案樹和關鍵原始碼。執行兩條分析路徑：技術提取（可遷移的模式，附具體下一步）和引入評估（與你目前工具的功能對比，加上裁決：adopt / defer / reject）。呈現前先驗證輸出的可信度和可行性。結果儲存至 vault 的研究資料夾。
 
 ---
 
@@ -554,7 +658,7 @@ claude   # どこからでも
 
 ### コマンド説明
 
-7 つのコマンド、使うタイミングでグループ化。
+15 のコマンド、使うタイミングでグループ化。
 
 ---
 
@@ -568,6 +672,14 @@ claude   # どこからでも
 
 ---
 
+**`/hirameki:next`**
+
+*使うとき：セッションの途中で再開して、素早く状況を把握したいとき。*
+
+セッション再開後の定位。完了した作業・未処理の事項・次のステップを整理。現在のセッションのタスクリスト・ファイル活動・最近の決定をスキャン。
+
+---
+
 #### セッション終了
 
 **`/hirameki:wrap [説明]`**
@@ -578,7 +690,7 @@ claude   # どこからでも
 
 ---
 
-#### Vault の状態確認
+#### Vault の状態
 
 **`/hirameki:pulse [week|patterns]`**
 
@@ -594,7 +706,23 @@ claude   # どこからでも
 
 ---
 
-#### 特定のアイデアを深掘り
+**`/hirameki:tasks [日数|stuck]`**
+
+*使うとき：すべての「次のステップ」を 1 つのリストにまとめたいとき。*
+
+daily notes と journal から次のアクションを集約。デフォルトは直近 3 日をスキャンし、重複を除去して出現頻度順に並べる。3 回以上登場するアイテムは先延ばしのシグナルとしてフラグ表示。`tasks stuck` を使うと、繰り返し登場するのに「完了」セクションに一度も現れたことのないスタック中タスクを発見できる。
+
+---
+
+#### 深掘り
+
+**`/hirameki:lucky [n]`**
+
+*使うとき：行き詰まりを感じるとき、または vault がすでに持っているものに驚かされたいとき。*
+
+コンステレーション（星座）リーディング。vault からランダムに N 件のノートを抽出（デフォルト 5、範囲 2–20）。30 日以上触れていない放置ノートを優先的に選択。これらのノートの交差点にある隠れたテーマを探す — 表面的なキーワードマッチではなく、すべてのノートを生み出しえた根底の緊張や未解決の問い。抽出したノート・隠れたテーマ・vault が直接述べることなく周回している 1 つの問いを出力。出力はターミナルのみ。
+
+---
 
 **`/hirameki:explore {入力} [save]`**
 
@@ -642,6 +770,34 @@ claude   # どこからでも
 「卒業できるアイデア」は第 2 フェーズあり：候補リストを確認した後、どれを実行するか選択。選んだアイデアは対応するコンテンツフォルダに新しいノートとして作成され、出典の脈絡と関連ノートへの wiki link が付く。
 
 末尾に `save` を追加で収穫サマリーをファイルに保存。
+
+---
+
+#### 創作
+
+**`/hirameki:frame {アイデア} [save]`**
+
+*使うとき：クリエイティブなアイデア（記事・製品・デザイン）があり、労力を投じる前に検証したいとき。*
+
+制作前チェックポイント。vault に対して 5 つの問いを実行：Only-I テスト（これをあなただけができる理由は？）・衝突スキャン（すでにこれを発表したことがある？）・賭け（読者/ユーザーにとって何が変わる？）・緊張（驚くべき、または不快な部分は？）・証拠（何がこれを裏付けるか？）。4 つの判定のいずれかを出力：**PROCEED** / **RETHINK** / **KILL** / **CONSOLIDATE**。コンテンツを生成しない — コンテンツが存在すべきかどうかのみを評価する。`save` を追加でファイルに保存。
+
+---
+
+**`/hirameki:critique {ファイル|テキスト}`**
+
+*使うとき：文章に対する独立したフィードバックを得たいとき。*
+
+マルチモデル文章クリティーク。3 人の評者を並列起動：Claude Opus・Codex CLI・Gemini CLI。各評者が 3 つの次元をスコアリング：感官密度・構造的緊張・共鳴（1–10）。結果を比較表に統合し、評者間で 3 点以上の差があった箇所を重点的に表示。3 者それぞれの最強の一文・最弱の一文・推奨編集。出力は `_writing_lab/benchmark/` に保存。
+
+---
+
+#### 外部
+
+**`/hirameki:mekiki {github-url}`**
+
+*使うとき：GitHub リポジトリを共有され、採用する価値があるか、学べることがあるか確認したいとき。*
+
+GitHub リポジトリ分析。メタデータ・README・ファイルツリー・主要ソースファイルを取得。2 つのトラックで分析：テクニック抽出（転用可能なパターンと具体的な次のステップ）と採用評価（現在のツールとの機能比較 + 判定：adopt / defer / reject）。提示前に出力の根拠と実行可能性を検証。結果は vault の研究フォルダに保存。
 
 ---
 

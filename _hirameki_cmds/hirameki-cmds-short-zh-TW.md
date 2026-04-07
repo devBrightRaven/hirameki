@@ -10,6 +10,9 @@
 進度銜接。讀取最近的 Wrap 進度 + inbox 待處理項目，建議今日焦點。
 可選輸入：天數（預設 1），例如 `/hirameki:catchup 3` 回顧最近 3 天。
 
+### `/hirameki:next`
+恢復 session 後定向。整理已完成的工作、待處理事項和下一步。
+
 ## Session 結束
 
 ### `/hirameki:wrap [描述]`
@@ -17,7 +20,7 @@
 可選輸入：本次 wrap 的重點描述。
 寫入：`{daily-notes}/YYYY-MM-DD.md`
 
-## 查看 Vault 狀態
+## Vault 狀態
 
 ### `/hirameki:pulse [week|patterns]`
 三種模式：
@@ -25,7 +28,16 @@
 - **`pulse week`** — 週回顧：比對聲稱的優先事項與實際檔案變更，找出落差。
 - **`pulse patterns`** — 潛流與聚攏：找出反覆出現但沒有獨立文章的主題，以及正在形成的想法群。
 
-## 深入一個特定想法
+### `/hirameki:tasks [天數|stuck]`
+從 daily notes 和 journal 彙整下一步行動，去重後依出現頻率排序。出現 3 次以上的項目標記為拖延信號。
+- **`tasks`** — 預設：最近 3 天
+- **`tasks N`** — 回溯 N 天
+- **`tasks stuck`** — 找出從未出現在「完成」區塊的反覆未完成任務
+
+## 深入探索
+
+### `/hirameki:lucky [n]`
+星座閱讀 — 隨機抽取 N 篇筆記（預設 5，範圍 2–20），偏好 30 天以上未動的遺忘筆記。找出這些筆記交叉點上的隱藏主題，以及一個你的 vault 一直在繞但沒有直接說出的問題。輸出僅顯示於終端機。
 
 ### `/hirameki:explore {輸入} [save]`
 概念挖掘 — 根據輸入形式自動選擇模式：
@@ -46,6 +58,22 @@
 畢業類別：兩階段 — 先確認候選清單，選擇後才建立檔案。
 末尾加 `save` 可寫入摘要。
 寫入：`{analysis}/harvest/`；畢業項目寫入使用者指定的內容資料夾
+
+## 創作
+
+### `/hirameki:frame {想法} [save]`
+創作前檢查站。五個問題（Only-I 測試、碰撞掃描、賭注、張力、證據）。四種裁決：PROCEED / RETHINK / KILL / CONSOLIDATE。只評估內容是否應該存在，不產生內容。
+加 `save` 可寫入：`{research}/frame/YYYY-MM-DD-{想法slug}.md`
+
+### `/hirameki:critique {檔案|文字}`
+多模型寫作評審。三位評審同時執行（Opus / Codex / Gemini），各自對感官密度、結構張力、觸動力評分（1–10）。整合為比較表，重點標出分差 3 分以上的地方。
+寫入：`{vault}/_writing_lab/benchmark/`
+
+## 外部
+
+### `/hirameki:mekiki {github-url}`
+GitHub repo 分析。提取可遷移技術 + 評估引入適合度。兩條分析路徑：技術提取（附具體下一步的模式）和引入評估（功能對比 + adopt/defer/reject 裁決）。
+儲存至：`{research}/mekiki-{repo名稱}.md`
 
 ## 決策支援
 
@@ -83,6 +111,11 @@
 | `/hirameki:harvest` | analysis/harvest | 僅加 `save` | 追加更新 |
 | `/hirameki:harvest`（畢業） | 內容資料夾 | 確認後 | 每次建新檔 |
 | `/hirameki:tidy` | analysis/tidy | 總是 | 追加更新 |
+| `/hirameki:frame` | research/frame/ | 加 `save` | 每個想法建新檔 |
+| `/hirameki:critique` | _writing_lab/benchmark/ | 總是 | 每次建新檔 |
+| `/hirameki:mekiki` | research/ | 總是 | 每個 repo 建新檔 |
+| `/hirameki:tasks` | 不寫入 | — | — |
+| `/hirameki:lucky` | 不寫入 | — | — |
 
 所有寫入檔案的指令都會在寫入前顯示預覽和完整路徑。
 

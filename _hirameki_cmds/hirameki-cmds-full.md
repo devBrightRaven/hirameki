@@ -47,6 +47,18 @@ If no content folders exist, scan root-level `.md` files instead.
 
 ## Session Start
 
+### `/hirameki:next`
+
+**Purpose:** Orient after resuming a session.
+**Input:** None.
+**Folders needed:** None (reads session state).
+
+Scans the current session's task list, file activity (files created or modified), decisions made, and any commits pushed. Produces a concise orientation summary: what was done, what's open, and what to do next.
+
+Does not write to file.
+
+---
+
 ### `/hirameki:catchup [days]`
 
 **Purpose:** Progress catchup.
@@ -112,7 +124,7 @@ Rules:
 
 ---
 
-## Vault State Check
+## Vault State
 
 ### `/hirameki:pulse [week|patterns]`
 
@@ -174,7 +186,65 @@ Limit 5, sorted by maturity descending.
 
 ---
 
-## Deep Work on a Specific Idea
+### `/hirameki:tasks [days|stuck]`
+
+**Purpose:** Aggregate next actions from daily notes and journal.
+**Input:** Optional — number of days (default 3), or `stuck` / `stuck N`.
+**Does not write to file.**
+
+#### Default mode — action aggregation
+
+Scans recent daily notes and journal entries.
+
+1. **Collect**: Read `{daily}/YYYY-MM-DD.md` for today and the past N days (extract items under "Next" / 「下一步」from each Wrap block). Read all `{journal}/YYYY-MM-DD-*.md` files from today and yesterday (extract items under "Open items" not marked done).
+2. **Deduplicate and rank**: Normalize, group fuzzy-matched items, sort by occurrence count (descending), then most recent appearance.
+3. **Output**: Numbered list with source references. Items appearing 3+ times prefixed with ⚠.
+
+#### Stuck mode — `tasks stuck [N]`
+
+Scans N days (default 7). Finds tasks that appear in "Next" sections 2+ times and never appear in "Done" sections. Categorises as: **blocked** / **deferred** / **forgotten** / **persistent**.
+
+Rules: Read-only. Runs immediately without asking for input.
+
+---
+
+## Deep Work
+
+### `/hirameki:lucky [n]`
+
+**Purpose:** Constellation reading — random notes reveal a hidden theme.
+**Input:** Optional — number of notes to draw (default 5, range 2–20).
+**Does not write to file.**
+
+Randomly draws N notes from content folders:
+- **Weight 3×**: notes not modified in the last 30 days (neglected)
+- **Weight 1×**: notes modified in the last 30 days
+- **Excluded**: system folders, `_hirameki_cmds/`, daily, inbox, research, journal
+
+Reads up to 500 words per note.
+
+**Analysis:** Finds the concept or question at the centre of all N notes — not a surface keyword match, but the underlying tension or unresolved preoccupation that could have generated all of them.
+
+**Output:**
+
+```
+# Constellation: [date]
+
+> Draw time: YYYY-MM-DD HH:MM
+> Notes drawn: N
+
+[[note1]], [[note2]], [[note3]], [[note4]], [[note5]]
+
+## Hidden theme
+[3–5 sentences. Cite which notes point to which aspect.]
+
+## The question you might be asking
+[One question — what all these notes orbit without stating directly.]
+```
+
+Rules: All references as [[wiki link]]. One sentence question only. Does not fabricate connections if notes have nothing in common.
+
+---
 
 ### `/hirameki:explore {input} [save]`
 
@@ -418,6 +488,125 @@ File structure:
 
 ---
 
+## Creation
+
+### `/hirameki:frame {idea} [save]`
+
+**Purpose:** Pre-creation checkpoint — validate core idea before investing effort.
+**Input:** Required — article idea, product concept, design direction, or path to existing draft.
+**Folders needed:** all content folders + daily notes + journal.
+
+Applies to articles, products, designs, or any creative output.
+
+#### Phase 1: Understand the idea
+
+Detect type (article / product / design) from input signals. For file paths, read the file and extract the thesis. Print the thesis and type before continuing.
+
+#### Phase 2: Five-question frame test
+
+**Q1 — Only-I test**: "What is this saying or doing that only I can say or do?" Scan vault for unique experiences, skills, or positions. Evaluate: Strong / Weak / None.
+
+**Q2 — Collision scan**: "Does something I've already made cover this?" Scan content folders and drafts. Two tiers:
+- **Tier 1 (published)**: verdict per collision — absorbed / adjacent / superseded. An "absorbed" Tier 1 collision triggers KILL.
+- **Tier 2 (drafts)**: verdict — competing / adjacent / feeds. Triggers CONSOLIDATE question, not KILL.
+
+**Q3 — Stakes**: "After encountering this, what changes for the reader/user?" Evaluate: reframes / equips / provokes / none. "Informs only" = stakes too low.
+
+**Q4 — Tension**: "What is the surprising, counterintuitive, or uncomfortable part?" No tension = summary, not a creation.
+
+**Q5 — Evidence**: "What lived experience, data, or concrete example makes this credible?" Evaluate: embodied / researched / speculative.
+
+#### Phase 3: Verdict
+
+| Verdict | Conditions |
+|---------|-----------|
+| **PROCEED** | Q1 Strong + at least one of Q3/Q4 strong + no Tier 1 absorbed collisions |
+| **RETHINK** | Q1 Weak or Tier 1 adjacent collision or Q3 "informs only" |
+| **KILL** | Q1 None, or Tier 1 absorbed collision, or both Q3 and Q4 empty |
+| **CONSOLIDATE** | Multiple Tier 2 competing drafts covering the same thesis |
+
+Rules: Never soften the verdict. KILL means stop, not pivot. Print full analysis to terminal. Write (with `save`) to `{research}/frame/YYYY-MM-DD-{idea-slug}.md`. Frame does not generate content.
+
+---
+
+### `/hirameki:critique {file|text}`
+
+**Purpose:** Multi-model writing critique.
+**Input:** Required — file path, [[wikilink]], or pasted text.
+**Folders needed:** vault (to resolve wikilinks), `_writing_lab/benchmark/` (output).
+
+#### Phase 1: Load the text
+
+Resolve input: file path → Read; [[wikilink]] → find in vault, Read; pasted text → use directly. If > 3000 chars, write to temp file and pass path to reviewers.
+
+#### Phase 2: Three-model parallel review
+
+Three dimensions, each scored 1–10:
+- **Sensory density** — can the reader see, hear, smell, taste, touch what's described?
+- **Structural tension** — does the piece pull the reader forward?
+- **Resonance** — does it land emotionally? Will the reader remember it tomorrow?
+
+**Reviewer 1: Claude Opus** (Agent subagent) — overall quality, structural flow, emotional landing.
+
+**Reviewer 2: Codex CLI**
+```bash
+codex exec "Review this writing. Score three dimensions (sensory density, structural tension, resonance) each 1-10. Then list: strongest line, weakest line, one structural suggestion, one thing to cut. Output in the vault language. Text: $(cat /tmp/critique-input.txt)"
+```
+Fallback on failure: Claude Sonnet subagent (noted).
+
+**Reviewer 3: Gemini CLI**
+```bash
+gemini -p "Review this writing. Score three dimensions..." < /tmp/critique-input.txt
+```
+Fallback on failure: Claude Haiku subagent (noted).
+
+#### Phase 3: Synthesis
+
+Comparison table (Opus / Codex / Gemini / Mean), consensus, disagreements (score difference 3+), strongest line, weakest line, recommended edits.
+
+#### Phase 4: Save
+
+Writes to `{vault}/_writing_lab/benchmark/YYYY-MM-DD-{title-slug}-critique.md` with frontmatter including scores.
+
+Rules: Disagreements are the most valuable part — highlight them. Never soften scores. "Strongest line" and "weakest line" must quote actual text.
+
+---
+
+## External
+
+### `/hirameki:mekiki {github-url}`
+
+**Purpose:** Analyze a GitHub repo to extract transferable techniques and evaluate adoption fit.
+**Input:** Required — GitHub URL (`https://github.com/owner/repo` or `owner/repo`).
+**Folders needed:** research folder (output).
+
+#### Phase 1: Fetch (parallel)
+
+```bash
+gh repo view owner/repo --json description,url,stargazerCount,primaryLanguage,updatedAt
+gh api repos/owner/repo/readme -q .content | base64 -d
+gh api repos/owner/repo/git/trees/HEAD?recursive=1 -q '.tree[].path' | head -150
+```
+
+After the tree is fetched, identify 3–5 key source files and fetch them.
+
+#### Phase 2: Analyze
+
+**Track A — Technique Extraction** (always runs): For each interesting part, extract: Pattern name, What (1–2 sentences), Why interesting, Transferable to (user's actual projects), Action (concrete next step). Skip standard practices and language-specific idioms.
+
+**Track B — Adoption Evaluation** (skipped for pure pattern/demo repos): Read user's CLAUDE.md and project memory for actual tool names. Classify repo as Tool / Framework / Library / Pattern. Build comparison table (Feature / Repo offers / We currently use / Delta). Verdict: **adopt** (with next step + timeline) / **defer** (with trigger condition) / **reject** (with alternative).
+
+#### Phase 3: Validate (Sonnet subagent)
+
+Checks: completeness, grounding (no unverified claims, real tool names), actionability. Fix failures before presenting. Skip for repos < 10 files.
+
+#### After Analysis
+
+- **adopt**: offer to clone/install and save vault note to `{research}/mekiki-{repo-name}.md` with `tags: [mekiki, adopt]`, `status: reference`
+- **defer/reject**: save brief vault note to `{research}/mekiki-{repo-name}.md` with appropriate tags, recording decision rationale so future sessions don't re-evaluate
+
+---
+
 ## Maintenance
 
 ### `/hirameki:tidy [tags|fix|full]`
@@ -630,6 +819,12 @@ Rules: if vault has little relevant context, say so directly — do not pad. Nev
 | `/hirameki:harvest` (graduate) | content folder | After confirm | New file each time |
 | `/hirameki:tidy` | analysis/tidy | Always | Appends update |
 | `/hirameki:decide` | none | — | — |
+| `/hirameki:frame` | research/frame/ | With `save` | New file per idea |
+| `/hirameki:critique` | _writing_lab/benchmark/ | Always | New file per critique |
+| `/hirameki:mekiki` | research/ | Always | New file per repo |
+| `/hirameki:tasks` | none | — | — |
+| `/hirameki:lucky` | none | — | — |
+| `/hirameki:next` | none | — | — |
 
 ## Common Rules
 
