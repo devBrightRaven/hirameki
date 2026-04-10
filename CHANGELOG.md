@@ -5,6 +5,33 @@ Versioning follows [Semantic Versioning](https://semver.org/): MAJOR = breaking 
 
 ---
 
+## [1.0.0] — 2026-04-11
+
+### Added
+- `ingest` command — structured ingestion of external content (URL, text, file) into vault with cross-reference scanning and human confirmation
+- `tidy lint` mode — content-level health check: contradiction detection, stale claims, orphan notes, dead wiki links
+- `decide` skill — converted from command to auto-triggered skill (activates when user is weighing options)
+- `next` now includes inbox scan (from catchup) and optional `next lucky` constellation mode (from lucky)
+- SessionStart hook — automatic vault pulse snapshot + inbox scan on session start
+- PostToolUse hook — changelog append to `{_yorozuya}/changelog.md` after each hirameki command
+- `skills/` directory added to plugin structure
+
+### Changed
+- `pulse` (formerly `status`) — default snapshot mode moved to SessionStart hook; command now requires `week` or `patterns` argument
+- `pulse` renamed back from `status` to better reflect its nature (health check, not report)
+
+### Removed
+- `catchup` — inbox scan merged into `next`, vault snapshot merged into SessionStart hook
+- `lucky` — constellation reading merged into `next lucky` mode
+- `decide` command — replaced by auto-triggered skill
+
+### Restored
+- `mekiki` command — accidentally removed in a prior session
+- `frame` command — accidentally removed in a prior session
+- `tasks` command — accidentally removed in a prior session
+
+---
+
 ## [0.5.0] — 2026-03-24
 
 ### Changed
@@ -21,8 +48,6 @@ Versioning follows [Semantic Versioning](https://semver.org/): MAJOR = breaking 
 - **BREAKING:** `status` command renamed to `pulse` to avoid confusion with system-level status commands. All subcommands preserved: `pulse`, `pulse week`, `pulse patterns`.
 - Updated all command reference docs (6 files across EN/zh-TW/ja) and test validation.
 - Added known limitations section to README in all three languages.
-
----
 
 ## [0.2.0] — 2026-03-04
 

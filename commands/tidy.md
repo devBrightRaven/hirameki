@@ -15,6 +15,7 @@ Select which checks to run based on $ARGUMENTS:
 | `tidy tags` | Tag convergence analysis only |
 | `tidy fix` | Missing + Consistency + Auto-fix |
 | `tidy full` | All blocks |
+| `tidy lint` | Content health check (contradictions, stale, orphans, dead links) |
 
 Only run the blocks for the selected mode — omit all others from the report.
 
@@ -87,6 +88,54 @@ Only include sections for blocks that were run. Omit sections for blocks that we
 If a block that was run has no issues, write "None" — do not skip it.
 
 Write output in the language specified in `## Vault Structure` → `language`.
+
+## Content health check (lint mode only)
+
+Scan all content folders for content-level issues beyond frontmatter:
+
+### Contradiction detection
+Find pairs of notes that make conflicting claims about the same topic. For each:
+- Note A: `[[filename]]` — claim
+- Note B: `[[filename]]` — contradicting claim
+- Severity: direct contradiction / tension / evolution (author changed mind over time)
+
+### Stale claims
+Notes where `status` is `published` or `reference` and the file has not been modified in 90+ days. For each:
+- `[[filename]]` — last modified date — topic summary
+- Question: is this still accurate?
+
+### Orphan notes
+Notes with zero incoming `[[wiki links]]` from other notes. Exclude daily notes, inbox, and system folders. For each:
+- `[[filename]]` — created date — topic
+- Suggestion: connect to related note or archive
+
+### Dead links
+`[[wiki links]]` that point to non-existent files. For each:
+- Source: `[[source-note]]` — the broken link text
+- Suggestion: create the note, fix the link, or remove it
+
+### Output (lint mode)
+
+```
+## Content health: lint
+
+> Check time: YYYY-MM-DD HH:MM
+> Files scanned: N
+
+### Contradictions (N)
+...
+
+### Stale claims (N)
+...
+
+### Orphan notes (N)
+...
+
+### Dead links (N)
+...
+```
+
+Lint mode is read-only — it reports issues but does not modify any files.
 
 ## Fix logic (fix mode only)
 

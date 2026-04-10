@@ -1,34 +1,14 @@
 ---
-description: Vault pulse check — instant snapshot, weekly gaps, or undercurrent patterns
+description: Vault pulse check — weekly gaps or undercurrent patterns. Default snapshot runs automatically via SessionStart hook.
 ---
 
 Read `## Vault Structure` from `~/.claude/vault-local.md` (fall back to `~/.claude/CLAUDE.md` if not found) to get the vault path, the daily folder location, and the list of content folders.
 If the section does not exist or required fields are missing, stop and respond: "Setup not complete. Please run `/hirameki:__init` first."
 
-Input: $ARGUMENTS (optional — no argument = instant snapshot; `week` = weekly gap analysis; `patterns` = undercurrent and cluster scan)
+Input: $ARGUMENTS (required — `week` or `patterns`)
+- If $ARGUMENTS is empty, respond: "Which pulse? `week` (gap analysis) or `patterns` (undercurrents). The default snapshot runs automatically at session start."
 
----
-
-## Default mode — instant snapshot
-
-Scan:
-- All content folders, 2 levels deep
-- Files modified in the last 7 days in the daily folder
-
-Output in three sections:
-
-**Content themes**
-For each content folder and its subdirectories: name, total note count, number of unfinished drafts in drafts/ (if any), most recent modification date. Mark status: active (modified in last 7 days) / dormant (not modified in 7+ days).
-
-**Recent activity**
-Files modified in the last 7 days, in reverse chronological order. For each: filename, folder, modification time, change type (new / modified / major rewrite). Limit: 15 files.
-
-**Vault overview**
-- Total file count
-- Number of content folders
-- Folders active in the last 7 days
-
-If a section has no content, write "None" — do not skip it.
+Note: The instant vault snapshot (content themes, recent activity, vault overview) now runs automatically via the SessionStart hook. Use this command for deeper analysis.
 
 ---
 
@@ -77,7 +57,7 @@ Limit: 10 undercurrents, sorted by frequency descending.
 Groups of 3+ notes covering similar concepts without a shared category. For each:
 - Suggested cluster name
 - Notes involved ([[wiki link]] format, limit 5)
-- Shared theme summary (2–3 sentences)
+- Shared theme summary (2-3 sentences)
 - Maturity: high / medium / low
 - Suggested direction: article / project / conceptual framework / keep accumulating
 

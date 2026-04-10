@@ -1,12 +1,15 @@
 ---
-description: Pre-decision vault scan
+description: >
+  Pre-decision vault scan.
+  Use when the user is weighing options, comparing trade-offs, asking "should I...",
+  "要不要...", "應該選...", "どうしよう", or discussing pros and cons of a choice.
+  Triggers on decision-related language even without explicit invocation.
 ---
 
 Read `## Vault Structure` from `~/.claude/vault-local.md` (fall back to `~/.claude/CLAUDE.md` if not found) to get the vault path and the list of content folders.
 If the section does not exist or required fields are missing, stop and respond: "Setup not complete. Please run `/hirameki:__init` first."
 
-Input: $ARGUMENTS (the decision being considered — required)
-- If $ARGUMENTS is empty, ask: "What decision? (one sentence)" and wait for the answer before continuing. Ask in the language specified in `## Vault Structure` → `language`.
+Identify the decision being considered from the user's message.
 
 Before committing, scan the vault for relevant context and surface the structure of the decision. No recommendations. No conclusions.
 
@@ -55,6 +58,6 @@ Rules:
 - If the vault has almost no relevant context, say so directly in Current state — do not fill in
 - Do not write "I recommend...", "You should...", or "The best option is..."
 - Key question must be a single question — never a list
-- This command does not write to any file — output goes to the terminal only. To save the result, run `/hirameki:journal` afterward
+- This skill does not write to any file — output goes to the terminal only. To save the result, run `/hirameki:journal` afterward
 
 Write output in the language specified in `## Vault Structure` → `language`.
