@@ -84,7 +84,44 @@ Note: `vault-local.md` is machine-specific (platform-dependent vault paths) and 
 
 If `## Vault Structure` previously existed in `~/.claude/CLAUDE.md`, remove it from there and inform the user that configuration has been migrated to `vault-local.md`.
 
-**Step 5 — Reference doc sync**
+**Step 5 — Shared policies vault (optional)**
+
+Ask the user: "Do you have a shared policies vault? (A vault containing agent-agnostic rules that all AI agents should follow — coding style, security, testing, etc.)"
+
+- **Yes** → "What is the path to the policies directory?" (e.g. `~/Obsidian/agents-vault/openclaw/_takamagahara/policies/`)
+  - Verify the path exists and contains `.md` files
+  - Create symlink: `~/.claude/rules/policies/ → {policies path}`
+  - If symlink already exists → ask whether to update or keep existing
+  - Add to `vault-local.md`:
+    ```
+    shared-policies: {policies path}
+    ```
+
+- **No** → skip. No symlink created.
+
+If the user provides a path that doesn't exist:
+- Ask: "That path doesn't exist. Do you want to create it? What name?"
+- Warn: "Note: the policies directory path will be referenced by symlinks on every machine. Changing this path later requires updating symlinks on all machines."
+- If confirmed → create the directory
+
+**Step 5b — Personal policies vault (optional)**
+
+Ask the user: "Do you have personal policies? (Writing style, language preferences, AI philosophy — rules specific to you, not shared with other users)"
+
+- **Yes** → "What is the path to the personal policies directory?" (e.g. `~/Obsidian/br-os-vault/_policies/`)
+  - Verify the path exists
+  - Create symlink: `~/.claude/rules/personal/ → {personal policies path}`
+  - If symlink already exists → ask whether to update or keep existing
+  - Add to `vault-local.md`:
+    ```
+    personal-policies: {personal policies path}
+    ```
+
+- **No** → skip.
+
+Same path-doesn't-exist handling and rename cost warning as Step 5.
+
+**Step 6 — Reference doc sync**
 
 - Check whether `{vault}/_hirameki_cmds/` exists
 - Does not exist → create folder, copy the reference docs for the chosen language, print: "Reference docs copied to _hirameki_cmds/"
@@ -107,8 +144,10 @@ Triggered when `## Vault Structure` already exists (in either `vault-local.md` o
 Read the existing configuration, then ask the user what to update:
 1. Language setting
 2. A specific folder path
-3. Update reference docs (`_hirameki_cmds/`)
-4. Start over completely
+3. Shared policies symlink
+4. Personal policies symlink
+5. Update reference docs (`_hirameki_cmds/`)
+6. Start over completely
 
 Only modify what the user selects — leave all other fields unchanged. Always write the result to `~/.claude/vault-local.md`.
 
