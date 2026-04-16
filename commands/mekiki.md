@@ -88,6 +88,7 @@ Dispatch a Sonnet subagent to check the Phase 2 output:
 - **Completeness**: Track A has patterns (or explicit reasoning why none). All significant sections addressed.
 - **Grounding**: No unverified claims. "We currently use" has real names. Delta is measurable.
 - **Actionability**: Every verdict has a next step. Patterns have concrete actions. Adopt/defer has timeline or trigger.
+- **Real-frequency check**: How often per week does the user encounter the problem this repo solves? If < 1 time per week, downgrade adopt to defer-with-test. Read `_policies/ai-philosophy.md` before finalizing verdict -- if the tool automates something the user believes should stay manual, flag as philosophical conflict.
 
 If any check fails, fix before presenting.
 
