@@ -5,6 +5,16 @@ Versioning follows [Semantic Versioning](https://semver.org/): MAJOR = breaking 
 
 ---
 
+## [1.0.2] — 2026-04-23
+
+### Fixed
+- Manifest: removed explicit `"hooks": "./hooks/hooks.json"` reference. Claude Code 2.1.116+ auto-loads the standard `hooks/hooks.json` and rejects duplicate references with a validation error. `manifest.hooks` should only point to non-standard or additional hook files.
+
+## [1.0.1] — 2026-04-11
+
+### Changed
+- `mekiki`: added real-frequency check — estimates weekly encounter rate of the problem a repo solves before issuing an adoption verdict. Downgrades `adopt` to `defer-with-test` when usage would be rare.
+
 ## [1.0.0] — 2026-04-11
 
 ### Added
