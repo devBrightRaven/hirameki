@@ -64,7 +64,7 @@ Either way, the vault path is saved locally to `~/.claude/vault-local.md`. After
 
 ### Commands
 
-15 commands, grouped by when you reach for them.
+16 commands, grouped by when you reach for them.
 
 ---
 
@@ -93,6 +93,14 @@ Orient after resuming a session. Summarises what was done, what's open, and what
 *Use when: you're done for the day (or pausing a session) and want a record of what happened.*
 
 Progress snapshot. Scans session file activity, appends a timestamped block to today's daily note with: completed, in-progress, and next steps. Can run multiple times a day — each run appends a new block. Optional: describe the session focus to shape the summary.
+
+---
+
+**`/hirameki:handoff [topic-slug]`**
+
+*Use when: work isn't finished and the next session needs explicit guidance to pick up.*
+
+Snapshots session state into a new handoff document at `{handoff}/YYYY-MM-DD-{slug}.md`. Automatically collects incomplete tasks, files edited, decisions made, and deferred items — then shows a full draft for confirmation before writing. Distinct from wrap: wrap records what happened, handoff captures what's left and how to resume.
 
 ---
 
@@ -361,7 +369,7 @@ claude   # 任何地方
 
 ### 指令說明
 
-15 個指令，依照使用時機分組。
+16 個指令，依照使用時機分組。
 
 ---
 
@@ -390,6 +398,14 @@ claude   # 任何地方
 *適合：一天結束（或暫停 session）時，記錄發生了什麼。*
 
 進度快照。掃描本次 session 的檔案操作，在今天的 daily note 末尾追加一個帶時間戳的區塊，包含：已完成、進行中、下一步。可一天執行多次，每次追加新區塊。可加入描述來聚焦摘要方向。
+
+---
+
+**`/hirameki:handoff [topic-slug]`**
+
+*適合：工作尚未完成，下一個 session 需要明確指引才能銜接時。*
+
+將 session 狀態快照寫入 `{handoff}/YYYY-MM-DD-{slug}.md`。自動收集未完成的任務、已編輯的檔案、已做的決定和擱置的事項，顯示完整草稿確認後才寫入。與 wrap 的差別：wrap 記錄發生了什麼，handoff 記錄還剩什麼以及如何銜接。
 
 ---
 
@@ -658,7 +674,7 @@ claude   # どこからでも
 
 ### コマンド説明
 
-15 のコマンド、使うタイミングでグループ化。
+16 のコマンド、使うタイミングでグループ化。
 
 ---
 
@@ -687,6 +703,14 @@ claude   # どこからでも
 *使うとき：1 日が終わった（またはセッションを一時停止する）時に、何が起きたかを記録するとき。*
 
 進捗スナップショット。セッションのファイル操作をスキャンし、今日の daily note の末尾にタイムスタンプ付きのブロックを追記。内容：完了・進行中・次のステップ。1 日に複数回実行可能で、毎回新しいブロックを追記。オプションで説明を追加すると要約の方向性が定まる。
+
+---
+
+**`/hirameki:handoff [topic-slug]`**
+
+*使うとき：作業が未完了で、次のセッションが引き継ぐために明確なガイダンスが必要なとき。*
+
+セッション状態を `{handoff}/YYYY-MM-DD-{slug}.md` にスナップショットとして保存。未完了タスク・編集したファイル・決定事項・保留項目を自動収集し、完全なドラフトを表示して確認後に書き込む。wrap との違い：wrap は「何が起きたか」を記録し、handoff は「何が残っているか・どう再開するか」を記録する。
 
 ---
 

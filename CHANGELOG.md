@@ -5,6 +5,13 @@ Versioning follows [Semantic Versioning](https://semver.org/): MAJOR = breaking 
 
 ---
 
+## [1.1.0] — 2026-05-14
+
+### Added
+- `handoff` command — snapshots session state into a structured handoff doc at `{handoff}/YYYY-MM-DD-{slug}.md`. Automatically collects incomplete tasks, edited files, decisions, and deferred items. Shows full draft before writing. Complementary to `wrap`: wrap logs what happened, handoff captures what's left and how to resume.
+
+---
+
 ## [1.0.2] — 2026-04-23
 
 ### Fixed
