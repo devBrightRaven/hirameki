@@ -2,10 +2,10 @@
 description: Multi-agent writing critique for draft articles — 3-model consensus scoring on sensory density, structure, and emotional resonance
 ---
 
-Read `## Vault Structure` from `~/.claude/CLAUDE.md` to get the vault path.
+Read `## Vault Structure` from `~/.claude/vault-local.md` (fall back to `~/.claude/CLAUDE.md` if not found) to get the vault path.
 If the section does not exist or required fields are missing, stop and respond: "Setup not complete. Please run `/hirameki:__init` first."
 
-Run a multi-agent writing review on a draft article. Uses three models (Claude Opus, GPT-5.4 via Copilot, Gemini 3 Pro) to score and critique, then optionally runs an Opus final review.
+Run a multi-agent writing review on a draft article. Uses three models (Claude Opus, Codex GPT via codex CLI, Gemini Pro via gemini CLI) to score and critique, then optionally runs an Opus final review.
 
 Input: $ARGUMENTS (file path — required)
 - If $ARGUMENTS is a relative path, resolve it from the vault root.
@@ -46,23 +46,28 @@ Also identify: Top 3 strongest sentences, Top 3 weakest sentences (and why), One
 Write in 繁體中文. Be brutally honest.
 ```
 
-**Reviewer 2 — GPT-5.4 (Bash, copilot CLI)**
+**Reviewer 2 — Codex GPT (Bash, codex CLI)**
 ```bash
-copilot -p "$(cat <<'PROMPT'
-Read the essay below and evaluate it as a writing critic.
-[same framework as above]
+codex exec "Read the essay below and evaluate it as a writing critic.
+Score on three dimensions (1-10 each):
+1. 感官密度 (Sensory density)
+2. 結構張力 (Structural tension)
+3. 觸動力 (Emotional resonance)
+Also identify: Top 3 strongest sentences, Top 3 weakest sentences (and why), One structural suggestion.
 Write in 繁體中文. Be honest and critical.
 
-$(cat '{file_path}')
-PROMPT
-)"
+$(cat '{file_path}')"
 ```
 
-**Reviewer 3 — Gemini 3 Pro (Bash, gemini CLI)**
+**Reviewer 3 — Gemini Pro (Bash, gemini CLI)**
 ```bash
 gemini -p "$(cat <<'PROMPT'
 Read the essay below and evaluate it as a writing critic.
-[same framework as above]
+Score on three dimensions (1-10 each):
+1. 感官密度 (Sensory density)
+2. 結構張力 (Structural tension)
+3. 觸動力 (Emotional resonance)
+Also identify: Top 3 strongest sentences, Top 3 weakest sentences (and why), One structural suggestion.
 Write in 繁體中文. Be honest and critical.
 
 $(cat '{file_path}')
@@ -77,8 +82,8 @@ After all three return, compile into a comparison table:
 ```
 ## 三模型評審對照
 
-| 維度 | Opus | GPT-5.4 | Gemini 3 Pro |
-|------|------|---------|--------------|
+| 維度 | Opus | Codex GPT | Gemini Pro |
+|------|------|-----------|------------|
 | 感官密度 | X | X | X |
 | 結構張力 | X | X | X |
 | 觸動力 | X | X | X |
@@ -110,7 +115,7 @@ tags:
   - writing-lab
   - review
 status: reference
-source: agent
+source: claude-code
 created: {YYYY-MM-DD}
 article: "{article filename}"
 scores:
@@ -120,8 +125,8 @@ scores:
   overall: {average of three consensus scores}
 models:
   - opus
-  - gpt-5.4
-  - gemini-3-pro
+  - codex
+  - gemini
 phase: initial
 ---
 
@@ -129,8 +134,8 @@ phase: initial
 
 ## 評分對照
 
-| 維度 | Opus | GPT-5.4 | Gemini 3 Pro | **共識** |
-|------|------|---------|--------------|----------|
+| 維度 | Opus | Codex GPT | Gemini Pro | **共識** |
+|------|------|-----------|------------|----------|
 | 感官密度 | X | X | X | **X.X** |
 | 結構張力 | X | X | X | **X.X** |
 | 觸動力 | X | X | X | **X.X** |
@@ -172,8 +177,8 @@ Then do a fresh read: overall impression, score all three dimensions, any NEW we
 Write in 繁體中文. Be honest.
 ```
 
-**Codex Final (Bash, copilot CLI)**
-Same prompt structure as Opus Final, via copilot CLI.
+**Codex Final (Bash, codex CLI)**
+Same prompt structure as Opus Final, via `codex exec`.
 
 Compile both into a final comparison. Then **append** the final review results to the same benchmark file created in Phase 2.5:
 
@@ -183,10 +188,10 @@ Compile both into a final comparison. Then **append** the final review results t
 
 ## 終審（Phase 3）
 
-**終審模型**: Opus + GPT-5.4
+**終審模型**: Opus + Codex GPT
 
-| 維度 | Opus | GPT-5.4 | **共識** |
-|------|------|---------|----------|
+| 維度 | Opus | Codex GPT | **共識** |
+|------|------|-----------|----------|
 | 感官密度 | X | X | **X.X** |
 | 結構張力 | X | X | **X.X** |
 | 觸動力 | X | X | **X.X** |
@@ -219,5 +224,5 @@ Print the updated file path. Present the results to the user.
 - Never modify the article file during review — read only.
 - Present results in 繁體中文.
 - Opus reviewers use `model: opus` parameter. Do NOT use Sonnet for writing review — writing critique requires judgment depth.
-- If copilot or gemini CLI is not available, skip that reviewer and note it in output.
+- If codex or gemini CLI is not available, skip that reviewer and note it in output.
 - Focus on **consensus signals**: issues flagged by 2+ models are high priority; single-model flags are informational.

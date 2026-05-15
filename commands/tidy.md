@@ -137,6 +137,29 @@ Notes with zero incoming `[[wiki links]]` from other notes. Exclude daily notes,
 
 Lint mode is read-only — it reports issues but does not modify any files.
 
+After the lint report, append a **Cross-reference suggestions** section. Only show a suggestion when that area has N > 0 issues. If all areas are 0, omit this section entirely.
+
+```
+## Cross-reference suggestions
+
+### Dig deeper into contradictions
+(Only if contradictions N > 0)
+Run `/hirameki:lens <topic>` on the most-conflicted topic to examine the weaknesses in depth.
+Most-conflicted topic found: {topic with the most contradictions}
+
+### Surface vault patterns
+(Only if isolated tags ≥ 5 or orphan notes ≥ 5)
+Run `/hirameki:pulse patterns` to see recurring themes and gaps across the full vault.
+
+### Handle stale claims
+(Only if stale claims N > 0)
+For claims that are still valid: run `/hirameki:graduate <note>` to promote to a stable concept card.
+For claims that are outdated: update `status: archive` in frontmatter.
+Stale files needing attention: N
+```
+
+Do not auto-execute any of these suggestions. Surface only — the user decides next steps.
+
 ## Fix logic (fix mode only)
 
 Show the full list of all planned changes and wait for confirmation before executing.

@@ -169,3 +169,4 @@ If unsure which to use: run both. They are complementary, not duplicates.
 - Do not hardcode vault paths — resolve from `vault-local.md` every time
 - Slug must not contain dates (the filename already has YYYY-MM-DD prefix)
 - Do not add a `name:` field to this file's frontmatter — it would break the `hirameki:` prefix
+- Write output in the language specified in `## Vault Structure` → `language`

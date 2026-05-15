@@ -61,6 +61,7 @@ Match each purpose to the first existing candidate folder in the vault:
 - **inbox**: `Inbox/`, `_inbox/`, `inbox/`, `_Capture/`, `Capture/`
 - **research**: `_yorozuya/research/`, `_hirameki_analysis/`, `_agent_analysis/`, `_claude_code_analysis/`, `Analysis/`, `_analysis/`, `analysis/`
 - **journal**: `_yorozuya/journal/`, `_hirameki_logs/`, `_agent_logs/`, `_claude_code_logs/`, `Logs/`, `_logs/`, `logs/`
+- **handoff**: `_yorozuya/handoff/`, `Handoff/`, `_handoff/`, `handoff/`
 - **templates**: `Templates/`, `_templates/`, `templates/`
 
 If no match is found for a purpose → ask the user where to create it (suggest the first candidate name by default), then create it after confirmation.
@@ -77,6 +78,7 @@ daily: {folder name}/
 inbox: {folder name}/
 research: {folder name}/
 journal: {folder name}/
+handoff: {folder name}/
 templates: {folder name}/
 ```
 

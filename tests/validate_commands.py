@@ -1,176 +1,212 @@
 #!/usr/bin/env python3
 """
-Static validation for hirameki command files.
+Static validation for hirameki command files (v1.2.0).
 
-Written as a spec: defines what the English versions of each command MUST contain.
-Commands must be rewritten in English to pass these checks.
+Written as a spec: defines what each command file MUST contain.
+Run manually before publishing a release, and automatically via
+GitHub Actions on every push / PR (.github/workflows/validate.yml).
 
 Checks:
-1. YAML frontmatter (description field)
+1. YAML frontmatter with description field
 2. Universal phrases present in every command
-3. Write commands have confirm-before-write and print-after-write rules
-4. Per-command required sections and concepts
-5. decide command explicitly states it does not write to file
+   (config path, Vault Structure section, recovery command reference)
+3. Write commands have confirm-before-write and print-after-write safety language
+4. Per-command required sections and concepts (the load-bearing parts)
+5. Language output instruction
 """
+
+from __future__ import annotations
 
 import sys
 from pathlib import Path
 
 COMMANDS_DIR = Path(__file__).parent.parent / "commands"
 
-# Commands that write to files — must have confirm-before-write rules
-WRITE_COMMANDS = {"wrap", "explore", "harvest", "tidy", "journal"}
+# Commands that write to vault files — must have confirm-before-write rules.
+# Includes conditional writers (reflect, frame, harvest with `save`) because
+# their confirm path should still be documented when the save flag is given.
+WRITE_COMMANDS: set[str] = {
+    "wrap", "journal", "handoff",
+    "triage", "lens", "compose",
+    "mekiki", "arc", "bridge", "challenge",
+    "reflect", "frame", "harvest", "graduate",
+    "tidy", "critique",
+}
 
-# Per-command required content (substring checks).
-# These define the ENGLISH spec — commands must contain these phrases.
-REQUIRED_CONTENT = {
+# Per-command required content (substring checks; case-insensitive fallback).
+# Each entry encodes load-bearing structure for that command.
+REQUIRED_CONTENT: dict[str, list[str]] = {
     "__init": [
-        # Detection steps
-        "Vault detection",
-        "Language",
-        "Folder",
-        # Write output
         "Vault Structure",
-        # Folder candidates
-        "_agent_analysis",
-        "_agent_logs",
-        "_claude_code_logs",
-        # Obsidian auto-detection
+        "vault-local.md",
         "obsidian.json",
-        # Ref doc sync
         "_hirameki_cmds",
+        "handoff",  # v1.1.0 added handoff folder resolution
     ],
-    "catchup": [
-        "daily-notes",
-        "inbox",
-        # Three output sections
-        "progress",
-        "Inbox",
-        "focus",
+    "triage": [
+        "wrap", "journal", "handoff",  # the three sub-flows
+        "save", "skip",  # action prompts
+    ],
+    "lens": [
+        "arc", "bridge", "challenge",  # three of four sub-flows
+        "position",  # position extraction step
+        "save", "skip",
+    ],
+    "compose": [
+        "voice", "frame",  # two sub-flows
+        "save", "skip",
+    ],
+    "mekiki": [
+        "Repo branch", "Article branch",  # two branches
+        "github.com",  # routing
+        "research", "inbox",  # outputs
+    ],
+    "next": [
+        "Done", "Inbox", "Next",  # output sections
+        "lucky",  # lucky mode
     ],
     "wrap": [
-        # Write target
-        "daily-notes",
-        # Block format
-        "## Wrap [HH:MM]",
-        "Done",
-        "In progress",
-        "Next",
-        # Template handling
+        "## Wrap",
+        "Done", "In progress", "Next",
         "templates",
-    ],
-    "explore": [
-        # Mode detection table
-        "Mode detection",
-        # Four modes
-        "Arc",
-        "Bridge",
-        "Ghost",
-        "Stress-test",
-        # Save flag
-        "save",
-        # Write targets
-        "analysis}/arc/",
-        "analysis}/bridge/",
-        "analysis}/ghost/",
-        "analysis}/stress-test/",
-    ],
-    "pulse": [
-        # Three modes
-        "pulse week",
-        "pulse patterns",
-        # Patterns mode concepts
-        "ndercurrent",        # matches "Undercurrent" or "undercurrent"
-        # Week mode concept
-        "gap",               # matches "gap analysis" or "Gap analysis"
-    ],
-    "harvest": [
-        # Seven categories
-        "Articles",
-        "Tools",
-        "Topics",
-        "People",
-        "medium",            # "different medium" or "Medium"
-        "value",             # "Untransacted value" or "Value"
-        "graduate",          # "Graduate" or "ready to graduate"
-        # Two-phase graduation
-        "graduation",
-        # Write target
-        "analysis}/harvest/",
-    ],
-    "tidy": [
-        # Mode variants
-        "tidy tags",
-        "tidy fix",
-        "tidy full",
-        # Check blocks
-        "Missing",           # "Missing field check"
-        "Consistency",
-        "Tag",
-        # Fix logic
-        "fix",
-        # Write target
-        "analysis}/tidy/",
+        "daily",
     ],
     "journal": [
-        # Filename format
-        "HHMM",
-        # Two modes
-        "Create",
-        "Append",
-        # Language-based slug rules
-        "Traditional Chinese",
-        "Japanese",
-        "English",
+        "HHMM",  # filename format
+        "Create", "Append",  # modes
+        "Background",
+        "Open items",
     ],
-    "lucky": [
-        # Random selection
-        "random",
-        "neglected",         # weighting toward old notes
-        # Constellation concept
-        "constellation",
-        "hidden theme",
-        # No pairwise bridge
-        "one question",
-        # No file write
-        "does not write",
+    "handoff": [
+        "Re-pickup",
+        "deferred",
+        "Decisions",
+        "Traps",
+        "handoff",  # write target
     ],
-    "decide": [
-        # Three-layer structure
-        "Current state",     # or "Current State"
-        "Friction",
-        "Key question",      # or "Key Question"
-        # Reversibility
-        "two-way door",
-        "one-way door",
-        # Inversion method
-        "inversion",
-        # No file write
-        "does not write",
-        # One question only
-        "one question",
+    "arc": [
+        "first",
+        "timeline",
+        "current",
+        "unexplored",
+        "arc",  # write target folder
+    ],
+    "bridge": [
+        "intersect",
+        "bridge",
+        "hypothes",
+    ],
+    "challenge": [
+        "contradiction",
+        "assumption",
+        "logic",
+        "evidence",
+        "challenge",  # write target folder
+    ],
+    "reflect": [
+        "style", "position", "voice",
+        "save",
+        "reflect",  # write target folder
+    ],
+    "frame": [
+        "Only-I",
+        "collision",
+        "stakes",
+        "tension",
+        "evidence",
+        "PROCEED", "RETHINK", "KILL", "CONSOLIDATE",
+        "save",
+    ],
+    "critique": [
+        "Opus", "Codex", "Gemini",
+        "sensory", "tension", "resonance",
+        "benchmark",
+    ],
+    "pulse": [
+        "week", "patterns",
+        "undercurrent",
+    ],
+    "harvest": [
+        "Articles", "Tools", "Topics", "People",
+        "medium",
+        "value",
+        "graduate",
+        "save",
+    ],
+    "graduate": [
+        "0 Material",  # target folder, distinctive
+        "MOC",
+        "atomic",
+        "wiki",
+    ],
+    "tasks": [
+        "stuck",
+    ],
+    "tidy": [
+        "tags", "fix", "full", "lint",  # five modes
+        "lens", "pulse", "graduate",  # lint cross-reference suggestions
     ],
 }
 
-# Must appear in every command file (language-independent — paths and command names)
-UNIVERSAL_REQUIRED = [
-    ("~/.claude/CLAUDE.md",  "config file path"),
-    ("Vault Structure",       "config section name"),
-    ("/hirameki:__init",      "recovery command reference"),
+# Must appear in every command file (language-independent: paths and command names).
+UNIVERSAL_REQUIRED: list[tuple[str, str]] = [
+    ("vault-local.md", "config file path (primary)"),
+    ("Vault Structure", "config section name"),
+    ("/hirameki:__init", "recovery command reference"),
 ]
 
-# Must appear in every command that writes files
-WRITE_REQUIRED = [
-    ("confirm",   "confirm-before-write rule"),   # "confirm before writing" etc.
-    ("full path", "print-path-after-write rule"),  # "print full path after writing" etc.
+# Each safety property accepts ANY of these patterns (case-insensitive).
+# Different v1.2.0 commands use different phrasings of the same safety contract:
+# - wrap/journal/handoff use literal "confirm" prompts
+# - bridge/frame/reflect/harvest use "do not write unless the user asks/saves"
+# - triage/lens/compose use "save / skip" per step
+# All are valid expressions of "ask before writing".
+WRITE_SAFETY: list[tuple[list[str], str]] = [
+    (
+        [
+            "confirm",
+            "save / skip", "save/skip", "save, skip",
+            "unless the user",
+            "ask:",
+            "ask for",
+            "Save as",  # graduate's pattern
+            "Save to",  # handoff's pattern
+        ],
+        "confirm-before-write rule",
+    ),
+    (
+        [
+            "full path",
+            "file path",
+            "the path after",
+            "print the path",
+            "Print the file path",
+            "the full path",
+        ],
+        "print-path-after-write rule",
+    ),
 ]
 
-# At least one of these must appear (language output instruction)
-LANGUAGE_PHRASES = ["language", "Language"]
+# At least one of these must appear (language output instruction).
+# Either the convention ("language specified in ## Vault Structure → language")
+# or a hardcoded language directive (e.g., critique always outputs 繁體中文).
+LANGUAGE_PHRASES: list[str] = [
+    "language", "Language",
+    "繁體中文",
+    "Traditional Chinese",
+    "日本語",
+    "Japanese",
+]
+
+
+def has_any(content: str, patterns: list[str]) -> bool:
+    """True if any pattern appears in content (case-insensitive)."""
+    lower = content.lower()
+    return any(p.lower() in lower for p in patterns)
 
 
 def check_file(name: str, content: str) -> list[str]:
-    errors = []
+    errors: list[str] = []
 
     # 1. Frontmatter
     if not content.startswith("---"):
@@ -178,30 +214,26 @@ def check_file(name: str, content: str) -> list[str]:
     elif "description:" not in content:
         errors.append("Missing 'description' field in frontmatter")
 
-    # 2. Universal required phrases
+    # 2. Universal required phrases (exempt __init from self-reference)
     for phrase, label in UNIVERSAL_REQUIRED:
+        if name == "__init" and phrase == "/hirameki:__init":
+            continue
         if phrase not in content:
             errors.append(f"Missing {label}: {phrase!r}")
 
     # 3. Write commands: confirm-before-write and print-after-write
     if name in WRITE_COMMANDS:
-        for phrase, label in WRITE_REQUIRED:
-            if phrase.lower() not in content.lower():
-                errors.append(f"Write command missing {label}: {phrase!r}")
+        for patterns, label in WRITE_SAFETY:
+            if not has_any(content, patterns):
+                errors.append(f"Write command missing {label}")
 
-    # 4. decide must explicitly state no file write
-    if name == "decide":
-        if "does not write" not in content and "no file" not in content.lower():
-            errors.append("decide must state it does not write to file")
-
-    # 5. Per-command required content
+    # 4. Per-command required content (case-insensitive fallback)
     for phrase in REQUIRED_CONTENT.get(name, []):
-        # Case-sensitive for paths and format strings; case-insensitive for concepts
         if phrase not in content and phrase.lower() not in content.lower():
             errors.append(f"Missing required content: {phrase!r}")
 
-    # 6. Language output instruction
-    if not any(p in content for p in LANGUAGE_PHRASES):
+    # 5. Language output instruction
+    if not has_any(content, LANGUAGE_PHRASES):
         errors.append("Missing language output instruction")
 
     return errors
@@ -214,21 +246,18 @@ def main() -> None:
         print(f"ERROR: No command files found in {COMMANDS_DIR}")
         sys.exit(1)
 
-    # Check no expected command is missing
+    # Check command file set matches spec
     expected = set(REQUIRED_CONTENT.keys())
     found = {f.stem for f in command_files}
-    missing_files = expected - found
+    missing_in_disk = expected - found
+    missing_in_spec = found - expected
 
-    all_passed = True
-    results = []
-
+    results: list[tuple[str, list[str]]] = []
     for path in command_files:
         name = path.stem
         content = path.read_text(encoding="utf-8")
         errors = check_file(name, content)
         results.append((name, errors))
-        if errors:
-            all_passed = False
 
     for name, errors in results:
         if errors:
@@ -238,15 +267,16 @@ def main() -> None:
         else:
             print(f"ok    {name}.md")
 
-    if missing_files:
-        all_passed = False
-        print(f"\nMISSING command files: {sorted(missing_files)}")
+    if missing_in_disk:
+        print(f"\nMISSING (in spec but not on disk): {sorted(missing_in_disk)}")
+    if missing_in_spec:
+        print(f"\nUNCOVERED (on disk but not in spec): {sorted(missing_in_spec)}")
 
-    print()
-    total = len(command_files)
     failed = sum(1 for _, e in results if e)
-    print(f"{total - failed}/{total} passed")
+    total = len(command_files)
+    print(f"\n{total - failed}/{total} passed")
 
+    all_passed = failed == 0 and not missing_in_disk and not missing_in_spec
     sys.exit(0 if all_passed else 1)
 
 
