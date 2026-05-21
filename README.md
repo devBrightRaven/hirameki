@@ -58,7 +58,7 @@ claude   # anywhere
 
 `__init` reads Obsidian's app config to find your vaults automatically — no need to know the path. If you have multiple vaults, it shows a list to choose from.
 
-Either way, the vault path is saved locally to `~/.claude/vault-local.md`. After setup, every Hirameki command works no matter where you open Claude Code. If you sync `~/.claude/` across machines, `vault-local.md` should be gitignored — each machine runs `/hirameki:__init` once.
+Either way, `__init` writes a **split configuration**: your vault's folder structure goes into `<vault>/AGENTS.md` (agent-neutral — it travels with the vault and any AI agent can read it), and per-machine values (vault path, language) go into `~/.claude/vault-local.md`. After setup, every Hirameki command works no matter where you open Claude Code. If you sync `~/.claude/` across machines, `vault-local.md` should be gitignored — each machine runs `/hirameki:__init` once.
 
 ---
 
@@ -105,36 +105,38 @@ External resource capture. Auto-detects input type:
 | Input | Route | Output |
 |-------|-------|--------|
 | GitHub URL or `owner/repo` | Repo analysis: technique extraction + adopt/defer/reject | `{research}/mekiki-{repo}.md` |
-| Article URL | Article capture + vault cross-reference + integration verdict | `{inbox}/YYYY-MM-DD-{slug}.md` |
-| Pasted text or local file path | Article capture + vault cross-reference + integration verdict | `{inbox}/YYYY-MM-DD-{slug}.md` |
+| Article URL | Article capture + vault cross-reference + integration verdict (integrate / revisit-later / skip) | `{inbox}/YYYY-MM-DD-{slug}.md` |
+| Pasted text or local file path | Article capture + vault cross-reference + integration verdict (integrate / revisit-later / skip) | `{inbox}/YYYY-MM-DD-{slug}.md` |
 
 ---
 
 #### Session
 
-**`/hirameki:next`**
+**`/hirameki:next [N|lucky]`**
 
 *Use when: you're resuming mid-session and need a quick orientation.*
 
-Orient after resuming a session. Summarises what was done, what's open, and what to do next. Scans the current session's task list, file activity, and recent decisions.
+Orient after resuming a session. Summarises what was done, what's open, what's in your inbox, and what to do next — scanning the session's task list, file activity, recent decisions, and yesterday's wrap log. Pass a number to look back that many days for wrap-log context (default 1). Add `lucky` to append a **constellation reading**: it draws five notes from your vault (favouring ones untouched for 30+ days), finds the hidden theme connecting them, and surfaces the question you might be circling.
 
 ---
 
-**`/hirameki:wrap [description]`**
+**`/hirameki:wrap [description|merge]`**
 
 *Use when: you're done for the day (or pausing a session) and want a record of what happened.*
 
-Progress snapshot. Scans session file activity, appends a timestamped block to today's daily note with: completed, in-progress, and next steps. Can run multiple times a day — each run appends a new block. Optional: describe the session focus to shape the summary.
+Progress snapshot. Scans session file activity, appends a timestamped block to today's daily note with: completed, in-progress, and next steps. Can run multiple times a day — each run appends a new block. Optional: describe the session focus to shape the summary. Run `wrap merge` to consolidate all of today's wrap blocks into one unified summary at the top of the log.
 
 ---
 
-**`/hirameki:journal <topic>`**
+**`/hirameki:journal [topic|review]`**
 
 *Use when: you made a non-obvious decision and want to record why — so future-you (or a collaborator) can understand the reasoning.*
 
 Work log with reasoning. Writes a structured entry covering: background, what you did, why you did it, inspiration connections, possible improvements, and open follow-ups. Same topic, same day: appends an update section and marks completed follow-ups. Searches related vault notes to surface context and [[wiki links]].
 
 Different from `wrap`: wrap records what happened in a session. Journal records why you made a specific decision.
+
+`journal review` (or `journal review N`) scans the `## Corrections` sections of recent journal entries, deduplicates them against your existing rules, and proposes updates to `~/.claude/CLAUDE.md` or `~/.claude/rules/` — applied only on your confirmation. It is the one command that writes outside the vault.
 
 ---
 
@@ -154,7 +156,7 @@ These are the primitives that `/hirameki:lens` orchestrates. Call them directly 
 
 *Use when: you keep returning to the same concept and want to see how your thinking has changed.*
 
-Concept evolution tracker. Shows first appearance, evolution timeline, current state, and unexplored angles across your vault. Same concept, same day: appends. Saves to `{research}/arc/YYYY-MM-DD-{concept}.md`.
+Concept evolution tracker. Shows first appearance, evolution timeline, current state, and unexplored angles across your vault. Prints to the terminal by default; add `save` to write to `{research}/arc/YYYY-MM-DD-{concept}.md` (same concept, same day appends).
 
 ---
 
@@ -162,7 +164,7 @@ Concept evolution tracker. Shows first appearance, evolution timeline, current s
 
 *Use when: two interests feel separate but might be related, and you want to find the connection.*
 
-Hidden connections between two topics. Finds direct intersections, bridge notes, and proposes deep connection hypotheses. Same pair, same day: appends. Saves to `{research}/bridge/YYYY-MM-DD-{A}-{B}.md`.
+Hidden connections between two topics. Finds direct intersections, bridge notes, and proposes deep connection hypotheses. Prints to the terminal by default; add `save` to write to `{research}/bridge/YYYY-MM-DD-{A}-{B}.md`.
 
 ---
 
@@ -170,7 +172,7 @@ Hidden connections between two topics. Finds direct intersections, bridge notes,
 
 *Use when: before publishing something — find the holes before your readers do.*
 
-Argument weakness analysis. Checks each claim in the vault about a topic for: internal contradictions, unverified assumptions, logic gaps, and evidence gaps. Saves to `{research}/challenge/YYYY-MM-DD-{topic}.md`.
+Argument weakness analysis. Checks each claim in the vault about a topic for: internal contradictions, unverified assumptions, logic gaps, and evidence gaps. Prints to the terminal by default; add `save` to write to `{research}/challenge/YYYY-MM-DD-{topic}.md`.
 
 ---
 
@@ -190,7 +192,7 @@ These are the primitives that `/hirameki:compose` orchestrates.
 
 *Use when: you have a creative idea (article, product, design) and want to validate it before investing effort.*
 
-Pre-creation checkpoint. Runs five questions against your vault: Only-I test (what makes this uniquely yours?), collision scan (have you already published this?), stakes (what changes for the reader/user?), tension (what's the surprising or uncomfortable part?), and evidence (what grounds this in lived experience?). Produces one of four verdicts: **PROCEED** / **RETHINK** / **KILL** / **CONSOLIDATE**. Does not generate content — only evaluates whether content should exist. Add `save` to write result to file.
+Pre-creation checkpoint. Runs five questions against your vault: Only-I test (what makes this uniquely yours?), collision scan (have you already published this?), stakes (what changes for the reader/user?), tension (what's the surprising or uncomfortable part?), and evidence (what grounds this in lived experience?). Produces one of four verdicts: **PROCEED** / **RETHINK** / **KILL** / **CONSOLIDATE**. Does not generate content — only evaluates whether content should exist. Add `save` to write the result to `{research}/frame/YYYY-MM-DD-{idea}.md`.
 
 ---
 
@@ -198,7 +200,7 @@ Pre-creation checkpoint. Runs five questions against your vault: Only-I test (wh
 
 *Use when: you want independent feedback on a piece of writing.*
 
-Multi-model writing critique. Dispatches three reviewers in parallel — Claude Opus, Codex (via `codex exec`), and Gemini (via `gemini -p`) — each scoring three dimensions: sensory density, structural tension, and resonance (1–10). Synthesises results into a comparison table highlighting where reviewers agree and where they diverge by 3+ points. Strongest line, weakest line, and recommended edits from all three. Saves output to `{vault}/_writing_lab/benchmark/`.
+Multi-model writing critique. Dispatches three reviewers in parallel — Claude Opus, Codex (via `codex exec`), and Gemini (via `gemini -p`) — each scoring three dimensions: sensory density, structural tension, and resonance (1–10). Synthesises results into a comparison table highlighting where reviewers agree and where they diverge by 3+ points. Strongest line, weakest line, and recommended edits from all three. Saves output to `{vault}/_writing_lab/benchmark/`. After you revise the piece, an optional Phase 3 re-runs Opus and Codex on the new version and appends a final review.
 
 ---
 
@@ -210,7 +212,7 @@ Multi-model writing critique. Dispatches three reviewers in parallel — Claude 
 
 Three modes depending on what you need:
 
-- **`/hirameki:pulse`** — Immediate snapshot. Scans all content folders (depth 2) and the last 7 days of daily notes. Shows content topics per folder, recent file changes, and vault-wide counts. Good to run at session start.
+- **Default snapshot** — content topics per folder, recent file changes, and vault-wide counts. This snapshot runs automatically on every Claude Code session start (via the SessionStart hook). Running `/hirameki:pulse` bare will prompt you to pick `week` or `patterns`.
 
 - **`/hirameki:pulse week`** — Weekly gap analysis. Compares what you said was a priority (from daily notes) against what you actually worked on (from file changes). Surfaces drift between intentions and effort. Requires at least 3 days of daily notes.
 
@@ -228,21 +230,21 @@ Harvests actionable ideas from existing content. Scans content folders, 30 days 
 2. **Tools or projects to build** — tool needs, pain points, or product ideas mentioned in your notes
 3. **Topics worth researching** — things mentioned but not explored
 4. **People or communities to contact** — mentioned and relevant to where you're headed
-5. **Ideas that want a different medium** — content better suited to video, visual, talk, or newsletter
-6. **Value you're not transacting on** — expertise worth productizing or pitching
+5. **Ideas for a different medium** — content better suited to video, visual, talk, or newsletter
+6. **Untransacted value** — expertise worth productizing or pitching
 7. **Ideas ready to graduate** — half-formed ideas dense enough to become a standalone note
 
 The graduate category has a second phase: after seeing the candidates, you confirm which ones to execute. Each selected idea gets a new note in the appropriate content folder, with source context and wiki links back to related notes.
 
-Add `save` to write the harvest summary to file.
+Add `save` to write the harvest summary to `{research}/harvest/YYYY-MM-DD.md` (same-day runs append).
 
 ---
 
-**`/hirameki:graduate <note>`**
+**`/hirameki:graduate [note]`**
 
-*Use when: a note has matured into a stable concept and you want to formalize it.*
+*Use when: a half-formed idea has matured and you want to formalize it as a stable concept.*
 
-Promotes a note to a stable concept card. Validates and completes frontmatter, sets a formal status, and links related cards with wiki links.
+Promotes an idea into a stable concept card in `{vault}/0 Material/`. Two modes: with no argument (or a topic keyword) it scans the last 14 days of inbox, journal, daily, and research notes for graduation candidates and lets you choose; with a file path it extracts the atomic ideas from that file. Validates and completes frontmatter, sets a formal status, and links related cards with wiki links.
 
 ---
 
@@ -250,7 +252,7 @@ Promotes a note to a stable concept card. Validates and completes frontmatter, s
 
 *Use when: you want a single prioritised list of everything you said you'd do next.*
 
-Aggregates next actions from daily notes and journal entries. Default: scans the last 3 days, deduplicates and ranks by recurrence. Items appearing 3+ times are flagged as potential procrastination. Use `tasks stuck` to find recurring unfinished tasks that have never appeared in a "Done" section.
+Aggregates next actions from your wrap logs and journal. Default: scans the last 3 days of wrap logs plus today's and yesterday's journal entries, deduplicates and ranks by recurrence. Items appearing 3+ times are flagged as potential procrastination. Use `tasks stuck` to find recurring unfinished tasks that have never appeared in a "Done" section.
 
 ---
 
@@ -276,7 +278,15 @@ Saves output to `{research}/tidy/`.
 
 *Use when: first time setup on a new machine, or reconfiguring an existing setup.*
 
-First-time setup: vault detection, language setting, folder resolution, writes to `~/.claude/vault-local.md`. Run once per machine. If config already exists, runs as Mode B (reconfigure individual settings).
+First-time setup: vault detection, language, and folder resolution. Writes a **split configuration** — vault folder structure to `<vault>/AGENTS.md`, per-machine values (vault path, language) to `~/.claude/vault-local.md`. Optionally links a shared policies vault and a personal policies vault. Run once per machine. If config already exists, runs as Mode B — reconfigure individual settings.
+
+---
+
+#### Skill
+
+**`decide`** *(auto-triggered — not a command)*
+
+When you're visibly weighing a decision ("should I…", "which option…"), the `decide` skill triggers on its own. It scans the vault for your prior thinking on the question and reflects back where you stand, what's creating friction, and the key question — without choosing for you. Read-only; it writes nothing.
 
 ---
 
@@ -296,8 +306,8 @@ Your vault is a record of how *you* actually think. The goal is to amplify that 
 
 ### How it works
 
-1. **Config**: Settings live in `~/.claude/vault-local.md` under `## Vault Structure` — vault path, language, and folder mappings. Written once by `/hirameki:__init`, read by all other commands. Falls back to `~/.claude/CLAUDE.md` for backwards compatibility.
-2. **Folder detection**: Commands look for common folder names (`_daily/`, `Daily/`, `Journal/` etc.). Missing folders are created on first use and saved to config.
+1. **Config**: `/hirameki:__init` writes a split configuration. Vault folder structure goes to `<vault>/AGENTS.md` under `## Vault Structure` (agent-neutral — it travels with the vault and any agent, Codex / Gemini / Claude, can read it). Per-machine values (vault path, language) go to `~/.claude/vault-local.md`. Every command resolves folder paths in this order: `<vault>/AGENTS.md` → `~/.claude/vault-local.md` → `~/.claude/CLAUDE.md`.
+2. **Folder detection**: `__init` is audit-first — it looks for evidence of your existing organisation before proposing folders. When it finds no evidence, it falls back to common folder names. Missing folders are created on first use and saved to config.
 3. **Content scanning**: All non-system folders in your vault root are treated as "content folders" — whatever structure you use, commands adapt.
 4. **Write safety**: Every command that writes a file shows a full preview and path before writing. Nothing is written without confirmation.
 
@@ -305,18 +315,19 @@ Your vault is a record of how *you* actually think. The goal is to amplify that 
 
 ### Folder name detection
 
-`__init` looks for these folder names in your vault root, in order. First match wins. If none are found, it asks where to create the folder.
+When `__init` finds no evidence of an existing structure, it falls back to these common folder names, checked in order. First match wins. If none are found, it asks where to create the folder.
 
 <details>
-<summary>Detected folder names</summary>
+<summary>Fallback folder names</summary>
 
-| Purpose | Detected names (checked in this order) |
+| Purpose | Fallback names (checked in this order) |
 |---------|----------------------------------------|
-| daily-notes | `Daily/` `_daily/` `daily/` `Journal/` `journal/` |
-| inbox | `Inbox/` `_inbox/` `inbox/` `_Capture/` `Capture/` |
-| research | `_hirameki_research/` `_agent_research/` `_claude_code_research/` `Research/` `_research/` `research/` |
-| handoff | `_yorozuya/handoff/` `Handoff/` `_handoff/` `handoff/` |
-| templates | `Templates/` `_templates/` `templates/` |
+| daily-notes | `wrap/` `_wrap/` `Wrap/` `daily/` `_daily/` `Daily/` `Journal/` `journal/` |
+| inbox | `inbox/` `_inbox/` `Inbox/` `_Capture/` `Capture/` |
+| journal | `journal/` `_journal/` `Journal/` `_logs/` `logs/` |
+| research | `research/` `_research/` `Research/` `_analysis/` `analysis/` |
+| handoff | `handoff/` `_handoff/` `Handoff/` |
+| templates | `templates/` `_templates/` `Templates/` |
 
 If your vault uses a different name, `__init` will ask and save your choice. The saved mapping is what all commands use — the detection list only runs once.
 
@@ -394,7 +405,7 @@ claude   # 任何地方
 
 `__init` 會自動讀取 Obsidian 的 app 設定檔，找出你已有的 vault，不需要手動輸入路徑。有多個 vault 時會列出清單讓你選擇。
 
-設定完成後，vault 路徑存入 `~/.claude/vault-local.md`。之後不管在哪裡開啟 Claude Code，所有 Hirameki 指令都能正常運作。若跨機器同步 `~/.claude/`，`vault-local.md` 應加入 gitignore -- 每台機器跑一次 `/hirameki:__init` 即可。
+設定完成後，`__init` 會寫入**拆分設定**：vault 的資料夾結構寫進 `<vault>/AGENTS.md`（agent-neutral — 隨 vault 移動，任何 AI agent 都能讀），per-machine 值（vault 路徑、語言）寫進 `~/.claude/vault-local.md`。之後不管在哪裡開啟 Claude Code，所有 Hirameki 指令都能正常運作。若跨機器同步 `~/.claude/`，`vault-local.md` 應加入 gitignore，每台機器跑一次 `/hirameki:__init` 即可。
 
 ---
 
@@ -441,36 +452,38 @@ Session 結束整合。依序執行 wrap → journal → handoff 三步。每步
 | 輸入 | 路由 | 輸出位置 |
 |------|------|----------|
 | GitHub URL 或 `owner/repo` | Repo 分析：技術提取 + adopt/defer/reject 裁決 | `{research}/mekiki-{repo}.md` |
-| 文章 URL | 文章捕獲 + vault 交叉引用 + 整合裁決 | `{inbox}/YYYY-MM-DD-{slug}.md` |
-| 貼上文字或本機檔案路徑 | 文章捕獲 + vault 交叉引用 + 整合裁決 | `{inbox}/YYYY-MM-DD-{slug}.md` |
+| 文章 URL | 文章捕獲 + vault 交叉引用 + 整合裁決（integrate / revisit-later / skip） | `{inbox}/YYYY-MM-DD-{slug}.md` |
+| 貼上文字或本機檔案路徑 | 文章捕獲 + vault 交叉引用 + 整合裁決（integrate / revisit-later / skip） | `{inbox}/YYYY-MM-DD-{slug}.md` |
 
 ---
 
 #### Session
 
-**`/hirameki:next`**
+**`/hirameki:next [N|lucky]`**
 
 *適合：在 session 中途回來，需要快速定向時。*
 
-恢復 session 後定向。整理已完成的工作、待處理的事項、下一步。掃描本次 session 的任務清單、檔案活動和近期決定。
+恢復 session 後定向。整理已完成的工作、待處理事項、收件匣內容、下一步 — 掃描本次 session 的任務清單、檔案活動、近期決定，以及昨天的 wrap log。傳入數字可往回看 N 天的 wrap log 脈絡（預設 1）。加 `lucky` 會附上一段**星座占卜**：從 vault 抽 5 篇筆記（偏好 30 天以上沒動過的），找出串起它們的隱藏主題，並點出你可能正在繞的那個問題。
 
 ---
 
-**`/hirameki:wrap [描述]`**
+**`/hirameki:wrap [描述|merge]`**
 
 *適合：一天結束（或暫停 session）時，記錄發生了什麼。*
 
-進度快照。掃描本次 session 的檔案操作，在今天的 daily note 末尾追加一個帶時間戳的區塊，包含：已完成、進行中、下一步。可一天執行多次，每次追加新區塊。可加入描述來聚焦摘要方向。
+進度快照。掃描本次 session 的檔案操作，在今天的 daily note 末尾追加一個帶時間戳的區塊，包含：已完成、進行中、下一步。可一天執行多次，每次追加新區塊。可加入描述來聚焦摘要方向。執行 `wrap merge` 可把今天所有 wrap 區塊整合成一個統一摘要，置於 log 頂端。
 
 ---
 
-**`/hirameki:journal <描述>`**
+**`/hirameki:journal [描述|review]`**
 
 *適合：做了一個不直觀的決定，想記錄下為什麼時。*
 
 工作紀錄與思考記錄。寫入結構化記錄，包含：背景、做了什麼、為什麼這樣做、靈感連結、可能的改進方向、未完成事項。同主題同天：追加更新並標記已完成的後續。搜尋 vault 中相關筆記作為脈絡和 [[wiki link]]。
 
 與 `wrap` 的差別：wrap 記錄一個 session 發生了什麼。journal 記錄你為什麼做某個特定決定。
+
+`journal review`（或 `journal review N`）會掃描近期 journal 的 `## Corrections` 段落，與你既有的規則去重，然後提議更新 `~/.claude/CLAUDE.md` 或 `~/.claude/rules/` — 只在你確認後才套用。它是唯一一個會寫到 vault 外的指令。
 
 ---
 
@@ -490,7 +503,7 @@ Session 結束整合。依序執行 wrap → journal → handoff 三步。每步
 
 *適合：你不斷回到同一個概念，想看看自己的思考如何演變時。*
 
-概念演化追蹤。顯示某概念在 vault 中的首次出現、演化時間軸、目前狀態與空白地帶。同概念同天：追加。寫入：`{research}/arc/YYYY-MM-DD-{概念}.md`。
+概念演化追蹤。顯示某概念在 vault 中的首次出現、演化時間軸、目前狀態與空白地帶。預設印在終端機；加 `save` 才寫入 `{research}/arc/YYYY-MM-DD-{概念}.md`（同概念同天追加）。
 
 ---
 
@@ -498,7 +511,7 @@ Session 結束整合。依序執行 wrap → journal → handoff 三步。每步
 
 *適合：兩個感覺分開但可能相關的興趣，想找出連結時。*
 
-兩主題間的隱藏連結。找出直接交集、橋樑筆記，並提出深層連結假設。同組主題同天：追加。寫入：`{research}/bridge/YYYY-MM-DD-{A}-{B}.md`。
+兩主題間的隱藏連結。找出直接交集、橋樑筆記，並提出深層連結假設。預設印在終端機；加 `save` 才寫入 `{research}/bridge/YYYY-MM-DD-{A}-{B}.md`。
 
 ---
 
@@ -506,7 +519,7 @@ Session 結束整合。依序執行 wrap → journal → handoff 三步。每步
 
 *適合：發表前 — 在讀者找到漏洞之前先找到它時。*
 
-論點弱點分析。對 vault 中關於此主題的每個主張，逐一檢查內部矛盾、未驗證假設、邏輯跳躍與證據缺口。寫入：`{research}/challenge/YYYY-MM-DD-{主題}.md`。
+論點弱點分析。對 vault 中關於此主題的每個主張，逐一檢查內部矛盾、未驗證假設、邏輯跳躍與證據缺口。預設印在終端機；加 `save` 才寫入 `{research}/challenge/YYYY-MM-DD-{主題}.md`。
 
 ---
 
@@ -526,7 +539,7 @@ Vault 語氣作答。分析你的寫作風格、萃取你的立場，用你的�
 
 *適合：有一個創作想法（文章、產品、設計），想在投入心力之前先驗證時。*
 
-創作前檢查站。針對 vault 執行五個問題：Only-I 測試、碰撞掃描、賭注、張力、證據。產出四種裁決之一：**PROCEED** / **RETHINK** / **KILL** / **CONSOLIDATE**。不產生內容 — 只評估內容是否應該存在。加 `save` 可寫入檔案。
+創作前檢查站。針對 vault 執行五個問題：Only-I 測試、碰撞掃描、賭注、張力、證據。產出四種裁決之一：**PROCEED** / **RETHINK** / **KILL** / **CONSOLIDATE**。不產生內容 — 只評估內容是否應該存在。加 `save` 可寫入 `{research}/frame/YYYY-MM-DD-{想法}.md`。
 
 ---
 
@@ -534,7 +547,7 @@ Vault 語氣作答。分析你的寫作風格、萃取你的立場，用你的�
 
 *適合：想對一篇文章獲得獨立回饋時。*
 
-多模型寫作評審。同時啟動三位評審：Claude Opus、Codex（透過 `codex exec`）、Gemini（透過 `gemini -p`），各自對三個維度評分：感官密度、結構張力、觸動力（1–10）。整合結果為比較表，重點標出評審之間分差 3 分以上的地方。三方各自的最強句、最弱句和修改建議。輸出儲存至 `{vault}/_writing_lab/benchmark/`。
+多模型寫作評審。同時啟動三位評審：Claude Opus、Codex（透過 `codex exec`）、Gemini（透過 `gemini -p`），各自對三個維度評分：感官密度、結構張力、觸動力（1–10）。整合結果為比較表，重點標出評審之間分差 3 分以上的地方。三方各自的最強句、最弱句和修改建議。輸出儲存至 `{vault}/_writing_lab/benchmark/`。你修改完文章後，可選的 Phase 3 終審會用 Opus 與 Codex 重跑新版本，附上一段最終評估。
 
 ---
 
@@ -546,7 +559,7 @@ Vault 語氣作答。分析你的寫作風格、萃取你的立場，用你的�
 
 三種模式：
 
-- **`/hirameki:pulse`** — 即時概覽。掃描所有內容資料夾（深度 2 層）和最近 7 天 daily notes。顯示各資料夾的主題、最近的檔案變更、vault 整體統計。適合每次 session 開始時執行。
+- **預設概覽** — 各資料夾的主題、最近的檔案變更、vault 整體統計。這份概覽在每次 Claude Code session 啟動時自動執行（透過 SessionStart hook）。直接執行 `/hirameki:pulse` 會提示你選擇 `week` 或 `patterns`。
 
 - **`/hirameki:pulse week`** — 週回顧與落差分析。比對 daily notes 中聲稱的優先事項與實際的檔案變更，找出意圖與行動之間的落差。需要至少 3 天的 daily notes。
 
@@ -570,15 +583,15 @@ Vault 語氣作答。分析你的寫作風格、萃取你的立場，用你的�
 
 「可以畢業的想法」有第二階段：看到候選清單後，你確認哪些要執行畢業。每個選中的想法會在對應的內容資料夾下建立新筆記，附上出處脈絡和 wiki link 連回相關筆記。
 
-末尾加 `save` 可將收割摘要寫入檔案。
+末尾加 `save` 可將收割摘要寫入 `{research}/harvest/YYYY-MM-DD.md`（同天執行會追加）。
 
 ---
 
-**`/hirameki:graduate <筆記>`**
+**`/hirameki:graduate [筆記]`**
 
-*適合：一篇筆記已成熟為穩定概念，想將它正式化時。*
+*適合：一個半成形的想法已經成熟，想將它正式化為穩定概念時。*
 
-將筆記升格為穩定概念卡片。驗證並補全 frontmatter、設定正式 status、用 wiki link 連結相關卡片。
+將想法升格為 `{vault}/0 Material/` 裡的穩定概念卡片。兩種模式：不給參數（或給一個主題關鍵字）時，掃描最近 14 天的 inbox、journal、daily、research 筆記找出可畢業的候選讓你挑選；給檔案路徑時，從該檔案萃取原子想法。驗證並補全 frontmatter、設定正式 status、用 wiki link 連結相關卡片。
 
 ---
 
@@ -586,7 +599,7 @@ Vault 語氣作答。分析你的寫作風格、萃取你的立場，用你的�
 
 *適合：想把所有「下一步」整合成一份清單時。*
 
-從 daily notes 和 journal 彙整下一步行動。預設掃描最近 3 天，去重後依出現頻率排序。出現 3 次以上的項目會標記為可能的拖延信號。使用 `tasks stuck` 可找出反覆出現、從未進入「完成」的卡住任務。
+從 wrap log 和 journal 彙整下一步行動。預設掃描最近 3 天的 wrap log，加上今天與昨天的 journal 條目，去重後依出現頻率排序。出現 3 次以上的項目會標記為可能的拖延信號。使用 `tasks stuck` 可找出反覆出現、從未進入「完成」的卡住任務。
 
 ---
 
@@ -612,7 +625,15 @@ Frontmatter 與內容健檢。五種模式：
 
 *適合：新機器的首次設定，或重新設定現有配置時。*
 
-首次設定：偵測 vault、設定語言、解析資料夾、寫入 `~/.claude/vault-local.md`。每台機器執行一次。已有設定時執行進入 Mode B（重新設定個別項目）。
+首次設定：偵測 vault、設定語言、解析資料夾。寫入**拆分設定** — vault 資料夾結構寫入 `<vault>/AGENTS.md`，per-machine 值（vault 路徑、語言）寫入 `~/.claude/vault-local.md`。可選擇連結共用 policies vault 與個人 policies vault。每台機器執行一次。已有設定時執行進入 Mode B（重新設定個別項目）。
+
+---
+
+#### Skill
+
+**`decide`** *（自動觸發 — 不是指令）*
+
+當你明顯在權衡一個決定時（「要不要…」、「該選…」），`decide` skill 會自己觸發。它掃描 vault 中你對這個問題的既有思考，回映給你：你目前站在哪、什麼造成阻力、關鍵問題是什麼 — 但不替你選。唯讀，不寫入任何檔案。
 
 ---
 
@@ -632,8 +653,8 @@ Hirameki 設計為明確的指令，而不是自主在背景運作的 Agent。�
 
 ### 運作方式
 
-1. **設定**：設定存在 `~/.claude/vault-local.md` 的 `## Vault Structure` 段落 — vault 路徑、語言、資料夾對應。由 `/hirameki:__init` 一次寫入，其他所有指令直接讀取。向後相容：若 `vault-local.md` 不存在，會退回讀取 `~/.claude/CLAUDE.md`。
-2. **資料夾偵測**：指令依候選名稱順序尋找資料夾（`_daily/`、`Daily/`、`Journal/` 等）。找不到的在首次使用時建立並存入設定。
+1. **設定**：`/hirameki:__init` 寫入拆分設定。vault 資料夾結構寫進 `<vault>/AGENTS.md` 的 `## Vault Structure`（agent-neutral — 隨 vault 移動，Codex / Gemini / Claude 任何 agent 都能讀）。per-machine 值（vault 路徑、語言）寫進 `~/.claude/vault-local.md`。每個指令依此順序解析資料夾路徑：`<vault>/AGENTS.md` → `~/.claude/vault-local.md` → `~/.claude/CLAUDE.md`。
+2. **資料夾偵測**：`__init` 是 audit-first — 它先在 vault 中尋找你既有組織的證據，再提議資料夾。找不到證據時才退回常見資料夾名稱。找不到的資料夾在首次使用時建立並存入設定。
 3. **內容掃描**：vault 根目錄下所有非系統資料夾視為「內容資料夾」— 無論你怎麼組織筆記，指令都能適應。
 4. **寫入安全**：所有寫入檔案的指令在執行前都會顯示完整預覽和路徑。沒有確認不會寫入。
 
@@ -641,18 +662,19 @@ Hirameki 設計為明確的指令，而不是自主在背景運作的 Agent。�
 
 ### 資料夾名稱偵測
 
-`__init` 在 vault 根目錄依序尋找這些資料夾名稱，第一個找到的為準。找不到時會詢問建立位置。
+當 `__init` 找不到既有結構的證據時，會退回依序尋找這些常見資料夾名稱。第一個找到的為準。找不到時會詢問建立位置。
 
 <details>
-<summary>偵測的資料夾名稱</summary>
+<summary>退回使用的資料夾名稱</summary>
 
 | 用途 | 依序偵測的名稱 |
 |------|---------------|
-| daily-notes | `Daily/` `_daily/` `daily/` `Journal/` `journal/` |
-| inbox | `Inbox/` `_inbox/` `inbox/` `_Capture/` `Capture/` |
-| research | `_hirameki_research/` `_agent_research/` `_claude_code_research/` `Research/` `_research/` `research/` |
-| handoff | `_yorozuya/handoff/` `Handoff/` `_handoff/` `handoff/` |
-| templates | `Templates/` `_templates/` `templates/` |
+| daily-notes | `wrap/` `_wrap/` `Wrap/` `daily/` `_daily/` `Daily/` `Journal/` `journal/` |
+| inbox | `inbox/` `_inbox/` `Inbox/` `_Capture/` `Capture/` |
+| journal | `journal/` `_journal/` `Journal/` `_logs/` `logs/` |
+| research | `research/` `_research/` `Research/` `_analysis/` `analysis/` |
+| handoff | `handoff/` `_handoff/` `Handoff/` |
+| templates | `templates/` `_templates/` `Templates/` |
 
 如果你的 vault 使用不同的名稱，`__init` 會詢問並儲存你的選擇。儲存後所有指令直接讀取設定，偵測清單只在首次執行時使用一次。
 
@@ -730,7 +752,7 @@ claude   # どこからでも
 
 `__init` は Obsidian のアプリ設定ファイルを自動的に読み込み、既存の vault を検出します。パスを手動で入力する必要はありません。複数の vault がある場合はリストから選択できます。
 
-セットアップ後、vault パスは `~/.claude/vault-local.md` にローカル保存されます。以降は Claude Code をどこで開いても、すべての Hirameki コマンドが正常に動作します。`~/.claude/` をマシン間で同期する場合、`vault-local.md` は gitignore に追加してください。各マシンで `/hirameki:__init` を一度実行するだけで済みます。
+セットアップ後、`__init` は**分割設定**を書き込みます：vault のフォルダ構造は `<vault>/AGENTS.md`（エージェント中立 — vault と一緒に移動し、どの AI エージェントも読める）に、マシン固有の値（vault パス・言語）は `~/.claude/vault-local.md` に保存されます。以降は Claude Code をどこで開いても、すべての Hirameki コマンドが正常に動作します。`~/.claude/` をマシン間で同期する場合、`vault-local.md` は gitignore に追加してください。各マシンで `/hirameki:__init` を一度実行するだけで済みます。
 
 ---
 
@@ -777,36 +799,38 @@ claude   # どこからでも
 | 入力 | ルーティング | 出力先 |
 |------|-------------|--------|
 | GitHub URL または `owner/repo` | リポジトリ分析：技術抽出 + adopt/defer/reject 判定 | `{research}/mekiki-{repo}.md` |
-| 記事 URL | 記事キャプチャ + vault クロスリファレンス + 統合判定 | `{inbox}/YYYY-MM-DD-{slug}.md` |
-| 貼り付けたテキストまたはローカルファイルパス | 記事キャプチャ + vault クロスリファレンス + 統合判定 | `{inbox}/YYYY-MM-DD-{slug}.md` |
+| 記事 URL | 記事キャプチャ + vault クロスリファレンス + 統合判定（integrate / revisit-later / skip） | `{inbox}/YYYY-MM-DD-{slug}.md` |
+| 貼り付けたテキストまたはローカルファイルパス | 記事キャプチャ + vault クロスリファレンス + 統合判定（integrate / revisit-later / skip） | `{inbox}/YYYY-MM-DD-{slug}.md` |
 
 ---
 
 #### セッション
 
-**`/hirameki:next`**
+**`/hirameki:next [N|lucky]`**
 
 *使うとき：セッションの途中で再開して、素早く状況を把握したいとき。*
 
-セッション再開後の定位。完了した作業・未処理の事項・次のステップを整理。現在のセッションのタスクリスト・ファイル活動・最近の決定をスキャン。
+セッション再開後の定位。完了した作業・未処理の事項・inbox の中身・次のステップを整理 — セッションのタスクリスト・ファイル活動・最近の決定、そして昨日の wrap log をスキャン。数字を渡すと wrap log の文脈を N 日分さかのぼる（デフォルト 1）。`lucky` を追加すると**星座リーディング**を末尾に付加：vault から 5 つのノートを引き（30 日以上触れていないものを優先）、それらをつなぐ隠れたテーマを見つけ、あなたが巡っているかもしれない問いを浮かび上がらせる。
 
 ---
 
-**`/hirameki:wrap [説明]`**
+**`/hirameki:wrap [説明|merge]`**
 
 *使うとき：1 日が終わった（またはセッションを一時停止する）時に、何が起きたかを記録するとき。*
 
-進捗スナップショット。セッションのファイル操作をスキャンし、今日の daily note の末尾にタイムスタンプ付きのブロックを追記。内容：完了・進行中・次のステップ。1 日に複数回実行可能で、毎回新しいブロックを追記。オプションで説明を追加すると要約の方向性が定まる。
+進捗スナップショット。セッションのファイル操作をスキャンし、今日の daily note の末尾にタイムスタンプ付きのブロックを追記。内容：完了・進行中・次のステップ。1 日に複数回実行可能で、毎回新しいブロックを追記。オプションで説明を追加すると要約の方向性が定まる。`wrap merge` を実行すると、今日のすべての wrap ブロックを一つの統合サマリーにまとめ、log の先頭に配置する。
 
 ---
 
-**`/hirameki:journal <説明>`**
+**`/hirameki:journal [説明|review]`**
 
 *使うとき：直感的でない決断を下して、なぜそうしたかを記録したいとき。*
 
 作業ログと思考記録。構造化された記録を書き込み：背景・何をしたか・なぜしたか・インスピレーションのつながり・改善の可能性・未完了事項。同テーマ・同日：追記更新し完了した後続事項をマーク。関連する vault ノートを検索して文脈と [[wiki link]] を提供。
 
 `wrap` との違い：wrap はセッションで何が起きたかを記録。journal は特定の決断をなぜ下したかを記録。
+
+`journal review`（または `journal review N`）は、最近の journal の `## Corrections` セクションをスキャンし、既存のルールと重複を除去したうえで、`~/.claude/CLAUDE.md` または `~/.claude/rules/` への更新を提案する — 適用はあなたの確認後のみ。vault の外に書き込む唯一のコマンド。
 
 ---
 
@@ -826,7 +850,7 @@ claude   # どこからでも
 
 *使うとき：同じ概念に繰り返し戻ってきて、思考がどう変わったか見たいとき。*
 
-概念進化トラッカー。vault 全体でその概念の最初の登場・タイムライン・現在の状態・未探索の角度を表示。同概念・同日：追記。書き込み先：`{research}/arc/YYYY-MM-DD-{概念}.md`。
+概念進化トラッカー。vault 全体でその概念の最初の登場・タイムライン・現在の状態・未探索の角度を表示。デフォルトでは端末に出力。`save` を追加すると `{research}/arc/YYYY-MM-DD-{概念}.md` に書き込み（同じ概念・同じ日は追記）。
 
 ---
 
@@ -834,7 +858,7 @@ claude   # どこからでも
 
 *使うとき：別々に見える 2 つの興味が実はつながっているかもしれないと感じるとき。*
 
-二つのトピック間の隠れたつながり。直接の交差点・橋渡しノート・より深いつながりの仮説を提案。同ペア・同日：追記。書き込み先：`{research}/bridge/YYYY-MM-DD-{A}-{B}.md`。
+二つのトピック間の隠れたつながり。直接の交差点・橋渡しノート・より深いつながりの仮説を提案。デフォルトでは端末に出力。`save` を追加すると `{research}/bridge/YYYY-MM-DD-{A}-{B}.md` に書き込み。
 
 ---
 
@@ -842,7 +866,7 @@ claude   # どこからでも
 
 *使うとき：公開前に — 読者に見つけられる前に穴を見つけるとき。*
 
-論証の弱点分析。このトピックに関する vault の各主張について、内部矛盾・未検証の前提・論理の飛躍・証拠の欠缺を確認。書き込み先：`{research}/challenge/YYYY-MM-DD-{トピック}.md`。
+論証の弱点分析。このトピックに関する vault の各主張について、内部矛盾・未検証の前提・論理の飛躍・証拠の欠缺を確認。デフォルトでは端末に出力。`save` を追加すると `{research}/challenge/YYYY-MM-DD-{トピック}.md` に書き込み。
 
 ---
 
@@ -862,7 +886,7 @@ Vault 文体での回答。あなたの文章スタイルを分析し、ポジ�
 
 *使うとき：クリエイティブなアイデア（記事・製品・デザイン）があり、労力を投じる前に検証したいとき。*
 
-制作前チェックポイント。五問フレーム（Only-I テスト・衝突スキャン・賭け・緊張・証拠）。四つの判定：PROCEED / RETHINK / KILL / CONSOLIDATE。コンテンツを生成しない — 存在すべきかどうかのみを評価。`save` を追加でファイルに保存。
+制作前チェックポイント。五問フレーム（Only-I テスト・衝突スキャン・賭け・緊張・証拠）。四つの判定：PROCEED / RETHINK / KILL / CONSOLIDATE。コンテンツを生成しない — 存在すべきかどうかのみを評価。`save` を追加すると `{research}/frame/YYYY-MM-DD-{アイデア}.md` に保存。
 
 ---
 
@@ -870,7 +894,7 @@ Vault 文体での回答。あなたの文章スタイルを分析し、ポジ�
 
 *使うとき：文章に対する独立したフィードバックを得たいとき。*
 
-マルチモデル文章クリティーク。三評者を並列起動：Claude Opus・Codex（`codex exec` 経由）・Gemini（`gemini -p` 経由）。各評者が三つの次元をスコアリング：感官密度・構造的緊張・共鳴（1–10）。比較表に統合し、不一致を強調表示。三者それぞれの最強の一文・最弱の一文・推奨編集。書き込み先：`{vault}/_writing_lab/benchmark/`。
+マルチモデル文章クリティーク。三評者を並列起動：Claude Opus・Codex（`codex exec` 経由）・Gemini（`gemini -p` 経由）。各評者が三つの次元をスコアリング：感官密度・構造的緊張・共鳴（1–10）。比較表に統合し、不一致を強調表示。三者それぞれの最強の一文・最弱の一文・推奨編集。書き込み先：`{vault}/_writing_lab/benchmark/`。文章を修正した後、オプションの Phase 3 が新バージョンを Opus と Codex で再評価し、最終レビューを追記する。
 
 ---
 
@@ -882,7 +906,7 @@ Vault 文体での回答。あなたの文章スタイルを分析し、ポジ�
 
 3 つのモード：
 
-- **`/hirameki:pulse`** — 即時スナップショット。すべてのコンテンツフォルダ（深さ 2 層）と直近 7 日の daily notes をスキャン。各フォルダのコンテンツテーマ・最近のファイル変更・vault 全体の統計を表示。セッション開始時に実行するのに最適。
+- **デフォルトスナップショット** — 各フォルダのコンテンツテーマ・最近のファイル変更・vault 全体の統計。このスナップショットは Claude Code のセッション開始ごとに自動実行されます（SessionStart フック経由）。`/hirameki:pulse` を単体で実行すると `week` か `patterns` の選択を求められます。
 
 - **`/hirameki:pulse week`** — 週次レビューとギャップ分析。daily notes で宣言した優先事項と実際のファイル変更を比較し、意図と行動のずれを表面化。最低 3 日分の daily notes が必要。
 
@@ -906,15 +930,15 @@ Vault 文体での回答。あなたの文章スタイルを分析し、ポジ�
 
 「卒業できるアイデア」は第 2 フェーズあり：候補リストを確認した後、どれを実行するか選択。選んだアイデアは対応するコンテンツフォルダに新しいノートとして作成され、出典の脈絡と関連ノートへの wiki link が付く。
 
-末尾に `save` を追加で収穫サマリーをファイルに保存。
+末尾に `save` を追加すると収穫サマリーを `{research}/harvest/YYYY-MM-DD.md` に保存（同日の実行は追記）。
 
 ---
 
-**`/hirameki:graduate <ノート>`**
+**`/hirameki:graduate [ノート]`**
 
-*使うとき：ノートが安定した概念として成熟し、正式化したいとき。*
+*使うとき：半成形のアイデアが成熟し、安定した概念として正式化したいとき。*
 
-ノートを安定した概念カードに昇格。フロントマターを検証・補完し、正式ステータスを設定、wiki link で関連カードにリンク。
+アイデアを `{vault}/0 Material/` 内の安定した概念カードに昇格。二つのモード：引数なし（またはトピックキーワード）の場合、直近 14 日の inbox・journal・daily・research ノートから卒業候補をスキャンして選択させる。ファイルパスを指定した場合、そのファイルから原子的なアイデアを抽出。フロントマターを検証・補完し、正式ステータスを設定、wiki link で関連カードにリンク。
 
 ---
 
@@ -922,7 +946,7 @@ Vault 文体での回答。あなたの文章スタイルを分析し、ポジ�
 
 *使うとき：すべての「次のステップ」を 1 つのリストにまとめたいとき。*
 
-daily notes と journal から次のアクションを集約。デフォルトは直近 3 日をスキャンし、重複を除去して出現頻度順に並べる。3 回以上登場するアイテムは先延ばしのシグナルとしてフラグ表示。`tasks stuck` を使うと、繰り返し登場するのに「完了」セクションに一度も現れたことのないスタック中タスクを発見できる。
+wrap log と journal から次のアクションを集約。デフォルトは直近 3 日分の wrap log に加えて今日と昨日の journal をスキャンし、重複を除去して出現頻度順に並べる。3 回以上登場するアイテムは先延ばしのシグナルとしてフラグ表示。`tasks stuck` を使うと、繰り返し登場するのに「完了」セクションに一度も現れたことのないスタック中タスクを発見できる。
 
 ---
 
@@ -948,7 +972,15 @@ daily notes と journal から次のアクションを集約。デフォルト�
 
 *使うとき：新しいマシンへの初回セットアップ、または既存の設定を変更したいとき。*
 
-初回セットアップ：vault の検出・言語設定・フォルダー解決・`~/.claude/vault-local.md` への書き込み。マシンごとに一回実行。設定が存在する場合は Mode B（再設定）として動作。
+初回セットアップ：vault の検出・言語設定・フォルダー解決。**分割設定**を書き込む — vault のフォルダ構造を `<vault>/AGENTS.md` に、マシン固有の値（vault パス・言語）を `~/.claude/vault-local.md` に。オプションで共有ポリシー vault と個人ポリシー vault をリンク。マシンごとに一回実行。設定が存在する場合は Mode B（再設定）として動作。
+
+---
+
+#### スキル
+
+**`decide`** *（自動トリガー — コマンドではない）*
+
+決断を明らかに迷っているとき（「〜すべきか」「どの選択肢」）、`decide` スキルが自動的にトリガーします。その問いについてのあなたの過去の思考を vault からスキャンし、今どこに立っているか・何が摩擦を生んでいるか・核心の問いは何かを映し返します — あなたの代わりに選びはしません。読み取り専用、何も書き込みません。
 
 ---
 
@@ -968,8 +1000,8 @@ Hirameki は、バックグラウンドで自律的に動くエージェント�
 
 ### 動作の仕組み
 
-1. **設定**：設定は `~/.claude/vault-local.md` の `## Vault Structure` セクションに保存 — vault パス・言語・フォルダマッピング。`/hirameki:__init` が一度だけ書き込み、他のすべてのコマンドが直接読み込む。後方互換性：`vault-local.md` がない場合は `~/.claude/CLAUDE.md` にフォールバック。
-2. **フォルダ検出**：候補名の順番でフォルダを探す（`_daily/`・`Daily/`・`Journal/` など）。見つからない場合は初回使用時に作成して設定に保存。
+1. **設定**：`/hirameki:__init` が分割設定を書き込む。vault のフォルダ構造は `<vault>/AGENTS.md` の `## Vault Structure` に（エージェント中立 — vault と一緒に移動し、Codex / Gemini / Claude のどのエージェントも読める）。マシン固有の値（vault パス・言語）は `~/.claude/vault-local.md` に。各コマンドはこの順番でフォルダパスを解決：`<vault>/AGENTS.md` → `~/.claude/vault-local.md` → `~/.claude/CLAUDE.md`。
+2. **フォルダ検出**：`__init` は audit-first — フォルダを提案する前に、vault 内の既存の組織の証拠を探します。証拠が見つからない場合のみ、一般的なフォルダ名にフォールバック。見つからないフォルダは初回使用時に作成して設定に保存。
 3. **コンテンツスキャン**：vault ルート直下のすべての非システムフォルダを「コンテンツフォルダ」として扱う — どのような構成でも適応。
 4. **書き込み安全性**：ファイルを書き込むすべてのコマンドは実行前に完全なプレビューとパスを表示。確認なしには書き込まない。
 
@@ -977,18 +1009,19 @@ Hirameki は、バックグラウンドで自律的に動くエージェント�
 
 ### フォルダ名の検出
 
-`__init` は vault ルートでこれらのフォルダ名を順番に探します。最初に見つかったものを使用。見つからない場合は作成場所を確認します。
+`__init` が既存構造の証拠を見つけられない場合、これらの一般的なフォルダ名を順番に探します。最初に見つかったものを使用。見つからない場合は作成場所を確認します。
 
 <details>
-<summary>検出されるフォルダ名</summary>
+<summary>フォールバックのフォルダ名</summary>
 
 | 用途 | 検出順 |
 |------|--------|
-| daily-notes | `Daily/` `_daily/` `daily/` `Journal/` `journal/` |
-| inbox | `Inbox/` `_inbox/` `inbox/` `_Capture/` `Capture/` |
-| research | `_hirameki_research/` `_agent_research/` `_claude_code_research/` `Research/` `_research/` `research/` |
-| handoff | `_yorozuya/handoff/` `Handoff/` `_handoff/` `handoff/` |
-| templates | `Templates/` `_templates/` `templates/` |
+| daily-notes | `wrap/` `_wrap/` `Wrap/` `daily/` `_daily/` `Daily/` `Journal/` `journal/` |
+| inbox | `inbox/` `_inbox/` `Inbox/` `_Capture/` `Capture/` |
+| journal | `journal/` `_journal/` `Journal/` `_logs/` `logs/` |
+| research | `research/` `_research/` `Research/` `_analysis/` `analysis/` |
+| handoff | `handoff/` `_handoff/` `Handoff/` |
+| templates | `templates/` `_templates/` `Templates/` |
 
 vault が別の名前を使っている場合、`__init` が確認して選択を保存します。保存後はすべてのコマンドが設定を直接読み込みます。検出リストは初回のみ使用されます。
 
