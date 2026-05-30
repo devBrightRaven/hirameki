@@ -4,10 +4,12 @@ on:
   push:
     paths:
       - "commands/**"
+      - "codex/**"
       - "tests/**"
   pull_request:
     paths:
       - "commands/**"
+      - "codex/**"
       - "tests/**"
 
 jobs:
@@ -22,3 +24,9 @@ jobs:
 
       - name: Validate command files
         run: python tests/validate_commands.py
+
+      - name: Validate Codex skill adapter
+        run: python tests/validate_codex_skill.py
+
+      - name: Smoke test Hirameki workflows
+        run: python tests/smoke_hirameki_workflows.py

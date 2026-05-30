@@ -1,0 +1,4 @@
+interface:
+  display_name: "Hirameki"
+  short_description: "Obsidian vault workflows for Codex using Hirameki command names."
+  default_prompt: "Use Hirameki to run the matching vault workflow, such as wrap, journal, handoff, mekiki, or decide-like scans."

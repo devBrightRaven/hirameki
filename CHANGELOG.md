@@ -5,6 +5,19 @@ Versioning follows [Semantic Versioning](https://semver.org/): MAJOR = breaking 
 
 ---
 
+## [1.3.0] — 2026-05-31
+
+### Added
+- Codex adapter at `codex/skills/hirameki/`: one umbrella `SKILL.md`, Codex UI metadata, and 20 same-name workflow references copied from Claude commands so Codex can use Hirameki without exposing 20 standalone skills.
+- Codex validation in `tests/validate_codex_skill.py`: checks skill metadata, router coverage, reference set completeness, byte-for-byte parity with `commands/*.md`, and command-spec compliance for every reference.
+- Workflow smoke tests in `tests/smoke_hirameki_workflows.py`: covers `__init` folder resolution, read-only behavior for `next` / `tasks` / `pulse`, write-command safety contracts, and controlled fixture writes for `wrap` / `journal` / `handoff`.
+
+### Changed
+- CI now validates the Codex adapter and runs the workflow smoke tests alongside the existing Claude command validator.
+- README documents Codex compatibility, including `~/.codex/hirameki-local.md` as the Codex-local config target and Claude config as migration fallback.
+
+---
+
 ## [1.2.0] — 2026-05-14
 
 ### Added

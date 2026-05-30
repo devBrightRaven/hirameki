@@ -62,6 +62,14 @@ Either way, `__init` writes a **split configuration**: your vault's folder struc
 
 ---
 
+### Codex compatibility
+
+Claude Code remains the command-native surface for Hirameki. The repository also includes a Codex adapter at `codex/skills/hirameki/`: one umbrella `SKILL.md` plus 20 same-name workflow references. Codex users keep the same Hirameki vocabulary (`wrap`, `journal`, `handoff`, `mekiki`, etc.) while avoiding 20 always-visible skill entries.
+
+The Codex adapter prefers `~/.codex/hirameki-local.md` for per-machine vault settings, with `~/.claude/vault-local.md` as a migration fallback. Claude-specific features are adapted where possible: `__init` writes Codex-local config, and `critique` uses only the reviewers available from a Codex session.
+
+---
+
 ### Commands
 
 20 commands, grouped by how you use them.
@@ -406,6 +414,14 @@ claude   # 任何地方
 `__init` 會自動讀取 Obsidian 的 app 設定檔，找出你已有的 vault，不需要手動輸入路徑。有多個 vault 時會列出清單讓你選擇。
 
 設定完成後，`__init` 會寫入**拆分設定**：vault 的資料夾結構寫進 `<vault>/AGENTS.md`（agent-neutral — 隨 vault 移動，任何 AI agent 都能讀），per-machine 值（vault 路徑、語言）寫進 `~/.claude/vault-local.md`。之後不管在哪裡開啟 Claude Code，所有 Hirameki 指令都能正常運作。若跨機器同步 `~/.claude/`，`vault-local.md` 應加入 gitignore，每台機器跑一次 `/hirameki:__init` 即可。
+
+---
+
+### Codex 相容層
+
+Claude Code 仍然是 Hirameki 的原生指令入口。repo 另外提供 Codex adapter：`codex/skills/hirameki/`。這是一個 umbrella `SKILL.md` 加上 20 個同名 workflow reference，讓 Codex 使用者可以沿用 `wrap`、`journal`、`handoff`、`mekiki` 等原本語彙，同時避免 20 個 skill metadata 常駐。
+
+Codex adapter 優先讀 `~/.codex/hirameki-local.md` 作為 per-machine vault 設定；為了遷移方便，也會 fallback 到 `~/.claude/vault-local.md`。Claude 專用功能會在 Codex 端盡量適配：`__init` 寫 Codex-local config，`critique` 則只使用 Codex session 裡實際可用的 reviewer。
 
 ---
 

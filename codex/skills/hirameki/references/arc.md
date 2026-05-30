@@ -1,0 +1,95 @@
+---
+description: >
+  Trace how a concept evolved across your vault — first appearance, timeline,
+  current state, and unexplored angles.
+  For finding weaknesses in an argument use /hirameki:challenge.
+  For connecting two topics use /hirameki:bridge.
+  For the full understanding workflow use /hirameki:lens.
+argument-hint: "<concept>"
+---
+
+Read `## Vault Structure` from `~/.claude/vault-local.md` (fall back to `~/.claude/CLAUDE.md` if not found) to get the vault path, the research folder location, and the list of content folders.
+If the section does not exist or required fields are missing, stop and respond: "Setup not complete. Please run `/hirameki:__init` first."
+
+Input: $ARGUMENTS
+- If $ARGUMENTS is empty, ask: "Trace which concept?" in the language specified in `## Vault Structure` → `language`. Wait for the answer.
+- If $ARGUMENTS ends with `save`, strip `save` and write the result to a file after analysis.
+
+Scan scope: entire vault, prioritising content folders.
+
+---
+
+## Analysis logic
+
+1. Check `{research}/arc/` for an existing file about the same concept today (match by filename keyword):
+   - Clear match found → **append mode**
+   - Possibly related file, uncertain → list candidates and ask the user to confirm
+   - No match → **create mode**
+
+---
+
+## Output structure (create mode)
+
+```
+# Concept tracking: {concept}
+
+> Analysis time: YYYY-MM-DD HH:MM
+
+## First appearance
+Earliest file where this concept appeared, and the context. Quote up to 3 sentences.
+Date: YYYY-MM-DD
+
+## Evolution timeline
+- YYYY-MM-DD | [[filename]] | How this concept was used or positioned (one line)
+(chronological, oldest to newest)
+
+## Current state
+Which topics this concept connects to now, any contradictory uses, any drafts developing it.
+
+## Unexplored angles
+Aspects of this concept not yet addressed anywhere in the vault.
+```
+
+---
+
+## Append mode
+
+Add this block at the end of the matched file:
+
+```
+---
+
+## Tracking update [HH:MM]
+
+### Timeline additions
+- YYYY-MM-DD | [[filename]] | (new mentions since last analysis, or "None")
+
+### State changes
+- (What changed since last analysis. If nothing significant: "No significant change")
+
+### Unexplored angles (updated)
+- (Re-evaluate what remains unexplored)
+```
+
+Mark any previously listed "Unexplored angles" that are now addressed with a note in the State changes section.
+
+---
+
+## Write logic
+
+Write target: `{research}/arc/YYYY-MM-DD-{concept}.md`
+
+Always print the full output to the terminal first.
+
+If `save` was in the input (or user requests saving):
+- Show filename and full path — wait for confirmation before writing
+- Print the full path after writing
+
+---
+
+## Rules
+
+- If search results exceed 20 files, list only the 20 most relevant
+- Use `[[wiki link]]` format for all file references
+- Timestamps use local time in HH:MM (24-hour)
+- Write output in the language specified in `## Vault Structure` → `language`
