@@ -5,8 +5,11 @@
 import { readFileSync, appendFileSync, existsSync, mkdirSync } from 'fs';
 import { join } from 'path';
 
+import { getVaultPath } from './lib/resolve-vault.mjs';
+
 const HOME = process.env.HOME || process.env.USERPROFILE;
-const VAULT = 'D:/Obsidian/br-os-vault';
+const VAULT = getVaultPath();
+if (!VAULT) process.exit(0);
 const DAILY_DIR = join(VAULT, '_daily');
 const ACTIONS_FILE = join(HOME, '.claude', 'homunculus', 'actions.jsonl');
 

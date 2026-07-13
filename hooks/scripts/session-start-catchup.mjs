@@ -1,12 +1,15 @@
 #!/usr/bin/env node
-// SessionStart hook: pulse default (vault snapshot) + inbox scan
-// Reads vault config, scans content folders and inbox, outputs a systemMessage summary.
+// SessionStart hook (hirameki 1.4.0): union of two behaviors, each guarded so
+// failure of one never suppresses the other.
+//   (1) Vault Pulse: vault snapshot (per-folder note counts, active/dormant) + inbox scan
+//   (2) Sprint/philosophy surfacing from vault-local.md (## Vault Structure section)
+// Emits a single systemMessage joining whatever each part produced.
 
 import { readFileSync, readdirSync, statSync, existsSync } from 'fs';
 import { join, resolve } from 'path';
 import { homedir } from 'os';
 
-// --- Read vault config ---
+// --- Read vault config (vault/daily/inbox from ## Vault Structure) ---
 function readVaultConfig() {
   const paths = [
     join(homedir(), '.claude', 'vault-local.md'),
@@ -37,6 +40,27 @@ function readVaultConfig() {
     } catch { continue; }
   }
   return null;
+}
+
+// --- Read sprint + philosophy mode (vault-local.md ## Vault Structure) ---
+function readSprintPhilosophy() {
+  const configPath = join(homedir(), '.claude', 'vault-local.md');
+  try {
+    const content = readFileSync(configPath, 'utf8');
+    const match = content.match(/## Vault Structure[\s\S]*?(?=\n## |$)/);
+    if (!match) return null;
+
+    const section = match[0];
+    const get = (key) => {
+      const m = section.match(new RegExp(`^${key}:[ \\t]*(.*)$`, 'm'));
+      return m ? m[1].trim() : null;
+    };
+
+    return {
+      currentSprint: get('current_sprint') || '',
+      philosophyMode: get('philosophy_mode') || 'default',
+    };
+  } catch { return null; }
 }
 
 // --- Scan content folders ---
@@ -97,30 +121,55 @@ function scanInbox(vaultPath, inboxRel) {
   } catch { return []; }
 }
 
-// --- Main ---
-const config = readVaultConfig();
-if (!config) {
-  process.stdout.write(JSON.stringify({ systemMessage: '' }));
-  process.exit(0);
+// --- Build Vault Pulse message (guarded) ---
+function buildPulseMessage() {
+  const config = readVaultConfig();
+  if (!config) return '';
+
+  const folders = scanContentFolders(config.vault);
+  const inbox = scanInbox(config.vault, config.inbox);
+
+  const totalFiles = folders.reduce((sum, f) => sum + f.count, 0);
+  const activeFolders = folders.filter(f => f.status === 'active');
+  const dormantFolders = folders.filter(f => f.status === 'dormant');
+
+  let msg = `[Vault Pulse] ${totalFiles} notes | ${activeFolders.length} active / ${dormantFolders.length} dormant folders`;
+
+  if (activeFolders.length > 0) {
+    msg += ` | Active: ${activeFolders.map(f => `${f.name}(${f.recentCount})`).join(', ')}`;
+  }
+
+  if (inbox.length > 0) {
+    msg += ` | Inbox(${inbox.length}): ${inbox.map(i => i.name).join(', ')}`;
+  } else {
+    msg += ' | Inbox clear';
+  }
+
+  return msg;
 }
 
-const folders = scanContentFolders(config.vault);
-const inbox = scanInbox(config.vault, config.inbox);
+// --- Build sprint/philosophy message (guarded) ---
+function buildSprintMessage() {
+  const config = readSprintPhilosophy();
+  if (!config) return '';
 
-const totalFiles = folders.reduce((sum, f) => sum + f.count, 0);
-const activeFolders = folders.filter(f => f.status === 'active');
-const dormantFolders = folders.filter(f => f.status === 'dormant');
+  const parts = [];
+  if (config.currentSprint) {
+    parts.push(`Sprint: ${config.currentSprint} [mode: ${config.philosophyMode}]`);
+  } else if (config.philosophyMode !== 'default') {
+    parts.push(`Philosophy mode: ${config.philosophyMode}`);
+  }
+  parts.push('Run /hirameki:next to orient for this session.');
 
-let msg = `[Vault Pulse] ${totalFiles} notes | ${activeFolders.length} active / ${dormantFolders.length} dormant folders`;
-
-if (activeFolders.length > 0) {
-  msg += ` | Active: ${activeFolders.map(f => `${f.name}(${f.recentCount})`).join(', ')}`;
+  return parts.join(' | ');
 }
 
-if (inbox.length > 0) {
-  msg += ` | Inbox(${inbox.length}): ${inbox.map(i => i.name).join(', ')}`;
-} else {
-  msg += ' | Inbox clear';
-}
+// --- Main: run both parts independently, union the results ---
+let pulseMsg = '';
+try { pulseMsg = buildPulseMessage(); } catch { pulseMsg = ''; }
 
-process.stdout.write(JSON.stringify({ systemMessage: msg }));
+let sprintMsg = '';
+try { sprintMsg = buildSprintMessage(); } catch { sprintMsg = ''; }
+
+const systemMessage = [pulseMsg, sprintMsg].filter(Boolean).join(' | ');
+process.stdout.write(JSON.stringify({ systemMessage }));

@@ -2,10 +2,11 @@
 // vault-tidy-check.mjs — Fast frontmatter health check for nightly-check.
 // Pure Node.js — no shell forks per file.
 
-import { readdirSync, readFileSync, statSync, existsSync } from 'fs';
+import { readdirSync, existsSync, openSync, readSync, closeSync } from 'fs';
 import { join, extname } from 'path';
+import { getVaultPath } from './lib/resolve-vault.mjs';
 
-const VAULT = process.argv[2] || 'D:/Obsidian/br-os-vault';
+const VAULT = process.argv[2] || getVaultPath();
 const VALID_STATUS = new Set(['published', 'draft', 'reference', 'outline', 'spec', 'log', 'archive']);
 
 const SCAN_DIRS = [
@@ -44,9 +45,9 @@ function checkFile(filePath) {
   try {
     // Only read first 500 bytes — frontmatter is always at the top
     const buf = Buffer.alloc(500);
-    const fd = require('fs').openSync(filePath, 'r');
-    const bytesRead = require('fs').readSync(fd, buf, 0, 500, 0);
-    require('fs').closeSync(fd);
+    const fd = openSync(filePath, 'r');
+    const bytesRead = readSync(fd, buf, 0, 500, 0);
+    closeSync(fd);
     content = buf.toString('utf8', 0, bytesRead);
   } catch {
     return;

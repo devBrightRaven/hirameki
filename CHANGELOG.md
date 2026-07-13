@@ -5,6 +5,19 @@ Versioning follows [Semantic Versioning](https://semver.org/): MAJOR = breaking 
 
 ---
 
+## [1.4.0] — 2026-07-13
+
+### Changed
+- `hooks/scripts/session-start-catchup.mjs`: now emits the union of two SessionStart behaviors that previously lived in separate copies — the Vault Pulse snapshot (per-folder note counts, active/dormant folders, `_inbox/` scan) **and** the current-sprint / `philosophy_mode` surfacing read from `vault-local.md`'s `## Vault Structure` section. Each part is wrapped in its own guard, so a failure in one (unreadable vault, missing config) no longer suppresses the other. The two outputs are joined into one `systemMessage`.
+- `hooks/scripts/extract-actions.mjs`: replaced the hardcoded `D:/Obsidian/br-os-vault` vault path with portable runtime resolution via `getVaultPath()`. When no vault is configured on the machine the hook exits cleanly (`process.exit(0)`) instead of scanning a path that only exists on one machine.
+- `hooks/scripts/vault-tidy-check.mjs`: same portability fix — the `process.argv[2]` fallback now resolves via `getVaultPath()` instead of the hardcoded machine path. Also fixed a latent crash: the file is ESM (`.mjs`) but used `require('fs')` inside `checkFile()`, which throws `ReferenceError: require is not defined` on the first file scanned; now uses proper `openSync`/`readSync`/`closeSync` imports. (Script is bundled but unregistered in `hooks.json`; invoked manually or by nightly-check.)
+
+### Added
+- `hooks/scripts/lib/resolve-vault.mjs`: bundled portable vault resolver (reads `~/.claude/vault-local.md`, falls back to `~/.claude/CLAUDE.md` at runtime; depends only on `USERPROFILE`/`HOME`). Required by the portable `extract-actions.mjs` — the plugin previously shipped no `hooks/scripts/lib/`, so the relative import would ENOENT at runtime without it.
+- `docs/release-1.4.0-cutover.md`: atomic release + hook-dedupe cutover runbook (preconditions, exact steps, rollback, and the "current duplicate state is safe" note).
+
+---
+
 ## [1.3.0] — 2026-05-31
 
 ### Added
