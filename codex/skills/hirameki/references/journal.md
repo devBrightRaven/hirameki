@@ -2,7 +2,7 @@
 description: Write or append a work log entry. Use "review" to extract rule updates from recent corrections.
 ---
 
-Read `## Vault Structure` from `~/.claude/vault-local.md` (fall back to `~/.claude/CLAUDE.md` if not found) to get the vault path and the journal folder location. Also retrieve the list of content folders for searching related notes.
+Resolve vault configuration through the umbrella Hirameki adapter to get the vault path, journal folder, content folders, and language. The umbrella owns any migration fallback; this reference does not read Claude configuration directly.
 If the section does not exist or required fields are missing, stop and respond: "Setup not complete. Please run `/hirameki:__init` first."
 
 Write or append a work log and reasoning record for the given topic.
@@ -42,7 +42,7 @@ tags:
   - journal
   - {relevant-topic-tags}
 status: log
-source: claude-code
+source: codex
 actions:
   - type: {action-type}
     project: {project-name}
@@ -69,10 +69,10 @@ Links to other ideas, possible extensions, cross-topic connections. Use [[wiki l
 Unexplored directions, alternatives, potential risks worth investigating. If none, write "None."
 
 ## Corrections
-Things the user corrected Claude on during this session. Each item = one correction.
-Format: "Wrong: [what Claude did] → Right: [what the user wanted]"
+Things the user corrected the agent on during this session. Each item = one correction.
+Format: "Wrong: [what the agent did] → Right: [what the user wanted]"
 If no corrections happened, write "None."
-These corrections are the primary source for CLAUDE.md rule updates.
+These corrections are candidates for agent-guidance updates after review and explicit user approval.
 
 ## Open items
 Things still to follow up on. If all done, write "No open items."
@@ -121,7 +121,7 @@ Write output in the language specified in `## Vault Structure` → `language`.
 
 Input: $ARGUMENTS = `review` or `review N` (N = number of days to scan, default 7)
 
-Scan recent journal entries for `## Corrections` sections and propose CLAUDE.md or rules updates.
+Scan recent journal entries for `## Corrections` sections and propose updates to the owning Codex personal- or project-layer guidance.
 
 ### Step 1 — Collect corrections
 
@@ -133,8 +133,8 @@ If no corrections found, respond: "No corrections found in the past N days." and
 ### Step 2 — Deduplicate against existing rules
 
 For each correction, search for existing coverage:
-- Grep `~/.claude/CLAUDE.md` for related keywords
-- Grep `~/.claude/rules/common/*.md` for related keywords
+- Search `~/.codex/AGENTS.md` and existing Codex personal-layer guidance for personal workflow facts
+- Search the applicable project `AGENTS.md` files for repository requirements
 - If already covered → mark as "SKIP — already exists in {file}:{line}"
 
 ### Step 3 — Filter one-time issues
@@ -148,18 +148,13 @@ For each remaining correction, assess:
 
 For each KEEP correction, determine the target file:
 
-| Topic | Target file |
+| Fact ownership | Target file |
 |-------|------------|
-| Environment, platform, shell | `~/.claude/CLAUDE.md` → `## Environment` |
-| User preferences, communication | `~/.claude/CLAUDE.md` → `## Preferences` |
-| Code style, immutability, naming | `~/.claude/rules/common/coding-style.md` |
-| Git operations, commits, PRs | `~/.claude/rules/common/git-workflow.md` |
-| Testing, TDD, coverage | `~/.claude/rules/common/testing.md` |
-| Security, secrets, auth | `~/.claude/rules/common/security.md` |
-| Dev workflow, planning, review | `~/.claude/rules/common/development-workflow.md` |
-| Performance, context, tokens | `~/.claude/rules/common/performance.md` |
-| Agent orchestration | `~/.claude/rules/common/agents.md` |
-| Project-specific | Project-level CLAUDE.md |
+| Personal workflow, environment, communication, cross-project preferences | `~/.codex/AGENTS.md` or the existing owning Codex personal-layer file |
+| Requirements needed by any agent working in one repository | Applicable project `AGENTS.md` |
+| Vault knowledge or reflection | Keep in the vault; do not treat it as runtime guidance |
+
+Before proposing a personal-layer edit, read `~/.codex/agent-docs-constitution.md` when present. Do not create a parallel rules file when an existing file already owns the fact.
 
 ### Step 5 — Check for merge opportunities
 
@@ -184,7 +179,7 @@ PROPOSED UPDATES:
      Merge into existing rule: "..."
      + "new wording"
 
-  2. [ADD] ~/.claude/CLAUDE.md → ## Environment
+  2. [ADD] ~/.codex/AGENTS.md → ## Environment
      + "new rule"
 ```
 
@@ -193,6 +188,7 @@ Apply only the changes the user approves (user may approve selectively).
 
 Rules:
 - NEVER add a rule without checking for duplicates first
-- NEVER add to CLAUDE.md if a rules/ file is more appropriate
+- NEVER modify Codex or project guidance without explicit user approval
+- NEVER copy Claude personal config into a repository or use the vault as runtime config
 - Prefer merging into existing rules over adding new ones
 - Show the exact diff (old → new) for merge operations

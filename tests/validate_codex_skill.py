@@ -6,8 +6,33 @@ from validate_commands import REQUIRED_CONTENT, check_file
 ROOT = Path(__file__).resolve().parents[1]
 COMMANDS = ROOT / "commands"
 SKILL = ROOT / "codex" / "skills" / "hirameki"
+ASSETS = SKILL / "assets" / "_hirameki_cmds"
 
 EXPECTED_REFERENCES = {f"{name}.md" for name in REQUIRED_CONTENT}
+PLATFORM_DIVERGENT_REFERENCES = {
+    "__init.md",
+    "critique.md",
+    "journal.md",
+    "mekiki.md",
+    "pulse.md",
+    "triage.md",
+}
+ADAPTER_RESOLVED_REFERENCES = {"journal.md", "mekiki.md", "pulse.md", "triage.md"}
+EXPECTED_REFERENCE_ASSETS = {
+    "hirameki-cmds-full-ja.md",
+    "hirameki-cmds-full-zh-TW.md",
+    "hirameki-cmds-full.md",
+    "hirameki-cmds-short-ja.md",
+    "hirameki-cmds-short-zh-TW.md",
+    "hirameki-cmds-short.md",
+}
+FORBIDDEN_CODEX_GUIDANCE = {
+    "allowed-mcp-server-names",
+    "codex exec",
+    "gemini -p",
+    "~/.claude/rules",
+    "project-level claude.md",
+}
 
 
 def extract_frontmatter(text: str) -> dict[str, str]:
@@ -28,6 +53,7 @@ def test_codex_skill_shape() -> None:
 
     frontmatter = extract_frontmatter(skill_md.read_text(encoding="utf-8"))
     assert frontmatter["name"] == "hirameki"
+    assert frontmatter["description"].startswith("Use when "), "Hirameki description must lead with trigger conditions"
     assert "Obsidian vault" in frontmatter["description"]
     assert len(frontmatter["description"]) <= 1024
 
@@ -44,17 +70,88 @@ def test_codex_router_mentions_every_reference() -> None:
         assert f"`references/{name}`" in text
 
 
-def test_codex_references_match_claude_commands() -> None:
+def test_codex_reference_assets_are_exactly_bundled() -> None:
+    actual = {path.name for path in ASSETS.glob("*.md")}
+    assert actual == EXPECTED_REFERENCE_ASSETS
+    for name in EXPECTED_REFERENCE_ASSETS:
+        asset = ASSETS / name
+        canonical = ROOT / "_hirameki_cmds" / name
+        assert asset.is_file()
+        assert asset.read_bytes() == canonical.read_bytes(), f"Bundled reference asset drifted: {name}"
+
+
+def test_non_platform_codex_references_match_claude_commands() -> None:
     for name in EXPECTED_REFERENCES:
+        if name in PLATFORM_DIVERGENT_REFERENCES:
+            continue
         command = (COMMANDS / name).read_text(encoding="utf-8")
         reference = (SKILL / "references" / name).read_text(encoding="utf-8")
         assert reference == command, f"Codex reference drifted from commands/{name}"
 
 
+def test_codex_platform_adapters_exclude_claude_runtime_assumptions() -> None:
+    texts = {
+        "SKILL.md": (SKILL / "SKILL.md").read_text(encoding="utf-8").lower(),
+        **{
+            name: (SKILL / "references" / name).read_text(encoding="utf-8").lower()
+            for name in PLATFORM_DIVERGENT_REFERENCES
+        },
+    }
+    combined = "\n".join(texts.values())
+    for forbidden in FORBIDDEN_CODEX_GUIDANCE:
+        assert forbidden not in combined, f"Codex adapter contains Claude-specific runtime guidance: {forbidden}"
+
+    for name in ADAPTER_RESOLVED_REFERENCES:
+        assert "~/.claude/vault-local.md" not in texts[name]
+        assert "~/.claude/claude.md" not in texts[name]
+        assert "resolve vault configuration through the umbrella hirameki adapter" in texts[name]
+        assert "source: claude-code" not in texts[name]
+
+    assert "~/.codex/hirameki-local.md" in texts["__init.md"]
+    assert "~/.codex/agents.md" in texts["journal.md"]
+    assert "native codex reviewers" in texts["critique.md"]
+    assert "read-only" in texts["critique.md"]
+    assert "/hirameki:__init" in texts["critique.md"]
+    for phrase in ("感官密度", "結構張力", "觸動力", "strongest sentences", "weakest sentences", "structural suggestion", "wait for confirmation", "final review"):
+        assert phrase in texts["critique.md"], f"Codex critique lost workflow contract: {phrase}"
+    for phrase in ("benchmark", "read-only", "consensus", "append it to the same benchmark file"):
+        assert phrase in texts["critique.md"], f"Codex critique lost adapter contract: {phrase}"
+    for phrase in ("vault structure", "traditional chinese", "_yorozuya/daily/", "create folders only after confirmation", "parse the section again", "assets/_hirameki_cmds", "reference doc sync", "reconfigure", "start over completely", "source assets are unavailable", "do not write"):
+        assert phrase in texts["__init.md"], f"Codex init lost workflow contract: {phrase}"
+    assert "corrected the agent on" in texts["triage.md"]
+    assert "corrected claude on" not in texts["triage.md"]
+    assert "applicable codex personal and project guidance" in texts["mekiki.md"]
+    assert "do not treat vault notes as runtime configuration" in texts["mekiki.md"]
+    assert "automatic sessionstart snapshot is claude-only" in texts["pulse.md"]
+    assert "codex does not run it automatically" in texts["pulse.md"]
+    for promise in (
+        "default snapshot runs automatically via sessionstart hook",
+        "default snapshot runs automatically at session start",
+        "now runs automatically via the sessionstart hook",
+    ):
+        assert promise not in texts["pulse.md"], f"Codex pulse contains an unqualified auto-run promise: {promise}"
+
+    command_pulse = (COMMANDS / "pulse.md").read_text(encoding="utf-8")
+    reference_pulse = (SKILL / "references" / "pulse.md").read_text(encoding="utf-8")
+    command_analysis = command_pulse.split("\n---\n\n## `pulse week`", 1)[1]
+    reference_analysis = reference_pulse.split("\n---\n\n## `pulse week`", 1)[1]
+    assert reference_analysis == command_analysis, "Codex pulse analysis workflow drifted beyond the platform note"
+
+
 def test_codex_references_satisfy_command_spec() -> None:
     for name in EXPECTED_REFERENCES:
+        if name in {"__init.md", "critique.md"}:
+            content = (SKILL / "references" / name).read_text(encoding="utf-8")
+            frontmatter = extract_frontmatter(content)
+            assert frontmatter.get("description"), f"{name}: missing description"
+            assert any(phrase in content for phrase in ("language", "Language", "Traditional Chinese", "繁體中文")), f"{name}: missing language contract"
+            assert "confirmation" in content.lower(), f"{name}: missing confirm-before-write contract"
+            assert "path" in content.lower(), f"{name}: missing output-path contract"
+            continue
         content = (SKILL / "references" / name).read_text(encoding="utf-8")
         errors = check_file(Path(name).stem, content)
+        if name in ADAPTER_RESOLVED_REFERENCES:
+            errors = [error for error in errors if "config file path (primary)" not in error]
         assert not errors, f"{name}: {'; '.join(errors)}"
 
 
@@ -62,6 +159,8 @@ if __name__ == "__main__":
     test_codex_skill_shape()
     test_codex_references_are_expected_set()
     test_codex_router_mentions_every_reference()
-    test_codex_references_match_claude_commands()
+    test_codex_reference_assets_are_exactly_bundled()
+    test_non_platform_codex_references_match_claude_commands()
+    test_codex_platform_adapters_exclude_claude_runtime_assumptions()
     test_codex_references_satisfy_command_spec()
     print("Codex Hirameki skill adapter validation passed")

@@ -4,7 +4,7 @@ description: End-of-session checkpoint — walks wrap, journal, and handoff in o
   Wrap and journal and handoff remain callable individually.
 ---
 
-Read `## Vault Structure` from `~/.claude/vault-local.md` (fall back to `~/.claude/CLAUDE.md` if not found) to get the vault path and folder locations: daily, journal, handoff, templates.
+Resolve vault configuration through the umbrella Hirameki adapter to get the vault path and folder locations: daily, journal, handoff, templates, and language. The umbrella owns any migration fallback; this reference does not read Claude configuration directly.
 If the section does not exist or required fields are missing, stop and respond: "Setup not complete. Please run `/hirameki:__init` first."
 
 Input: $ARGUMENTS — ignored. Triage takes no arguments.
@@ -21,7 +21,7 @@ Gather this once. All three sub-flows draw from it — do not re-scan per sub-fl
 
 **Decisions**: Scan conversation for non-obvious choices (phrases like "決定", "decided", "going with", "the approach is", "we'll"). Keep only decisions worth preserving.
 
-**Corrections**: Scan conversation for anything the user corrected Claude on. Format each as "Wrong: [what Claude did] → Right: [what the user wanted]".
+**Corrections**: Scan conversation for anything the user corrected the agent on. Format each as "Wrong: [what the agent did] → Right: [what the user wanted]".
 
 **Deferred items**: Scan for items pushed out ("下次", "後面再做", "deferred", "skip for now", "not in scope").
 
@@ -89,7 +89,7 @@ tags:
   - journal
   - {relevant-topic-tags}
 status: log
-source: claude-code
+source: codex
 actions:
   - type: {action-type}
     project: {project-name}
@@ -150,7 +150,7 @@ Draft structure:
 tags:
   - handoff
 status: reference
-source: claude-code
+source: codex
 created: YYYY-MM-DD HH:MM
 topic: <one-line: what the next session needs to resolve>
 priority: <high / medium / low>

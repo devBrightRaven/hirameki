@@ -1,228 +1,105 @@
 ---
-description: Multi-agent writing critique for draft articles — 3-model consensus scoring on sensory density, structure, and emotional resonance
+description: Multi-reviewer writing critique for draft articles, with honest reviewer provenance
 ---
 
-Read `## Vault Structure` from `~/.claude/vault-local.md` (fall back to `~/.claude/CLAUDE.md` if not found) to get the vault path.
-If the section does not exist or required fields are missing, stop and respond: "Setup not complete. Please run `/hirameki:__init` first."
+Resolve the vault through the Hirameki adapter, then run an independent writing review on a draft article.
+If vault configuration is missing or incomplete, stop and respond: "Setup not complete. Please run `/hirameki:__init` first."
 
-Run a multi-agent writing review on a draft article. Uses three models (Claude Opus, Codex GPT via codex CLI, Gemini Pro via gemini CLI) to score and critique, then optionally runs an Opus final review.
+Input: `$ARGUMENTS` (file path, required)
 
-Input: $ARGUMENTS (file path — required)
-- If $ARGUMENTS is a relative path, resolve it from the vault root.
-- If $ARGUMENTS is empty, check for the most recently modified .md file in the vault's draft folders. Show the candidate and ask for confirmation.
-- If the file does not exist, stop and respond with the error.
+- Resolve relative paths from the vault root.
+- If empty, find the most recently modified Markdown file in configured draft folders, show it, and wait for confirmation.
+- Stop if the file does not exist.
+- Never modify the article during review.
 
----
+## Review framework
 
-## Review Framework
+Score 1-10:
 
-Three dimensions, scored 1-10:
-1. **感官密度** (Sensory density): How vivid and specific are physical details? Where does it show vs tell?
-2. **結構張力** (Structural tension): Does tension build and release? Are transitions smooth? Does the ending land?
-3. **觸動力** (Emotional resonance): Does the reader feel something real? Is vulnerability authentic or performed?
+1. 感官密度：具體感官細節與 show-versus-tell。
+2. 結構張力：張力、轉折、節奏與結尾。
+3. 觸動力：真實情感、脆弱性與讀者共鳴。
 
-Each reviewer also identifies:
-- Top 3 strongest sentences (with reason)
-- Top 3 weakest sentences (with reason)
-- One structural suggestion
+Each reviewer must also identify the three strongest sentences, three weakest sentences with reasons, and one structural suggestion. Write in Traditional Chinese.
 
----
+## Initial review
 
-## Execution
+Launch two independent native Codex reviewers in parallel when subagents are available. Give each reviewer the article content or a readable path, the framework above, and these constraints:
 
-### Phase 1: Initial Review (3 models in parallel)
+- read only;
+- no file edits, network actions, publishing, or other external side effects;
+- do not read unrelated vault content;
+- return scores plus cited sentences and reasons.
 
-Launch three reviewers **in parallel** using Agent tool and Bash:
+If native subagents are unavailable, perform one inline Codex review and label it as a single-reviewer result.
 
-**Reviewer 1 — Claude Opus (Agent, model: opus)**
-Prompt template:
-```
-Read the file at "{file_path}" and evaluate it as a writing critic.
-Score on three dimensions (1-10 each):
-1. 感官密度 (Sensory density)
-2. 結構張力 (Structural tension)
-3. 觸動力 (Emotional resonance)
-Also identify: Top 3 strongest sentences, Top 3 weakest sentences (and why), One structural suggestion.
-Write in 繁體中文. Be brutally honest.
-```
+An optional external model may be added only when its installed CLI is available and its current `--help` documents a non-interactive invocation that can be constrained to read-only work. Pass article input through documented stdin or a prompt file, never shell interpolation. Do not pass guessed or unsupported flags. Skip the reviewer when safe isolation is unclear and state the gap.
 
-**Reviewer 2 — Codex GPT (Bash, codex CLI)**
-```bash
-codex exec "Read the essay below and evaluate it as a writing critic.
-Score on three dimensions (1-10 each):
-1. 感官密度 (Sensory density)
-2. 結構張力 (Structural tension)
-3. 觸動力 (Emotional resonance)
-Also identify: Top 3 strongest sentences, Top 3 weakest sentences (and why), One structural suggestion.
-Write in 繁體中文. Be honest and critical.
+Record each reviewer's actual route and model when known. Two Codex reviewers are independent reviewers, not two different models.
 
-$(cat '{file_path}')"
-```
+## Compile
 
-**Reviewer 3 — Gemini Pro (Bash, gemini CLI)**
-```bash
-gemini -p "$(cat <<'PROMPT'
-Read the essay below and evaluate it as a writing critic.
-Score on three dimensions (1-10 each):
-1. 感官密度 (Sensory density)
-2. 結構張力 (Structural tension)
-3. 觸動力 (Emotional resonance)
-Also identify: Top 3 strongest sentences, Top 3 weakest sentences (and why), One structural suggestion.
-Write in 繁體中文. Be honest and critical.
+Use columns for the reviewers that actually ran:
 
-$(cat '{file_path}')
-PROMPT
-)" --allowed-mcp-server-names none
-```
+```markdown
+## 審閱對照
 
-### Phase 2: Compile Results
+| 維度 | Reviewer A | Reviewer B | Optional external | 共識 |
+|---|---:|---:|---:|---:|
+| 感官密度 | X | X | X or N/A | X.X |
+| 結構張力 | X | X | X or N/A | X.X |
+| 觸動力 | X | X | X or N/A | X.X |
 
-After all three return, compile into a comparison table:
-
-```
-## 三模型評審對照
-
-| 維度 | Opus | Codex GPT | Gemini Pro |
-|------|------|-----------|------------|
-| 感官密度 | X | X | X |
-| 結構張力 | X | X | X |
-| 觸動力 | X | X | X |
-
-### 共識（2/3 以上一致）
-- [issues all or most reviewers flagged]
-
-### 最強句（多家選中）
-- [sentences selected by 2+ reviewers]
-
-### 最弱句（多家選中）
-- [sentences flagged by 2+ reviewers]
+### 共識
+- [issues flagged by more than half of reviewers]
 
 ### 各家獨有觀點
-- Opus: ...
-- GPT-5.4: ...
-- Gemini: ...
+- Reviewer A: ...
+- Reviewer B: ...
+- Optional external: ...
 ```
 
-### Phase 2.5: Write Review File
+Average only the valid scores from reviewers that actually ran. Never claim multi-model consensus from multiple reviewers using the same model.
 
-Calculate consensus score for each dimension: average of all three models, rounded to one decimal.
+## Save review
 
-Write the review to `{vault}/_writing_lab/benchmark/{YYYY-MM-DD}-{article-slug}-review.md`:
+After showing the result, propose writing it to:
 
-```markdown
+`{vault}/_writing_lab/benchmark/{YYYY-MM-DD}-{article-slug}-review.md`
+
+Wait for confirmation before writing. Use this frontmatter, listing only actual reviewers:
+
+```yaml
 ---
-tags:
-  - writing-lab
-  - review
+tags: [writing-lab, review]
 status: reference
-source: claude-code
-created: {YYYY-MM-DD}
-article: "{article filename}"
+source: codex
+created: YYYY-MM-DD
+article: "article filename"
 scores:
-  sensory: {consensus average}
-  structure: {consensus average}
-  resonance: {consensus average}
-  overall: {average of three consensus scores}
-models:
-  - opus
-  - codex
-  - gemini
+  sensory: X.X
+  structure: X.X
+  resonance: X.X
+  overall: X.X
+reviewers:
+  - route: native-subagent
+    model: known-model-or-unknown
 phase: initial
 ---
-
-# Review: {article title}
-
-## 評分對照
-
-| 維度 | Opus | Codex GPT | Gemini Pro | **共識** |
-|------|------|-----------|------------|----------|
-| 感官密度 | X | X | X | **X.X** |
-| 結構張力 | X | X | X | **X.X** |
-| 觸動力 | X | X | X | **X.X** |
-| | | | | **總分: X.X** |
-
-## 共識（2/3 以上一致）
-- [issues all or most reviewers flagged]
-
-## 最強句（多家選中）
-- [sentences selected by 2+ reviewers, with which models selected them]
-
-## 最弱句（多家選中）
-- [sentences flagged by 2+ reviewers, with reasons]
-
-## 各家獨有觀點
-- **Opus**: ...
-- **GPT-5.4**: ...
-- **Gemini**: ...
-
-## 結構建議
-- **Opus**: ...
-- **GPT-5.4**: ...
-- **Gemini**: ...
 ```
 
-Print the file path after writing. Then ask: "要根據這些意見改稿嗎？還是先跑終審？"
+Include the score table, consensus issues, strongest and weakest sentences with reviewer attribution, unique observations, and structural suggestions. Print the saved path and ask whether the user wants to revise or request a final review.
 
-### Phase 3: Final Review (optional, on user request)
+## Final review
 
-After edits are made, run a final review with **Opus + Codex in parallel**:
+On request after edits, launch two fresh independent reviewers under the same read-only rules. For every initial consensus issue, report `Fixed`, `Partially fixed`, `Not fixed`, or `New issue introduced`; then rescore the three dimensions and identify new weaknesses, strongest moments, and one remaining fix.
 
-**Opus Final (Agent, model: opus)**
-Prompt template:
-```
-Read the file at "{file_path}" and do a final review.
-The following issues were identified in the initial review: [list issues from Phase 2 consensus]
-For each, report: Fixed / Partially fixed / Not fixed / New issue introduced.
-Then do a fresh read: overall impression, score all three dimensions, any NEW weaknesses, top 3 strongest moments, one remaining fix if the author has energy.
-Write in 繁體中文. Be honest.
-```
+Show the final comparison. With confirmation, append it to the same benchmark file and update `phase` and scores. Preserve initial results and record the final reviewers' actual routes and models.
 
-**Codex Final (Bash, codex CLI)**
-Same prompt structure as Opus Final, via `codex exec`.
+## Integrity rules
 
-Compile both into a final comparison. Then **append** the final review results to the same benchmark file created in Phase 2.5:
-
-```markdown
-
----
-
-## 終審（Phase 3）
-
-**終審模型**: Opus + Codex GPT
-
-| 維度 | Opus | Codex GPT | **共識** |
-|------|------|-----------|----------|
-| 感官密度 | X | X | **X.X** |
-| 結構張力 | X | X | **X.X** |
-| 觸動力 | X | X | **X.X** |
-| | | | **總分: X.X** |
-
-### 第一輪問題修正狀態
-| 問題 | 狀態 |
-|------|------|
-| [issue] | Fixed / Partially fixed / Not fixed |
-
-### 新問題
-- [any new issues introduced by edits]
-
-### 最強句（終審版）
-- [top 3 from final version]
-
-### 剩餘建議
-- [one remaining fix if any]
-```
-
-Also update the frontmatter `phase` field to `final` and update the scores to the final review scores.
-
-Print the updated file path. Present the results to the user.
-
----
-
-## Rules
-
-- All reviewers run in **parallel** (use background agents/commands).
-- Never modify the article file during review — read only.
-- Present results in 繁體中文.
-- Opus reviewers use `model: opus` parameter. Do NOT use Sonnet for writing review — writing critique requires judgment depth.
-- If codex or gemini CLI is not available, skip that reviewer and note it in output.
-- Focus on **consensus signals**: issues flagged by 2+ models are high priority; single-model flags are informational.
+- Run independent reviewers in parallel when supported.
+- Reviewer count and model count are separate facts.
+- Consensus means more than half of reviewers agreed; a single review has no consensus claim.
+- Skip unavailable or unsafe external reviewers and disclose the gap.
+- Vault output is knowledge, not Codex runtime configuration.

@@ -1,0 +1,20 @@
+{
+  "name": "hirameki-codex",
+  "interface": {
+    "displayName": "Hirameki for Codex"
+  },
+  "plugins": [
+    {
+      "name": "hirameki",
+      "source": {
+        "source": "local",
+        "path": "./codex"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

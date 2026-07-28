@@ -1,0 +1,36 @@
+{
+  "name": "hirameki",
+  "version": "1.4.1",
+  "description": "Obsidian vault knowledge-management workflows adapted for Codex.",
+  "author": {
+    "name": "devBrightRaven",
+    "url": "https://github.com/devBrightRaven"
+  },
+  "homepage": "https://github.com/devBrightRaven/hirameki",
+  "repository": "https://github.com/devBrightRaven/hirameki",
+  "license": "MIT",
+  "keywords": [
+    "codex",
+    "obsidian",
+    "vault",
+    "knowledge-management"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Hirameki",
+    "shortDescription": "Obsidian vault workflows for Codex",
+    "longDescription": "Capture, summarize, route, journal, hand off, and reason over Obsidian vault notes with Hirameki.",
+    "developerName": "devBrightRaven",
+    "category": "Productivity",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "websiteURL": "https://github.com/devBrightRaven/hirameki",
+    "defaultPrompt": [
+      "Run Hirameki triage for this session.",
+      "Create a Hirameki wrap and journal entry.",
+      "Prepare a Hirameki handoff."
+    ]
+  }
+}

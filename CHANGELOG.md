@@ -5,6 +5,17 @@ Versioning follows [Semantic Versioning](https://semver.org/): MAJOR = breaking 
 
 ---
 
+## [1.4.1] — 2026-07-29
+
+### Added
+- Codex-native plugin manifest and marketplace entry for versioned installation and updates.
+- Bundled Hirameki command-reference assets required by the Codex initialization workflow.
+
+### Fixed
+- Codex adapter boundaries now use Codex personal configuration, runtime-neutral review routing, and explicit Claude-only hook behavior.
+
+---
+
 ## [1.4.0] — 2026-07-13
 
 ### Changed

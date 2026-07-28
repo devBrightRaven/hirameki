@@ -1,14 +1,14 @@
 ---
-description: Vault pulse check — weekly gaps or undercurrent patterns. Default snapshot runs automatically via SessionStart hook.
+description: Vault pulse check — weekly gaps or undercurrent patterns. Automatic SessionStart snapshot is Claude-only.
 ---
 
-Read `## Vault Structure` from `~/.claude/vault-local.md` (fall back to `~/.claude/CLAUDE.md` if not found) to get the vault path, the daily folder location, and the list of content folders.
+Resolve vault configuration through the umbrella Hirameki adapter to get the vault path, daily folder, content folders, and language. The umbrella owns any migration fallback; this reference does not read Claude configuration directly.
 If the section does not exist or required fields are missing, stop and respond: "Setup not complete. Please run `/hirameki:__init` first."
 
 Input: $ARGUMENTS (required — `week` or `patterns`)
-- If $ARGUMENTS is empty, respond: "Which pulse? `week` (gap analysis) or `patterns` (undercurrents). The default snapshot runs automatically at session start."
+- If $ARGUMENTS is empty, respond: "Which pulse? `week` (gap analysis) or `patterns` (undercurrents). Codex does not run the snapshot automatically."
 
-Note: The instant vault snapshot (content themes, recent activity, vault overview) now runs automatically via the SessionStart hook. Use this command for deeper analysis.
+Note: The automatic SessionStart snapshot is Claude-only; Codex does not run it automatically. Use this command for deeper analysis.
 
 ---
 

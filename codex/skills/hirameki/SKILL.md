@@ -1,6 +1,6 @@
 ---
 name: hirameki
-description: Obsidian vault knowledge-management workflows adapted from Hirameki for Codex. Use when the user invokes or mentions Hirameki commands such as /__init, /wrap, /journal, /handoff, /harvest, /mekiki, /next, /tasks, /tidy, /triage, /arc, /bridge, /challenge, /compose, /critique, /frame, /graduate, /lens, /pulse, or /reflect; or when they ask Codex to initialize Hirameki, capture, summarize, route, tidy, journal, hand off, critique writing, or reason over vault notes using the Hirameki method.
+description: Use when the user invokes or mentions a Hirameki command such as /__init, /wrap, /journal, /handoff, /harvest, /mekiki, /next, /tasks, /tidy, /triage, /arc, /bridge, /challenge, /compose, /critique, /frame, /graduate, /lens, /pulse, or /reflect; or asks Codex to initialize, capture, summarize, route, tidy, journal, hand off, critique writing, or reason over Obsidian vault notes with Hirameki.
 ---
 
 # Hirameki
@@ -66,6 +66,9 @@ This Codex adapter covers the 20 Claude command names as same-name references.
 - Prefer reversible, append-only edits for journal, daily, handoff, and knowledge notes.
 - Do not publish, sync, delete, or move vault content unless the chosen workflow explicitly requires it and the user confirms.
 - If a reference asks for confirmation before writing, show the proposed content and wait.
+- Treat the vault as human knowledge storage, never as Codex runtime configuration.
+- A reference may propose changes to Codex personal guidance only in `~/.codex/AGENTS.md` or an existing owning Codex personal-layer file. Never edit personal guidance without the user's explicit approval, and never route Codex corrections into Claude config.
+- Project-specific guidance belongs in the applicable project `AGENTS.md`, subject to that repository's instructions.
 - If the user asks for several Hirameki commands at once, run them in the order requested. If order is unclear, use: scan/read first, write later.
 - When a reference says `source: claude-code`, use `source: codex` for files created by Codex unless the user explicitly wants to preserve the Claude-origin label.
 
@@ -75,7 +78,7 @@ Some references were originally written as Claude Code commands. Adapt them in C
 
 - `__init`: write Codex per-machine config to `~/.codex/hirameki-local.md`. Do not migrate or remove Claude config unless the user explicitly asks.
 - `__init` testing: never test initialization against a real user vault such as `br-os-vault` or `agents-vault`. Use a disposable fixture vault or a copied sandbox vault, and write config to a test-only location unless the user explicitly asks to configure the real machine.
-- `critique`: the Claude command expects a Claude Opus Agent plus `codex` and `gemini` CLIs. In Codex, run the reviewers that are actually available. Use Codex's own review inline for the Codex reviewer; use Gemini CLI only if installed; skip unavailable reviewers and state the gap. Do not claim a three-model consensus if fewer than three reviewers ran.
+- `critique`: run independent reviewers through native Codex subagents when available. An optional external reviewer may use the currently installed CLI only after checking its help, with read-only instructions and no unsupported flags. Do not invoke an external CLI merely to duplicate the current Codex reviewer, do not permit external side effects, and do not claim multi-model consensus unless the recorded reviewers actually used distinct models.
 - Hooks: references to Claude SessionStart/SessionEnd hooks are informational only in Codex unless a Codex hook integration is explicitly implemented later.
 
 ## Maintaining This Adapter

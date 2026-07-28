@@ -8,7 +8,7 @@ description: >
   or any URL / pasted text with evaluation or vault-storage intent.
 ---
 
-Read `## Vault Structure` from `~/.claude/vault-local.md` (fall back to `~/.claude/CLAUDE.md` if not found) to get the vault path, content folders, inbox folder, research folder, and language.
+Resolve vault configuration through the umbrella Hirameki adapter to get the vault path, content folders, inbox folder, research folder, and language. The umbrella owns any migration fallback; this reference does not read Claude configuration directly.
 If the section does not exist or required fields are missing, stop and respond: "Setup not complete. Please run `/hirameki:__init` first."
 
 Input: $ARGUMENTS (required — GitHub URL, article URL, pasted text, or file path)
@@ -79,7 +79,7 @@ Skip standard practices (git flow, MIT license) and language-specific idioms tha
 
 #### Track B: Adoption Evaluation
 
-**Before writing the comparison table**, read the user's CLAUDE.md and project memory to identify their actual tools and workflows. The "We currently use" column must contain real tool names — never "existing solution" or "current approach".
+**Before writing the comparison table**, read applicable Codex personal and project guidance to identify the user's actual tools and workflows. The "We currently use" column must contain evidence-backed tool names — never "existing solution" or "current approach". Do not treat vault notes as runtime configuration.
 
 Classify the repo:
 
