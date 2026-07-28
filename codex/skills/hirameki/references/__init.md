@@ -2,13 +2,13 @@
 description: First-time Codex setup for Hirameki vault discovery and folder configuration
 ---
 
-Configure Hirameki for Codex in `~/.codex/hirameki-local.md`. This file is machine-specific personal-layer data: never copy it into a repository or the vault.
+Store the machine-specific vault root and language in `~/.codex/hirameki-local.md`. Store the shared folder layout in `{vault}/AGENTS.md`, the canonical source used by every agent.
 
 ## Existing configuration
 
-Read `## Vault Structure` from `~/.codex/hirameki-local.md`. Claude configuration may be read only as a migration fallback described by the umbrella skill; do not modify or remove it.
+Resolve the vault root and language through the umbrella skill. Do not require `~/.codex/hirameki-local.md` when its read-only migration fallback is complete. Then read folder paths from `## Vault Structure` in `{vault}/AGENTS.md`.
 
-If configuration exists, show its non-secret fields and ask which field to update. Change only the selected fields and wait for confirmation before writing.
+If configuration exists, show its non-secret fields and their owning files, then ask which field to update. Change only the selected fields and wait for confirmation before writing.
 
 ## First-time setup
 
@@ -46,10 +46,17 @@ For a missing purpose, suggest the first candidate and ask where to create it. C
 
 Show the complete proposed configuration and wait for explicit approval. Then write:
 
+To `~/.codex/hirameki-local.md` — vault root and language only:
+
 ```markdown
 ## Vault Structure
 vault: {full vault path}
 language: {language}
+```
+
+Write folder layout only to `{vault}/AGENTS.md`, preserving its existing content and style:
+
+```yaml
 daily: {folder}/
 inbox: {folder}/
 research: {folder}/
@@ -57,6 +64,8 @@ journal: {folder}/
 handoff: {folder}/
 templates: {folder}/
 ```
+
+Do not duplicate folder paths in the machine-local file. If `{vault}/AGENTS.md` lacks a `## Vault Structure` block, add one only after showing the exact proposed change and receiving approval.
 
 Do not create symlinks, import policies, or edit `~/.codex/AGENTS.md` as part of initialization. Those are separate personal-layer operations requiring explicit user requests and the agent-document constitution.
 
@@ -77,11 +86,12 @@ If the folder does not exist, create it only after confirmation. If it is empty,
 When configuration already exists, offer these choices:
 
 1. Change language.
-2. Change a selected vault or folder path.
-3. Update reference docs in `_hirameki_cmds/`.
-4. Start over completely.
+2. Change the machine-specific vault root.
+3. Change a selected canonical folder path in `{vault}/AGENTS.md`.
+4. Update reference docs in `_hirameki_cmds/`.
+5. Start over completely.
 
-Modify only the selected fields. `Start over completely` reruns the first-time setup and requires confirmation before overwriting `~/.codex/hirameki-local.md`. It still must not create Claude or Codex policy symlinks or modify personal guidance.
+Modify only the selected fields in their owning file. `Start over completely` reruns the first-time setup and requires confirmation before changing either file. It still must not create Claude or Codex policy symlinks or modify personal guidance.
 
 ## Content folders
 
@@ -89,4 +99,4 @@ When another workflow needs content folders, take top-level vault folders and ex
 
 ## Validation
 
-After writing, parse the section again and verify each configured folder resolves under the selected vault. Report the config path and any missing folder; do not silently repair it.
+After writing, parse the section again in both owning files and verify each configured folder resolves under the selected vault. Report both config paths and any missing folder; do not silently repair it.

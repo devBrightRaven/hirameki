@@ -138,6 +138,18 @@ def test_codex_platform_adapters_exclude_claude_runtime_assumptions() -> None:
     assert reference_analysis == command_analysis, "Codex pulse analysis workflow drifted beyond the platform note"
 
 
+def test_codex_vault_resolution_has_one_layout_source() -> None:
+    router = (SKILL / "SKILL.md").read_text(encoding="utf-8").lower()
+    init = (SKILL / "references" / "__init.md").read_text(encoding="utf-8").lower()
+
+    assert "{vault}/agents.md" in router
+    assert "canonical source" in router
+    assert "do not require `~/.codex/hirameki-local.md`" in router
+    assert "vault root and language only" in init
+    assert "write folder layout only to `{vault}/agents.md`" in init
+    assert "do not duplicate folder paths" in init
+
+
 def test_codex_references_satisfy_command_spec() -> None:
     for name in EXPECTED_REFERENCES:
         if name in {"__init.md", "critique.md"}:
@@ -162,5 +174,6 @@ if __name__ == "__main__":
     test_codex_reference_assets_are_exactly_bundled()
     test_non_platform_codex_references_match_claude_commands()
     test_codex_platform_adapters_exclude_claude_runtime_assumptions()
+    test_codex_vault_resolution_has_one_layout_source()
     test_codex_references_satisfy_command_spec()
     print("Codex Hirameki skill adapter validation passed")

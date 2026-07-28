@@ -11,14 +11,14 @@ Run Hirameki's Obsidian vault workflows in Codex while keeping Claude Code comma
 
 Before any workflow that reads or writes the vault, resolve vault configuration in this order:
 
-1. Read `## Vault Structure` from `~/.codex/hirameki-local.md`.
-2. If missing, fall back to `~/.claude/vault-local.md` for migration compatibility.
-3. If still missing, fall back to `~/.claude/CLAUDE.md`.
-4. If required fields are missing, stop and respond: `Setup not complete. Please configure ~/.codex/hirameki-local.md or run the Hirameki init flow in Claude first.`
+1. Read the machine-specific vault root and language from `~/.codex/hirameki-local.md`.
+2. If either value is missing, fall back to `~/.claude/vault-local.md`, then `~/.claude/CLAUDE.md`, for migration compatibility.
+3. After resolving the vault root, read folder paths from `## Vault Structure` in `{vault}/AGENTS.md`. This is the canonical source for daily, inbox, research, journal, handoff, templates, and content-folder resolution.
+4. If the vault root or required canonical folder paths are still missing, stop and respond: `Setup not complete. Please run hirameki:init to configure the vault root or canonical folder layout.`
 
-Treat Claude config as a migration fallback only. Do not copy Claude local config into a repository.
+Do not require `~/.codex/hirameki-local.md` when the migration fallback supplies a valid vault root and language. Treat Claude config as a read-only migration fallback; never modify it or copy it into a repository.
 
-When a reference says to read `~/.claude/vault-local.md`, substitute the config resolution above. Follow the reference's workflow after the vault path, daily folder, templates folder, content folders, and language are known.
+Machine-local config stores only the vault root and language. Never duplicate folder paths outside `{vault}/AGENTS.md`.
 
 For `__init`, keep Claude's folder resolution behavior exactly:
 
@@ -26,7 +26,7 @@ For `__init`, keep Claude's folder resolution behavior exactly:
 - Use the same candidate folder order listed in `references/__init.md`.
 - If no match is found, ask the user where to create that folder and suggest the first candidate as a default.
 - Do not force `_yorozuya/` or any Codex-specific folder structure.
-- The only Codex-specific difference is the per-machine config target: write `~/.codex/hirameki-local.md` instead of `~/.claude/vault-local.md`.
+- Write the vault root and language to `~/.codex/hirameki-local.md`; write the canonical folder layout to `{vault}/AGENTS.md`.
 
 ## Command Routing
 

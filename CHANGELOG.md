@@ -5,6 +5,14 @@ Versioning follows [Semantic Versioning](https://semver.org/): MAJOR = breaking 
 
 ---
 
+## [1.4.2] — 2026-07-29
+
+### Fixed
+- Codex resolves machine-specific vault root and language separately from the canonical folder layout in `{vault}/AGENTS.md`.
+- A valid migration fallback no longer forces users to create `~/.codex/hirameki-local.md` or rerun initialization.
+
+---
+
 ## [1.4.1] — 2026-07-29
 
 ### Added
