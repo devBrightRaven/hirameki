@@ -42,6 +42,16 @@ export function getVaultPath() {
   return null;
 }
 
+// Folder layout lives in <vault>/AGENTS.md so any agent can resolve it without
+// reading Claude-private config. Returns null when the key is absent.
+export function getVaultFolder(vaultPath, key) {
+  if (!vaultPath) return null;
+  const agents = join(vaultPath, "AGENTS.md");
+  if (!existsSync(agents)) return null;
+  const m = readFileSync(agents, "utf8").match(new RegExp(`^${key}:\\s*(.+)`, "m"));
+  return m ? m[1].trim().replace(/\/+$/, "") : null;
+}
+
 function extractVaultPath(content) {
   const section = content.match(/## Vault Structure[\s\S]*?(?=\n## |\n<|$)/);
   if (!section) return null;

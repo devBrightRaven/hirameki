@@ -8,6 +8,8 @@
 import { readFileSync, readdirSync, statSync, existsSync } from 'fs';
 import { join, resolve } from 'path';
 import { homedir } from 'os';
+import { getVaultPath, getVaultFolder } from './lib/resolve-vault.mjs';
+import { newestOpenHandoff, firstClause } from './lib/open-handoff.mjs';
 
 // --- Read vault config (vault/daily/inbox from ## Vault Structure) ---
 function readVaultConfig() {
@@ -164,12 +166,52 @@ function buildSprintMessage() {
   return parts.join(' | ');
 }
 
-// --- Main: run both parts independently, union the results ---
+// --- Build open-handoff message (guarded) ---
+// Names the actions the last handoff left behind. Nothing recent, nothing said —
+// a generic "check your handoffs" line would be noise, a named action is a fact.
+const HANDOFF_SCAN_LIMIT = 40;
+
+function buildHandoffMessage() {
+  const vault = getVaultPath();
+  if (!vault) return '';
+  const rel = getVaultFolder(vault, 'handoff');
+  if (!rel) return '';
+
+  const dir = join(vault, rel);
+  if (!existsSync(dir)) return '';
+
+  const files = readdirSync(dir)
+    .filter(f => f.endsWith('.md') && !f.startsWith('_'))
+    .map(name => {
+      try {
+        return {
+          name,
+          mtimeMs: statSync(join(dir, name)).mtimeMs,
+          get content() { return readFileSync(join(dir, name), 'utf8'); },
+        };
+      } catch { return null; }
+    })
+    .filter(Boolean)
+    .sort((a, b) => b.mtimeMs - a.mtimeMs)
+    .slice(0, HANDOFF_SCAN_LIMIT);
+
+  const open = newestOpenHandoff(files);
+  if (!open) return '';
+
+  const shown = open.actions.slice(0, 2).map(a => firstClause(a));
+  const more = open.actions.length > shown.length ? ` (+${open.actions.length - shown.length})` : '';
+  return `[Handoff ${open.name.replace(/\.md$/, '')}] ${shown.join(' / ')}${more}`;
+}
+
+// --- Main: run each part independently, union the results ---
 let pulseMsg = '';
 try { pulseMsg = buildPulseMessage(); } catch { pulseMsg = ''; }
 
 let sprintMsg = '';
 try { sprintMsg = buildSprintMessage(); } catch { sprintMsg = ''; }
 
-const systemMessage = [pulseMsg, sprintMsg].filter(Boolean).join(' | ');
+let handoffMsg = '';
+try { handoffMsg = buildHandoffMessage(); } catch { handoffMsg = ''; }
+
+const systemMessage = [pulseMsg, handoffMsg, sprintMsg].filter(Boolean).join(' | ');
 process.stdout.write(JSON.stringify({ systemMessage }));
