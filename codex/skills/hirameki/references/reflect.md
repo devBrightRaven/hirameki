@@ -31,7 +31,7 @@ Search the full vault for notes relevant to the question. Prioritise:
 - Notes in content folders that address the topic directly
 - `0 Material/` permanent concept cards related to the question
 - Journal entries where the author took a position on the topic
-- Daily notes with relevant observations
+- Wrap logs with relevant observations
 
 Limit: 5 most relevant sources.
 

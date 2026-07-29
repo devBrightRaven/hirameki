@@ -308,7 +308,7 @@ url: {source url if applicable}
 ---
 ```
 
-**Phase 2 — Cross-reference:** Scan content folders and recent daily notes for vault notes touching the same claims or concepts. For each match: `[[filename]]` + how the vault note relates to this article (supports / contradicts / extends / is extended by).
+**Phase 2 — Cross-reference:** Scan content folders and recent wrap logs for vault notes touching the same claims or concepts. For each match: `[[filename]]` + how the vault note relates to this article (supports / contradicts / extends / is extended by).
 
 **Phase 3 — Verdict:**
 
@@ -338,11 +338,11 @@ Scan this session's task list, file activity (created or modified files), decisi
 
 ### `/hirameki:wrap [description]`
 
-**Purpose:** Progress snapshot, appended to daily note.
+**Purpose:** Progress snapshot, appended to wrap log.
 **Input:** Optional focus description.
-**Requires:** daily folder, templates folder.
+**Requires:** wrap folder, templates folder.
 
-Scan session file operations (created, modified, deleted) and today's daily note.
+Scan session file operations (created, modified, deleted) and today's wrap log.
 
 Write target: `{daily}/YYYY-MM-DD.md`
 - File does not exist + `templates/daily.md` exists → use template
@@ -645,7 +645,7 @@ Extract: sentence patterns and typical length, vocabulary level and recurring ph
 
 #### Step 2 — Extract positions
 
-Search the full vault for notes relevant to the question. Prioritise: notes directly addressing the topic, permanent concept cards, journal entries with a clear position, daily notes with relevant observations. Limit: 5 most relevant sources.
+Search the full vault for notes relevant to the question. Prioritise: notes directly addressing the topic, permanent concept cards, journal entries with a clear position, wrap logs with relevant observations. Limit: 5 most relevant sources.
 
 #### Step 3 — Compose answer
 
@@ -681,7 +681,7 @@ With `save`: write to `{research}/reflect/YYYY-MM-DD-{question-slug}.md`. Same q
 
 **Purpose:** Pre-creation checkpoint — evaluate whether an idea is worth pursuing.
 **Input:** Required — article idea, product concept, design direction, or path to existing draft.
-**Requires:** all content folders, daily notes, journal folder.
+**Requires:** all content folders, wrap logs, journal folder.
 
 #### Phase 1: Understand the idea
 
@@ -845,7 +845,7 @@ Append final review results to the same benchmark file. Update frontmatter `phas
 
 #### Default mode — Instant overview
 
-Scan: all content folders (depth 2), daily notes (last 7 days).
+Scan: all content folders (depth 2), wrap logs (last 7 days).
 
 **Content topics** — Each content folder and subdirectory: name, total notes, draft count, last modified date. Status: active (modified in last 7 days) / dormant.
 
@@ -857,21 +857,21 @@ Empty sections: write "None", do not skip.
 
 #### `pulse week` — Weekly gap analysis
 
-Read: all content folder activity last 7 days, last 7 days of daily notes.
+Read: all content folder activity last 7 days, last 7 days of wrap logs.
 
 **This week's progress** — Each active folder: name, what advanced, next step.
 
 **Recent developments** — Notes added or modified this week, which are near completion.
 
-**Gap analysis** — Compare daily note stated priorities vs. actual file changes:
+**Gap analysis** — Compare wrap log stated priorities vs. actual file changes:
 - Said important but did not touch (stated priority, no corresponding file change)
-- Did work but did not mention (file changes without daily note mention)
+- Did work but did not mention (file changes without wrap log mention)
 
-If fewer than 3 days of daily notes: note "Insufficient records — gap analysis may be inaccurate."
+If fewer than 3 days of wrap logs: note "Insufficient records — gap analysis may be inaccurate."
 
 #### `pulse patterns` — Undercurrents and clusters
 
-Scan: all content folders, daily notes (last 30 days), all inbox files.
+Scan: all content folders, wrap logs (last 30 days), all inbox files.
 
 **Undercurrent themes** — Recurring topics without standalone articles. Criteria: appears in 3+ different files, no standalone article or draft. Each: theme name, count and file list (max 5, [[wiki link]]), assessment (worth developing?). Limit: 10, reverse frequency order.
 
@@ -883,9 +883,9 @@ Scan: all content folders, daily notes (last 30 days), all inbox files.
 
 **Purpose:** Harvest actionable ideas from existing content.
 **Input:** Optional `save` to write summary.
-**Requires:** research folder, daily notes, inbox, all content folders.
+**Requires:** research folder, wrap logs, inbox, all content folders.
 
-Scan: all content folders, daily notes (last 30 days), all inbox files.
+Scan: all content folders, wrap logs (last 30 days), all inbox files.
 
 Output — seven categories, max 5 each:
 
@@ -936,7 +936,7 @@ Steps:
 
 ### `/hirameki:tasks [days|stuck]`
 
-**Purpose:** Aggregate next actions from daily notes and journal.
+**Purpose:** Aggregate next actions from wrap logs and journal.
 **Input:** Optional — number of days (default 3) or `stuck` / `stuck N`.
 **Does not write to file.**
 
@@ -962,7 +962,7 @@ Rules: read-only, no file modifications.
 
 **Purpose:** Frontmatter health check and cleanup.
 **Input:** Optional mode argument.
-**Requires:** all content folders, inbox, daily notes.
+**Requires:** all content folders, inbox, wrap logs.
 
 **Modes:**
 
@@ -974,7 +974,7 @@ Rules: read-only, no file modifications.
 | `tidy full` | All blocks |
 | `tidy lint` | Content health check only |
 
-**Scan scope:** All content folders (recursive), all inbox files, daily notes (last 30 days).
+**Scan scope:** All content folders (recursive), all inbox files, wrap logs (last 30 days).
 
 #### Missing field check (tidy / fix / full)
 - Files with no frontmatter

@@ -37,7 +37,7 @@ Article output: `{inbox}/YYYY-MM-DD-{slug}.md`
 Orient after resuming a session. Summarises what was done, what's open, and what to do next. No input required. Does not write to file.
 
 ### `/hirameki:wrap [description]`
-Progress snapshot. Records completed, in-progress, next steps — appends to today's daily note. Can run multiple times per day.
+Progress snapshot. Records completed, in-progress, next steps — appends to today's wrap log. Can run multiple times per day.
 Optional input: focus description for this wrap.
 Writes to: `{daily}/YYYY-MM-DD.md`
 
@@ -108,7 +108,7 @@ Add `save` to write summary. Writes to: `{research}/harvest/`
 Promote a note to a stable concept card. Validates frontmatter, adds permanent status, links to related cards.
 
 ### `/hirameki:tasks [days|stuck]`
-Aggregate next actions from daily notes and journal. Deduplicates and ranks by recurrence. Items appearing 3+ times flagged as potential procrastination.
+Aggregate next actions from wrap logs and journal. Deduplicates and ranks by recurrence. Items appearing 3+ times flagged as potential procrastination.
 - **`tasks`** — last 3 days
 - **`tasks N`** — look back N days
 - **`tasks stuck`** — recurring tasks that never appeared in a Done section

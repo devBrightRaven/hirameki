@@ -42,7 +42,7 @@ Search the full vault for notes relevant to the topic. Prioritise:
 - Notes in content folders that address the topic directly
 - Permanent concept cards related to the topic
 - Journal entries where the author took a position
-- Daily notes with relevant observations
+- Wrap logs with relevant observations
 
 Limit: 5 most relevant sources.
 

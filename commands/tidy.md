@@ -23,7 +23,7 @@ Only run the blocks for the selected mode — omit all others from the report.
 
 - All content folders (recursive)
 - All files in the inbox folder
-- Last 30 days in the daily folder
+- Last 30 days in the wrap folder
 
 ## Check blocks
 
@@ -105,7 +105,7 @@ Notes where `status` is `published` or `reference` and the file has not been mod
 - Question: is this still accurate?
 
 ### Orphan notes
-Notes with zero incoming `[[wiki links]]` from other notes. Exclude daily notes, inbox, and system folders. For each:
+Notes with zero incoming `[[wiki links]]` from other notes. Exclude wrap logs, inbox, and system folders. For each:
 - `[[filename]]` — created date — topic
 - Suggestion: connect to related note or archive
 

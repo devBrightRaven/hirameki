@@ -11,7 +11,11 @@ let uncommitted = '';
 try {
   uncommitted = execFileSync('git', ['status', '--porcelain'], {
     encoding: 'utf8',
-    cwd: process.cwd()
+    cwd: process.cwd(),
+    // git writes "fatal: not a git repository" to its own stderr, which is
+    // inherited by default — the catch below never sees it and the user gets
+    // the noise on every Stop outside a repo. Discard it; keep stdout.
+    stdio: ['ignore', 'pipe', 'ignore']
   }).trim();
   if (uncommitted) {
     process.stderr.write(`[session-end] Uncommitted changes detected:\n${uncommitted}\n`);

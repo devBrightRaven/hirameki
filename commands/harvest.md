@@ -11,7 +11,7 @@ Input: $ARGUMENTS (optional — no argument = display only; "save" = write resul
 
 Scan scope:
 - All content folders
-- Last 30 days in the daily folder
+- Last 30 days in the wrap folder
 - All files in the inbox folder
 
 Output in seven categories, limit 5 items each:
@@ -46,7 +46,7 @@ After listing "Ideas ready to graduate," pause and wait for the user to confirm 
 2. Create a new markdown file in the appropriate content folder containing:
    - Title
    - Core claim
-   - Origin context (which daily note or inbox item this developed from)
+   - Origin context (which wrap log or inbox item this developed from)
    - Connections to other vault notes ([[wiki link]] format)
    - Directions to develop further
 3. Print the full path after writing

@@ -1,5 +1,5 @@
 ---
-description: Snapshot session progress to daily note. Use "merge" to consolidate multiple wrap blocks.
+description: Snapshot session progress to wrap log. Use "merge" to consolidate multiple wrap blocks.
 ---
 
 Read `vault:` from `~/.claude/vault-local.md` for the vault root, then read `## Vault Structure` from `<vault>/AGENTS.md` (fall back to `~/.claude/vault-local.md`, then `~/.claude/CLAUDE.md` for setups predating 1.4.3) to get the vault path and the locations of the daily and templates folders.
@@ -13,11 +13,11 @@ Input: $ARGUMENTS (optional)
 
 ## Default mode — snapshot
 
-Record a progress snapshot for the current work session and append it to today's daily note. Can be run multiple times per day — each run appends a new timestamped block.
+Record a progress snapshot for the current work session and append it to today's wrap log. Can be run multiple times per day — each run appends a new timestamped block.
 
 Scan sources:
 - Session activity (files created, modified, deleted)
-- Today's daily note in the daily folder (format: YYYY-MM-DD.md)
+- Today's wrap log in the wrap folder (format: YYYY-MM-DD.md)
 
 Write target: {daily}/YYYY-MM-DD.md (today's date)
 - If the file does not exist and templates folder contains daily.md, create it from the template
@@ -58,12 +58,12 @@ Rules:
 
 ## Merge mode — `wrap merge`
 
-Merge multiple Wrap blocks from today's daily note into a single unified summary.
+Merge multiple Wrap blocks from today's wrap log into a single unified summary.
 
-### Step 1 — Read today's daily note
+### Step 1 — Read today's wrap log
 
 Read `{daily}/YYYY-MM-DD.md` for today.
-If no file exists, respond: "No daily note found for today."
+If no file exists, respond: "No wrap log found for today."
 
 Parse all Wrap blocks. For each block, extract:
 - Timestamp
@@ -102,9 +102,9 @@ Completed "Next" items removed: N
 ```
 
 Rules:
-- Read-only — do NOT modify the daily note until confirmed
+- Read-only — do NOT modify the wrap log until confirmed
 - Show the merged result and ask if the user wants to write it
-- If user confirms, insert as `## Wrap [HH:MM] (merged)` block at the TOP of the daily note (after the `# YYYY-MM-DD` heading), before all individual Wrap blocks — the merged summary is the day's overview, individual wraps are the detail log below
+- If user confirms, insert as `## Wrap [HH:MM] (merged)` block at the TOP of the wrap log (after the `# YYYY-MM-DD` heading), before all individual Wrap blocks — the merged summary is the day's overview, individual wraps are the detail log below
 
 ---
 

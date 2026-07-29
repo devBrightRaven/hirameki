@@ -10,7 +10,7 @@ description: >
   Not for open action items (tasks) or a session recap (next).
 ---
 
-Read `vault:` from `~/.claude/vault-local.md` for the vault root, then read `## Vault Structure` from `<vault>/AGENTS.md` (fall back to `~/.claude/vault-local.md`, then `~/.claude/CLAUDE.md` for setups predating 1.4.3) to get the vault path, the daily folder location, and the list of content folders.
+Read `vault:` from `~/.claude/vault-local.md` for the vault root, then read `## Vault Structure` from `<vault>/AGENTS.md` (fall back to `~/.claude/vault-local.md`, then `~/.claude/CLAUDE.md` for setups predating 1.4.3) to get the vault path, the wrap folder location, and the list of content folders.
 If the section does not exist or required fields are missing, stop and respond: "Setup not complete. Please run `/hirameki:__init` first."
 
 Input: $ARGUMENTS (required — `snapshot`, `week`, or `patterns`)
@@ -37,7 +37,7 @@ Close with one line naming the folder that has gone longest without a change, so
 
 Read:
 - Modification history of all content folders over the last 7 days
-- Daily notes from the last 7 days in the daily folder
+- Wrap logs from the last 7 days in the wrap folder
 
 Output in three sections:
 
@@ -48,11 +48,11 @@ For each content folder with activity: name, what was advanced (inferred from fi
 Notes added or modified this week. Flag any that appear close to completion (if drafts/ has content).
 
 **Gap analysis**
-Compare stated priorities in daily notes against actual file changes. Find:
+Compare stated priorities in wrap logs against actual file changes. Find:
 - Declared important but untouched (mentioned as priority but no matching file changes)
-- Worked on but unmentioned (file changes with no mention in daily notes)
+- Worked on but unmentioned (file changes with no mention in wrap logs)
 
-If fewer than 3 days of daily notes are available, note "Insufficient records — gap analysis may be inaccurate."
+If fewer than 3 days of wrap logs are available, note "Insufficient records — gap analysis may be inaccurate."
 
 ---
 
@@ -60,7 +60,7 @@ If fewer than 3 days of daily notes are available, note "Insufficient records �
 
 Scan scope:
 - All content folders (unlimited depth)
-- Last 30 days in the daily folder
+- Last 30 days in the wrap folder
 - All files in the inbox folder
 
 Output in two sections:

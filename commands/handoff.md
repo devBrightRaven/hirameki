@@ -145,7 +145,7 @@ Write to `{vault}/{handoff}/YYYY-MM-DD-{slug}.md`. Print the full path after wri
 
 ### Step 7 — Suggest wrap
 
-After writing, check if `/hirameki:wrap` has already been run this session (look for a Wrap block appended to today's daily note). If not, suggest:
+After writing, check if `/hirameki:wrap` has already been run this session (look for a Wrap block appended to today's wrap log). If not, suggest:
 
 "Handoff written. If you're done for today, run `/hirameki:wrap` to log the session — wrap covers what happened, handoff covers what's next."
 
@@ -156,7 +156,7 @@ After writing, check if `/hirameki:wrap` has already been run this session (look
 | Command | When | Output |
 |---------|------|--------|
 | `/hirameki:handoff` | Work unfinished, next session needs explicit guidance | New file in `{handoff}/` |
-| `/hirameki:wrap` | End of session, log what happened today | Append to today's daily note |
+| `/hirameki:wrap` | End of session, log what happened today | Append to today's wrap log |
 | `/hirameki:next` | Start of new session, orient self | Read-only, summarises recent work |
 | `/hirameki:tasks` | Global view of open work across vault | Read-only, aggregates |
 

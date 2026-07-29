@@ -5,6 +5,16 @@ Versioning follows [Semantic Versioning](https://semver.org/): MAJOR = breaking 
 
 ---
 
+## [1.4.4] — 2026-07-29
+
+### Fixed
+- `session-end-check.mjs` no longer leaks git's own `fatal: not a git repository` on every Stop outside a repo. The `try/catch` was already there, but `execFileSync` inherits stderr by default, so the message reached the terminal before the exception was caught. Now `stdio: ['ignore', 'pipe', 'ignore']`.
+
+### Changed
+- Prose calls the per-day file a **wrap log** instead of a daily note, matching what it actually holds. The `daily:` config key is unchanged, so no vault needs migrating — the key names the role, the folder keeps whatever name you gave it.
+
+---
+
 ## [1.4.3] — 2026-07-29
 
 ### Fixed

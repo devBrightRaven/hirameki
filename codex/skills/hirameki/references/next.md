@@ -7,13 +7,13 @@ description: >
   Not for listing open action items across notes (tasks).
 ---
 
-Read `vault:` from `~/.claude/vault-local.md` for the vault root, then read `## Vault Structure` from `<vault>/AGENTS.md` (fall back to `~/.claude/vault-local.md`, then `~/.claude/CLAUDE.md` for setups predating 1.4.3) to get the vault path and the locations of the daily-notes and inbox folders.
+Read `vault:` from `~/.claude/vault-local.md` for the vault root, then read `## Vault Structure` from `<vault>/AGENTS.md` (fall back to `~/.claude/vault-local.md`, then `~/.claude/CLAUDE.md` for setups predating 1.4.3) to get the vault path and the locations of the wrap-log and inbox folders.
 If the section does not exist or required fields are missing, stop and respond: "Setup not complete. Please run `/hirameki:__init` first."
 
 Input: $ARGUMENTS (optional)
 - Empty → default mode
 - `lucky` → default mode + constellation reading appended at the end
-- A number (e.g. `3`) → look back N days for daily notes context (default 1)
+- A number (e.g. `3`) → look back N days for wrap logs context (default 1)
 
 Scan the current session and vault to produce a concise orientation summary.
 
@@ -23,7 +23,7 @@ Scan the current session and vault to produce a concise orientation summary.
 - Session activity: files created or modified, decisions made, commits pushed
 - Any open items, blockers, or unresolved questions raised during the session
 - **Inbox folder**: all files in `{inbox}/`
-- **Yesterday's daily note**: last Wrap block from `{daily}/YYYY-MM-DD.md` (yesterday, or N days back if a number is given)
+- **Yesterday's wrap log**: last Wrap block from `{daily}/YYYY-MM-DD.md` (yesterday, or N days back if a number is given)
 
 ## Output format
 
@@ -41,8 +41,8 @@ If inbox is empty, write "收件匣清空" / "Inbox clear".
 Limit: 10 items.
 
 ### 昨天的脈絡 / Yesterday
-Extract "In progress" and "Next" items from the last Wrap block in yesterday's daily note (or N days back).
-If no daily note or no Wrap block exists, write "無紀錄" / "No record".
+Extract "In progress" and "Next" items from the last Wrap block in yesterday's wrap log (or N days back).
+If no wrap log or no Wrap block exists, write "無紀錄" / "No record".
 
 ### 下一步 / Next
 2–4 concrete, actionable options ranked by naturalness:
@@ -66,7 +66,7 @@ Draw 5 notes from content folders with the following weighting:
 
 - **Prefer neglected notes** — not modified in the last 30 days (weight: 3×)
 - **Include recent notes** — modified in the last 30 days (weight: 1×)
-- **Exclude** system folders, `_hirameki_cmds/`, daily-notes, inbox, analysis, logs
+- **Exclude** system folders, `_hirameki_cmds/`, wrap logs, inbox, analysis, logs
 
 Read the content of each selected note (up to 500 words per note).
 

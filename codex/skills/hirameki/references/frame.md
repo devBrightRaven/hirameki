@@ -40,7 +40,7 @@ Run all five questions. For each, scan the vault for evidence.
 
 > "What is this saying or doing that only I can say or do?"
 
-Scan: all content folders + daily notes + journal for related personal experiences, unique perspectives, proprietary knowledge, or lived situations.
+Scan: all content folders + wrap logs + journal for related personal experiences, unique perspectives, proprietary knowledge, or lived situations.
 
 Evaluate:
 - **Strong**: The idea is grounded in a specific experience, skill combination, or position that few others share

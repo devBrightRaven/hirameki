@@ -37,7 +37,7 @@ Repo 輸出：`{research}/mekiki-{repo名稱}.md`
 Session 恢復後定向。整理已完成的工作、待處理事項和下一步。無輸入。不寫入檔案。
 
 ### `/hirameki:wrap [描述]`
-進度快照。記錄已完成、進行中、下一步 — 追加到當天的 daily note。一天可執行多次。
+進度快照。記錄已完成、進行中、下一步 — 追加到當天的 wrap log。一天可執行多次。
 可選輸入：本次 wrap 的重點描述。
 寫入：`{daily}/YYYY-MM-DD.md`
 
@@ -106,7 +106,7 @@ Vault 語氣作答。分析你的寫作風格、萃取你的立場，用你的�
 將筆記升格為穩定概念卡片。驗證 frontmatter、設定正式 status、連結相關卡片。
 
 ### `/hirameki:tasks [天數|stuck]`
-從 daily notes 和 journal 彙整下一步行動，去重後依出現頻率排序。出現 3 次以上的項目標記為拖延信號。
+從 wrap logs 和 journal 彙整下一步行動，去重後依出現頻率排序。出現 3 次以上的項目標記為拖延信號。
 - **`tasks`** — 最近 3 天
 - **`tasks N`** — 回溯 N 天
 - **`tasks stuck`** — 從未出現在「完成」區塊的反覆未完成任務

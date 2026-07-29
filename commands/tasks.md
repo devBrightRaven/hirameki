@@ -1,6 +1,6 @@
 ---
 description: >
-  Aggregate next actions from daily notes and journal; "stuck" surfaces items that
+  Aggregate next actions from wrap logs and journal; "stuck" surfaces items that
   keep reappearing unfinished.
   Use when the user asks what is outstanding, or says
   "還有什麼沒做", "待辦", "有什麼卡住", "一直沒完成的",
@@ -8,7 +8,7 @@ description: >
   Not for a session recap (next).
 ---
 
-Read `vault:` from `~/.claude/vault-local.md` for the vault root, then read `## Vault Structure` from `<vault>/AGENTS.md` (fall back to `~/.claude/vault-local.md`, then `~/.claude/CLAUDE.md` for setups predating 1.4.3) to get the vault path, daily folder, and journal folder.
+Read `vault:` from `~/.claude/vault-local.md` for the vault root, then read `## Vault Structure` from `<vault>/AGENTS.md` (fall back to `~/.claude/vault-local.md`, then `~/.claude/CLAUDE.md` for setups predating 1.4.3) to get the vault path, wrap folder, and journal folder.
 If the section does not exist or required fields are missing, stop and respond: "Setup not complete. Please run `/hirameki:__init` first."
 
 Input: $ARGUMENTS (optional)
@@ -19,11 +19,11 @@ Input: $ARGUMENTS (optional)
 
 ## Default mode — action aggregation
 
-Scan recent daily notes and journal entries to produce a single prioritized action list.
+Scan recent wrap logs and journal entries to produce a single prioritized action list.
 
 ### Step 1 — Collect sources
 
-1. **Daily notes**: Read `{daily}/YYYY-MM-DD.md` for today and the past N days. From each Wrap block, extract all items under「下一步」/「Next」.
+1. **Wrap logs**: Read `{daily}/YYYY-MM-DD.md` for today and the past N days. From each Wrap block, extract all items under「下一步」/「Next」.
 2. **Journal logs**: Read all `{journal}/YYYY-MM-DD-*.md` files from today and yesterday. From each file, extract all items under「Open items」that are NOT marked with "✓ Done".
 
 If no files exist, respond: "No recent notes found."
@@ -48,7 +48,7 @@ If no files exist, respond: "No recent notes found."
    └ Source: ...
 
 ---
-Scanned: N daily notes, M journal entries
+Scanned: N wrap logs, M journal entries
 ```
 
 Rules:
@@ -64,7 +64,7 @@ Find tasks that keep appearing in「下一步」without ever being completed.
 
 ### Step 1 — Collect data
 
-1. **Daily notes**: Read `{daily}/YYYY-MM-DD.md` for the past N days. From each Wrap block, extract:
+1. **Wrap logs**: Read `{daily}/YYYY-MM-DD.md` for the past N days. From each Wrap block, extract:
    - All items under「下一步」/「Next」
    - All items under「完成」/「Done」
 2. **Journal logs**: Read all `{journal}/YYYY-MM-DD-*.md` for the same date range. Extract items under「Open items」.
@@ -110,7 +110,7 @@ forgotten:
   (none or listed items)
 
 ---
-Scanned: N daily notes, M journal entries
+Scanned: N wrap logs, M journal entries
 Total: X stuck tasks
 ```
 
