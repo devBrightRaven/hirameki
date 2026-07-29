@@ -1,4 +1,5 @@
 ---
+name: decide
 description: >
   Pre-decision vault scan.
   Use when the user is weighing options, comparing trade-offs, asking "should I...",
