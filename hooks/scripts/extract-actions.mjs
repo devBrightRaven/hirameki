@@ -5,12 +5,18 @@
 import { readFileSync, appendFileSync, existsSync, mkdirSync } from 'fs';
 import { join } from 'path';
 
-import { getVaultPath } from './lib/resolve-vault.mjs';
+import { getVaultPath, getVaultFolders } from './lib/resolve-vault.mjs';
 
 const HOME = process.env.HOME || process.env.USERPROFILE;
 const VAULT = getVaultPath();
 if (!VAULT) process.exit(0);
-const DAILY_DIR = join(VAULT, '_daily');
+
+// Wrap blocks live in the configured `daily` folder. Not configured means we
+// do not know where to look — exit rather than guess (the old hardcoded
+// '_daily' read a folder this vault has never used).
+const dailyRel = getVaultFolders(VAULT)('daily');
+if (!dailyRel) process.exit(0);
+const DAILY_DIR = join(VAULT, dailyRel);
 const ACTIONS_FILE = join(HOME, '.claude', 'homunculus', 'actions.jsonl');
 
 // Ensure directory exists

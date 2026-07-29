@@ -4,25 +4,33 @@ description: First-time setup and vault configuration
 
 ## Overview
 
-`__init` handles first-time setup of the Hirameki environment. Once complete, the result is written to `~/.claude/vault-local.md`. All other commands read from there directly — they do not call `__init` again.
+`__init` handles first-time setup of the Hirameki environment. It writes a split configuration:
+
+- **Per-machine** values (vault path, language, symlinked policy paths) → `~/.claude/vault-local.md`, which is Claude-private and gitignored.
+- **Vault folder layout** (`daily`, `inbox`, `journal`, `research`, `handoff`, `templates`) → `{vault}/AGENTS.md`, which travels with the vault so Codex, Gemini, and any future agent resolve the same paths.
+
+The split follows `~/.claude/rules/policies/agent-agnostic-docs.md`: facts describing the vault belong with the vault; facts describing this machine stay on this machine.
+
+All other commands read the result directly — they do not call `__init` again.
 
 ## How other commands read configuration
 
 Before executing, every other hirameki command:
 
-1. Reads the `## Vault Structure` section from `~/.claude/vault-local.md`
-2. If not found, falls back to `~/.claude/CLAUDE.md`
-3. If neither contains `## Vault Structure` or required fields are missing → stop and respond: "Setup not complete. Please run `/hirameki:__init` first."
-4. If found → use as-is, no further validation
-5. If a path is invalid or unreadable during execution → respond: "Configuration error. Please run `/hirameki:__init` to reconfigure."
+1. Reads `vault:` from `~/.claude/vault-local.md` to locate the vault root. If absent, falls back to `## Vault Structure` then the `## Vault` section's `path:` in `~/.claude/CLAUDE.md`.
+2. Reads the `## Vault Structure` section from `{vault}/AGENTS.md` for folder keys.
+3. If a folder key is missing there, falls back to `## Vault Structure` in `~/.claude/vault-local.md`, then `~/.claude/CLAUDE.md` — setups created before 1.4.3 kept the layout in those files.
+4. If the vault root cannot be resolved, or a required folder key is found nowhere → stop and respond: "Setup not complete. Please run `/hirameki:__init` first."
+5. If found → use as-is, no further validation.
+6. If a path is invalid or unreadable during execution → respond: "Configuration error. Please run `/hirameki:__init` to reconfigure."
 
-Vault root resolution: use the `vault:` field in `## Vault Structure` if present; otherwise read `path` from the `## Vault` section in `~/.claude/CLAUDE.md`.
+Never substitute a hardcoded default for a missing folder key. A guessed path reads the wrong folder silently; stopping is recoverable.
 
 ## Execution modes
 
 ### Mode A: First-time setup
 
-Triggered when `## Vault Structure` does not exist in either `~/.claude/vault-local.md` or `~/.claude/CLAUDE.md`, or when the user runs `/hirameki:__init` with no existing configuration.
+Triggered when `## Vault Structure` does not exist in `{vault}/AGENTS.md`, `~/.claude/vault-local.md`, or `~/.claude/CLAUDE.md`, or when the user runs `/hirameki:__init` with no existing configuration.
 
 **Step 1 — Vault detection**
 
@@ -68,12 +76,25 @@ If no match is found for a purpose → ask the user where to create it (suggest 
 
 **Step 4 — Write configuration**
 
-Write the following to `~/.claude/vault-local.md` (create if it does not exist):
+Two writes, one per audience.
+
+Per-machine → `~/.claude/vault-local.md` (create if it does not exist):
 
 ```
 ## Vault Structure
 vault: {full vault path}
 language: {language}
+```
+
+Vault layout → `{vault}/AGENTS.md`. If the file already exists, insert or replace only its `## Vault Structure` section and leave everything else untouched:
+
+````
+## Vault Structure
+
+The canonical folder layout. Hirameki and other vault-aware tools resolve
+their read/write paths from this block. Paths are relative to the vault root.
+
+```yaml
 daily: {folder name}/
 inbox: {folder name}/
 research: {folder name}/
@@ -81,10 +102,11 @@ journal: {folder name}/
 handoff: {folder name}/
 templates: {folder name}/
 ```
+````
 
-Note: `vault-local.md` is machine-specific (platform-dependent vault paths) and should be gitignored if `~/.claude/` is synced across machines. Each machine runs `/hirameki:__init` once to generate it locally.
+Note: `vault-local.md` is machine-specific (platform-dependent vault paths) and should be gitignored if `~/.claude/` is synced across machines. Each machine runs `/hirameki:__init` once to generate it locally. `AGENTS.md` is written once per vault and syncs with the vault itself.
 
-If `## Vault Structure` previously existed in `~/.claude/CLAUDE.md`, remove it from there and inform the user that configuration has been migrated to `vault-local.md`.
+**Migration.** If folder keys currently live in `~/.claude/vault-local.md` or `~/.claude/CLAUDE.md`, copy them into `{vault}/AGENTS.md`, then remove them from the source file and tell the user where the layout now lives. Keep `vault:` and `language:` in `vault-local.md`.
 
 **Step 5 — Shared policies vault (optional)**
 
@@ -141,7 +163,7 @@ If the plugin source files are not found (cache cleared) → skip this step and 
 
 ### Mode B: Reconfigure
 
-Triggered when `## Vault Structure` already exists (in either `vault-local.md` or `CLAUDE.md`) and the user runs `/hirameki:__init`.
+Triggered when `## Vault Structure` already exists (in `{vault}/AGENTS.md`, `vault-local.md`, or `CLAUDE.md`) and the user runs `/hirameki:__init`.
 
 Read the existing configuration, then ask the user what to update:
 1. Language setting
@@ -151,7 +173,7 @@ Read the existing configuration, then ask the user what to update:
 5. Update reference docs (`_hirameki_cmds/`)
 6. Start over completely
 
-Only modify what the user selects — leave all other fields unchanged. Always write the result to `~/.claude/vault-local.md`.
+Only modify what the user selects — leave all other fields unchanged. Route each write to its owner: language and vault path to `~/.claude/vault-local.md`, folder paths to `{vault}/AGENTS.md`.
 
 "Start over completely" runs the full Mode A flow and asks for confirmation before overwriting the existing configuration.
 

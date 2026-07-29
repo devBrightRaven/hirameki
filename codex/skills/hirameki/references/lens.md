@@ -1,14 +1,15 @@
 ---
 description: >
-  Topic-driven understanding workflow — walk arc, positions, bridge, and challenge
-  as a single flow for deep concept exploration.
-  Each step can be saved or skipped independently.
-  For standalone use: /hirameki:arc, /hirameki:challenge, /hirameki:bridge.
-  For creation (voice + frame) use /hirameki:compose.
+  Deep-dive one topic by walking arc, positions, bridge and challenge as a single flow;
+  each step saves or skips independently.
+  Use when the user wants to understand a topic thoroughly rather than answer one
+  question about it, or says "我想把這個搞懂", "完整看一遍", "深入研究這個主題",
+  "help me really understand X", "go deep on this", "give me the full picture".
+  Not for a single narrow question, which the individual steps answer faster.
 argument-hint: "<topic or concept>"
 ---
 
-Read `## Vault Structure` from `~/.claude/vault-local.md` (fall back to `~/.claude/CLAUDE.md` if not found) to get the vault path, the research folder location, and the list of content folders.
+Read `vault:` from `~/.claude/vault-local.md` for the vault root, then read `## Vault Structure` from `<vault>/AGENTS.md` (fall back to `~/.claude/vault-local.md`, then `~/.claude/CLAUDE.md` for setups predating 1.4.3) to get the vault path, the research folder location, and the list of content folders.
 If the section does not exist or required fields are missing, stop and respond: "Setup not complete. Please run `/hirameki:__init` first."
 
 Input: $ARGUMENTS
@@ -216,7 +217,7 @@ Lens done: arc {✓ saved | – skipped} / positions {✓ saved | – skipped} /
 
 ## Rules
 
-- Do not hardcode vault paths — resolve from vault-local.md every time
+- Do not hardcode vault paths — resolve the root from `vault-local.md` and folders from `<vault>/AGENTS.md` every time
 - Use `[[wiki link]]` format for all vault note references
 - Timestamps use local time in HH:MM (24-hour)
 - Always print the full output for each step before the Action? prompt

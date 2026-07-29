@@ -8,7 +8,7 @@ description: >
   or any URL / pasted text with evaluation or vault-storage intent.
 ---
 
-Read `## Vault Structure` from `~/.claude/vault-local.md` (fall back to `~/.claude/CLAUDE.md` if not found) to get the vault path, content folders, inbox folder, research folder, and language.
+Read `vault:` from `~/.claude/vault-local.md` for the vault root, then read `## Vault Structure` from `<vault>/AGENTS.md` (fall back to `~/.claude/vault-local.md`, then `~/.claude/CLAUDE.md` for setups predating 1.4.3) to get the vault path, content folders, inbox folder, research folder, and language.
 If the section does not exist or required fields are missing, stop and respond: "Setup not complete. Please run `/hirameki:__init` first."
 
 Input: $ARGUMENTS (required — GitHub URL, article URL, pasted text, or file path)
@@ -270,7 +270,7 @@ After confirmation:
 
 ## Shared rules
 
-- Do not hardcode vault paths — resolve from `vault-local.md` every time
+- Do not hardcode vault paths — resolve the root from `vault-local.md` and folders from `<vault>/AGENTS.md` every time
 - Use `[[wiki link]]` format for all vault note references
 - Show filename, branch taken, and full path — wait for confirmation before any vault write
 - Print the full path after writing

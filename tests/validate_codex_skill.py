@@ -163,7 +163,14 @@ def test_codex_references_satisfy_command_spec() -> None:
         content = (SKILL / "references" / name).read_text(encoding="utf-8")
         errors = check_file(Path(name).stem, content)
         if name in ADAPTER_RESOLVED_REFERENCES:
-            errors = [error for error in errors if "config file path (primary)" not in error]
+            # The umbrella adapter resolves config for these; they name neither
+            # the per-machine config file nor the <vault>/AGENTS.md layout source.
+            errors = [
+                error
+                for error in errors
+                if "config file path" not in error
+                and "folder layout source" not in error
+            ]
         assert not errors, f"{name}: {'; '.join(errors)}"
 
 

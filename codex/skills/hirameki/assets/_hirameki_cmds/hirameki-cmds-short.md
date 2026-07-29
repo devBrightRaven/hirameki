@@ -129,7 +129,7 @@ Frontmatter health check. Default runs missing fields + consistency only.
 Writes to: `{research}/tidy/`
 
 ### `/hirameki:__init`
-First-time setup: detect vault, set language, resolve folders, write `~/.claude/vault-local.md`. Run once per machine. Reconfigure with Mode B (run again when config exists).
+First-time setup: detect vault, set language, resolve folders, write `~/.claude/vault-local.md` (vault path, language) and `<vault>/AGENTS.md` (folder layout). Run once per machine. Reconfigure with Mode B (run again when config exists).
 
 ---
 

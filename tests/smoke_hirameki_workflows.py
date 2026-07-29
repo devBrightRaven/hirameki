@@ -428,7 +428,15 @@ def test_write_references_keep_safety_contract() -> None:
             continue
         errors = check_file(command, content)
         if command in {"journal", "mekiki", "triage"}:
-            errors = [error for error in errors if "config file path (primary)" not in error]
+            # Adapter-resolved references delegate config resolution to the
+            # Codex umbrella, so they name neither the per-machine config file
+            # nor the <vault>/AGENTS.md layout source.
+            errors = [
+                error
+                for error in errors
+                if "config file path" not in error
+                and "folder layout source" not in error
+            ]
         assert not errors, f"{command}.md failed safety contract: {errors}"
 
 

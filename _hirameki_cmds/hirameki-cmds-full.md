@@ -6,7 +6,7 @@ Complete prompt specs for all Hirameki commands. This is a human-readable refere
 
 ## Shared: `__init`
 
-Every command begins by reading the `## Vault Structure` section from `~/.claude/vault-local.md` (fallback: `~/.claude/CLAUDE.md`).
+Every command reads `vault:` from `~/.claude/vault-local.md` for the vault root, then the `## Vault Structure` section from `<vault>/AGENTS.md` for folder paths (fallback: `~/.claude/vault-local.md`, then `~/.claude/CLAUDE.md`).
 
 ### Vault detection
 
@@ -32,7 +32,7 @@ Each purpose matches the first existing candidate folder:
 | handoff | `_yorozuya/handoff/`, `Handoff/`, `_handoff/`, `handoff/` |
 | templates | `Templates/`, `_templates/`, `templates/` |
 
-If no match: ask user, create folder, print path, write to `vault-local.md`.
+If no match: ask user, create folder, print path, write to `<vault>/AGENTS.md`.
 
 ### Content folders
 
@@ -1059,7 +1059,7 @@ After fixing, recalculate health score and output a diff summary.
 
 #### Mode A: First-time setup
 
-Run when `## Vault Structure` does not exist in either `vault-local.md` or `CLAUDE.md`.
+Run when `## Vault Structure` does not exist in `<vault>/AGENTS.md`, `vault-local.md`, or `CLAUDE.md`.
 
 **Step 1 — Vault detection:** Try CWD → CLAUDE.md path → obsidian.json (filter built-in sandbox). Prompt if multiple found. If nothing: ask user.
 
@@ -1067,11 +1067,16 @@ Run when `## Vault Structure` does not exist in either `vault-local.md` or `CLAU
 
 **Step 3 — Folder resolution:** Match each purpose to first existing candidate (see folder table above). If no match: ask user where to create, then create after confirmation.
 
-**Step 4 — Write config:** Write to `~/.claude/vault-local.md`:
+**Step 4 — Write config:** Two writes, one per audience.
 ```
+# ~/.claude/vault-local.md  (per-machine)
 ## Vault Structure
 vault: {full vault path}
 language: {language}
+```
+```
+# {vault}/AGENTS.md  (travels with the vault)
+## Vault Structure
 daily: {folder name}/
 inbox: {folder name}/
 research: {folder name}/
@@ -1093,7 +1098,7 @@ Language mapping:
 
 #### Mode B: Reconfigure
 
-Run when config already exists. Ask what to update (language / specific folder / shared policies / personal policies / reference docs / start over). Only modify selected items. Always write result to `vault-local.md`.
+Run when config already exists. Ask what to update (language / specific folder / shared policies / personal policies / reference docs / start over). Only modify selected items. Language and vault path go to `vault-local.md`; folder paths go to `<vault>/AGENTS.md`.
 
 ---
 
@@ -1128,4 +1133,4 @@ Run when config already exists. Ask what to update (language / specific folder /
 - All file references use [[wiki link]] format
 - All write commands show a preview and full path before executing; print actual path after
 - Output language read from `~/.claude/vault-local.md` `## Vault Structure`
-- Vault path always resolved at runtime from vault-local.md — never hardcoded
+- Vault path always resolved at runtime from vault-local.md, folders from `<vault>/AGENTS.md` — never hardcoded

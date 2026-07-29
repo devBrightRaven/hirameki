@@ -5,6 +5,20 @@ Versioning follows [Semantic Versioning](https://semver.org/): MAJOR = breaking 
 
 ---
 
+## [1.4.3] — 2026-07-29
+
+### Fixed
+- Claude commands and hooks now resolve the vault folder layout from `{vault}/AGENTS.md`, matching the Codex adapter. 1.4.2 migrated only the Codex side, so after a setup moved its layout out of `vault-local.md` the Claude commands lost every folder key and stopped with "Setup not complete."
+- The SessionStart hook no longer falls back to a hardcoded `_yorozuya/daily/` and `_inbox/`. A renamed folder used to leave it scanning the old path with no error; an unresolved key now skips the scan.
+- The Stop hook read Wrap blocks from a hardcoded `_daily/` that no configuration ever pointed at. It now uses the resolved `daily` folder.
+- `__init` writes the split configuration it documents: vault path and language to `~/.claude/vault-local.md`, folder layout to `{vault}/AGENTS.md`, and migrates folder keys found in the old locations.
+
+### Added
+- `getVaultFolders()` in `hooks/scripts/lib/resolve-vault.mjs` — one resolver for all hooks, with a `--selftest` check for the parser and its fallback order.
+- `validate_commands.py` requires every command to name `AGENTS.md`, so a command cannot silently drift back to reading the layout from Claude-private config.
+
+---
+
 ## [1.4.2] — 2026-07-29
 
 ### Fixed

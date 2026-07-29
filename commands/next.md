@@ -7,7 +7,7 @@ description: >
   Not for listing open action items across notes (tasks).
 ---
 
-Read `## Vault Structure` from `~/.claude/vault-local.md` (fall back to `~/.claude/CLAUDE.md` if not found) to get the vault path and the locations of the daily-notes and inbox folders.
+Read `vault:` from `~/.claude/vault-local.md` for the vault root, then read `## Vault Structure` from `<vault>/AGENTS.md` (fall back to `~/.claude/vault-local.md`, then `~/.claude/CLAUDE.md` for setups predating 1.4.3) to get the vault path and the locations of the daily-notes and inbox folders.
 If the section does not exist or required fields are missing, stop and respond: "Setup not complete. Please run `/hirameki:__init` first."
 
 Input: $ARGUMENTS (optional)

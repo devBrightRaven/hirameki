@@ -127,7 +127,7 @@ Frontmatter 屬性健檢。預設只跑缺漏 + 一致性（輕量）。
 寫入：`{research}/tidy/`
 
 ### `/hirameki:__init`
-首次設定：偵測 vault、設定語言、解析資料夾、寫入 `~/.claude/vault-local.md`。每台機器執行一次。已有設定時執行進入 Mode B（重新設定）。
+首次設定：偵測 vault、設定語言、解析資料夾，寫入 `~/.claude/vault-local.md`（vault 路徑、語言）與 `<vault>/AGENTS.md`（資料夾結構）。每台機器執行一次。已有設定時執行進入 Mode B（重新設定）。
 
 ---
 

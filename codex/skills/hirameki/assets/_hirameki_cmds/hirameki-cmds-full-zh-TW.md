@@ -6,7 +6,7 @@
 
 ## 共用：`__init`
 
-每個指令開始時讀取 `~/.claude/vault-local.md` 的 `## Vault Structure` 段落（fallback：`~/.claude/CLAUDE.md`）。
+每個指令先從 `~/.claude/vault-local.md` 讀 `vault:` 取得 vault 根目錄，再從 `<vault>/AGENTS.md` 的 `## Vault Structure` 段落讀資料夾路徑（fallback：`~/.claude/vault-local.md`，再來是 `~/.claude/CLAUDE.md`）。
 
 ### Vault 偵測
 
@@ -32,7 +32,7 @@
 | handoff | `_yorozuya/handoff/`, `Handoff/`, `_handoff/`, `handoff/` |
 | templates | `Templates/`, `_templates/`, `templates/` |
 
-找不到時：詢問使用者、建立資料夾、印出完整路徑、存入 `vault-local.md`。
+找不到時：詢問使用者、建立資料夾、印出完整路徑、存入 `<vault>/AGENTS.md`。
 
 ### 內容資料夾
 
@@ -1059,7 +1059,7 @@ Lint 模式是唯讀的。Lint 輸出後，若任何區塊 N > 0，追加：
 
 #### Mode A：首次設定
 
-當 `vault-local.md` 或 `CLAUDE.md` 中都沒有 `## Vault Structure` 時執行。
+當 `<vault>/AGENTS.md`、`vault-local.md`、`CLAUDE.md` 中都沒有 `## Vault Structure` 時執行。
 
 **第一步 — Vault 偵測：** 嘗試 CWD → CLAUDE.md 路徑 → obsidian.json（過濾內建 sandbox）。多個時詢問。都找不到：詢問使用者。
 
@@ -1067,11 +1067,16 @@ Lint 模式是唯讀的。Lint 輸出後，若任何區塊 N > 0，追加：
 
 **第三步 — 資料夾解析：** 將每個用途匹配到第一個存在的候選（見上方資料夾表）。若無匹配：詢問使用者在哪裡建立，確認後建立。
 
-**第四步 — 寫入設定：** 寫入 `~/.claude/vault-local.md`：
+**第四步 — 寫入設定：** 分兩處寫入，各自對應不同讀者。
 ```
+# ~/.claude/vault-local.md  (per-machine)
 ## Vault Structure
 vault: {完整 vault 路徑}
 language: {語言}
+```
+```
+# {vault}/AGENTS.md  (隨 vault 移動)
+## Vault Structure
 daily: {資料夾名稱}/
 inbox: {資料夾名稱}/
 research: {資料夾名稱}/
@@ -1093,7 +1098,7 @@ templates: {資料夾名稱}/
 
 #### Mode B：重新設定
 
-當設定已存在時執行。詢問要更新什麼（語言 / 特定資料夾 / 共享 policies / 個人 policies / reference docs / 全部重來）。只修改選擇的項目。永遠寫入 `vault-local.md`。
+當設定已存在時執行。詢問要更新什麼（語言 / 特定資料夾 / 共享 policies / 個人 policies / reference docs / 全部重來）。只修改選擇的項目。語言與 vault 路徑寫入 `vault-local.md`，資料夾路徑寫入 `<vault>/AGENTS.md`。
 
 ---
 
@@ -1128,4 +1133,4 @@ templates: {資料夾名稱}/
 - 所有檔案引用使用 [[wiki link]] 格式
 - 所有寫入指令在執行前顯示預覽和完整路徑，等確認後才執行；執行後印出實際路徑
 - 輸出語言從 `~/.claude/vault-local.md` 的 `## Vault Structure` 讀取
-- Vault 路徑總是在執行時從 vault-local.md 解析 — 永遠不硬編碼
+- Vault 路徑總是在執行時從 vault-local.md 解析、資料夾從 `<vault>/AGENTS.md` 解析 — 永遠不硬編碼

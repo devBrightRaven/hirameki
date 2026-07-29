@@ -5,7 +5,7 @@ description: Snapshot session state into a handoff doc for future-session pickup
 argument-hint: "[topic-slug]"
 ---
 
-Read `## Vault Structure` from `~/.claude/vault-local.md` (fall back to `~/.claude/CLAUDE.md` if not found) to get the vault path and the `handoff:` folder.
+Read `vault:` from `~/.claude/vault-local.md` for the vault root, then read `## Vault Structure` from `<vault>/AGENTS.md` (fall back to `~/.claude/vault-local.md`, then `~/.claude/CLAUDE.md` for setups predating 1.4.3) to get the vault path and the `handoff:` folder.
 If the section does not exist or required fields are missing, stop and respond: "Setup not complete. Please run `/hirameki:__init` first."
 
 Input: $ARGUMENTS (optional)
@@ -20,6 +20,8 @@ Input: $ARGUMENTS (optional)
 
 From `~/.claude/vault-local.md`:
 - `vault:` → absolute path to Obsidian vault
+
+From `{vault}/AGENTS.md` `## Vault Structure`:
 - `handoff:` → relative path to handoff folder (e.g. `_yorozuya/handoff/`)
 - `templates:` → relative path to templates folder
 
@@ -166,7 +168,7 @@ If unsure which to use: run both. They are complementary, not duplicates.
 
 - Do not write without user confirmation (Step 5)
 - Show full draft content before asking — do not show a summary
-- Do not hardcode vault paths — resolve from `vault-local.md` every time
+- Do not hardcode vault paths — resolve the root from `vault-local.md` and folders from `<vault>/AGENTS.md` every time
 - Slug must not contain dates (the filename already has YYYY-MM-DD prefix)
 - Do not add a `name:` field to this file's frontmatter — it would break the `hirameki:` prefix
 - Write output in the language specified in `## Vault Structure` → `language`

@@ -127,7 +127,7 @@ daily notes と journal から次のアクションを集約。重複除去し�
 書き込み先：`{research}/tidy/`
 
 ### `/hirameki:__init`
-初回セットアップ：vault の検出・言語設定・フォルダー解決・`~/.claude/vault-local.md` への書き込み。マシンごとに一回実行。設定が存在する場合は Mode B（再設定）として動作。
+初回セットアップ：vault の検出・言語設定・フォルダー解決、`~/.claude/vault-local.md`（vault パス・言語）と `<vault>/AGENTS.md`（フォルダー構造）への書き込み。マシンごとに一回実行。設定が存在する場合は Mode B（再設定）として動作。
 
 ---
 

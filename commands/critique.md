@@ -2,7 +2,7 @@
 description: Multi-agent writing critique for draft articles — 3-model consensus scoring on sensory density, structure, and emotional resonance
 ---
 
-Read `## Vault Structure` from `~/.claude/vault-local.md` (fall back to `~/.claude/CLAUDE.md` if not found) to get the vault path.
+Read `vault:` from `~/.claude/vault-local.md` for the vault root, then read `## Vault Structure` from `<vault>/AGENTS.md` (fall back to `~/.claude/vault-local.md`, then `~/.claude/CLAUDE.md` for setups predating 1.4.3) to get the vault path.
 If the section does not exist or required fields are missing, stop and respond: "Setup not complete. Please run `/hirameki:__init` first."
 
 Run a multi-agent writing review on a draft article. Uses three models (Claude Opus, Codex GPT via codex CLI, Gemini Pro via gemini CLI) to score and critique, then optionally runs an Opus final review.

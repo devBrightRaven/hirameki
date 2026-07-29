@@ -1,14 +1,17 @@
 ---
 description: >
-  Trace how a concept evolved across your vault — first appearance, timeline,
-  current state, and unexplored angles.
-  For finding weaknesses in an argument use /hirameki:challenge.
-  For connecting two topics use /hirameki:bridge.
-  For the full understanding workflow use /hirameki:lens.
+  Trace how one concept evolved across your vault: first appearance, timeline,
+  current state, unexplored angles.
+  Use when the user asks how an idea developed, when they first thought of it,
+  what they used to believe, or whether their thinking has shifted; or says
+  "這個想法怎麼來的", "我以前怎麼想", "這概念演變", "什麼時候開始的",
+  "how did I get here", "when did I start thinking this", "trace this idea".
+  Not for connecting two topics (bridge), attacking an argument (challenge),
+  or a pending choice (decide).
 argument-hint: "<concept>"
 ---
 
-Read `## Vault Structure` from `~/.claude/vault-local.md` (fall back to `~/.claude/CLAUDE.md` if not found) to get the vault path, the research folder location, and the list of content folders.
+Read `vault:` from `~/.claude/vault-local.md` for the vault root, then read `## Vault Structure` from `<vault>/AGENTS.md` (fall back to `~/.claude/vault-local.md`, then `~/.claude/CLAUDE.md` for setups predating 1.4.3) to get the vault path, the research folder location, and the list of content folders.
 If the section does not exist or required fields are missing, stop and respond: "Setup not complete. Please run `/hirameki:__init` first."
 
 Input: $ARGUMENTS

@@ -8,7 +8,7 @@ description: >
 argument-hint: "<topic or question>"
 ---
 
-Read `## Vault Structure` from `~/.claude/vault-local.md` (fall back to `~/.claude/CLAUDE.md` if not found) to get the vault path, the research folder location, and the list of content folders.
+Read `vault:` from `~/.claude/vault-local.md` for the vault root, then read `## Vault Structure` from `<vault>/AGENTS.md` (fall back to `~/.claude/vault-local.md`, then `~/.claude/CLAUDE.md` for setups predating 1.4.3) to get the vault path, the research folder location, and the list of content folders.
 If the section does not exist or required fields are missing, stop and respond: "Setup not complete. Please run `/hirameki:__init` first."
 
 Input: $ARGUMENTS
@@ -180,7 +180,7 @@ Compose done: voice {✓ saved | – skipped} / frame {✓ saved | – skipped}
 
 ## Rules
 
-- Do not hardcode vault paths — resolve from vault-local.md every time
+- Do not hardcode vault paths — resolve the root from `vault-local.md` and folders from `<vault>/AGENTS.md` every time
 - Use `[[wiki link]]` format for all vault note references
 - Timestamps use local time in HH:MM (24-hour)
 - Always print the full output for each step before the Action? prompt

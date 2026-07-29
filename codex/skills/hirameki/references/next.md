@@ -1,8 +1,13 @@
 ---
-description: Orient after resuming a session — summarise what was done, what's open, and what to do next
+description: >
+  Orient after resuming: what was done, what is still open, what to do next.
+  Use at the start of a session when the user asks where they left off, or says
+  "我做到哪", "上次進度", "接下來做什麼", "回顧一下",
+  "where was I", "what's the state", "catch me up", "what should I do next".
+  Not for listing open action items across notes (tasks).
 ---
 
-Read `## Vault Structure` from `~/.claude/vault-local.md` (fall back to `~/.claude/CLAUDE.md` if not found) to get the vault path and the locations of the daily-notes and inbox folders.
+Read `vault:` from `~/.claude/vault-local.md` for the vault root, then read `## Vault Structure` from `<vault>/AGENTS.md` (fall back to `~/.claude/vault-local.md`, then `~/.claude/CLAUDE.md` for setups predating 1.4.3) to get the vault path and the locations of the daily-notes and inbox folders.
 If the section does not exist or required fields are missing, stop and respond: "Setup not complete. Please run `/hirameki:__init` first."
 
 Input: $ARGUMENTS (optional)

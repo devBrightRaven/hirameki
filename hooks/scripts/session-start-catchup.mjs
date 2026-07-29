@@ -60,7 +60,8 @@ function buildHandoffMessage() {
 function buildInboxMessage(now = Date.now()) {
   const vault = getVaultPath();
   if (!vault) return '';
-  const rel = getVaultFolder(vault, 'inbox') || '_inbox';
+  const rel = getVaultFolder(vault, 'inbox');
+  if (!rel) return '';
 
   const dir = join(vault, rel);
   if (!existsSync(dir)) return '';

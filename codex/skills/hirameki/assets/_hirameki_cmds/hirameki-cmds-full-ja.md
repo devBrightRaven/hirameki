@@ -6,7 +6,7 @@
 
 ## 共用：`__init`
 
-すべてのコマンドは `~/.claude/vault-local.md` の `## Vault Structure` セクションを読み込みます（フォールバック：`~/.claude/CLAUDE.md`）。
+すべてのコマンドは、まず `~/.claude/vault-local.md` の `vault:` で vault ルートを解決し、次に `<vault>/AGENTS.md` の `## Vault Structure` セクションからフォルダーパスを読み込みます（フォールバック：`~/.claude/vault-local.md`、次に `~/.claude/CLAUDE.md`）。
 
 ### Vault の検出
 
@@ -32,7 +32,7 @@
 | handoff | `_yorozuya/handoff/`, `Handoff/`, `_handoff/`, `handoff/` |
 | templates | `Templates/`, `_templates/`, `templates/` |
 
-見つからない場合：ユーザーに確認、フォルダーを作成、完全なパスを出力、`vault-local.md` に書き込む。
+見つからない場合：ユーザーに確認、フォルダーを作成、完全なパスを出力、`<vault>/AGENTS.md` に書き込む。
 
 ### コンテンツフォルダー
 
@@ -1059,7 +1059,7 @@ lint モードは読み取り専用。lint 出力後、いずれかの領域の 
 
 #### Mode A：初回セットアップ
 
-`vault-local.md` または `CLAUDE.md` のどちらにも `## Vault Structure` がない場合に実行。
+`<vault>/AGENTS.md`、`vault-local.md`、`CLAUDE.md` のいずれにも `## Vault Structure` がない場合に実行。
 
 **ステップ 1 — Vault の検出：** CWD → CLAUDE.md パス → obsidian.json（組み込み sandbox をフィルタリング）を試みる。複数ある場合はユーザーに選択を求める。見つからない場合：ユーザーに確認。
 
@@ -1067,11 +1067,16 @@ lint モードは読み取り専用。lint 出力後、いずれかの領域の 
 
 **ステップ 3 — フォルダー解決：** 各目的を最初に存在する候補（上記フォルダー表参照）と照合。一致なしの場合：どこに作成するかユーザーに確認し、確認後に作成。
 
-**ステップ 4 — 設定の書き込み：** `~/.claude/vault-local.md` に書き込み：
+**ステップ 4 — 設定の書き込み：** 読み手ごとに 2 か所へ書き込みます。
 ```
+# ~/.claude/vault-local.md  (マシン固有)
 ## Vault Structure
 vault: {完全な vault パス}
 language: {言語}
+```
+```
+# {vault}/AGENTS.md  (vault と一緒に移動)
+## Vault Structure
 daily: {フォルダー名}/
 inbox: {フォルダー名}/
 research: {フォルダー名}/
@@ -1093,7 +1098,7 @@ templates: {フォルダー名}/
 
 #### Mode B：再設定
 
-設定が既に存在する場合に実行。更新する内容を確認（言語 / 特定フォルダー / 共有 policies / 個人 policies / リファレンス doc / 最初からやり直す）。選択された項目のみ修正。常に `vault-local.md` に書き込む。
+設定が既に存在する場合に実行。更新する内容を確認（言語 / 特定フォルダー / 共有 policies / 個人 policies / リファレンス doc / 最初からやり直す）。選択された項目のみ修正。言語と vault パスは `vault-local.md`、フォルダーパスは `<vault>/AGENTS.md` に書き込む。
 
 ---
 
@@ -1128,4 +1133,4 @@ templates: {フォルダー名}/
 - すべてのファイル参照は [[wiki link]] 形式
 - すべての書き込みコマンドは実行前にプレビューと完全なパスを表示し、確認後に実行；実行後に実際のパスを出力
 - 出力言語は `~/.claude/vault-local.md` の `## Vault Structure` から読み込む
-- Vault パスは常に実行時に vault-local.md から解決 — ハードコードしない
+- Vault パスは常に実行時に vault-local.md から、フォルダーは `<vault>/AGENTS.md` から解決 — ハードコードしない

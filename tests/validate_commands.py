@@ -150,7 +150,8 @@ REQUIRED_CONTENT: dict[str, list[str]] = {
 
 # Must appear in every command file (language-independent: paths and command names).
 UNIVERSAL_REQUIRED: list[tuple[str, str]] = [
-    ("vault-local.md", "config file path (primary)"),
+    ("vault-local.md", "config file path (vault root, per-machine)"),
+    ("AGENTS.md", "folder layout source (1.4.3 split config)"),
     ("Vault Structure", "config section name"),
     ("/hirameki:__init", "recovery command reference"),
 ]
