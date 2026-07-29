@@ -1,5 +1,11 @@
 ---
-description: Aggregate next actions from daily notes and journal. Use "stuck" to find recurring unfinished tasks.
+description: >
+  Aggregate next actions from daily notes and journal; "stuck" surfaces items that
+  keep reappearing unfinished.
+  Use when the user asks what is outstanding, or says
+  "還有什麼沒做", "待辦", "有什麼卡住", "一直沒完成的",
+  "what's on my plate", "open items", "what keeps slipping", "anything stuck".
+  Not for a session recap (next).
 ---
 
 Read `## Vault Structure` from `~/.claude/vault-local.md` (fall back to `~/.claude/CLAUDE.md` if not found) to get the vault path, daily folder, and journal folder.

@@ -1,10 +1,14 @@
 ---
 name: decide
 description: >
-  Pre-decision vault scan.
-  Use when the user is weighing options, comparing trade-offs, asking "should I...",
-  "要不要...", "應該選...", "どうしよう", or discussing pros and cons of a choice.
-  Triggers on decision-related language even without explicit invocation.
+  Pre-decision vault scan: what you already know, where the friction is, and the one
+  question that would resolve it. No recommendations.
+  Use when the user is weighing options or comparing trade-offs, or says
+  "要不要", "應該選", "該不該", "猶豫", "should I", "which one", "torn between",
+  "pros and cons", "どうしよう".
+  Triggers on decision language even without explicit invocation.
+  Not for unfolding a decision into a branching consequence tree (yomisuji),
+  not for bounded option analysis with defined choices (seiran).
 ---
 
 Read `## Vault Structure` from `~/.claude/vault-local.md` (fall back to `~/.claude/CLAUDE.md` if not found) to get the vault path and the list of content folders.

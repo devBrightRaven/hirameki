@@ -1,10 +1,11 @@
 ---
 description: >
-  Find the logical weaknesses in an argument or position — scan your vault for
-  all claims on the topic, then expose contradictions, unverified assumptions,
-  logic gaps, and evidence gaps.
-  For tracing concept evolution use /hirameki:arc.
-  For the full understanding workflow use /hirameki:lens.
+  Expose the weaknesses in an argument: scan the vault for every claim on the topic,
+  then surface contradictions, unverified assumptions, logic gaps, missing evidence.
+  Use when the user wants a position stress-tested, or says
+  "幫我挑毛病", "這說法站得住嗎", "反駁我", "有什麼漏洞",
+  "poke holes in this", "what am I missing", "argue against this", "is this defensible".
+  Not for questioning a plan or offer interactively (grill-me), not for a choice (decide).
 argument-hint: "<argument or topic>"
 ---
 

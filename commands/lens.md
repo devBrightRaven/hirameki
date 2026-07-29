@@ -1,10 +1,11 @@
 ---
 description: >
-  Topic-driven understanding workflow — walk arc, positions, bridge, and challenge
-  as a single flow for deep concept exploration.
-  Each step can be saved or skipped independently.
-  For standalone use: /hirameki:arc, /hirameki:challenge, /hirameki:bridge.
-  For creation (voice + frame) use /hirameki:compose.
+  Deep-dive one topic by walking arc, positions, bridge and challenge as a single flow;
+  each step saves or skips independently.
+  Use when the user wants to understand a topic thoroughly rather than answer one
+  question about it, or says "我想把這個搞懂", "完整看一遍", "深入研究這個主題",
+  "help me really understand X", "go deep on this", "give me the full picture".
+  Not for a single narrow question, which the individual steps answer faster.
 argument-hint: "<topic or concept>"
 ---
 

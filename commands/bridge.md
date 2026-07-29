@@ -1,6 +1,11 @@
 ---
-description: Find hidden connections between two topics in your vault.
-  Use before writing or when two ideas keep appearing together in your thinking.
+description: >
+  Find hidden connections between two topics already in your vault.
+  Use when the user names two subjects together and wonders how they relate, or says
+  "這兩個有關係嗎", "X 跟 Y 怎麼連", "這兩條線接得起來嗎",
+  "how do these two relate", "is there a link between", "connect X and Y".
+  Also fires before writing, when two ideas keep co-occurring in the user's notes.
+  Not for one concept's history (arc) or finding flaws (challenge).
 argument-hint: "<topic A> and <topic B>"
 ---
 
