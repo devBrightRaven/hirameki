@@ -5,7 +5,7 @@ description: Snapshot session state into a handoff doc for future-session pickup
 argument-hint: "[topic-slug]"
 ---
 
-Read `vault:` from `~/.claude/vault-local.md` for the vault root, then read `## Vault Structure` from `<vault>/AGENTS.md` (fall back to `~/.claude/vault-local.md`, then `~/.claude/CLAUDE.md` for setups predating 1.4.3) to get the vault path and the `handoff:` folder.
+Resolve vault configuration through the umbrella Hirameki adapter to get the vault path, handoff folder, templates folder, and language. The umbrella owns any migration fallback; this reference does not read Claude configuration directly.
 If the section does not exist or required fields are missing, stop and respond: "Setup not complete. Please run `/hirameki:__init` first."
 
 Input: $ARGUMENTS (optional)
@@ -18,12 +18,7 @@ Input: $ARGUMENTS (optional)
 
 ### Step 1 — Resolve paths
 
-From `~/.claude/vault-local.md`:
-- `vault:` → absolute path to Obsidian vault
-
-From `{vault}/AGENTS.md` `## Vault Structure`:
-- `handoff:` → relative path to handoff folder (e.g. `_yorozuya/handoff/`)
-- `templates:` → relative path to templates folder
+Use the vault root, `handoff`, and `templates` paths already resolved by the umbrella Hirameki adapter.
 
 Handoff dir: `{vault}/{handoff}/`
 Template file (optional reference, do not copy blindly): `{vault}/{templates}/handoff.md`
@@ -32,11 +27,13 @@ Template file (optional reference, do not copy blindly): `{vault}/{templates}/ha
 
 Gather the following automatically. Do not ask the user for these:
 
-**Tasks**: Call TaskList tool. Note which are `in_progress` or `pending` (incomplete) and which are `completed`.
+**Tasks**: Inspect the current plan or task state available in the runtime. Note which are `in_progress` or `pending` (incomplete) and which are `completed`.
 
 **Files touched this session**: Review tool history for Edit/Write calls. List unique file paths modified.
 
 **Decisions made**: Scan conversation for explicit decisions (phrases like "決定", "decided", "we'll", "going with", "the approach is"). Keep only non-obvious choices worth preserving for the next session.
+
+**Judgment updates**: Keep only judgment changes that affect the next session. For each, separate the earlier judgment, the evidence that changed it, the current judgment, remaining unknowns, and the condition for reopening it. Distinguish explicit statements from reasonable inference; omit items with insufficient data rather than completing the story.
 
 **Deferred items**: Scan for items explicitly pushed out ("下次", "後面再做", "deferred", "skip for now", "not in scope"). Note what was deferred and why.
 
@@ -56,7 +53,7 @@ Write a handoff document using the following structure. Fill in all sections fro
 tags:
   - handoff
 status: reference
-source: claude-code
+source: codex
 created: YYYY-MM-DD HH:MM
 topic: <one-line: what the next session needs to resolve>
 priority: <high / medium / low>
@@ -101,6 +98,21 @@ estimated_cost: <wall time + API cost estimate to complete remaining work>
 ## Decisions made
 
 <non-obvious decisions with why + reversal trigger — or "None">
+
+<this section: current constraints or commitments only — formation or change history goes in 判斷更新 below, never repeated here>
+
+---
+
+## 判斷更新
+
+### <問題，一句話>
+- 原先判斷：<...>
+- 改變依據：<...；推論處標「可合理推論」>
+- 目前判斷：<...>
+- 尚未知：<...>
+- 重新檢視條件：<...>
+
+<one block per judgment update that affects pickup — repeat the heading block, no table. If none, this section contains only: "本次沒有需要接手的判斷更新。">
 
 ---
 
@@ -171,4 +183,5 @@ If unsure which to use: run both. They are complementary, not duplicates.
 - Do not hardcode vault paths — resolve the root from `vault-local.md` and folders from `<vault>/AGENTS.md` every time
 - Slug must not contain dates (the filename already has YYYY-MM-DD prefix)
 - Do not add a `name:` field to this file's frontmatter — it would break the `hirameki:` prefix
+- Do not turn missing evidence into a judgment update. Keep observations, inferences, assumptions, decisions, and later outcomes distinct.
 - Write output in the language specified in `## Vault Structure` → `language`

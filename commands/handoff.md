@@ -38,6 +38,8 @@ Gather the following automatically. Do not ask the user for these:
 
 **Decisions made**: Scan conversation for explicit decisions (phrases like "決定", "decided", "we'll", "going with", "the approach is"). Keep only non-obvious choices worth preserving for the next session.
 
+**Judgment updates**: Keep only judgment changes that affect the next session. For each, separate the earlier judgment, the evidence that changed it, the current judgment, remaining unknowns, and the condition for reopening it. Distinguish explicit statements from reasonable inference; omit items with insufficient data rather than completing the story.
+
 **Deferred items**: Scan for items explicitly pushed out ("下次", "後面再做", "deferred", "skip for now", "not in scope"). Note what was deferred and why.
 
 **Background tasks**: Note any `run_in_background` tasks from this session and their status.
@@ -101,6 +103,21 @@ estimated_cost: <wall time + API cost estimate to complete remaining work>
 ## Decisions made
 
 <non-obvious decisions with why + reversal trigger — or "None">
+
+<this section: current constraints or commitments only — formation or change history goes in 判斷更新 below, never repeated here>
+
+---
+
+## 判斷更新
+
+### <問題，一句話>
+- 原先判斷：<...>
+- 改變依據：<...；推論處標「可合理推論」>
+- 目前判斷：<...>
+- 尚未知：<...>
+- 重新檢視條件：<...>
+
+<one block per judgment update that affects pickup — repeat the heading block, no table. If none, this section contains only: "本次沒有需要接手的判斷更新。">
 
 ---
 
@@ -171,4 +188,5 @@ If unsure which to use: run both. They are complementary, not duplicates.
 - Do not hardcode vault paths — resolve the root from `vault-local.md` and folders from `<vault>/AGENTS.md` every time
 - Slug must not contain dates (the filename already has YYYY-MM-DD prefix)
 - Do not add a `name:` field to this file's frontmatter — it would break the `hirameki:` prefix
+- Do not turn missing evidence into a judgment update. Keep observations, inferences, assumptions, decisions, and later outcomes distinct.
 - Write output in the language specified in `## Vault Structure` → `language`

@@ -42,12 +42,12 @@ Session 恢復後定向。整理已完成的工作、待處理事項和下一步
 寫入：`{daily}/YYYY-MM-DD.md`
 
 ### `/hirameki:journal <描述>`
-工作紀錄與推理。記錄做了什麼、為什麼、靈感連結、未完成事項。同主題同天追加；不同主題建新檔。
+工作紀錄、推理與判斷軌跡：原先看法、證據、改變、尚未知與重新檢視條件。沒有改變時不捏造。
 輸入：主題描述（必填）。
 寫入：`{journal}/YYYY-MM-DD-HHMM-{主題}.md`
 
 ### `/hirameki:handoff`
-Session 移交文件。記錄當前狀態、未完成線索、下個 session 的接續指引。從 session 活動自動推斷主題。
+Session 移交文件。把目前有效決定與會影響接手的判斷更新分開記錄。
 寫入：`{handoff}/YYYY-MM-DD-{slug}.md`
 
 ---

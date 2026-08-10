@@ -62,6 +62,22 @@ Specific actions and decisions taken, with cause-and-effect narrative.
 ## Why this approach
 Reasoning behind key decisions. If trade-offs were made, describe what was chosen and what was set aside.
 
+## 判斷與決策過程
+
+- 判斷的問題：
+- 起點（原先判斷；尚未形成時寫「未形成判斷」）：
+- 當時根據：
+  - 觀察：
+  - 推論：
+  - 尚未驗證的假設：
+- 新出現的證據或經驗：
+- 判斷結果（形成／改變／維持，以及原因）：
+- 現場（原始素材）：
+- 仍然不知道什麼：
+- 什麼情況值得重新檢視：
+
+實質更新的判準：只有 session 明示新判斷，或新證據使結論、信心或行動產生可指認的形成、改變或有理由的維持，才算實質更新；未明說者留空，不合併、不補寫。 If there is no substantive update by this criterion, write only: "本次沒有需要保存的判斷更新。" Do not invent a trajectory.
+
 ## Inspiration connections
 Links to other ideas, possible extensions, cross-topic connections. Use [[wiki links]]. If none, write "None."
 
@@ -93,6 +109,10 @@ Add to the end of the matched file:
 ### Why this approach
 [Reasoning for new decisions]
 
+### 判斷與決策過程
+
+[Record only judgment that formed, changed, or was maintained against new evidence, using the Create-mode fields. Keep observations, inferences, and unverified assumptions distinct. If there is no substantive update, write "本次沒有需要保存的判斷更新。"]
+
 ### Inspiration connections
 [New connections or extensions. If none, write "None."]
 
@@ -107,6 +127,11 @@ Rules:
 - Show filename, mode (create / append), content summary, and full path, then wait for confirmation before writing
 - Print the full path after writing
 - Append mode does not modify existing content — only adds to the end and updates completion status
+- `Why this approach` explains the rationale for the action taken. `判斷與決策過程` records how a judgment formed or changed; do not repeat the same prose in both sections.
+- Label important claims by evidence level: explicitly stated, reasonably inferred, or insufficient data. Never turn missing evidence into a smooth narrative.
+- 證據硬閘：「當時根據」與「新出現的證據或經驗」各至少包含一項本次對話可直接追溯的具體事實（原句、數值、命令或輸出片段、具名檔案／操作結果）；只寫概括結論不合格。
+- 現場（原始素材）：最多六個依 session 發生順序排列的原始證據單位；每點標明來源角色或操作，保留最小充分原句、數字或輸出片段；未明說的利害關係、動機與因果不得補寫；某類材料不存在就省略，不為湊數改寫。
+- 由判斷導致的行動寫在 `What was done` 並明指出自該判斷；判斷未產生行動就直說沒有。
 - Frontmatter `actions` array is required in Create mode. Use action types from this list:
   `test-rewrite` `test-fix` `code-review` `config-update` `hook-setup`
   `automation` `feature` `bug-fix` `refactor` `research` `vault-write`

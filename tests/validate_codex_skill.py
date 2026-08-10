@@ -12,12 +12,13 @@ EXPECTED_REFERENCES = {f"{name}.md" for name in REQUIRED_CONTENT}
 PLATFORM_DIVERGENT_REFERENCES = {
     "__init.md",
     "critique.md",
+    "handoff.md",
     "journal.md",
     "mekiki.md",
     "pulse.md",
     "triage.md",
 }
-ADAPTER_RESOLVED_REFERENCES = {"journal.md", "mekiki.md", "pulse.md", "triage.md"}
+ADAPTER_RESOLVED_REFERENCES = {"handoff.md", "journal.md", "mekiki.md", "pulse.md", "triage.md"}
 EXPECTED_REFERENCE_ASSETS = {
     "hirameki-cmds-full-ja.md",
     "hirameki-cmds-full-zh-TW.md",
@@ -150,6 +151,56 @@ def test_codex_vault_resolution_has_one_layout_source() -> None:
     assert "do not duplicate folder paths" in init
 
 
+def test_judgment_trajectory_contract() -> None:
+    journal_required = (
+        "## 判斷與決策過程",
+        "判斷的問題",
+        "起點（原先判斷；尚未形成時寫「未形成判斷」）",
+        "觀察",
+        "推論",
+        "尚未驗證的假設",
+        "新出現的證據或經驗",
+        "判斷結果（形成／改變／維持，以及原因）",
+        "現場（原始素材）",
+        "仍然不知道什麼",
+        "什麼情況值得重新檢視",
+        "本次沒有需要保存的判斷更新",
+    )
+    handoff_required = (
+        "## 判斷更新",
+        "- 原先判斷：",
+        "- 改變依據：",
+        "- 重新檢視條件：",
+        "本次沒有需要接手的判斷更新",
+        "Decisions made",
+    )
+
+    for root in (COMMANDS, SKILL / "references"):
+        journal = (root / "journal.md").read_text(encoding="utf-8")
+        handoff = (root / "handoff.md").read_text(encoding="utf-8")
+        triage = (root / "triage.md").read_text(encoding="utf-8")
+        for phrase in journal_required:
+            assert phrase in journal, f"{root}/journal.md lost judgment field: {phrase}"
+        for phrase in handoff_required:
+            assert phrase in handoff, f"{root}/handoff.md lost judgment field: {phrase}"
+        for phrase in ("## 判斷與決策過程", "## 判斷更新", "本次沒有需要保存的判斷更新", "本次沒有需要接手的判斷更新"):
+            assert phrase in triage, f"{root}/triage.md drifted from direct workflows: {phrase}"
+        judgment_rules = (
+            "證據硬閘",
+            "最多六個依 session 發生順序排列的原始證據單位",
+            "由判斷導致的行動寫在 `What was done`",
+        )
+        for rule in judgment_rules:
+            assert rule in triage, f"{root}/triage.md must carry the v3 rule standalone: {rule}"
+            assert rule in journal, f"{root}/journal.md lost the v3 rule: {rule}"
+        assert journal.count("## 判斷與決策過程") >= 2, f"{root}/journal.md must cover create and append modes"
+
+    codex_handoff = (SKILL / "references" / "handoff.md").read_text(encoding="utf-8").lower()
+    assert "source: codex" in codex_handoff
+    assert "tasklist tool" not in codex_handoff
+    assert "resolve vault configuration through the umbrella hirameki adapter" in codex_handoff
+
+
 def test_codex_references_satisfy_command_spec() -> None:
     for name in EXPECTED_REFERENCES:
         if name in {"__init.md", "critique.md"}:
@@ -182,5 +233,6 @@ if __name__ == "__main__":
     test_non_platform_codex_references_match_claude_commands()
     test_codex_platform_adapters_exclude_claude_runtime_assumptions()
     test_codex_vault_resolution_has_one_layout_source()
+    test_judgment_trajectory_contract()
     test_codex_references_satisfy_command_spec()
     print("Codex Hirameki skill adapter validation passed")

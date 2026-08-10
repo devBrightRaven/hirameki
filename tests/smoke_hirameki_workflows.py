@@ -262,6 +262,10 @@ def create_journal_sample(vault: Path) -> Path:
         ## Why this approach
         It verifies that Codex-created files use source: codex.
 
+        ## 判斷與決策過程
+
+        本次沒有需要保存的判斷更新。
+
         ## Inspiration connections
         None.
 
@@ -327,6 +331,12 @@ def create_handoff_sample(vault: Path) -> Path:
         ## Decisions made
 
         - Codex-created files use source: codex.
+
+        ---
+
+        ## 判斷更新
+
+        本次沒有需要接手的判斷更新。
 
         ---
 
@@ -458,6 +468,8 @@ def test_controlled_write_samples_stay_in_fixture_and_use_codex_source() -> None
         assert "source: codex" in handoff.read_text(encoding="utf-8")
         assert "source: claude-code" not in journal.read_text(encoding="utf-8")
         assert "source: claude-code" not in handoff.read_text(encoding="utf-8")
+        assert "本次沒有需要保存的判斷更新" in journal.read_text(encoding="utf-8")
+        assert "本次沒有需要接手的判斷更新" in handoff.read_text(encoding="utf-8")
 
 
 def main() -> None:

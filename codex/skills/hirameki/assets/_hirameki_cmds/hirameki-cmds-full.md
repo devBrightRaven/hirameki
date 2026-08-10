@@ -405,6 +405,9 @@ Specific actions and decisions with causal narrative.
 ## Why this approach
 Reasoning behind key decisions. Trade-offs: what was chosen and what was left out.
 
+## Judgment and decision process
+Record the question, earlier judgment, observations, inferences, unverified assumptions, new evidence, how the judgment changed, current action, unknowns, and revisit trigger. If there was no substantive update, say so; do not invent a trajectory.
+
 ## Inspiration links
 Connections to other ideas. [[wiki link]] related notes. If none: "None".
 
@@ -427,6 +430,9 @@ Follow-ups needed. If all complete: "No open items".
 
 ### Why this approach
 [New reasoning]
+
+### Judgment and decision process
+[Only new or changed judgment; keep observation, inference, and assumption distinct.]
 
 ### Inspiration links
 [New connections. If none: "None"]
@@ -477,6 +483,11 @@ created: YYYY-MM-DD
 
 ## Key decisions made
 - [Decision] — [rationale]
+
+## Judgment updates
+| Question | Earlier judgment | Change evidence | Current judgment | Unknowns | Revisit trigger |
+|----------|------------------|-----------------|------------------|----------|-----------------|
+Only changes that affect pickup. If none, state that there is no judgment update to hand off.
 
 ## Next session: start here
 1. [First thing to pick up]

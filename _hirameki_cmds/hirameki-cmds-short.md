@@ -42,12 +42,12 @@ Optional input: focus description for this wrap.
 Writes to: `{daily}/YYYY-MM-DD.md`
 
 ### `/hirameki:journal <description>`
-Work log with reasoning. Records what was done, why, inspiration connections, open follow-ups. Same topic same day appends; different topic creates a new file.
+Work log with reasoning and judgment trajectory: earlier view, evidence, change, unknowns, and revisit trigger. It does not invent a change when none occurred.
 Input: topic description (required).
 Writes to: `{journal}/YYYY-MM-DD-HHMM-{topic}.md`
 
 ### `/hirameki:handoff`
-End-of-session handoff document. Records current state, open threads, and guidance for the next session. Infers topic from session activity.
+End-of-session handoff document. Keeps current decisions separate from judgment changes that affect the next session.
 Writes to: `{handoff}/YYYY-MM-DD-{slug}.md`
 
 ---

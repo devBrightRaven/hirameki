@@ -21,6 +21,8 @@ Gather this once. All three sub-flows draw from it — do not re-scan per sub-fl
 
 **Decisions**: Scan conversation for non-obvious choices (phrases like "決定", "decided", "going with", "the approach is", "we'll"). Keep only decisions worth preserving.
 
+**Judgment updates**: Scan for judgments that formed, changed, or were maintained against new evidence（只有可指認的形成／改變／有理由的維持才算實質更新）. Keep observations, inferences, unverified assumptions, decisions, later evidence, and outcomes distinct. Label each important claim as explicitly stated, reasonably inferred, or insufficient data. Never complete a missing trajectory.
+
 **Corrections**: Scan conversation for anything the user corrected Claude on. Format each as "Wrong: [what Claude did] → Right: [what the user wanted]".
 
 **Deferred items**: Scan for items pushed out ("下次", "後面再做", "deferred", "skip for now", "not in scope").
@@ -109,6 +111,10 @@ Specific actions and decisions taken.
 ## Why this approach
 Reasoning behind key decisions.
 
+## 判斷與決策過程
+
+<use the /hirameki:journal fields: 判斷的問題、起點（原先判斷）、觀察、推論、尚未驗證的假設、新出現的證據或經驗、判斷結果（形成／改變／維持）、現場（原始素材）、仍然不知道什麼、什麼情況值得重新檢視 — if no substantive update, write only "本次沒有需要保存的判斷更新。">
+
 ## Inspiration connections
 Links to other ideas. [[wiki links]]. If none: "None."
 
@@ -122,7 +128,7 @@ Unexplored directions or risks. If none: "None."
 {incomplete tasks from Step 0, or "No open items."}
 ```
 
-**Append mode** — add Addendum block at end of matched file. Mark completed Open items with "✓ Done [HH:MM]".
+**Append mode** — add the `/hirameki:journal` Addendum block, including `### 判斷與決策過程`, at the end of the matched file. Mark completed Open items with "✓ Done [HH:MM]".
 
 Show the full draft and the target path. Then ask:
 
@@ -193,6 +199,21 @@ estimated_cost: <wall time + API cost estimate>
 ## Decisions made
 <non-obvious decisions from Step 0, or "None">
 
+<this section: current constraints or commitments only — formation or change history goes in 判斷更新 below, never repeated here>
+
+---
+
+## 判斷更新
+
+### <問題，一句話>
+- 原先判斷：<...>
+- 改變依據：<...；推論處標「可合理推論」>
+- 目前判斷：<...>
+- 尚未知：<...>
+- 重新檢視條件：<...>
+
+<one block per judgment update that affects pickup — repeat the heading block, no table. If none, this section contains only: "本次沒有需要接手的判斷更新。">
+
 ---
 
 ## Next actions
@@ -247,4 +268,8 @@ Triage done: wrap {✓ saved | – skipped} / journal {✓ saved | – skipped} 
 - Timestamps use local time in HH:MM format (24-hour)
 - Print the full path after each write
 - Do not add a `name:` field to this file's frontmatter — it would break the `hirameki:` prefix
+- Do not repeat action rationale in the judgment sections or turn insufficient evidence into a coherent story
+- 證據硬閘：「當時根據」與「新出現的證據或經驗」各至少包含一項本次對話可直接追溯的具體事實（原句、數值、命令或輸出片段、具名檔案／操作結果）；只寫概括結論不合格。
+- 現場（原始素材）：最多六個依 session 發生順序排列的原始證據單位；每點標明來源角色或操作，保留最小充分原句、數字或輸出片段；未明說的利害關係、動機與因果不得補寫；某類材料不存在就省略，不為湊數改寫。
+- 由判斷導致的行動寫在 `What was done` 並明指出自該判斷；判斷未產生行動就直說沒有。
 - Write section headings and output in the language specified in `## Vault Structure` → `language`

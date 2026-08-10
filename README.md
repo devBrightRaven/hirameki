@@ -140,7 +140,7 @@ Progress snapshot. Scans session file activity, appends a timestamped block to t
 
 *Use when: you made a non-obvious decision and want to record why — so future-you (or a collaborator) can understand the reasoning.*
 
-Work log with reasoning. Writes a structured entry covering: background, what you did, why you did it, inspiration connections, possible improvements, and open follow-ups. Same topic, same day: appends an update section and marks completed follow-ups. Searches related vault notes to surface context and [[wiki links]].
+Work log with reasoning. Writes a structured entry covering background, actions, rationale, and the judgment trajectory: the earlier view, observations, inferences, unverified assumptions, new evidence, current view, unknowns, and revisit trigger. If no judgment changed, it says so instead of inventing one. Same topic, same day: appends an update section and marks completed follow-ups.
 
 Different from `wrap`: wrap records what happened in a session. Journal records why you made a specific decision.
 
@@ -152,7 +152,7 @@ Different from `wrap`: wrap records what happened in a session. Journal records 
 
 *Use when: work isn't finished and the next session needs explicit guidance to pick up.*
 
-Snapshots session state into a new handoff document at `{handoff}/YYYY-MM-DD-{slug}.md`. Automatically collects incomplete tasks, files edited, decisions made, and deferred items — then shows a full draft for confirmation before writing. Topic auto-inferred from session activity. Distinct from wrap: wrap records what happened, handoff captures what's left and how to resume.
+Snapshots session state into a new handoff document at `{handoff}/YYYY-MM-DD-{slug}.md`. It keeps current decisions separate from a compact judgment-update table containing only changes that affect pickup, including evidence, unknowns, and revisit triggers. It then shows a full draft for confirmation before writing.
 
 ---
 
@@ -495,7 +495,7 @@ Session 結束整合。依序執行 wrap → journal → handoff 三步。每步
 
 *適合：做了一個不直觀的決定，想記錄下為什麼時。*
 
-工作紀錄與思考記錄。寫入結構化記錄，包含：背景、做了什麼、為什麼這樣做、靈感連結、可能的改進方向、未完成事項。同主題同天：追加更新並標記已完成的後續。搜尋 vault 中相關筆記作為脈絡和 [[wiki link]]。
+工作紀錄與思考記錄。除了背景、行動與理由，也保存判斷軌跡：原先判斷、觀察、推論、未驗證假設、新證據、目前判斷、尚未知與重新檢視條件。沒有實質判斷更新時會明確寫明，不補成故事。同主題同天則追加更新。
 
 與 `wrap` 的差別：wrap 記錄一個 session 發生了什麼。journal 記錄你為什麼做某個特定決定。
 
@@ -507,7 +507,7 @@ Session 結束整合。依序執行 wrap → journal → handoff 三步。每步
 
 *適合：工作尚未完成，下一個 session 需要明確指引才能銜接時。*
 
-將 session 狀態快照寫入 `{handoff}/YYYY-MM-DD-{slug}.md`。自動收集未完成的任務、已編輯的檔案、已做的決定和擱置的事項，顯示完整草稿確認後才寫入。主題從 session 活動自動推斷。與 wrap 的差別：wrap 記錄發生了什麼，handoff 記錄還剩什麼以及如何銜接。
+將 session 狀態快照寫入 `{handoff}/YYYY-MM-DD-{slug}.md`。目前決定與判斷形成／改變歷史分開：精簡的「判斷更新」只保留會影響接手的改變依據、尚未知與重新檢視條件。完整草稿仍會在確認後才寫入。
 
 ---
 
@@ -842,7 +842,7 @@ claude   # どこからでも
 
 *使うとき：直感的でない決断を下して、なぜそうしたかを記録したいとき。*
 
-作業ログと思考記録。構造化された記録を書き込み：背景・何をしたか・なぜしたか・インスピレーションのつながり・改善の可能性・未完了事項。同テーマ・同日：追記更新し完了した後続事項をマーク。関連する vault ノートを検索して文脈と [[wiki link]] を提供。
+作業ログと思考記録。背景・行動・理由に加え、以前の判断、観察、推論、未検証の仮説、新しい証拠、現在の判断、未解明点、再検討条件を区別して判断の軌跡を残す。実質的な更新がなければ、その旨だけを記し、物語を補完しない。
 
 `wrap` との違い：wrap はセッションで何が起きたかを記録。journal は特定の決断をなぜ下したかを記録。
 
@@ -854,7 +854,7 @@ claude   # どこからでも
 
 *使うとき：作業が未完了で、次のセッションが引き継ぐために明確なガイダンスが必要なとき。*
 
-セッション状態を `{handoff}/YYYY-MM-DD-{slug}.md` にスナップショットとして保存。未完了タスク・編集したファイル・決定事項・保留項目を自動収集し、完全なドラフトを表示して確認後に書き込む。トピックはセッション活動から自動推定。wrap との違い：wrap は「何が起きたか」を記録し、handoff は「何が残っているか・どう再開するか」を記録する。
+セッション状態を `{handoff}/YYYY-MM-DD-{slug}.md` に保存。現在の決定と判断の形成・変更履歴を分離し、引き継ぎに影響する変更根拠、未解明点、再検討条件だけを簡潔な表に残す。完全なドラフトを表示し、確認後に書き込む。
 
 ---
 
