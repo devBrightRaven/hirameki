@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.5.1] — 2026-08-11
+
+### Bug Fixes
+
+- carry the release version into the Codex plugin manifest and package.json (92429c5)
+
 ## [1.5.0] — 2026-08-11
 
 ### Features
