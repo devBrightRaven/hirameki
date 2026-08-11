@@ -1,6 +1,6 @@
 {
   "name": "hirameki",
-  "version": "1.4.4",
+  "version": "1.5.0",
   "description": "Obsidian vault knowledge management commands for Claude Code — daily rhythm, concept archaeology, thinking tools, and work logging",
   "author": {
     "name": "devBrightRaven",
@@ -18,5 +18,8 @@
     "concept-tracking",
     "writing"
   ],
-  "skills": ["./commands/", "./skills/"]
+  "skills": [
+    "./commands/",
+    "./skills/"
+  ]
 }

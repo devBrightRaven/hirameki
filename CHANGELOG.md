@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.5.0] — 2026-08-11
+
+### Features
+
+- judgment formation and change trajectories in journal, handoff, and triage (67e8bc5)
+
+### Chores
+
+- commit the release engine config (45f8e28)
+
 All notable changes to hirameki are documented here.
 Versioning follows [Semantic Versioning](https://semver.org/): MAJOR = breaking changes, MINOR = new commands or modes, PATCH = bug fixes and docs.
 
