@@ -1,6 +1,6 @@
 {
   "name": "hirameki",
-  "version": "1.4.4",
+  "version": "1.5.0",
   "description": "Obsidian vault knowledge management commands for Claude Code",
   "keywords": [
     "claude-code",

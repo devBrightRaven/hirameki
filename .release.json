@@ -6,5 +6,9 @@
   "test": "python -X utf8 tests/validate_commands.py && python -X utf8 tests/smoke_hirameki_workflows.py && node tests/test_open_handoff.mjs",
   "verify": "python -X utf8 tests/validate_codex_skill.py",
   "changelogFile": "CHANGELOG.md",
+  "readmeSync": [
+    { "file": "codex/.codex-plugin/plugin.json", "pattern": "\"version\": \"{VERSION}\"" },
+    { "file": "package.json", "pattern": "\"version\": \"{VERSION}\"" }
+  ],
   "githubRelease": true
 }
