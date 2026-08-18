@@ -95,7 +95,7 @@ Modify only the selected fields in their owning file. `Start over completely` re
 
 ## Content folders
 
-When another workflow needs content folders, take top-level vault folders and exclude hidden folders, `_hirameki_cmds/`, and configured system folders. If none remain, scan Markdown files directly under the vault root.
+When another workflow needs content folders, take top-level vault folders and exclude hidden folders, `_hirameki_cmds/`, and the configured system-folder subtrees. Do not exclude unrelated siblings when a configured path is nested under a top-level folder. When scanning inside content folders, skip hidden directories, dependency/build directories such as `node_modules`, and files ignored by Git when the vault is a Git repository. If no content folders remain, scan Markdown files directly under the vault root.
 
 ## Validation
 

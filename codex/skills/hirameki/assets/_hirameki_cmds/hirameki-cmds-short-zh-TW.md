@@ -46,6 +46,10 @@ Session 恢復後定向。整理已完成的工作、待處理事項和下一步
 輸入：主題描述（必填）。
 寫入：`{journal}/YYYY-MM-DD-HHMM-{主題}.md`
 
+### `/hirameki:decision <決策>`
+只把會長期約束後續工作的決策提升為生命週期節點。記錄證據、替代方案、後果與重新檢視條件；連結 journal／handoff，不重複內容。完整草稿與 status 變更需確認。
+寫入：`{journal}/decisions/YYYY-MM-DD-{slug}.md`
+
 ### `/hirameki:handoff`
 Session 移交文件。把目前有效決定與會影響接手的判斷更新分開記錄。
 寫入：`{handoff}/YYYY-MM-DD-{slug}.md`
@@ -140,6 +144,7 @@ Frontmatter 屬性健檢。預設只跑缺漏 + 一致性（輕量）。
 | `compose` | research/compose/ | 逐步（save/skip） | 每步各自建檔 |
 | `wrap` | daily | 總是 | 追加新 Wrap 區塊 |
 | `journal` | journal | 總是 | 同主題追加，不同主題建新檔 |
+| `decision` | journal/decisions | 總是 | 通過提升門檻後才寫入；active/superseded/closed lifecycle |
 | `handoff` | handoff | 總是 | 同日期覆蓋 |
 | `arc` | research/arc/ | 總是 | 同概念追加 |
 | `bridge` | research/bridge/ | 總是 | 同組主題追加 |

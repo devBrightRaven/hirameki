@@ -46,6 +46,10 @@ Claude Code CLI で使用します。すべてのコマンドは `/hirameki:` �
 入力：トピック説明（必須）。
 書き込み先：`{journal}/YYYY-MM-DD-HHMM-{トピック}.md`
 
+### `/hirameki:decision <決定>`
+将来の作業を拘束する決定だけをライフサイクルノードへ昇格。証拠、代替案、結果、再検討条件を記録し、journal／handoff は重複せずリンクする。完全なドラフトと status 変更は確認必須。
+書き込み先：`{journal}/decisions/YYYY-MM-DD-{slug}.md`
+
 ### `/hirameki:handoff`
 セッション引き継ぎ文書。現在有効な決定と、次のセッションに影響する判断の更新を分けて記録。
 書き込み先：`{handoff}/YYYY-MM-DD-{slug}.md`
@@ -140,6 +144,7 @@ wrap logs と journal から次のアクションを集約。重複除去して�
 | `compose` | research/compose/ | ステップごと（save/skip） | 各ステップで独立したファイル |
 | `wrap` | daily | 常時 | 新しい Wrap ブロックを追記 |
 | `journal` | journal | 常時 | 同テーマは追記、別テーマは新規作成 |
+| `decision` | journal/decisions | 常時 | 昇格条件を満たす場合のみ；active/superseded/closed lifecycle |
 | `handoff` | handoff | 常時 | 同日付は上書き |
 | `arc` | research/arc/ | 常時 | 同概念は追記 |
 | `bridge` | research/bridge/ | 常時 | 同ペアは追記 |

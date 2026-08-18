@@ -24,21 +24,42 @@ Only run the blocks for the selected mode — omit all others from the report.
 - All content folders (recursive)
 - All files in the inbox folder
 - Last 30 days in the wrap folder
+- Skip hidden directories, dependency/build directories such as `node_modules`, and files ignored by Git when the vault is a Git repository
 
 ## Check blocks
 
 ### Missing field check (tidy / fix / full)
 - Files with no frontmatter
-- Files with frontmatter but missing required fields (required: tags, status)
+- Files with frontmatter but missing required fields (required: tags, status, source)
 - `tags` is an empty array or blank
 - `status` is blank
+- `source` is blank
+
+### Frontmatter review (tidy / fix / full)
+
+First run a lightweight detection pass for files with missing, malformed, empty, type-invalid, or role-incoherent frontmatter.
+
+- If the detection pass finds **50 or fewer** files needing frontmatter handling, review and process only those files. Do not expand into a full-vault review and do not produce a full-vault ledger.
+- If it finds **more than 50** files, trigger a full review of every file in scope. For each file, compare `tags`, `status`, and `source` with its document role, path, and project vocabulary.
+
+Classify each reviewed file as:
+
+- `pass` — metadata is complete and coherent with the document role
+- `pass-project-schema` — metadata is coherent but uses a project-specific vocabulary
+- `auto-fixable` — the correct value follows deterministically from the document role
+- `requires-judgment` — authorship, provenance, or semantic intent cannot be inferred safely
+- `exclude-candidate` — generated/config/backup material that may not be a vault note
+
+Do not claim that all files were reviewed unless the `> 50` threshold triggered and every file in scope has one classification. In full-review mode, write a CSV ledger beside the Markdown report with one row per file: path, role, current values, classification, issues, review basis, and recommendation. In bounded mode (`<= 50`), list only the affected files in the Markdown report.
 
 ### Consistency check (tidy / fix / full)
 - `status` value is not in the allowed set (published, draft, reference, outline, spec, log, archive)
-- `source` value is not in the allowed set (self, claude-code, agent, external) — only if the field exists
+- `source` value is not in the allowed set (self, claude-code, codex, agent, external) — only if the field exists
 - Case-inconsistent synonymous tags in `tags` (e.g. `AI-alignment` vs `ai-alignment`)
 - Underscore vs hyphen inconsistency in `tags` (e.g. `ai_alignment` vs `ai-alignment`)
 - Obvious duplication between `topic` and `tags`
+
+Treat the status and source sets above as the default vocabulary, not proof that every other non-empty value is malformed. A project-declared vocabulary takes precedence. A URL in `source` is valid external provenance but indicates a schema choice; report a possible `source: external` + `source_url` migration without rewriting it automatically.
 
 ### Redundancy check (full only)
 - Files with more than 6 tags
@@ -165,12 +186,17 @@ Do not auto-execute any of these suggestions. Surface only — the user decides 
 Show the full list of all planned changes and wait for confirmation before executing.
 
 Auto-fixable:
-- Add missing frontmatter skeleton (empty tags array and status: draft)
+- Repair malformed frontmatter when the intended value is unambiguous
 - Normalise tag casing (use whichever variant appears more often)
 - Normalise underscore vs hyphen (use hyphen)
 - Remove obvious duplication between `topic` and `tags` (keep the tags entry, remove topic)
+- Add role-derived metadata only when the role makes the value deterministic (for example, wrap → `tags: [daily]`, `status: log`)
 
 Requires per-item confirmation:
+- Adding frontmatter when tags, status, or source cannot be derived safely
+- Inferring `source` when original authorship or provenance is unknown
+- Migrating custom status/source fields into a shared schema
+- Deciding whether non-note artifacts should be excluded from the scan
 - Merging semantically similar tags
 - Trimming files with more than 6 tags
 - Deleting isolated tags

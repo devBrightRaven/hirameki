@@ -39,7 +39,9 @@
 「內容資料夾」= vault 根目錄下所有第一層資料夾，排除：
 - 以 `.` 開頭的資料夾（`.obsidian/`、`.git/` 等）
 - `_hirameki_cmds/`
-- `## Vault Structure` 中列出的系統資料夾
+- `## Vault Structure` 中列出的系統資料夾子樹（保留同一第一層資料夾內不相關的同層內容）
+
+掃描內容資料夾時，略過隱藏資料夾、`node_modules` 等 dependency／build 資料夾，以及 vault 為 Git repository 時被 Git 忽略的檔案。
 
 若無內容資料夾：改掃描 vault 根目錄下所有 `.md` 檔案。
 
@@ -442,6 +444,15 @@ Wrap 格式：
 ```
 
 同時檢查「未完成與後續」— 若項目已完成，標記完成時間戳。
+
+---
+
+### `/hirameki:decision <決策>`
+
+**用途：** 把會長期約束後續工作的決策提升為有生命週期的獨立節點。
+**寫入：** `{journal}/decisions/YYYY-MM-DD-{slug}.md`。
+
+只有當決策會約束未來工作、存在實質替代方案、有回復成本、避免重複退化，或需要跨 session 保存理由時才提升。記錄決策、證據、替代方案、後果與重新檢視條件，狀態為 `active`、`superseded` 或 `closed`。只連結 journal 與 handoff，不重複它們的敘事。寫入前顯示提升依據、完整草稿、受影響路徑與精確 status 變更，等待確認。
 
 ---
 
@@ -985,19 +996,24 @@ phase: initial
 | `tidy full` | 全部區塊 |
 | `tidy lint` | 僅內容健檢 |
 
-**掃描範圍：** 所有內容資料夾（遞迴）、所有 inbox 檔案、wrap logs（最近 30 天）。
+**掃描範圍：** 所有內容資料夾（遞迴）、所有 inbox 檔案、wrap logs（最近 30 天）。略過隱藏資料夾、`node_modules` 等 dependency／build 資料夾，以及可取得時被 Git 忽略的檔案。
 
 #### 缺漏欄位（tidy / fix / full）
 - 無 frontmatter 的檔案
-- 有 frontmatter 但缺少 `tags` 或 `status`
-- `tags` 是空陣列或空白；`status` 是空白
+- 有 frontmatter 但缺少 `tags`、`status` 或 `source`
+- 必填欄位為空或型別不正確
+
+#### 逐篇 frontmatter review（tidy / fix / full）
+先做輕量偵測。需要處理 frontmatter 的文章為 50 篇以下時，只 review／處理那些文章，不擴張成全 vault review，也不產生全 vault ledger。超過 50 篇才 review 範圍內每一篇，並在報告旁寫出逐篇 CSV ledger。分類為 `pass`、`pass-project-schema`、`auto-fixable`、`requires-judgment` 或 `exclude-candidate`。只有彙總數字不算完成全面 review。
 
 #### 一致性檢查（tidy / fix / full）
 - `status` 不在允許值：`published`、`draft`、`reference`、`outline`、`spec`、`log`、`archive`
-- `source` 不在允許值（若欄位存在）：`self`、`claude-code`、`agent`、`external`
+- `source` 不在允許值（若欄位存在）：`self`、`claude-code`、`codex`、`agent`、`external`
 - tag 大小寫不一致的同義 tag（例：`AI-alignment` vs `ai-alignment`）
 - tag 中的底線 vs 連字號不一致
 - `topic` 與 tag 之間的明顯重複
+
+上述 status／source 是預設語彙，不代表所有專案自訂值都是壞資料。專案語彙優先。`source` 內的 URL 是有效 provenance；可以提出 `source: external` + `source_url` 遷移，但不得自動執行。
 
 #### 冗餘檢查（full 限定）
 - 超過 6 個 tag 的檔案

@@ -39,7 +39,9 @@ If no match: ask user, create folder, print path, write to `<vault>/AGENTS.md`.
 "Content folders" = all top-level vault folders, excluding:
 - Hidden folders starting with `.` (`.obsidian/`, `.git/`, etc.)
 - `_hirameki_cmds/`
-- System folders listed in `## Vault Structure`
+- System-folder subtrees listed in `## Vault Structure` (keep unrelated siblings under the same top-level folder)
+
+Inside content folders, skip hidden directories, dependency/build directories such as `node_modules`, and files ignored by Git when the vault is a Git repository.
 
 If no content folders: scan all `.md` files at vault root directly.
 
@@ -442,6 +444,15 @@ Follow-ups needed. If all complete: "No open items".
 ```
 
 Also check "Open items" — mark completed items with a timestamp.
+
+---
+
+### `/hirameki:decision <decision>`
+
+**Purpose:** Promote a durable decision into a lifecycle-managed node.
+**Writes to:** `{journal}/decisions/YYYY-MM-DD-{slug}.md`.
+
+Promote only when the decision constrains future work, has meaningful alternatives, carries reversal cost, prevents a recurring regression, or needs cross-session rationale. Record the decision, evidence, alternatives, consequences, and revisit trigger with status `active`, `superseded`, or `closed`. Link journal and handoff records instead of duplicating their narrative. Show the promotion evidence, complete draft, affected paths, and exact status changes; wait for confirmation before writing.
 
 ---
 
@@ -985,19 +996,24 @@ Rules: read-only, no file modifications.
 | `tidy full` | All blocks |
 | `tidy lint` | Content health check only |
 
-**Scan scope:** All content folders (recursive), all inbox files, wrap logs (last 30 days).
+**Scan scope:** All content folders (recursive), all inbox files, wrap logs (last 30 days). Skip hidden directories, dependency/build directories such as `node_modules`, and files ignored by Git when available.
 
 #### Missing field check (tidy / fix / full)
 - Files with no frontmatter
-- Files with frontmatter but missing `tags` or `status`
-- `tags` is empty array or blank; `status` is blank
+- Files with frontmatter but missing `tags`, `status`, or `source`
+- Any required field is empty or has the wrong type
+
+#### Per-file frontmatter review (tidy / fix / full)
+Run a lightweight detection pass first. If 50 or fewer files need frontmatter handling, review and process only those files; do not expand to a full-vault review or ledger. More than 50 affected files triggers review of every file in scope and a CSV ledger beside the report, with one row per file. Classify reviewed files as `pass`, `pass-project-schema`, `auto-fixable`, `requires-judgment`, or `exclude-candidate`. A summary count alone is not a completed full review.
 
 #### Consistency check (tidy / fix / full)
 - `status` not in allowed set: `published`, `draft`, `reference`, `outline`, `spec`, `log`, `archive`
-- `source` not in allowed set (if field exists): `self`, `claude-code`, `agent`, `external`
+- `source` not in allowed set (if field exists): `self`, `claude-code`, `codex`, `agent`, `external`
 - Case-inconsistent synonymous tags (e.g., `AI-alignment` vs `ai-alignment`)
 - Underscore vs hyphen inconsistency in tags
 - Obvious duplication between `topic` and `tags`
+
+The listed status/source values are defaults, not proof that every project-specific value is malformed. Project vocabulary takes precedence. A URL in `source` is valid provenance; propose, but do not automatically perform, a `source: external` + `source_url` migration.
 
 #### Redundancy check (full only)
 - Files with more than 6 tags

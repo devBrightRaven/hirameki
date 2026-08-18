@@ -184,6 +184,8 @@ When commands need to scan the user's content folders, the scope is determined a
 Take all top-level folders in the vault root, then exclude:
 - Hidden folders starting with `.` (`.obsidian/`, `.claude/`, `.git/`, `.smart-env/`, etc.)
 - `_hirameki_cmds/`
-- All system folders recorded in `## Vault Structure`
+- The system-folder subtrees recorded in `## Vault Structure`; do not exclude unrelated siblings when a configured path is nested under a top-level folder
+
+When scanning inside content folders, skip hidden directories, dependency/build directories such as `node_modules`, and files ignored by Git when the vault is a Git repository.
 
 Everything remaining is treated as a user content folder. If no content folders remain, scan all `.md` files in the vault root directly.

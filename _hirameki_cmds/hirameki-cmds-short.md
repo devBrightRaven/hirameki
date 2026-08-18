@@ -46,6 +46,10 @@ Work log with reasoning and judgment trajectory: earlier view, evidence, change,
 Input: topic description (required).
 Writes to: `{journal}/YYYY-MM-DD-HHMM-{topic}.md`
 
+### `/hirameki:decision <decision>`
+Promotes only a durable, future-constraining decision into a lifecycle node. Records evidence, alternatives, consequences, and revisit triggers; links journal/handoff rather than duplicating them. Full draft and status changes require confirmation.
+Writes to: `{journal}/decisions/YYYY-MM-DD-{slug}.md`
+
 ### `/hirameki:handoff`
 End-of-session handoff document. Keeps current decisions separate from judgment changes that affect the next session.
 Writes to: `{handoff}/YYYY-MM-DD-{slug}.md`
@@ -142,6 +146,7 @@ First-time setup: detect vault, set language, resolve folders, write `~/.claude/
 | `compose` | research/compose/ | Per step (save/skip) | Each step is a separate file |
 | `wrap` | daily | Always | Appends new Wrap block |
 | `journal` | journal | Always | Same topic appends; different creates new |
+| `decision` | journal/decisions | Always | Promote only after gate; lifecycle active/superseded/closed |
 | `handoff` | handoff | Always | Same date replaces |
 | `arc` | research/arc/ | Always | Same concept appends |
 | `bridge` | research/bridge/ | Always | Same pair appends |

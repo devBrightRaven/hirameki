@@ -64,7 +64,7 @@ Either way, `__init` writes a **split configuration**: your vault's folder struc
 
 ### Codex compatibility
 
-Claude Code remains the command-native surface for Hirameki. The repository also includes a Codex adapter at `codex/skills/hirameki/`: one umbrella `SKILL.md` plus 20 same-name workflow references. Codex users keep the same Hirameki vocabulary (`wrap`, `journal`, `handoff`, `mekiki`, etc.) while avoiding 20 always-visible skill entries.
+Claude Code remains the command-native surface for Hirameki. The repository also includes a Codex adapter at `codex/skills/hirameki/`: one umbrella `SKILL.md` plus 21 same-name workflow references. Codex users keep the same Hirameki vocabulary (`wrap`, `journal`, `decision`, `handoff`, `mekiki`, etc.) while avoiding 21 always-visible skill entries.
 
 The Codex adapter prefers `~/.codex/hirameki-local.md` for per-machine vault settings, with `~/.claude/vault-local.md` as a migration fallback. Claude-specific features are adapted where possible: `__init` writes Codex-local config, and `critique` uses only the reviewers available from a Codex session.
 
@@ -72,7 +72,7 @@ The Codex adapter prefers `~/.codex/hirameki-local.md` for per-machine vault set
 
 ### Commands
 
-20 commands, grouped by how you use them.
+21 commands, grouped by how you use them.
 
 ---
 
@@ -145,6 +145,14 @@ Work log with reasoning. Writes a structured entry covering background, actions,
 Different from `wrap`: wrap records what happened in a session. Journal records why you made a specific decision.
 
 `journal review` (or `journal review N`) scans the `## Corrections` sections of recent journal entries, deduplicates them against your existing rules, and proposes updates to `~/.claude/CLAUDE.md` or `~/.claude/rules/` — applied only on your confirmation. It is the one command that writes outside the vault.
+
+---
+
+**`/hirameki:decision [decision]`**
+
+*Use when: a decision should constrain future work and its rationale must remain visible across sessions.*
+
+Promotes only durable decisions into `{journal}/decisions/`. A node records the current decision, evidence, alternatives, consequences, and revisit trigger with lifecycle status `active`, `superseded`, or `closed`. It links to journal and handoff records instead of duplicating them, and shows the complete draft before any write.
 
 ---
 
@@ -302,7 +310,7 @@ When you're visibly weighing a decision ("should I…", "which option…"), the 
 
 Hirameki is built as explicit commands rather than an autonomous background agent. Two reasons:
 
-**Safety.** Every command that writes a file shows you the full content and target path before anything happens. Read-only commands (`pulse`, `tasks`, `next`) produce output you can act on or discard — they never touch your vault unless you explicitly ask. Write commands (`wrap`, `journal`, `handoff`) require confirmation at the point of writing. `tidy fix` separates what it can safely automate from what needs your judgment.
+**Safety.** Every command that writes a file shows you the full content and target path before anything happens. Read-only commands (`pulse`, `tasks`, `next`) produce output you can act on or discard — they never touch your vault unless you explicitly ask. Write commands (`wrap`, `journal`, `decision`, `handoff`) require confirmation at the point of writing. `tidy fix` separates what it can safely automate from what needs your judgment.
 
 > **Limitation**: these safety behaviors are instructions written into each command prompt — not hard-coded enforcement. Claude follows them reliably in practice, but there is no programmatic gate that makes confirmation technically impossible to skip. This is a current constraint of how Claude Code commands work, not something Hirameki can resolve on its own.
 
@@ -419,7 +427,7 @@ claude   # 任何地方
 
 ### Codex 相容層
 
-Claude Code 仍然是 Hirameki 的原生指令入口。repo 另外提供 Codex adapter：`codex/skills/hirameki/`。這是一個 umbrella `SKILL.md` 加上 20 個同名 workflow reference，讓 Codex 使用者可以沿用 `wrap`、`journal`、`handoff`、`mekiki` 等原本語彙，同時避免 20 個 skill metadata 常駐。
+Claude Code 仍然是 Hirameki 的原生指令入口。repo 另外提供 Codex adapter：`codex/skills/hirameki/`。這是一個 umbrella `SKILL.md` 加上 21 個同名 workflow reference，讓 Codex 使用者可以沿用 `wrap`、`journal`、`decision`、`handoff`、`mekiki` 等原本語彙，同時避免 21 個 skill metadata 常駐。
 
 Codex adapter 優先讀 `~/.codex/hirameki-local.md` 作為 per-machine vault 設定；為了遷移方便，也會 fallback 到 `~/.claude/vault-local.md`。Claude 專用功能會在 Codex 端盡量適配：`__init` 寫 Codex-local config，`critique` 則只使用 Codex session 裡實際可用的 reviewer。
 
@@ -427,7 +435,7 @@ Codex adapter 優先讀 `~/.codex/hirameki-local.md` 作為 per-machine vault �
 
 ### 指令說明
 
-20 個指令，依照使用方式分組。
+21 個指令，依照使用方式分組。
 
 ---
 
@@ -500,6 +508,14 @@ Session 結束整合。依序執行 wrap → journal → handoff 三步。每步
 與 `wrap` 的差別：wrap 記錄一個 session 發生了什麼。journal 記錄你為什麼做某個特定決定。
 
 `journal review`（或 `journal review N`）會掃描近期 journal 的 `## Corrections` 段落，與你既有的規則去重，然後提議更新 `~/.claude/CLAUDE.md` 或 `~/.claude/rules/` — 只在你確認後才套用。它是唯一一個會寫到 vault 外的指令。
+
+---
+
+**`/hirameki:decision [決策]`**
+
+*適用情境：某項決策會約束後續工作，而且理由需要跨 session 保持可見。*
+
+只把達到門檻的長期決策提升到 `{journal}/decisions/`。節點記錄目前決策、證據、替代方案、後果與重新檢視條件，狀態為 `active`、`superseded` 或 `closed`。它連結 journal 與 handoff，不重複內容；任何寫入前都會顯示完整草稿。
 
 ---
 
@@ -657,7 +673,7 @@ Frontmatter 與內容健檢。五種模式：
 
 Hirameki 設計為明確的指令，而不是自主在背景運作的 Agent。兩個原因：
 
-**安全性。** 所有寫入檔案的指令在執行前都會顯示完整內容和目標路徑。唯讀指令（`pulse`、`tasks`、`next`）產出的結果你可以採用或忽略 — 沒有你的明確要求，它們不會動你的 vault。寫入指令（`wrap`、`journal`、`handoff`）在寫入時需要確認。`tidy fix` 把可以安全自動化的部分與需要你判斷的部分分開處理。
+**安全性。** 所有寫入檔案的指令在執行前都會顯示完整內容和目標路徑。唯讀指令（`pulse`、`tasks`、`next`）產出的結果你可以採用或忽略 — 沒有你的明確要求，它們不會動你的 vault。寫入指令（`wrap`、`journal`、`decision`、`handoff`）在寫入時需要確認。`tidy fix` 把可以安全自動化的部分與需要你判斷的部分分開處理。
 
 > **限制**：這些安全行為是寫入每個指令 prompt 中的規則 — 不是程式碼層面的強制機制。Claude 在實際執行時會遵守，但沒有任何程式閘道能從技術上確保確認步驟不可跳過。這是 Claude Code 指令系統目前的限制，不是 Hirameki 能自行解決的問題。
 
@@ -774,7 +790,7 @@ claude   # どこからでも
 
 ### コマンド説明
 
-20 のコマンド、使い方でグループ化。
+21 のコマンド、使い方でグループ化。
 
 ---
 
@@ -847,6 +863,14 @@ claude   # どこからでも
 `wrap` との違い：wrap はセッションで何が起きたかを記録。journal は特定の決断をなぜ下したかを記録。
 
 `journal review`（または `journal review N`）は、最近の journal の `## Corrections` セクションをスキャンし、既存のルールと重複を除去したうえで、`~/.claude/CLAUDE.md` または `~/.claude/rules/` への更新を提案する — 適用はあなたの確認後のみ。vault の外に書き込む唯一のコマンド。
+
+---
+
+**`/hirameki:decision [決定]`**
+
+*使う場面：決定が将来の作業を拘束し、その理由をセッションをまたいで残す必要があるとき。*
+
+昇格条件を満たす永続的な決定だけを `{journal}/decisions/` に保存する。ノードは現在の決定、証拠、代替案、結果、再検討条件を記録し、状態は `active`、`superseded`、`closed`。journal と handoff は重複せずリンクし、書き込み前に完全なドラフトを表示する。
 
 ---
 
@@ -1004,7 +1028,7 @@ wrap log と journal から次のアクションを集約。デフォルトは�
 
 Hirameki は、バックグラウンドで自律的に動くエージェントではなく、明示的なコマンドとして設計されています。理由は 2 つです。
 
-**安全性。** ファイルを書き込むすべてのコマンドは、実行前に完全な内容と書き込み先パスを表示します。読み取り専用のコマンド（`pulse`・`tasks`・`next`）は採用しても無視してもいい出力を生成するだけで、明示的な要求なしには vault に触れません。書き込みコマンド（`wrap`・`journal`・`handoff`）は書き込み時に確認を求めます。`tidy fix` は安全に自動化できる部分と、あなたの判断が必要な部分を分けて処理します。
+**安全性。** ファイルを書き込むすべてのコマンドは、実行前に完全な内容と書き込み先パスを表示します。読み取り専用のコマンド（`pulse`・`tasks`・`next`）は採用しても無視してもいい出力を生成するだけで、明示的な要求なしには vault に触れません。書き込みコマンド（`wrap`・`journal`・`decision`・`handoff`）は書き込み時に確認を求めます。`tidy fix` は安全に自動化できる部分と、あなたの判断が必要な部分を分けて処理します。
 
 > **制限**：これらの安全動作は各コマンドのプロンプトに書かれた指示であり、コードレベルの強制機構ではありません。Claude は実際の動作でこれを守りますが、確認ステップを技術的にスキップ不可能にするプログラムのゲートは存在しません。これは Claude Code のコマンドシステム現在の制約であり、Hirameki 単独では解決できない問題です。
 

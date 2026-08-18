@@ -12,13 +12,14 @@ EXPECTED_REFERENCES = {f"{name}.md" for name in REQUIRED_CONTENT}
 PLATFORM_DIVERGENT_REFERENCES = {
     "__init.md",
     "critique.md",
+    "decision.md",
     "handoff.md",
     "journal.md",
     "mekiki.md",
     "pulse.md",
     "triage.md",
 }
-ADAPTER_RESOLVED_REFERENCES = {"handoff.md", "journal.md", "mekiki.md", "pulse.md", "triage.md"}
+ADAPTER_RESOLVED_REFERENCES = {"decision.md", "handoff.md", "journal.md", "mekiki.md", "pulse.md", "triage.md"}
 EXPECTED_REFERENCE_ASSETS = {
     "hirameki-cmds-full-ja.md",
     "hirameki-cmds-full-zh-TW.md",
@@ -201,6 +202,23 @@ def test_judgment_trajectory_contract() -> None:
     assert "resolve vault configuration through the umbrella hirameki adapter" in codex_handoff
 
 
+def test_decision_history_contract() -> None:
+    for root in (COMMANDS, SKILL / "references"):
+        decision = (root / "decision.md").read_text(encoding="utf-8")
+        for phrase in (
+            "Promotion gate",
+            "status: active",
+            "superseded",
+            "closed",
+            "Alternatives considered",
+            "Revisit when",
+            "Do not copy their narrative",
+            "Show the complete new or appended content",
+            "Wait for explicit confirmation",
+        ):
+            assert phrase in decision, f"{root}/decision.md lost contract: {phrase}"
+
+
 def test_codex_references_satisfy_command_spec() -> None:
     for name in EXPECTED_REFERENCES:
         if name in {"__init.md", "critique.md"}:
@@ -225,6 +243,26 @@ def test_codex_references_satisfy_command_spec() -> None:
         assert not errors, f"{name}: {'; '.join(errors)}"
 
 
+def test_tidy_accepts_codex_source_and_skips_generated_content() -> None:
+    for path in (COMMANDS / "tidy.md", SKILL / "references" / "tidy.md"):
+        content = path.read_text(encoding="utf-8")
+        assert "self, claude-code, codex, agent, external" in content
+        assert "node_modules" in content
+        assert "ignored by Git" in content
+        assert "full review of every file in scope" in content
+        assert "CSV ledger" in content
+        assert "pass-project-schema" in content
+        assert "missing required fields (required: tags, status, source)" in content
+        assert "50 or fewer" in content
+        assert "more than 50" in content
+        assert "lightweight detection pass" in content
+
+    for path in (COMMANDS / "__init.md", SKILL / "references" / "__init.md"):
+        content = path.read_text(encoding="utf-8")
+        assert "system-folder subtrees" in content
+        assert "unrelated siblings" in content
+
+
 if __name__ == "__main__":
     test_codex_skill_shape()
     test_codex_references_are_expected_set()
@@ -235,4 +273,5 @@ if __name__ == "__main__":
     test_codex_vault_resolution_has_one_layout_source()
     test_judgment_trajectory_contract()
     test_codex_references_satisfy_command_spec()
+    test_tidy_accepts_codex_source_and_skips_generated_content()
     print("Codex Hirameki skill adapter validation passed")
