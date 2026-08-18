@@ -9,7 +9,7 @@ Use in Claude Code CLI. All commands start with `/hirameki:`.
 Start here — each orchestrator bundles related primitives into a single guided flow. The individual primitives remain available for standalone use.
 
 ### `/hirameki:triage`
-End-of-session bundle: wrap → journal → handoff in sequence. Shows a full draft for each step; you choose save / skip / edit before moving on.
+End-of-session bundle: wrap → journal → handoff in sequence. Shows a full draft for each step; choose save this / save all / skip / edit. `save all` batch-approves the remaining drafts.
 No arguments. Run when wrapping up a session.
 
 ### `/hirameki:lens <concept>`
@@ -141,7 +141,7 @@ First-time setup: detect vault, set language, resolve folders, write `~/.claude/
 
 | Command | Writes to | Trigger | Same-day repeat |
 |---------|-----------|---------|-----------------|
-| `triage` | daily + journal + handoff | Per step (save/skip) | Follows each primitive's behavior |
+| `triage` | daily + journal + handoff | Per step (save this/save all/skip) | `save all` batch-approves remaining drafts |
 | `lens` | research/lens/ | Per step (save/skip) | Each step is a separate file |
 | `compose` | research/compose/ | Per step (save/skip) | Each step is a separate file |
 | `wrap` | daily | Always | Appends new Wrap block |

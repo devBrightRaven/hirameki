@@ -9,7 +9,7 @@ Claude Code CLI で使用します。すべてのコマンドは `/hirameki:` �
 ここから始めましょう — 各 orchestrator は関連するプリミティブを一つのガイド付きフローにまとめます。個々のプリミティブは単独でも引き続き使用できます。
 
 ### `/hirameki:triage`
-セッション終了バンドル：wrap → journal → handoff を順番に実行。各ステップで完全なドラフトを表示し、save / skip / edit を選択してから次へ進みます。
+セッション終了バンドル：wrap → journal → handoff を順番に実行。各ステップで完全なドラフトを表示し、save this / save all / skip / edit を選択。`save all` は残りを一括承認します。
 引数なし。セッション終了時に実行。
 
 ### `/hirameki:lens <概念>`
@@ -139,7 +139,7 @@ wrap logs と journal から次のアクションを集約。重複除去して�
 
 | コマンド | 書き込み先 | トリガー | 同日重複 |
 |----------|-----------|---------|---------|
-| `triage` | daily + journal + handoff | ステップごと（save/skip） | 各サブフローはプリミティブの動作に従う |
+| `triage` | daily + journal + handoff | ステップごと（save this/save all/skip） | `save all` は残りを一括承認 |
 | `lens` | research/lens/ | ステップごと（save/skip） | 各ステップで独立したファイル |
 | `compose` | research/compose/ | ステップごと（save/skip） | 各ステップで独立したファイル |
 | `wrap` | daily | 常時 | 新しい Wrap ブロックを追記 |

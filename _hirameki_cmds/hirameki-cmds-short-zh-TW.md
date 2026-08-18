@@ -9,7 +9,7 @@
 從這裡開始 — 每個 orchestrator 把相關的基礎指令整合成一個引導式流程。各基礎指令仍可單獨呼叫。
 
 ### `/hirameki:triage`
-Session 結束整合：依序執行 wrap → journal → handoff。每步顯示完整草稿，選擇 save / skip / edit 後繼續。
+Session 結束整合：依序執行 wrap → journal → handoff。每步顯示完整草稿，可選 save this / save all / skip / edit；`save all` 一次核准剩餘草稿。
 無參數。Session 結尾時執行。
 
 ### `/hirameki:lens <概念>`
@@ -139,7 +139,7 @@ Frontmatter 屬性健檢。預設只跑缺漏 + 一致性（輕量）。
 
 | 指令 | 寫入位置 | 觸發條件 | 同天重複 |
 |------|----------|----------|----------|
-| `triage` | daily + journal + handoff | 逐步（save/skip） | 各 sub-flow 沿用對應基礎指令的行為 |
+| `triage` | daily + journal + handoff | 逐步（save this/save all/skip） | `save all` 一次核准剩餘草稿 |
 | `lens` | research/lens/ | 逐步（save/skip） | 每步各自建檔 |
 | `compose` | research/compose/ | 逐步（save/skip） | 每步各自建檔 |
 | `wrap` | daily | 總是 | 追加新 Wrap 區塊 |

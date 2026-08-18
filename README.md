@@ -84,7 +84,7 @@ Guided flows that bundle related primitives into a single interactive sequence. 
 
 *Use when: you're wrapping up a session and want to capture everything in one go.*
 
-End-of-session bundle. Walks through wrap → journal → handoff in sequence. Each step shows a full draft with save / skip / edit before the next begins. Shares a single session-state scan across all three sub-flows. Run once at session end. No arguments.
+End-of-session bundle. Walks through wrap → journal → handoff in sequence. Each step shows a full draft with save this / save all / skip / edit. `save all` approves the current and remaining drafts without repeated prompts. Shares a single session-state scan across all three sub-flows. Run once at session end. No arguments.
 
 ---
 
@@ -447,7 +447,7 @@ Codex adapter 優先讀 `~/.codex/hirameki-local.md` 作為 per-machine vault �
 
 *適合：session 即將結束，想一次完成所有記錄工作時。*
 
-Session 結束整合。依序執行 wrap → journal → handoff 三步。每步顯示完整草稿，選擇 save / skip / edit 後才進入下一步。三個子流程共用同一次 session 狀態掃描。Session 結尾時執行，不需要任何參數。
+Session 結束整合。依序執行 wrap → journal → handoff 三步。每步顯示完整草稿，可選 save this / save all / skip / edit；`save all` 會一次核准目前與剩餘草稿，不再重複詢問。三個子流程共用同一次 session 狀態掃描。Session 結尾時執行，不需要任何參數。
 
 ---
 
@@ -802,7 +802,7 @@ claude   # どこからでも
 
 *使うとき：セッションを終了する段階で、すべての記録を一気にまとめたいとき。*
 
-セッション終了バンドル。wrap → journal → handoff を順番に実行。各ステップで完全なドラフトを表示し、save / skip / edit を選択してから次へ進む。3 つのサブフローで一度のセッション状態スキャンを共有。セッション終了時に実行。引数なし。
+セッション終了バンドル。wrap → journal → handoff を順番に実行。各ステップで完全なドラフトを表示し、save this / save all / skip / edit を選択。`save all` は現在と残りのドラフトを一括承認し、確認を繰り返さない。3 つのサブフローで一度のセッション状態スキャンを共有。セッション終了時に実行。引数なし。
 
 ---
 

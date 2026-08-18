@@ -45,7 +45,7 @@ REQUIRED_CONTENT: dict[str, list[str]] = {
     ],
     "triage": [
         "wrap", "journal", "handoff",  # the three sub-flows
-        "save", "skip",  # action prompts
+        "save this", "save all", "skip",  # action prompts
     ],
     "lens": [
         "arc", "bridge", "challenge",  # three of four sub-flows
@@ -167,12 +167,13 @@ UNIVERSAL_REQUIRED: list[tuple[str, str]] = [
 # Different v1.2.0 commands use different phrasings of the same safety contract:
 # - wrap/journal/handoff use literal "confirm" prompts
 # - bridge/frame/reflect/harvest use "do not write unless the user asks/saves"
-# - triage/lens/compose use "save / skip" per step
+# - triage uses "save this / save all / skip"; lens/compose use "save / skip" per step
 # All are valid expressions of "ask before writing".
 WRITE_SAFETY: list[tuple[list[str], str]] = [
     (
         [
             "confirm",
+            "save this / save all",
             "save / skip", "save/skip", "save, skip",
             "unless the user",
             "ask:",

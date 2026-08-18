@@ -68,29 +68,31 @@ All three sub-flows draw from this shared state.
 Runs wrap logic (see `/hirameki:wrap` spec). Shows full draft and write target. Then:
 
 ```
-[1/3] Wrap — Action? (save / skip / edit)
+[1/3] Wrap — Action? (save this / save all / skip / edit)
 ```
 
-- `save` → write to `{daily}/YYYY-MM-DD.md`, proceed to [2/3]
+- `save this` → write only this draft to `{daily}/YYYY-MM-DD.md`, proceed to [2/3]
+- `save all` → write this draft and batch-approve the remaining drafts; still show each full draft and path before writing, but do not pause again
 - `skip` → skip write, proceed to [2/3]
-- `edit` → ask "Edit which part?" → adjust draft → show updated draft → save/skip
+- `edit` → ask "Edit which part?" → adjust draft → show updated draft → ask the same action menu
+- Legacy `save` is an alias for `save this`
 
 #### [2/3] Journal
 
 Runs journal logic (see `/hirameki:journal` spec), inferring topic from session activity. Shows full draft and write target. Then:
 
 ```
-[2/3] Journal — Action? (save / skip / edit)
+[2/3] Journal — Action? (save this / save all / skip / edit)
 ```
 
-Same save/skip/edit pattern. Proceeds to [3/3] regardless of choice.
+Same action model. Proceeds to [3/3] regardless of choice.
 
 #### [3/3] Handoff
 
 Runs handoff logic (see `/hirameki:handoff` spec). Shows full draft and write target. Then:
 
 ```
-[3/3] Handoff — Action? (save / skip / edit)
+[3/3] Handoff — Action? (save this / save all / skip / edit)
 ```
 
 After this step, show completion summary:
@@ -101,6 +103,7 @@ Triage done: wrap ✓ / journal – / handoff ✓
 
 **Rules:**
 - Always show full draft for each step — never auto-skip based on content length
+- An active `save all` is approval for every remaining triage draft; show each draft and path, then write without another prompt
 - Skip does not interrupt the flow; always proceed to the next sub-flow
 - Each sub-flow's write logic (same-day append vs. create) follows its primitive's rules
 

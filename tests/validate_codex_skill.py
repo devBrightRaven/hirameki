@@ -219,6 +219,19 @@ def test_decision_history_contract() -> None:
             assert phrase in decision, f"{root}/decision.md lost contract: {phrase}"
 
 
+def test_triage_batch_save_contract() -> None:
+    for root in (COMMANDS, SKILL / "references"):
+        triage = (root / "triage.md").read_text(encoding="utf-8")
+        for phrase in (
+            "save this / save all / skip / edit",
+            "grants batch approval for every remaining triage draft",
+            "show the full draft and target path",
+            "without another `Action?` pause",
+            "legacy `save` as an alias for `save this`",
+        ):
+            assert phrase in triage, f"{root}/triage.md lost batch-save contract: {phrase}"
+
+
 def test_codex_references_satisfy_command_spec() -> None:
     for name in EXPECTED_REFERENCES:
         if name in {"__init.md", "critique.md"}:
@@ -272,6 +285,7 @@ if __name__ == "__main__":
     test_codex_platform_adapters_exclude_claude_runtime_assumptions()
     test_codex_vault_resolution_has_one_layout_source()
     test_judgment_trajectory_contract()
+    test_triage_batch_save_contract()
     test_codex_references_satisfy_command_spec()
     test_tidy_accepts_codex_source_and_skips_generated_content()
     print("Codex Hirameki skill adapter validation passed")

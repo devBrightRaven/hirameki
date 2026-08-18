@@ -9,6 +9,16 @@ If the section does not exist or required fields are missing, stop and respond: 
 
 Input: $ARGUMENTS — ignored. Triage takes no arguments.
 
+## Action model
+
+Every sub-flow uses `save this / save all / skip / edit`.
+
+- `save this` writes only the current draft, prints its path, and continues to the next sub-flow.
+- `save all` writes the current draft and grants batch approval for every remaining triage draft. For each remaining sub-flow, still show the full draft and target path, then write it without another `Action?` pause and print the path.
+- `skip` does not write the current draft and continues to the next sub-flow.
+- `edit` takes inline edits, shows the full revised draft, then asks the same action menu again.
+- Accept legacy `save` as an alias for `save this`.
+
 ---
 
 ## Step 0 — Collect session state (shared)
@@ -61,12 +71,10 @@ Write target: `{daily}/YYYY-MM-DD.md`
 Show the full draft and the target path. Then ask:
 
 ```
-[1/3] Wrap — Action? (save / skip / edit)
+[1/3] Wrap — Action? (save this / save all / skip / edit)
 ```
 
-- `save` → write immediately, print path, proceed to sub-flow 2
-- `skip` → do not write, proceed to sub-flow 2
-- `edit` → take inline edits, show revised draft, confirm, then proceed
+Apply the action model above, then proceed to sub-flow 2.
 
 ---
 
@@ -133,12 +141,10 @@ Unexplored directions or risks. If none: "None."
 Show the full draft and the target path. Then ask:
 
 ```
-[2/3] Journal — Action? (save / skip / edit)
+[2/3] Journal — Action? (save this / save all / skip / edit)
 ```
 
-- `save` → write immediately, print path, proceed to sub-flow 3
-- `skip` → do not write, proceed to sub-flow 3
-- `edit` → take inline edits, show revised draft, confirm, then proceed
+Apply the action model above, then proceed to sub-flow 3.
 
 ---
 
@@ -240,12 +246,10 @@ Write target: `{vault}/{handoff}/YYYY-MM-DD-{slug}.md`
 Show the full draft and the target path. Then ask:
 
 ```
-[3/3] Handoff — Action? (save / skip / edit)
+[3/3] Handoff — Action? (save this / save all / skip / edit)
 ```
 
-- `save` → write immediately, print path
-- `skip` → do not write
-- `edit` → take inline edits, show revised draft, confirm, then write
+Apply the action model above. At the final step, `save all` is equivalent to `save this` because no sub-flow remains.
 
 ---
 
@@ -261,8 +265,8 @@ Triage done: wrap {✓ saved | – skipped} / journal {✓ saved | – skipped} 
 
 ## Rules
 
-- Never write any file without confirmation at the `Action?` prompt
-- Show the FULL draft content — not a summary — before each prompt
+- Never write a file without `save this`, `save all`, or legacy `save` approval. An active `save all` is confirmation for the remaining triage drafts.
+- Show the FULL draft content and target path before every write. With active `save all`, show each remaining draft and write it without another `Action?` pause.
 - Do not skip any sub-flow automatically, even if content seems sparse; always show the draft and let the user decide
 - Do not accept $ARGUMENTS input — triage always runs all three sub-flows
 - Timestamps use local time in HH:MM format (24-hour)

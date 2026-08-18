@@ -68,29 +68,31 @@
 wrap のロジックを実行（`/hirameki:wrap` 仕様参照）。完全なドラフトと書き込み先を表示。次に：
 
 ```
-[1/3] Wrap — Action? (save / skip / edit)
+[1/3] Wrap — Action? (save this / save all / skip / edit)
 ```
 
-- `save` → `{daily}/YYYY-MM-DD.md` に書き込み、[2/3] へ
+- `save this` → 現在のドラフトだけを `{daily}/YYYY-MM-DD.md` に書き込み、[2/3] へ
+- `save all` → 現在のドラフトを書き込み、残りを一括承認。各ドラフト全文とパスは表示するが、再度停止して確認しない
 - `skip` → 書き込まず、[2/3] へ
-- `edit` → 「どの部分を修正しますか？」と確認 → ドラフト調整 → 更新されたドラフトを表示 → save/skip
+- `edit` → 「どの部分を修正しますか？」と確認 → ドラフト調整 → 更新されたドラフトを表示 → 同じ action メニューを再表示
+- 旧 `save` は `save this` のエイリアス
 
 #### [2/3] Journal
 
 journal のロジックを実行（`/hirameki:journal` 仕様参照）。セッション活動からトピックを推定。完全なドラフトと書き込み先を表示。次に：
 
 ```
-[2/3] Journal — Action? (save / skip / edit)
+[2/3] Journal — Action? (save this / save all / skip / edit)
 ```
 
-同じ save/skip/edit パターン。選択に関わらず [3/3] へ進む。
+同じ action model を使用。選択に関わらず [3/3] へ進む。
 
 #### [3/3] Handoff
 
 handoff のロジックを実行（`/hirameki:handoff` 仕様参照）。完全なドラフトと書き込み先を表示。次に：
 
 ```
-[3/3] Handoff — Action? (save / skip / edit)
+[3/3] Handoff — Action? (save this / save all / skip / edit)
 ```
 
 完了後、完了サマリーを表示：
@@ -101,6 +103,7 @@ Triage 完了：wrap ✓ / journal – / handoff ✓
 
 **ルール：**
 - 各ステップで常に完全なドラフトを表示 — コンテンツの量で自動スキップしない
+- `save all` が有効な場合、残りの triage ドラフトは承認済み。各ドラフトとパスを表示して書き込み、再確認しない
 - skip はフローを中断しない。常に次のサブフローへ進む
 - 各サブフローの書き込みロジック（同日追記 vs. 新規作成）はそのプリミティブのルールに従う
 

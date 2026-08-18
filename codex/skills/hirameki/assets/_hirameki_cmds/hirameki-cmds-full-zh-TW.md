@@ -68,29 +68,31 @@
 執行 wrap 邏輯（見 `/hirameki:wrap` 規格）。顯示完整草稿和寫入路徑。然後：
 
 ```
-[1/3] Wrap — Action? (save / skip / edit)
+[1/3] Wrap — Action? (save this / save all / skip / edit)
 ```
 
-- `save` → 寫入 `{daily}/YYYY-MM-DD.md`，進入 [2/3]
+- `save this` → 只將目前草稿寫入 `{daily}/YYYY-MM-DD.md`，進入 [2/3]
+- `save all` → 寫入目前草稿並一次核准剩餘草稿；每份仍顯示完整內容與路徑，但不再停下詢問
 - `skip` → 不寫入，進入 [2/3]
-- `edit` → 問「要修改哪個部分？」→ 調整草稿 → 顯示更新後草稿 → save/skip
+- `edit` → 問「要修改哪個部分？」→ 調整草稿 → 顯示更新後草稿 → 再顯示同一組 action 選項
+- 舊的 `save` 視為 `save this`
 
 #### [2/3] Journal
 
 執行 journal 邏輯（見 `/hirameki:journal` 規格），從 session 活動推斷主題。顯示完整草稿和寫入路徑。然後：
 
 ```
-[2/3] Journal — Action? (save / skip / edit)
+[2/3] Journal — Action? (save this / save all / skip / edit)
 ```
 
-同樣的 save/skip/edit 模式。無論選擇，都進入 [3/3]。
+沿用同一套 action model。無論選擇，都進入 [3/3]。
 
 #### [3/3] Handoff
 
 執行 handoff 邏輯（見 `/hirameki:handoff` 規格）。顯示完整草稿和寫入路徑。然後：
 
 ```
-[3/3] Handoff — Action? (save / skip / edit)
+[3/3] Handoff — Action? (save this / save all / skip / edit)
 ```
 
 完成後顯示摘要：
@@ -101,6 +103,7 @@ Triage 完成：wrap ✓ / journal – / handoff ✓
 
 **規則：**
 - 每步都必須顯示完整草稿 — 不因內容多寡自動跳過
+- `save all` 生效後視為已核准所有剩餘 triage 草稿；顯示每份草稿與路徑後直接寫入，不再重複詢問
 - skip 不中斷流程，永遠繼續下一個 sub-flow
 - 各 sub-flow 的寫入邏輯（同天追加 vs. 建新檔）沿用對應基礎指令的規則
 
