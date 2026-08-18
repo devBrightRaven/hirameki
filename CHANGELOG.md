@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.6.0] — 2026-08-18
+
+### Features
+
+- add decision lifecycle and stronger vault review (2168000)
+
 ## [1.5.1] — 2026-08-11
 
 ### Bug Fixes
