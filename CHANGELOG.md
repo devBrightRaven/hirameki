@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.6.1] — 2026-08-18
+
+### Bug Fixes
+
+- add batch save to triage (c566c36)
+
 ## [1.6.0] — 2026-08-18
 
 ### Features
