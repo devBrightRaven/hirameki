@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.6.2] — 2026-08-23
+
+### Bug Fixes
+
+- make `save this / skip / edit` the explicit decision write actions; workflow command names no longer authorize writes
+
 ## [1.6.1] — 2026-08-18
 
 ### Bug Fixes

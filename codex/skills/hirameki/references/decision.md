@@ -35,6 +35,21 @@ Search `{journal}/decisions/`, related journal notes, and handoffs for the same 
 
 Never silently overwrite the decision, rationale, alternatives, or earlier evidence.
 
+## Confirmation action model
+
+After showing the promotion evidence, affected paths, and complete draft, ask:
+
+```
+Action? (save this / skip / edit)
+```
+
+- `save this` applies only the shown decision changes and prints every written path.
+- `skip` stops without writing.
+- `edit` applies the user's requested draft changes, shows the complete revised draft and affected paths, then asks the same action menu again.
+- Accept legacy `save` as an alias for `save this`.
+- `decision`, `/decision`, and `hirameki:decision` select this workflow; they are not save actions and never authorize a write.
+- A `save all` approval from a separate workflow such as triage does not carry into decision.
+
 ## Decision node
 
 ```markdown
@@ -85,8 +100,8 @@ Before any create, append, status change, or folder creation:
 1. Show the promotion-gate evidence.
 2. Show every affected full path.
 3. Show the complete new or appended content and any exact frontmatter status change.
-4. Wait for explicit confirmation.
+4. Ask `Action? (save this / skip / edit)` and wait for one of those actions.
 
-After confirmation, create `{journal}/decisions/` if required, apply only the shown edits, then print every written full path. Do not move, delete, publish, or sync notes.
+After `save this` or legacy `save`, create `{journal}/decisions/` if required, apply only the shown edits, then print every written full path. Do not move, delete, publish, or sync notes.
 
 Write output in the language specified in `## Vault Structure` → `language`.

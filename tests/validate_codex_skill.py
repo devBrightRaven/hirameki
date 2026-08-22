@@ -214,7 +214,10 @@ def test_decision_history_contract() -> None:
             "Revisit when",
             "Do not copy their narrative",
             "Show the complete new or appended content",
-            "Wait for explicit confirmation",
+            "Action? (save this / skip / edit)",
+            "legacy `save` as an alias for `save this`",
+            "they are not save actions and never authorize a write",
+            "does not carry into decision",
         ):
             assert phrase in decision, f"{root}/decision.md lost contract: {phrase}"
 
