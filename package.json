@@ -2,6 +2,9 @@
   "name": "hirameki",
   "version": "1.6.2",
   "description": "Obsidian vault knowledge management commands for Claude Code",
+  "scripts": {
+    "test": "python -X utf8 tests/validate_commands.py && python -X utf8 tests/smoke_hirameki_workflows.py && node tests/test_open_handoff.mjs && python -X utf8 tests/validate_codex_skill.py"
+  },
   "keywords": [
     "claude-code",
     "obsidian",
