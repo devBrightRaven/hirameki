@@ -4,7 +4,7 @@
   "versionFile": ".claude-plugin/plugin.json",
   "versionField": "version",
   "test": "python -X utf8 tests/validate_commands.py && python -X utf8 tests/smoke_hirameki_workflows.py && node tests/test_open_handoff.mjs",
-  "verify": "python -X utf8 tests/validate_codex_skill.py",
+  "verify": "python -X utf8 tests/validate_codex_skill.py && python -X utf8 tests/validate_release_contract.py",
   "changelogFile": "CHANGELOG.md",
   "readmeSync": [
     { "file": "codex/.codex-plugin/plugin.json", "pattern": "\"version\": \"{VERSION}\"" },

@@ -6,11 +6,19 @@ on:
       - "commands/**"
       - "codex/**"
       - "tests/**"
+      - ".release.json"
+      - "package.json"
+      - "VALIDATION.md"
+      - ".github/workflows/validate.yml"
   pull_request:
     paths:
       - "commands/**"
       - "codex/**"
       - "tests/**"
+      - ".release.json"
+      - "package.json"
+      - "VALIDATION.md"
+      - ".github/workflows/validate.yml"
 
 jobs:
   validate:
@@ -22,11 +30,12 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Validate command files
-        run: python tests/validate_commands.py
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
 
-      - name: Validate Codex skill adapter
-        run: python tests/validate_codex_skill.py
+      - name: Validate release test-chain parity
+        run: python -X utf8 tests/validate_release_contract.py
 
-      - name: Smoke test Hirameki workflows
-        run: python tests/smoke_hirameki_workflows.py
+      - name: Run full validation battery
+        run: npm test -- --run
