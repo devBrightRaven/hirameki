@@ -239,6 +239,11 @@ def test_decision_trace_contract() -> None:
     assert "references/decision.md" not in router
     assert "/decision-trace" in router
     assert "references/decision-trace.md" in router
+    assert re.search(
+        r"decision-trace.*?accepts only `decision-trace`, `/decision-trace`, and `hirameki:decision-trace`",
+        router,
+        re.IGNORECASE | re.DOTALL,
+    ), "Codex router must reject `hirameki decision-trace` as an explicit invocation"
 
 
 def test_triage_batch_save_contract() -> None:
