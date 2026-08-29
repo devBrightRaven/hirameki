@@ -30,7 +30,9 @@ For `__init`, keep Claude's folder resolution behavior exactly:
 
 ## Command Routing
 
-Map the user's command name to the same-named reference. Accept forms such as `/wrap`, `wrap`, `hirameki wrap`, and `hirameki:wrap`.
+Map the user's command name to the same-named reference. `decision-trace` accepts only `decision-trace`, `/decision-trace`, and `hirameki:decision-trace`.
+For every other workflow, accept forms such as `/wrap`, `wrap`, `hirameki wrap`,
+and `hirameki:wrap`.
 
 | User intent | Load |
 |---|---|
