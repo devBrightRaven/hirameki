@@ -5,7 +5,7 @@ description: >
   Use when the user wants a position stress-tested, or says
   "幫我挑毛病", "這說法站得住嗎", "反駁我", "有什麼漏洞",
   "poke holes in this", "what am I missing", "argue against this", "is this defensible".
-  Not for questioning a plan or offer interactively (grill-me), not for a choice (decide).
+  Not for questioning a plan or offer interactively (grill-me), not for a choice (decision-trace).
 argument-hint: "<argument or topic>"
 ---
 

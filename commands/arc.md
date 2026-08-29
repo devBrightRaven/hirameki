@@ -7,7 +7,7 @@ description: >
   "這個想法怎麼來的", "我以前怎麼想", "這概念演變", "什麼時候開始的",
   "how did I get here", "when did I start thinking this", "trace this idea".
   Not for connecting two topics (bridge), attacking an argument (challenge),
-  or a pending choice (decide).
+  or a pending choice (decision-trace).
 argument-hint: "<concept>"
 ---
 

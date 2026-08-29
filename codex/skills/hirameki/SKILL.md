@@ -1,6 +1,6 @@
 ---
 name: hirameki
-description: Use when the user invokes or mentions a Hirameki command such as /__init, /wrap, /journal, /decision, /handoff, /harvest, /mekiki, /next, /tasks, /tidy, /triage, /arc, /bridge, /challenge, /compose, /critique, /frame, /graduate, /lens, /pulse, or /reflect; or asks Codex to initialize, capture, summarize, route, tidy, journal, preserve a durable decision, hand off, critique writing, or reason over Obsidian vault notes with Hirameki.
+description: Use when the user invokes or mentions a Hirameki command such as /__init, /wrap, /journal, /decision-trace, /handoff, /harvest, /mekiki, /next, /tasks, /tidy, /triage, /arc, /bridge, /challenge, /compose, /critique, /frame, /graduate, /lens, /pulse, or /reflect; or asks Codex to initialize, capture, summarize, route, tidy, journal, preserve a durable decision, hand off, critique writing, or reason over Obsidian vault notes with Hirameki.
 ---
 
 # Hirameki
@@ -40,7 +40,7 @@ Map the user's command name to the same-named reference. Accept forms such as `/
 | `/challenge` | `references/challenge.md` |
 | `/compose` | `references/compose.md` |
 | `/critique` | `references/critique.md` |
-| `/decision` | `references/decision.md` |
+| `/decision-trace` | `references/decision-trace.md` |
 | `/frame` | `references/frame.md` |
 | `/graduate` | `references/graduate.md` |
 | `/handoff` | `references/handoff.md` |
