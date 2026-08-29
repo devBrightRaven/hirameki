@@ -12,14 +12,14 @@ EXPECTED_REFERENCES = {f"{name}.md" for name in REQUIRED_CONTENT}
 PLATFORM_DIVERGENT_REFERENCES = {
     "__init.md",
     "critique.md",
-    "decision.md",
+    "decision-trace.md",
     "handoff.md",
     "journal.md",
     "mekiki.md",
     "pulse.md",
     "triage.md",
 }
-ADAPTER_RESOLVED_REFERENCES = {"decision.md", "handoff.md", "journal.md", "mekiki.md", "pulse.md", "triage.md"}
+ADAPTER_RESOLVED_REFERENCES = {"decision-trace.md", "handoff.md", "journal.md", "mekiki.md", "pulse.md", "triage.md"}
 EXPECTED_REFERENCE_ASSETS = {
     "hirameki-cmds-full-ja.md",
     "hirameki-cmds-full-zh-TW.md",
@@ -202,24 +202,33 @@ def test_judgment_trajectory_contract() -> None:
     assert "resolve vault configuration through the umbrella hirameki adapter" in codex_handoff
 
 
-def test_decision_history_contract() -> None:
+def test_decision_trace_contract() -> None:
     for root in (COMMANDS, SKILL / "references"):
-        decision = (root / "decision.md").read_text(encoding="utf-8")
+        trace = (root / "decision-trace.md").read_text(encoding="utf-8")
         for phrase in (
+            "Establish the decision state",
+            "unresolved", "forming", "decided", "reviewing",
+            "Build the trace",
+            "viable options",
+            "assumptions and unknowns",
+            "reversal cost",
+            "must not choose for the user",
+            "Only move to `decided`",
             "Promotion gate",
             "status: active",
             "superseded",
             "closed",
-            "Alternatives considered",
-            "Revisit when",
-            "Do not copy their narrative",
-            "Show the complete new or appended content",
             "Action? (save this / skip / edit)",
-            "legacy `save` as an alias for `save this`",
-            "they are not save actions and never authorize a write",
-            "does not carry into decision",
+            "does not authorize a write",
         ):
-            assert phrase in decision, f"{root}/decision.md lost contract: {phrase}"
+            assert phrase in trace, f"{root}/decision-trace.md lost contract: {phrase}"
+
+    assert not (COMMANDS / "decision.md").exists()
+    assert not (ROOT / "skills" / "decide").exists()
+    assert not (SKILL / "references" / "decision.md").exists()
+    assert (COMMANDS / "decision-trace.md").is_file()
+    assert (ROOT / "skills" / "decision-trace" / "SKILL.md").is_file()
+    assert (SKILL / "references" / "decision-trace.md").is_file()
 
 
 def test_triage_batch_save_contract() -> None:
@@ -288,6 +297,7 @@ if __name__ == "__main__":
     test_codex_platform_adapters_exclude_claude_runtime_assumptions()
     test_codex_vault_resolution_has_one_layout_source()
     test_judgment_trajectory_contract()
+    test_decision_trace_contract()
     test_triage_batch_save_contract()
     test_codex_references_satisfy_command_spec()
     test_tidy_accepts_codex_source_and_skips_generated_content()

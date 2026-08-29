@@ -26,7 +26,7 @@ COMMANDS_DIR = Path(__file__).parent.parent / "commands"
 # Includes conditional writers (reflect, frame, harvest with `save`) because
 # their confirm path should still be documented when the save flag is given.
 WRITE_COMMANDS: set[str] = {
-    "wrap", "journal", "decision", "handoff",
+    "wrap", "journal", "decision-trace", "handoff",
     "triage", "lens", "compose",
     "mekiki", "arc", "bridge", "challenge",
     "reflect", "frame", "harvest", "graduate",
@@ -77,12 +77,13 @@ REQUIRED_CONTENT: dict[str, list[str]] = {
         "Background",
         "Open items",
     ],
-    "decision": [
+    "decision-trace": [
+        "Establish the decision state",
+        "Build the trace",
+        "Only move to `decided`",
         "Promotion gate",
         "active", "superseded", "closed",
-        "Alternatives considered",
-        "Revisit when",
-        "journal", "handoff",
+        "Action? (save this / skip / edit)",
     ],
     "handoff": [
         "Re-pickup",

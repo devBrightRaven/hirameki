@@ -437,7 +437,7 @@ def test_write_references_keep_safety_contract() -> None:
             assert "Print the saved path" in content
             continue
         errors = check_file(command, content)
-        if command in {"decision", "journal", "mekiki", "triage"}:
+        if command in {"decision-trace", "journal", "mekiki", "triage"}:
             # Adapter-resolved references delegate config resolution to the
             # Codex umbrella, so they name neither the per-machine config file
             # nor the <vault>/AGENTS.md layout source.
