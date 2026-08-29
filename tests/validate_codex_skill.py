@@ -60,6 +60,13 @@ def test_codex_skill_shape() -> None:
     assert "Obsidian vault" in frontmatter["description"]
     assert len(frontmatter["description"]) <= 1024
 
+    for phrase in ("should I", "要不要", "どうしよう"):
+        assert phrase in frontmatter["description"], f"Codex discovery metadata lost decision trigger: {phrase}"
+
+    openai_metadata = (SKILL / "agents" / "openai.yaml").read_text(encoding="utf-8")
+    assert "decision-trace" in openai_metadata
+    assert "decide-like" not in openai_metadata
+
 
 def test_codex_references_are_expected_set() -> None:
     references_dir = SKILL / "references"
@@ -246,6 +253,26 @@ def test_decision_trace_contract() -> None:
     ), "Codex router must reject `hirameki decision-trace` as an explicit invocation"
 
 
+def test_canonical_decision_trace_behavior_contract() -> None:
+    trace = (ROOT / "skills" / "decision-trace" / "SKILL.md").read_text(encoding="utf-8")
+    for phrase in (
+        "Explicit invocation accepts only",
+        "`decision-trace`", "`/decision-trace`", "`hirameki:decision-trace`",
+        "Establish the decision state",
+        "unresolved", "forming", "decided", "reviewing",
+        "Build the trace",
+        "viable options", "evidence", "assumptions and unknowns",
+        "constraints", "consequences", "reversal cost",
+        "Only move to `decided`",
+        "must not choose for the user",
+        "Promotion gate",
+        "active", "superseded", "closed",
+        "Action? (save this / skip / edit)",
+        "save this",
+    ):
+        assert phrase in trace, f"skills/decision-trace/SKILL.md lost behavior contract: {phrase}"
+
+
 def test_triage_batch_save_contract() -> None:
     for root in (COMMANDS, SKILL / "references"):
         triage = (root / "triage.md").read_text(encoding="utf-8")
@@ -313,6 +340,7 @@ if __name__ == "__main__":
     test_codex_vault_resolution_has_one_layout_source()
     test_judgment_trajectory_contract()
     test_decision_trace_contract()
+    test_canonical_decision_trace_behavior_contract()
     test_triage_batch_save_contract()
     test_codex_references_satisfy_command_spec()
     test_tidy_accepts_codex_source_and_skips_generated_content()
