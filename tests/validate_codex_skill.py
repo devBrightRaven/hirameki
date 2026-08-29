@@ -60,8 +60,14 @@ def test_codex_skill_shape() -> None:
     assert "Obsidian vault" in frontmatter["description"]
     assert len(frontmatter["description"]) <= 1024
 
-    for phrase in ("should I", "要不要", "どうしよう"):
-        assert phrase in frontmatter["description"], f"Codex discovery metadata lost decision trigger: {phrase}"
+    for language, phrases in {
+        "English": ("should I", "which one", "torn between", "pros and cons"),
+        "Traditional Chinese": ("要不要", "應該選", "該不該", "猶豫"),
+        "Japanese": ("どうしよう", "どちら", "迷って", "比較"),
+    }.items():
+        assert any(phrase in frontmatter["description"] for phrase in phrases), (
+            f"Codex discovery metadata lost {language} decision trigger"
+        )
 
     openai_metadata = (SKILL / "agents" / "openai.yaml").read_text(encoding="utf-8")
     assert "decision-trace" in openai_metadata
@@ -266,9 +272,10 @@ def test_canonical_decision_trace_behavior_contract() -> None:
         "Only move to `decided`",
         "must not choose for the user",
         "Promotion gate",
-        "active", "superseded", "closed",
+        "status: active", "superseded", "closed",
         "Action? (save this / skip / edit)",
-        "save this",
+        "does not authorize a write",
+        "No durable write occurs before the user explicitly selects `save this`.",
     ):
         assert phrase in trace, f"skills/decision-trace/SKILL.md lost behavior contract: {phrase}"
 
@@ -331,6 +338,7 @@ def test_tidy_accepts_codex_source_and_skips_generated_content() -> None:
 
 
 if __name__ == "__main__":
+    test_canonical_decision_trace_behavior_contract()
     test_codex_skill_shape()
     test_codex_references_are_expected_set()
     test_codex_router_mentions_every_reference()
@@ -340,7 +348,6 @@ if __name__ == "__main__":
     test_codex_vault_resolution_has_one_layout_source()
     test_judgment_trajectory_contract()
     test_decision_trace_contract()
-    test_canonical_decision_trace_behavior_contract()
     test_triage_batch_save_contract()
     test_codex_references_satisfy_command_spec()
     test_tidy_accepts_codex_source_and_skips_generated_content()
