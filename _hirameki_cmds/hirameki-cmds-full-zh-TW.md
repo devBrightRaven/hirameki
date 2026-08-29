@@ -450,12 +450,15 @@ Wrap 格式：
 
 ---
 
-### `/hirameki:decision <決策>`
+### `/hirameki:decision-trace <決策問題或脈絡>`
 
-**用途：** 把會長期約束後續工作的決策提升為有生命週期的獨立節點。
-**寫入：** `{journal}/decisions/YYYY-MM-DD-{slug}.md`。
+**用途：** 在不替使用者選擇的前提下形成決策，並可選擇把明確確認的選擇保存為有生命週期的節點。
 
-只有當決策會約束未來工作、存在實質替代方案、有回復成本、避免重複退化，或需要跨 session 保存理由時才提升。記錄決策、證據、替代方案、後果與重新檢視條件，狀態為 `active`、`superseded` 或 `closed`。只連結 journal 與 handoff，不重複它們的敘事。寫入前顯示提升依據、完整草稿、受影響路徑與精確 status 變更，等待確認。
+**唯讀形成階段：** 辨識 `unresolved`、`forming`、`decided` 或 `reviewing`。對未決或形成中的決策，呈現決策問題、可行選項、證據與來源、假設與未知、限制與不可妥協條件、後果、回復成本，以及一個關鍵未解問題。不寫入，也不替使用者選擇。
+
+**條件式寫入階段：** 使用者明確說出或確認選擇後，套用提升門檻。先顯示證據、受影響路徑、完整草稿與精確 status 變更；只有 `save this` 才寫入。保留 `active`、`superseded`、`closed` lifecycle 行為。
+
+**寫入：** 只有在 `save this` 後才寫入 `{journal}/decisions/YYYY-MM-DD-{slug}.md`。
 
 ---
 

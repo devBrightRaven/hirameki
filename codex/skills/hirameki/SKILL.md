@@ -1,6 +1,6 @@
 ---
 name: hirameki
-description: Use when the user invokes or mentions a Hirameki command such as /__init, /wrap, /journal, /decision, /handoff, /harvest, /mekiki, /next, /tasks, /tidy, /triage, /arc, /bridge, /challenge, /compose, /critique, /frame, /graduate, /lens, /pulse, or /reflect; or asks Codex to initialize, capture, summarize, route, tidy, journal, preserve a durable decision, hand off, critique writing, or reason over Obsidian vault notes with Hirameki.
+description: Use when the user invokes or mentions a Hirameki command such as /__init, /wrap, /journal, /decision-trace, /handoff, /harvest, /mekiki, /next, /tasks, /tidy, /triage, /arc, /bridge, /challenge, /compose, /critique, /frame, /graduate, /lens, /pulse, or /reflect; or asks Codex to initialize, capture, summarize, route, tidy, journal, preserve a durable decision, hand off, critique writing, or reason over Obsidian vault notes with Hirameki; or expresses decision-forming intent such as "should I", "which one", "torn between", "pros and cons", "要不要", "應該選", "該不該", "猶豫", "どうしよう", "どちら", "迷って", or "比較". Not for passing preferences or mechanical actions with no meaningful choice.
 ---
 
 # Hirameki
@@ -30,7 +30,9 @@ For `__init`, keep Claude's folder resolution behavior exactly:
 
 ## Command Routing
 
-Map the user's command name to the same-named reference. Accept forms such as `/wrap`, `wrap`, `hirameki wrap`, and `hirameki:wrap`.
+Map the user's command name to the same-named reference. `decision-trace` accepts only `decision-trace`, `/decision-trace`, and `hirameki:decision-trace`.
+For every other workflow, accept forms such as `/wrap`, `wrap`, `hirameki wrap`,
+and `hirameki:wrap`.
 
 | User intent | Load |
 |---|---|
@@ -40,7 +42,7 @@ Map the user's command name to the same-named reference. Accept forms such as `/
 | `/challenge` | `references/challenge.md` |
 | `/compose` | `references/compose.md` |
 | `/critique` | `references/critique.md` |
-| `/decision` | `references/decision.md` |
+| `/decision-trace` | `references/decision-trace.md` |
 | `/frame` | `references/frame.md` |
 | `/graduate` | `references/graduate.md` |
 | `/handoff` | `references/handoff.md` |

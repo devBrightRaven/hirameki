@@ -450,12 +450,15 @@ Also check "Open items" — mark completed items with a timestamp.
 
 ---
 
-### `/hirameki:decision <decision>`
+### `/hirameki:decision-trace <decision question or context>`
 
-**Purpose:** Promote a durable decision into a lifecycle-managed node.
-**Writes to:** `{journal}/decisions/YYYY-MM-DD-{slug}.md`.
+**Purpose:** Form a decision without choosing for the user, then optionally preserve an explicit choice as a lifecycle-managed node.
 
-Promote only when the decision constrains future work, has meaningful alternatives, carries reversal cost, prevents a recurring regression, or needs cross-session rationale. Record the decision, evidence, alternatives, consequences, and revisit trigger with status `active`, `superseded`, or `closed`. Link journal and handoff records instead of duplicating their narrative. Show the promotion evidence, complete draft, affected paths, and exact status changes; wait for confirmation before writing.
+**Read-only formation:** Identify `unresolved`, `forming`, `decided`, or `reviewing`. For unresolved or forming decisions, present the decision question, viable options, evidence and its source, assumptions and unknowns, constraints and non-negotiables, consequences, reversal cost, and one key unresolved question. Do not write or choose for the user.
+
+**Conditional write:** After the user explicitly states or confirms a choice, apply the promotion gate. Show the evidence, affected paths, complete draft, and exact status changes; write only after `save this`. Preserve `active`, `superseded`, and `closed` lifecycle behavior.
+
+**Writes to:** `{journal}/decisions/YYYY-MM-DD-{slug}.md` after `save this`.
 
 ---
 

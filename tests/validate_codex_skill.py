@@ -1,3 +1,4 @@
+import re
 from pathlib import Path
 
 from validate_commands import REQUIRED_CONTENT, check_file
@@ -12,14 +13,14 @@ EXPECTED_REFERENCES = {f"{name}.md" for name in REQUIRED_CONTENT}
 PLATFORM_DIVERGENT_REFERENCES = {
     "__init.md",
     "critique.md",
-    "decision.md",
+    "decision-trace.md",
     "handoff.md",
     "journal.md",
     "mekiki.md",
     "pulse.md",
     "triage.md",
 }
-ADAPTER_RESOLVED_REFERENCES = {"decision.md", "handoff.md", "journal.md", "mekiki.md", "pulse.md", "triage.md"}
+ADAPTER_RESOLVED_REFERENCES = {"decision-trace.md", "handoff.md", "journal.md", "mekiki.md", "pulse.md", "triage.md"}
 EXPECTED_REFERENCE_ASSETS = {
     "hirameki-cmds-full-ja.md",
     "hirameki-cmds-full-zh-TW.md",
@@ -58,6 +59,19 @@ def test_codex_skill_shape() -> None:
     assert frontmatter["description"].startswith("Use when "), "Hirameki description must lead with trigger conditions"
     assert "Obsidian vault" in frontmatter["description"]
     assert len(frontmatter["description"]) <= 1024
+
+    for language, phrases in {
+        "English": ("should I", "which one", "torn between", "pros and cons"),
+        "Traditional Chinese": ("要不要", "應該選", "該不該", "猶豫"),
+        "Japanese": ("どうしよう", "どちら", "迷って", "比較"),
+    }.items():
+        assert all(phrase in frontmatter["description"] for phrase in phrases), (
+            f"Codex discovery metadata lost {language} decision trigger"
+        )
+
+    openai_metadata = (SKILL / "agents" / "openai.yaml").read_text(encoding="utf-8")
+    assert "decision-trace" in openai_metadata
+    assert "decide-like" not in openai_metadata
 
 
 def test_codex_references_are_expected_set() -> None:
@@ -202,24 +216,75 @@ def test_judgment_trajectory_contract() -> None:
     assert "resolve vault configuration through the umbrella hirameki adapter" in codex_handoff
 
 
-def test_decision_history_contract() -> None:
+def test_decision_trace_contract() -> None:
     for root in (COMMANDS, SKILL / "references"):
-        decision = (root / "decision.md").read_text(encoding="utf-8")
+        trace = (root / "decision-trace.md").read_text(encoding="utf-8")
         for phrase in (
+            "Establish the decision state",
+            "unresolved", "forming", "decided", "reviewing",
+            "Build the trace",
+            "viable options",
+            "assumptions and unknowns",
+            "reversal cost",
+            "must not choose for the user",
+            "Only move to `decided`",
             "Promotion gate",
+            "{journal}/decisions/YYYY-MM-DD-{slug}.md",
             "status: active",
             "superseded",
             "closed",
-            "Alternatives considered",
-            "Revisit when",
-            "Do not copy their narrative",
-            "Show the complete new or appended content",
             "Action? (save this / skip / edit)",
-            "legacy `save` as an alias for `save this`",
-            "they are not save actions and never authorize a write",
-            "does not carry into decision",
+            "does not authorize a write",
         ):
-            assert phrase in decision, f"{root}/decision.md lost contract: {phrase}"
+            assert phrase in trace, f"{root}/decision-trace.md lost contract: {phrase}"
+
+    assert not (COMMANDS / "decision.md").exists()
+    assert not (ROOT / "skills" / "decide").exists()
+    assert not (SKILL / "references" / "decision.md").exists()
+    assert (COMMANDS / "decision-trace.md").is_file()
+    assert (ROOT / "skills" / "decision-trace" / "SKILL.md").is_file()
+    assert (SKILL / "references" / "decision-trace.md").is_file()
+
+    router = (SKILL / "SKILL.md").read_text(encoding="utf-8")
+    for legacy in ("/decision", "hirameki:decision"):
+        assert re.search(rf"{re.escape(legacy)}(?![-\w])", router) is None, (
+            f"Codex router exposes legacy invocation: {legacy}"
+        )
+    assert "references/decision.md" not in router
+    assert "/decision-trace" in router
+    assert "references/decision-trace.md" in router
+    assert re.search(
+        r"decision-trace.*?accepts only `decision-trace`, `/decision-trace`, and `hirameki:decision-trace`",
+        router,
+        re.IGNORECASE | re.DOTALL,
+    ), "Codex router must reject `hirameki decision-trace` as an explicit invocation"
+
+
+def test_canonical_decision_trace_behavior_contract() -> None:
+    trace = (ROOT / "skills" / "decision-trace" / "SKILL.md").read_text(encoding="utf-8")
+    for phrase in (
+        "Explicit invocation accepts only",
+        "`decision-trace`", "`/decision-trace`", "`hirameki:decision-trace`",
+        "Establish the decision state",
+        "unresolved", "forming", "decided", "reviewing",
+        "Build the trace",
+        "viable options", "evidence", "assumptions and unknowns",
+        "constraints", "consequences", "reversal cost",
+        "Only move to `decided`",
+        "must not choose for the user",
+        "Promotion gate",
+        "{journal}/decisions/YYYY-MM-DD-{slug}.md",
+        "status: active", "superseded", "closed",
+        "Action? (save this / skip / edit)",
+        "does not authorize a write",
+        "No durable write occurs before the user explicitly selects `save this`.",
+    ):
+        assert phrase in trace, f"skills/decision-trace/SKILL.md lost behavior contract: {phrase}"
+
+    codex_trace = (SKILL / "references" / "decision-trace.md").read_text(encoding="utf-8")
+    for phrase in ("どうしよう", "どちら", "迷って", "比較"):
+        assert phrase in trace, f"canonical decision-trace lost Japanese trigger: {phrase}"
+        assert phrase in codex_trace, f"Codex decision-trace reference lost Japanese trigger: {phrase}"
 
 
 def test_triage_batch_save_contract() -> None:
@@ -280,6 +345,7 @@ def test_tidy_accepts_codex_source_and_skips_generated_content() -> None:
 
 
 if __name__ == "__main__":
+    test_canonical_decision_trace_behavior_contract()
     test_codex_skill_shape()
     test_codex_references_are_expected_set()
     test_codex_router_mentions_every_reference()
@@ -288,6 +354,7 @@ if __name__ == "__main__":
     test_codex_platform_adapters_exclude_claude_runtime_assumptions()
     test_codex_vault_resolution_has_one_layout_source()
     test_judgment_trajectory_contract()
+    test_decision_trace_contract()
     test_triage_batch_save_contract()
     test_codex_references_satisfy_command_spec()
     test_tidy_accepts_codex_source_and_skips_generated_content()
