@@ -46,9 +46,10 @@ Claude Code CLI で使用します。すべてのコマンドは `/hirameki:` �
 入力：トピック説明（必須）。
 書き込み先：`{journal}/YYYY-MM-DD-HHMM-{トピック}.md`
 
-### `/hirameki:decision <決定>`
-将来の作業を拘束する決定だけをライフサイクルノードへ昇格。証拠、代替案、結果、再検討条件を記録し、journal／handoff は重複せずリンクする。完全なドラフトと status 変更は確認必須。
-書き込み先：`{journal}/decisions/YYYY-MM-DD-{slug}.md`
+### `/hirameki:decision-trace <決定の問いまたは文脈>`
+読み取り専用の形成フェーズでは `unresolved`、`forming`、`decided`、`reviewing` を識別し、決定の問い、実行可能な選択肢、出典付きの証拠、仮定と未解明点、制約、結果、撤回コスト、一つの未解決の核心質問を示す。あなたの代わりに選ばず、書き込まない。
+条件付き書き込みフェーズは、あなたが選択を明示または確認した後だけ開始する。昇格根拠、完全なドラフト、対象パス、status 変更を表示し、`save this` のときだけ書き込む。`active`／`superseded`／`closed` のライフサイクル動作を維持する。
+書き込み先：`save this` の後に限り `{journal}/decisions/YYYY-MM-DD-{slug}.md`
 
 ### `/hirameki:handoff`
 セッション引き継ぎ文書。現在有効な決定と、次のセッションに影響する判断の更新を分けて記録。
@@ -144,7 +145,7 @@ wrap logs と journal から次のアクションを集約。重複除去して�
 | `compose` | research/compose/ | ステップごと（save/skip） | 各ステップで独立したファイル |
 | `wrap` | daily | 常時 | 新しい Wrap ブロックを追記 |
 | `journal` | journal | 常時 | 同テーマは追記、別テーマは新規作成 |
-| `decision` | journal/decisions | 常時 | 昇格条件を満たす場合のみ；active/superseded/closed lifecycle |
+| `decision-trace` | journal/decisions | 明示的な選択と `save this` の後 | 昇格条件を満たす場合のみ；active/superseded/closed lifecycle |
 | `handoff` | handoff | 常時 | 同日付は上書き |
 | `arc` | research/arc/ | 常時 | 同概念は追記 |
 | `bridge` | research/bridge/ | 常時 | 同ペアは追記 |
