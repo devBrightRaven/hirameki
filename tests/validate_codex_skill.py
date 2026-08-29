@@ -1,3 +1,4 @@
+import re
 from pathlib import Path
 
 from validate_commands import REQUIRED_CONTENT, check_file
@@ -229,6 +230,15 @@ def test_decision_trace_contract() -> None:
     assert (COMMANDS / "decision-trace.md").is_file()
     assert (ROOT / "skills" / "decision-trace" / "SKILL.md").is_file()
     assert (SKILL / "references" / "decision-trace.md").is_file()
+
+    router = (SKILL / "SKILL.md").read_text(encoding="utf-8")
+    for legacy in ("/decision", "hirameki:decision"):
+        assert re.search(rf"{re.escape(legacy)}(?![-\w])", router) is None, (
+            f"Codex router exposes legacy invocation: {legacy}"
+        )
+    assert "references/decision.md" not in router
+    assert "/decision-trace" in router
+    assert "references/decision-trace.md" in router
 
 
 def test_triage_batch_save_contract() -> None:
