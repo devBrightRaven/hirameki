@@ -1,6 +1,14 @@
 # Changelog
 
-- **Breaking (unreleased):** remove the separate `decision` command and `decide` skill in favor of the automatically triggered `decision-trace` workflow; preserve optional `save this` storage and the existing `active`, `superseded`, and `closed` lifecycle-node behavior.
+## [2.0.0] — 2026-08-30
+
+### Changed
+
+- **Breaking:** remove the separate `decision` command and `decide` skill in favor of the automatically triggered `decision-trace` workflow; preserve optional `save this` storage and the existing `active`, `superseded`, and `closed` lifecycle-node behavior.
+
+### Fixed
+
+- preserve the decision-node filename contract across Claude and Codex, and keep Japanese decision-forming triggers aligned across runtimes
 
 ## [1.6.2] — 2026-08-23
 
