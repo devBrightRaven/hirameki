@@ -82,6 +82,7 @@ REQUIRED_CONTENT: dict[str, list[str]] = {
         "Build the trace",
         "Only move to `decided`",
         "Promotion gate",
+        "{journal}/decisions/YYYY-MM-DD-{slug}.md",
         "active", "superseded", "closed",
         "Action? (save this / skip / edit)",
     ],

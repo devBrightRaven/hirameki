@@ -65,7 +65,7 @@ def test_codex_skill_shape() -> None:
         "Traditional Chinese": ("要不要", "應該選", "該不該", "猶豫"),
         "Japanese": ("どうしよう", "どちら", "迷って", "比較"),
     }.items():
-        assert any(phrase in frontmatter["description"] for phrase in phrases), (
+        assert all(phrase in frontmatter["description"] for phrase in phrases), (
             f"Codex discovery metadata lost {language} decision trigger"
         )
 
@@ -229,6 +229,7 @@ def test_decision_trace_contract() -> None:
             "must not choose for the user",
             "Only move to `decided`",
             "Promotion gate",
+            "{journal}/decisions/YYYY-MM-DD-{slug}.md",
             "status: active",
             "superseded",
             "closed",
@@ -272,12 +273,18 @@ def test_canonical_decision_trace_behavior_contract() -> None:
         "Only move to `decided`",
         "must not choose for the user",
         "Promotion gate",
+        "{journal}/decisions/YYYY-MM-DD-{slug}.md",
         "status: active", "superseded", "closed",
         "Action? (save this / skip / edit)",
         "does not authorize a write",
         "No durable write occurs before the user explicitly selects `save this`.",
     ):
         assert phrase in trace, f"skills/decision-trace/SKILL.md lost behavior contract: {phrase}"
+
+    codex_trace = (SKILL / "references" / "decision-trace.md").read_text(encoding="utf-8")
+    for phrase in ("どうしよう", "どちら", "迷って", "比較"):
+        assert phrase in trace, f"canonical decision-trace lost Japanese trigger: {phrase}"
+        assert phrase in codex_trace, f"Codex decision-trace reference lost Japanese trigger: {phrase}"
 
 
 def test_triage_batch_save_contract() -> None:

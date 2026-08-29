@@ -6,7 +6,7 @@ description: >
   asks whether they should do something, compares plausible approaches, or asks
   for help structuring an unresolved decision; or says "要不要", "應該選",
   "該不該", "猶豫", "should I", "which one", "torn between", "pros and cons",
-  "どうしよう". Triggers on decision-forming intent even without explicit
+  "どうしよう", "どちら", "迷って", "比較". Triggers on decision-forming intent even without explicit
   invocation. Not for passing preferences, mechanical actions with no meaningful
   choice, or requests only to record an already documented fact.
 ---
@@ -121,6 +121,8 @@ context, but do not write. The promotion gate never turns an unresolved or formi
 trace into a decided choice.
 
 ## Resolve existing state
+
+Decision nodes use `{journal}/decisions/YYYY-MM-DD-{slug}.md`.
 
 Search `{journal}/decisions/`, related journal notes, and handoffs for the same
 decision. Keep observations, inferences, assumptions, decisions, and later outcomes
