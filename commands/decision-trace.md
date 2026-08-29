@@ -20,8 +20,10 @@ The skill must resolve `vault:` from `~/.claude/vault-local.md`, read the canoni
 setup message when required configuration is missing. Use the configured language.
 
 Keep the workflow read-only until the user explicitly selects `save this`. Before
-that action, show promotion-gate evidence, every affected full path, the complete
-draft, the proposed `status: active` frontmatter, and exact status changes, then ask:
+that action, show promotion-gate evidence, every affected full path, and exact
+status changes. Show a complete draft with the proposed `status: active` frontmatter
+only for a new or replacement node; a closure-only change shows the existing node's
+`status: closed` and reason without requiring a new active draft. Then ask:
 
 ```text
 Action? (save this / skip / edit)
