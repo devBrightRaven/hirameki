@@ -1,5 +1,11 @@
 # Changelog
 
+## [2.0.1] — 2026-09-01
+
+### Bug Fixes
+
+- preserve forming decision traces across sessions (5a77c50)
+
 ## [2.0.0] — 2026-08-30
 
 ### Changed
