@@ -456,9 +456,11 @@ Wrap 格式：
 
 **唯讀形成階段：** 辨識 `unresolved`、`forming`、`decided` 或 `reviewing`。對未決或形成中的決策，呈現決策問題、可行選項、證據與來源、假設與未知、限制與不可妥協條件、後果、回復成本，以及一個關鍵未解問題。不寫入，也不替使用者選擇。
 
+未決或形成中的 trace 若需跨 session 保存，必須先選擇 `save this`，並存成 `{journal}` 裡的 journal note 或 handoff，絕不放進 `{journal}/decisions/`。只有明確決定的選擇才能成為 decision node。
+
 **條件式寫入階段：** 使用者明確說出或確認選擇後，套用提升門檻。先顯示證據、受影響路徑、完整草稿與精確 status 變更；只有 `save this` 才寫入。保留 `active`、`superseded`、`closed` lifecycle 行為。
 
-**寫入：** 只有在 `save this` 後才寫入 `{journal}/decisions/YYYY-MM-DD-{slug}.md`。
+**寫入：** 未決／形成中 trace → `save this` 後存入 `{journal}` 或 `{handoff}`；明確決定的 node → `save this` 後存入 `{journal}/decisions/YYYY-MM-DD-{slug}.md`。
 
 ---
 

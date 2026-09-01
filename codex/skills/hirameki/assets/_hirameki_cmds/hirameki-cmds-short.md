@@ -48,8 +48,9 @@ Writes to: `{journal}/YYYY-MM-DD-HHMM-{topic}.md`
 
 ### `/hirameki:decision-trace <decision question or context>`
 Read-only formation identifies `unresolved`, `forming`, `decided`, or `reviewing` and presents the decision question, viable options, evidence and source, assumptions and unknowns, constraints, consequences, reversal cost, and one key unresolved question. It does not choose for the user or write.
+Unresolved or forming traces use `save this` to persist across sessions in `{journal}` or `{handoff}`, never `{journal}/decisions/`. Only explicitly decided choices become decision nodes.
 Conditional write starts only after the user explicitly states or confirms a choice: show the promotion evidence, full draft, affected paths, and status changes, then write only on `save this`. Preserves `active`/`superseded`/`closed` lifecycle behavior.
-Writes to: `{journal}/decisions/YYYY-MM-DD-{slug}.md` only after `save this`
+Writes to: unresolved/forming traces → `{journal}` or `{handoff}`; explicitly decided nodes → `{journal}/decisions/YYYY-MM-DD-{slug}.md`; both require `save this`
 
 ### `/hirameki:handoff`
 End-of-session handoff document. Keeps current decisions separate from judgment changes that affect the next session.

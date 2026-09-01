@@ -120,6 +120,13 @@ If no condition applies, recommend `journal` for reasoning or `handoff` for pick
 context, but do not write. The promotion gate never turns an unresolved or forming
 trace into a decided choice.
 
+An unresolved or forming trace may persist across sessions only after the user
+explicitly selects `save this`. Store it as a journal note or handoff, never
+under `{journal}/decisions/`. Only an explicitly decided choice may become a
+decision node; that node may later have lifecycle status `active`, `superseded`,
+or `closed`. Do not add `decision_state` or another formation-state field to
+decision-node frontmatter.
+
 ## Resolve existing state
 
 Decision nodes use `{journal}/decisions/YYYY-MM-DD-{slug}.md`.
@@ -140,6 +147,10 @@ Never silently overwrite the decision, rationale, alternatives, or earlier evide
 Preserve `active`, `superseded`, and `closed` lifecycle behavior.
 
 ## Confirmation action model
+
+Before showing a Codex-created decision-node draft and again before writing it,
+verify that its frontmatter contains `source: codex` and does not contain
+`source: claude-code`. Correct and re-show a mismatched draft; never write it.
 
 After showing the promotion evidence, affected paths, complete draft, and proposed
 status changes, ask:

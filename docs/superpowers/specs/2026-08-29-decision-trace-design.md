@@ -75,6 +75,8 @@ Action? (save this / skip / edit)
 
 `decision-trace` selects the workflow; it does not authorize a write. Until `save this`, the workflow is read-only.
 
+An unresolved or forming trace may cross sessions only after `save this`, and then only as a journal note or handoff. It never enters `{journal}/decisions/`. Formation state and decision-node lifecycle remain separate: only an explicitly decided choice becomes a node; that node may be `active`, `superseded`, or `closed`, and decision-node frontmatter never gains `decision_state` or another formation-state field.
+
 ### 5. Maintain lifecycle history
 
 Keep the existing `active`, `superseded`, and `closed` decision-node semantics. Link journal and handoff records instead of duplicating their narrative. Never overwrite earlier rationale or evidence silently.
@@ -84,6 +86,7 @@ Keep the existing `active`, `superseded`, and `closed` decision-node semantics. 
 - Claude owns its command and skill surfaces.
 - Codex owns the umbrella adapter and same-name references.
 - Both surfaces must route to the same behavioral contract without depending on the other runtime's configuration.
+- Before Codex shows or writes a decision-node draft, its adapter verifies `source: codex` and rejects `source: claude-code`.
 - The repository is the canonical source; installed plugin caches are deployment outputs, not editing targets.
 
 ## Migration
@@ -105,3 +108,5 @@ Keep the existing `active`, `superseded`, and `closed` decision-node semantics. 
 6. No `decision` or `decide` command, skill, alias, or redirect remains discoverable.
 7. Existing decision-node lifecycle behavior remains covered by contract tests.
 8. Claude and Codex installed runtimes are updated only through their documented deployment paths after repository validation passes.
+9. A persisted unresolved or forming trace uses `save this` and lands in journal or handoff, never in the decision-node directory.
+10. A Codex-created decision node cannot be shown or written with Claude provenance.

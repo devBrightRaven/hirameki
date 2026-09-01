@@ -48,8 +48,9 @@ Claude Code CLI で使用します。すべてのコマンドは `/hirameki:` �
 
 ### `/hirameki:decision-trace <決定の問いまたは文脈>`
 読み取り専用の形成フェーズでは `unresolved`、`forming`、`decided`、`reviewing` を識別し、決定の問い、実行可能な選択肢、出典付きの証拠、仮定と未解明点、制約、結果、撤回コスト、一つの未解決の核心質問を示す。あなたの代わりに選ばず、書き込まない。
+未解決または形成中の trace は `save this` で session 間保存し、`{journal}` または `{handoff}` に置く。`{journal}/decisions/` には置かない。明示的に決定された選択だけが decision node になる。
 条件付き書き込みフェーズは、あなたが選択を明示または確認した後だけ開始する。昇格根拠、完全なドラフト、対象パス、status 変更を表示し、`save this` のときだけ書き込む。`active`／`superseded`／`closed` のライフサイクル動作を維持する。
-書き込み先：`save this` の後に限り `{journal}/decisions/YYYY-MM-DD-{slug}.md`
+書き込み先：未解決／形成中の trace → `{journal}` または `{handoff}`。明示的に決定された node → `{journal}/decisions/YYYY-MM-DD-{slug}.md`。いずれも `save this` が必要
 
 ### `/hirameki:handoff`
 セッション引き継ぎ文書。現在有効な決定と、次のセッションに影響する判断の更新を分けて記録。

@@ -19,7 +19,10 @@ The skill must resolve `vault:` from `~/.claude/vault-local.md`, read the canoni
 `## Vault Structure` from `<vault>/AGENTS.md`, and stop with the `/hirameki:__init`
 setup message when required configuration is missing. Use the configured language.
 
-Decision nodes use `{journal}/decisions/YYYY-MM-DD-{slug}.md`.
+Decision nodes use `{journal}/decisions/YYYY-MM-DD-{slug}.md`. An unresolved or
+forming trace that must persist across sessions uses the same `save this` gate
+and goes to `{journal}` or a handoff, never `{journal}/decisions/`. Only
+explicitly decided choices become decision nodes.
 
 Keep the workflow read-only until the user explicitly selects `save this`. Before
 that action, show promotion-gate evidence, every affected full path, and exact

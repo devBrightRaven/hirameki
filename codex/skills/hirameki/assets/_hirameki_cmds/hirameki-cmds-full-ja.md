@@ -456,9 +456,11 @@ Wrap 形式：
 
 **読み取り専用の形成フェーズ：** `unresolved`、`forming`、`decided`、`reviewing` の状態を識別する。未解決または形成中の決定では、決定の問い、実行可能な選択肢、出典付きの証拠、仮定と未解明点、制約と譲れない条件、結果、撤回コスト、そして一つの未解決の核心質問を示す。書き込まず、あなたの代わりに選ばない。
 
+未解決または形成中の trace を session 間で保存する場合は、先に `save this` を選び、`{journal}` の journal note または handoff として保存する。`{journal}/decisions/` には保存しない。明示的に決定された選択だけが decision node になる。
+
 **条件付き書き込みフェーズ：** あなたが選択を明示または確認した後、昇格条件を適用する。証拠、対象パス、完全なドラフト、正確な status 変更を先に表示し、`save this` の後だけ書き込む。`active`、`superseded`、`closed` のライフサイクル動作を維持する。
 
-**書き込み先：** `save this` の後に限り `{journal}/decisions/YYYY-MM-DD-{slug}.md`。
+**書き込み先：** 未解決／形成中の trace → `save this` 後に `{journal}` または `{handoff}`。明示的に決定された node → `save this` 後に `{journal}/decisions/YYYY-MM-DD-{slug}.md`。
 
 ---
 

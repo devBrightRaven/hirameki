@@ -121,7 +121,8 @@ def test_codex_platform_adapters_exclude_claude_runtime_assumptions() -> None:
         assert "~/.claude/vault-local.md" not in texts[name]
         assert "~/.claude/claude.md" not in texts[name]
         assert "resolve vault configuration through the umbrella hirameki adapter" in texts[name]
-        assert "source: claude-code" not in texts[name]
+        if name != "decision-trace.md":
+            assert "source: claude-code" not in texts[name]
 
     assert "~/.codex/hirameki-local.md" in texts["__init.md"]
     assert "~/.codex/agents.md" in texts["journal.md"]
@@ -238,6 +239,10 @@ def test_decision_trace_contract() -> None:
         ):
             assert phrase in trace, f"{root}/decision-trace.md lost contract: {phrase}"
 
+    command_trace = (COMMANDS / "decision-trace.md").read_text(encoding="utf-8")
+    for phrase in ("uses the same `save this` gate", "explicitly decided choices become decision nodes"):
+        assert phrase in command_trace, f"commands/decision-trace.md lost short persistence contract: {phrase}"
+
     assert not (COMMANDS / "decision.md").exists()
     assert not (ROOT / "skills" / "decide").exists()
     assert not (SKILL / "references" / "decision.md").exists()
@@ -273,6 +278,8 @@ def test_canonical_decision_trace_behavior_contract() -> None:
         "Only move to `decided`",
         "must not choose for the user",
         "Promotion gate",
+        "An unresolved or forming trace may persist across sessions only after the user",
+        "Do not add `decision_state` or another formation-state field",
         "{journal}/decisions/YYYY-MM-DD-{slug}.md",
         "status: active", "superseded", "closed",
         "Action? (save this / skip / edit)",
@@ -282,9 +289,39 @@ def test_canonical_decision_trace_behavior_contract() -> None:
         assert phrase in trace, f"skills/decision-trace/SKILL.md lost behavior contract: {phrase}"
 
     codex_trace = (SKILL / "references" / "decision-trace.md").read_text(encoding="utf-8")
+    for phrase in (
+        "An unresolved or forming trace may persist across sessions only after the user",
+        "Do not add `decision_state` or another formation-state field",
+        "Before showing a Codex-created decision-node draft and again before writing it",
+    ):
+        assert phrase in codex_trace, f"Codex decision-trace lost persistence/provenance guard: {phrase}"
     for phrase in ("どうしよう", "どちら", "迷って", "比較"):
         assert phrase in trace, f"canonical decision-trace lost Japanese trigger: {phrase}"
         assert phrase in codex_trace, f"Codex decision-trace reference lost Japanese trigger: {phrase}"
+
+
+def test_forming_persistence_is_present_in_shipped_guides() -> None:
+    expected = {
+        "hirameki-cmds-full.md": "An unresolved or forming trace may persist across sessions",
+        "hirameki-cmds-short.md": "Unresolved or forming traces use `save this`",
+        "hirameki-cmds-full-zh-TW.md": "未決或形成中的 trace 若需跨 session 保存",
+        "hirameki-cmds-short-zh-TW.md": "未決或形成中的 trace 使用 `save this`",
+        "hirameki-cmds-full-ja.md": "未解決または形成中の trace を session 間で保存する場合",
+        "hirameki-cmds-short-ja.md": "未解決または形成中の trace は `save this`",
+    }
+    for name, phrase in expected.items():
+        canonical = (ROOT / "_hirameki_cmds" / name).read_text(encoding="utf-8")
+        bundled = (ASSETS / name).read_text(encoding="utf-8")
+        assert phrase in canonical, f"canonical guide lost forming persistence: {name}"
+        assert phrase in bundled, f"bundled guide lost forming persistence: {name}"
+
+    readme = (ROOT / "README.md").read_text(encoding="utf-8")
+    for phrase in (
+        "An unresolved or forming trace may persist across sessions",
+        "未決或形成中的 trace 若需跨 session 保存",
+        "未解決または形成中の trace を session 間で保存する場合",
+    ):
+        assert phrase in readme, f"README lost forming persistence guidance: {phrase}"
 
 
 def test_triage_batch_save_contract() -> None:
@@ -346,6 +383,7 @@ def test_tidy_accepts_codex_source_and_skips_generated_content() -> None:
 
 if __name__ == "__main__":
     test_canonical_decision_trace_behavior_contract()
+    test_forming_persistence_is_present_in_shipped_guides()
     test_codex_skill_shape()
     test_codex_references_are_expected_set()
     test_codex_router_mentions_every_reference()

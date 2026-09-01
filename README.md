@@ -154,6 +154,8 @@ Different from `wrap`: wrap records what happened in a session. Journal records 
 
 It identifies one of four states: `unresolved`, `forming`, `decided`, or `reviewing`. For unresolved or forming decisions, it stays read-only and shows the decision question, viable options, evidence and source, assumptions and unknowns, constraints and non-negotiables, consequences, reversal cost, and one key unresolved question. It distinguishes observations, evidence, inferences, assumptions, preferences, and decisions; the agent identifies trade-offs but does not choose for you.
 
+An unresolved or forming trace may persist across sessions after `save this`, but it is stored as a journal note or handoff, never as a decision node. Only an explicitly decided choice can enter `{journal}/decisions/` and receive an `active`, `superseded`, or `closed` lifecycle status.
+
 Only after you explicitly state or confirm a choice can the promotion gate offer lifecycle storage. The complete draft, affected paths, and status changes are shown first; only `save this` writes or updates a node with status `active`, `superseded`, or `closed`. `skip` writes nothing, and `edit` revises the draft before asking again.
 
 ---
@@ -509,6 +511,8 @@ Session 結束整合。依序執行 wrap → journal → handoff 三步。每步
 
 它會辨識四種狀態：`unresolved`（未決）、`forming`（形成中）、`decided`（已決定）、`reviewing`（檢視中）。對未決或形成中的決策，流程保持唯讀，整理決策問題、可行選項、證據與來源、假設與未知、限制與不可妥協條件、後果、回復成本，以及一個關鍵未解問題。它區分觀察、證據、推論、假設、偏好與決定；agent 只指出取捨，不替你選擇。
 
+未決或形成中的 trace 若需跨 session 保存，必須先選擇 `save this`，並存成 journal note 或 handoff，不能成為 decision node。只有明確決定的選擇能進入 `{journal}/decisions/`，並使用 `active`、`superseded`、`closed` lifecycle status。
+
 只有在你明確說出或確認選擇後，提升門檻才會提供生命週期儲存。流程會先顯示完整草稿、受影響路徑與 status 變更；只有 `save this` 才會寫入或更新 `active`、`superseded`、`closed` lifecycle node。`skip` 不寫入，`edit` 會先修改草稿再重新詢問。
 
 ---
@@ -855,6 +859,8 @@ claude   # どこからでも
 *使うとき：選択肢を比較している、「〜すべきか」と尋ねている、または未解決の決定を整理したいとき。決定形成の言葉を検出すると自動的に起動します。*
 
 4 つの状態、`unresolved`（未解決）、`forming`（形成中）、`decided`（決定済み）、`reviewing`（見直し中）を識別します。未解決または形成中の決定では読み取り専用で、決定の問い、実行可能な選択肢、出典付きの証拠、仮定と未解明点、制約と譲れない条件、結果、撤回コスト、そして一つの未解決の核心質問を示します。観察、証拠、推論、仮定、好み、決定を区別し、エージェントはトレードオフを示しますがあなたの代わりに選びません。
+
+未解決または形成中の trace を session 間で保存する場合は、先に `save this` を選び、journal note または handoff として保存する。decision node にはしない。明示的に決定された選択だけが `{journal}/decisions/` に入り、`active`、`superseded`、`closed` の lifecycle status を持つ。
 
 あなたが選択を明示または確認した後にだけ、昇格条件がライフサイクル保存を提案します。完全なドラフト、対象パス、status 変更を先に表示し、`save this` のときだけ `active`、`superseded`、`closed` のライフサイクルノードを書き込みまたは更新します。`skip` は書き込まず、`edit` はドラフトを修正してから再確認します。
 

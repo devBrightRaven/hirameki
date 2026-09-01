@@ -456,9 +456,11 @@ Also check "Open items" — mark completed items with a timestamp.
 
 **Read-only formation:** Identify `unresolved`, `forming`, `decided`, or `reviewing`. For unresolved or forming decisions, present the decision question, viable options, evidence and its source, assumptions and unknowns, constraints and non-negotiables, consequences, reversal cost, and one key unresolved question. Do not write or choose for the user.
 
+An unresolved or forming trace may persist across sessions after `save this`; store it as a journal note in `{journal}` or as a handoff, never in `{journal}/decisions/`. Only explicitly decided choices become decision nodes.
+
 **Conditional write:** After the user explicitly states or confirms a choice, apply the promotion gate. Show the evidence, affected paths, complete draft, and exact status changes; write only after `save this`. Preserve `active`, `superseded`, and `closed` lifecycle behavior.
 
-**Writes to:** `{journal}/decisions/YYYY-MM-DD-{slug}.md` after `save this`.
+**Writes to:** unresolved/forming traces → `{journal}` or `{handoff}` after `save this`; explicitly decided nodes → `{journal}/decisions/YYYY-MM-DD-{slug}.md` after `save this`.
 
 ---
 

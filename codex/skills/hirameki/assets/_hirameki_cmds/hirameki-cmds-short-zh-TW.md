@@ -48,8 +48,9 @@ Session 恢復後定向。整理已完成的工作、待處理事項和下一步
 
 ### `/hirameki:decision-trace <決策問題或脈絡>`
 唯讀形成階段辨識 `unresolved`、`forming`、`decided`、`reviewing`，呈現決策問題、可行選項、證據與來源、假設與未知、限制、後果、回復成本，以及一個關鍵未解問題。不替使用者選擇，也不寫入。
+未決或形成中的 trace 使用 `save this` 跨 session 保存到 `{journal}` 或 `{handoff}`，絕不放進 `{journal}/decisions/`。只有明確決定的選擇才能成為 decision node。
 條件式寫入階段只在使用者明確說出或確認選擇後開始：顯示提升依據、完整草稿、受影響路徑與 status 變更，只有 `save this` 才寫入。保留 `active`／`superseded`／`closed` lifecycle 行為。
-寫入：只有在 `save this` 後才寫入 `{journal}/decisions/YYYY-MM-DD-{slug}.md`
+寫入：未決／形成中 trace → `{journal}` 或 `{handoff}`；明確決定的 node → `{journal}/decisions/YYYY-MM-DD-{slug}.md`；兩者都需 `save this`
 
 ### `/hirameki:handoff`
 Session 移交文件。把目前有效決定與會影響接手的判斷更新分開記錄。

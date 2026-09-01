@@ -157,6 +157,13 @@ REQUIRED_CONTENT: dict[str, list[str]] = {
     ],
 }
 
+COMMAND_ONLY_REQUIRED: dict[str, list[str]] = {
+    "decision-trace": [
+        "uses the same `save this` gate",
+        "explicitly decided choices become decision nodes",
+    ],
+}
+
 # Must appear in every command file (language-independent: paths and command names).
 UNIVERSAL_REQUIRED: list[tuple[str, str]] = [
     ("vault-local.md", "config file path (vault root, per-machine)"),
@@ -268,6 +275,9 @@ def main() -> None:
         name = path.stem
         content = path.read_text(encoding="utf-8")
         errors = check_file(name, content)
+        for phrase in COMMAND_ONLY_REQUIRED.get(name, []):
+            if phrase not in content:
+                errors.append(f"Missing command-only content: {phrase!r}")
         results.append((name, errors))
 
     for name, errors in results:
