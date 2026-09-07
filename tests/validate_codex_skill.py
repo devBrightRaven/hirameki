@@ -1,4 +1,7 @@
 import re
+import shutil
+import subprocess
+import tempfile
 from pathlib import Path
 
 from validate_commands import REQUIRED_CONTENT, check_file
@@ -102,6 +105,29 @@ def test_concept_and_status_adapter_regression_guards() -> None:
     assert "finding concepts" in extract_frontmatter(router)["description"]
     assert "checking stuck work" in extract_frontmatter(router)["description"]
     assert "`/hirameki:__init` | `references/__init.md`" in router
+
+
+def test_codex_payload_materializes_as_lf_on_windows() -> None:
+    # Exercise Git's real checkout conversion, not a text-pattern assertion.
+    relative = "codex/skills/hirameki/SKILL.md"
+    with tempfile.TemporaryDirectory() as temporary:
+        fixture = Path(temporary) / "source"
+        checkout = Path(temporary) / "checkout"
+        fixture.mkdir()
+        checkout.mkdir()
+        (fixture / relative).parent.mkdir(parents=True)
+        shutil.copy2(ROOT / ".gitattributes", fixture / ".gitattributes")
+        shutil.copy2(SKILL / "SKILL.md", fixture / relative)
+        commands = (
+            ["git", "init", "--quiet", str(fixture)],
+            ["git", "-C", str(fixture), "-c", "core.autocrlf=true", "add", "--", ".gitattributes", relative],
+            ["git", "-C", str(fixture), "-c", "core.autocrlf=true", "checkout-index", f"--prefix={checkout.as_posix()}/", "--", relative],
+        )
+        for command in commands:
+            subprocess.run(command, check=True, capture_output=True)
+        materialized = (checkout / relative).read_bytes()
+        assert b"\r" not in materialized, "Codex plugin checkout must preserve LF"
+        assert materialized == (SKILL / "SKILL.md").read_bytes()
 
 
 def test_codex_router_mentions_every_reference() -> None:
@@ -411,6 +437,7 @@ if __name__ == "__main__":
     test_codex_skill_shape()
     test_codex_references_are_expected_set()
     test_concept_and_status_adapter_regression_guards()
+    test_codex_payload_materializes_as_lf_on_windows()
     test_codex_router_mentions_every_reference()
     test_codex_reference_assets_are_exactly_bundled()
     test_non_platform_codex_references_match_claude_commands()
