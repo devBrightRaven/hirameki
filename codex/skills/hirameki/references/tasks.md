@@ -8,8 +8,8 @@ description: >
   Not for a session recap (next).
 ---
 
-Read `vault:` from `~/.claude/vault-local.md` for the vault root, then read `## Vault Structure` from `<vault>/AGENTS.md` (fall back to `~/.claude/vault-local.md`, then `~/.claude/CLAUDE.md` for setups predating 1.4.3) to get the vault path, wrap folder, and journal folder.
-If the section does not exist or required fields are missing, stop and respond: "Setup not complete. Please run `/hirameki:__init` first."
+Resolve vault configuration through the umbrella Hirameki adapter for the daily, journal and handoff folders. Missing optional handoff data reduces confidence; do not fall back to another agent's runtime configuration or invent completion status.
+If required vault configuration is missing, ask the user to run `/hirameki:__init`; do not initialize a real vault as part of this read-only check.
 
 Input: $ARGUMENTS (optional)
 - Empty or a number → Default mode: aggregate next actions (number = days to look back, default 3).
@@ -62,6 +62,18 @@ Rules:
 
 Find tasks that keep appearing in「下一步」without ever being completed.
 
+Run only for the current explicit request or an explicitly opted-in bootstrap, never because a project happens to be mentioned. Recurrence is a discovery signal, not proof of unfinished work.
+
+### Reconcile authoritative status
+
+Read the recent non-archived handoffs for candidate tasks (start with the newest 10; follow directly linked superseding/status notes when necessary). Match by explicit task/project identity and action target, not project name alone. Use the owning vault's documented status vocabulary.
+
+For the same task, the latest authoritative handoff frontmatter status outranks repeated daily mentions. Exclude completed/closed items even if their old next-actions text or recent wraps repeat them. A superseded note is not an open task: follow its replacement. Only explicit reopening in newer authoritative evidence reopens a closed task. Do not close unrelated subtasks merely because a parent project or a different action is closed.
+
+Surface explicitly open handoff actions even without repeated wraps. Distinguish external waiting (name the dependency), last-mile internal work (name the remaining action), and other unresolved work. A recurrence-only candidate without authoritative status is `status uncertain`, not confirmed open. Report missing/conflicting status and source paths, and label inferred blockers as inference. Completion mentions without a matching handoff can support completion, but cannot override a newer explicit reopening.
+
+Keep the output read-only. A status check does not authorize fixing the issue, notifying someone, changing task status or restarting a job. Do not infer priority from repetition alone.
+
 ### Step 1 — Collect data
 
 1. **Wrap logs**: Read `{daily}/YYYY-MM-DD.md` for the past N days. From each Wrap block, extract:
@@ -69,55 +81,39 @@ Find tasks that keep appearing in「下一步」without ever being completed.
    - All items under「完成」/「Done」
 2. **Journal logs**: Read all `{journal}/YYYY-MM-DD-*.md` for the same date range. Extract items under「Open items」.
 
-### Step 2 — Identify recurring items
+### Step 2 — Reconcile candidates
 
 1. Normalize items: trim whitespace, remove leading `- `, `[ ]`, `[x]`.
 2. Group items that refer to the same task (fuzzy match — same project name + similar action verb + similar target).
-3. For each unique task:
-   - Count appearances in「下一步」sections
-   - Check if it ever appeared in「完成」sections
-   - Check if it was marked "✓ Done" in journal open items
-4. Filter: keep only items appearing in「下一步」2+ times AND never appearing in「完成」.
+3. Combine explicitly open handoff actions with items recurring in「下一步」2+ times. Count mentions for context, not as a required threshold for handoff actions.
+4. Apply the authoritative status rules above to each candidate before reporting it. An older Done mention does not remove a newer explicitly reopened action. Recurrence alone leaves status uncertain.
 
 ### Step 3 — Categorize
 
-For each recurring item, assign a category:
-- **blocked**: item mentions a dependency, external person, or "待..." / "pending"
-- **deferred**: item appeared then disappeared then reappeared (skipped some days)
-- **forgotten**: item appeared in early days but not in recent days
-- **persistent**: item appears continuously including the most recent note
+Group confirmed unresolved work into external waiting, last-mile internal work, or other unresolved work. Show recurrence-only candidates separately under `status uncertain`. If an item appears deferred or forgotten, label that as an observation, not a proven blocker or priority.
 
 ### Step 4 — Output
 
 ```
 === Stuck Tasks (past N days) ===
 
-persistent:
-  1. [×N] task description
-     └ First seen: MM-DD → Last seen: MM-DD
-     └ Suggestion: Split into smaller tasks? Blocker?
+External waiting / Last-mile internal / Other unresolved:
+  - Task identity and remaining action
+    Status evidence: handoff path and status, relevant daily/journal paths
+    Dependency: documented dependency, or clearly labelled inference
 
-blocked:
-  2. [×N] task description
-     └ First seen: MM-DD → Last seen: MM-DD
-     └ Blocker: [inferred blocker]
-
-deferred:
-  3. [×N] task description
-     └ Appeared: MM-DD, MM-DD (skipped MM-DD ~ MM-DD)
-
-forgotten:
-  (none or listed items)
+Status uncertain:
+  - Recurring candidate and missing/conflicting evidence
 
 ---
-Scanned: N wrap logs, M journal entries
-Total: X stuck tasks
+Scanned: N wrap logs, M journal entries, H handoffs
+Total: X confirmed unresolved tasks; Y uncertain candidates
 ```
 
 Rules:
 - Read-only — do NOT modify any files
 - Do NOT ask for input — run immediately
-- If no recurring tasks found, respond: "No stuck tasks in the past N days."
+- Report no stuck tasks only when neither open handoff actions nor recurring unresolved candidates remain in the inspected scope. If sources are missing, state that limitation rather than claiming everything is complete.
 
 ---
 

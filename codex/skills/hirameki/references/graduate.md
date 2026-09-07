@@ -1,13 +1,13 @@
 ---
-description: Promote a half-formed idea into a permanent concept card in 0 Material/.
+description: Discover and promote ideas into permanent concept cards in the configured material folder.
   Use after a research session, or when an idea keeps resurfacing across notes.
 argument-hint: "[source-note or topic]"
 ---
 
-Read `vault:` from `~/.claude/vault-local.md` for the vault root, then read `## Vault Structure` from `<vault>/AGENTS.md` (fall back to `~/.claude/vault-local.md`, then `~/.claude/CLAUDE.md` for setups predating 1.4.3) to get the vault path and content folders.
-If the section does not exist or required fields are missing, stop and respond: "Setup not complete. Please run `/hirameki:__init` first."
+Resolve vault configuration through the umbrella Hirameki adapter. Use its resolved content folders; do not obtain folder settings from another agent's configuration.
+If required configuration is missing, ask the user to run `/hirameki:__init`.
 
-Permanent cards live in `{vault}/0 Material/`. Existing cards there are the reference for structure and naming.
+Resolve `{material}` from the canonical vault layout. `0 Material/` below is the conventional label, not a hardcoded destination. Existing cards there are the reference for structure and naming.
 
 Input: $ARGUMENTS (optional)
 - A note path, a topic keyword, or empty.
@@ -29,10 +29,10 @@ Scan these sources from the past 14 days:
 
 For each source, extract ideas that pass the graduation threshold:
 - Has a clear, statable core claim (not just an observation or question)
-- Relates to at least one existing theme in `0 Material/`
+- Relates to at least one existing theme in `{material}`
 - Has enough substance to stand alone as a concept card
 
-Check `{vault}/0 Material/` — skip any idea already covered by an existing card.
+Check `{material}` — skip any idea already covered by an existing card.
 
 Limit: 8 candidates.
 
@@ -47,6 +47,8 @@ For each candidate, show:
 ```
 
 Ask: "Which to graduate? (numbers, or 'none')"
+
+If the current user request already identifies the ideas and asks for drafts, proceed with those drafts without repeating selection. A discovery-only request returns candidates without writing. Check existing cards and source passages before drafting; distinguish a missing card from an unresolved or misspelled wiki link, using `tidy lint` only when link checking is requested.
 
 ### Step 3 — Graduate selected
 
@@ -70,7 +72,7 @@ For each idea being graduated:
 ---
 tags: [concept, <topic-tags>]
 status: reference
-source: claude-code
+source: codex
 read: false
 created: YYYY-MM-DD
 up:
@@ -101,7 +103,7 @@ description: "<one-sentence description of what this card covers>"
 ```
 
 2. **Show the draft** — full content and proposed filename.
-   Proposed filename: `{vault}/0 Material/<Title>.md`
+   Proposed filename: `{material}/<Title>.md`
    (Use the same language as existing cards in that folder — English title if most existing cards are English, etc.)
 
 3. **Ask**: "Save as `<filename>`? (yes / edit / different-title)"
@@ -118,7 +120,7 @@ description: "<one-sentence description of what this card covers>"
 - Do not restate what the source says — extract the generalisable principle.
 - `says:` field must be a claim, not a description. "X is Y" or "X does Z", not "this note discusses X".
 - Never write without user confirmation.
-- Scan `0 Material/` before creating — if a card already covers the same ground, say so and stop.
+- Scan `{material}` before creating — if a card already covers the same ground, say so and stop.
 
 ---
 

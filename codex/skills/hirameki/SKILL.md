@@ -1,6 +1,6 @@
 ---
 name: hirameki
-description: Use when the user invokes or mentions a Hirameki command such as /__init, /wrap, /journal, /decision-trace, /handoff, /harvest, /mekiki, /next, /tasks, /tidy, /triage, /arc, /bridge, /challenge, /compose, /critique, /frame, /graduate, /lens, /pulse, or /reflect; or asks Codex to initialize, capture, summarize, route, tidy, journal, preserve a durable decision, hand off, critique writing, or reason over Obsidian vault notes with Hirameki; or expresses decision-forming intent such as "should I", "which one", "torn between", "pros and cons", "要不要", "應該選", "該不該", "猶豫", "どうしよう", "どちら", "迷って", or "比較". Not for passing preferences or mechanical actions with no meaningful choice.
+description: Use when invoking Hirameki workflows; capturing, organizing, finding concepts in, or checking stuck work from Obsidian vault notes; or preserving decisions, journals and handoffs. Also use for decision-forming intent such as "should I", "which one", "torn between", "pros and cons", "要不要", "應該選", "該不該", "猶豫", "どうしよう", "どちら", "迷って", or "比較". Not for passing preferences or mechanical actions with no meaningful choice.
 ---
 
 # Hirameki
@@ -36,7 +36,7 @@ and `hirameki:wrap`.
 
 | User intent | Load |
 |---|---|
-| `/__init`, `init`, `hirameki init` | `references/__init.md` |
+| `/__init`, `init`, `hirameki init`, `hirameki:init`, `/hirameki:__init` | `references/__init.md` |
 | `/arc` | `references/arc.md` |
 | `/bridge` | `references/bridge.md` |
 | `/challenge` | `references/challenge.md` |
@@ -59,6 +59,8 @@ and `hirameki:wrap`.
 | `/wrap` | `references/wrap.md` |
 
 This Codex adapter covers the 21 Claude command names as same-name references.
+
+Natural requests to find concepts in vault notes (including the former `xuanniao-find-concepts`) route to `graduate`; use `pulse patterns` for recurring themes and `tidy lint` for broken links rather than running all three automatically. Explicit requests for stuck work (including the former `xuanniao-whats-stuck`) route to `tasks stuck`, not a session recap. These aliases do not enable unsolicited startup scans.
 
 ## Execution Rules
 

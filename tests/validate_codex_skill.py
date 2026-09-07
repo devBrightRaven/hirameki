@@ -11,6 +11,8 @@ ASSETS = SKILL / "assets" / "_hirameki_cmds"
 
 EXPECTED_REFERENCES = {f"{name}.md" for name in REQUIRED_CONTENT}
 PLATFORM_DIVERGENT_REFERENCES = {
+    "graduate.md",
+    "tasks.md",
     "__init.md",
     "critique.md",
     "decision-trace.md",
@@ -20,7 +22,7 @@ PLATFORM_DIVERGENT_REFERENCES = {
     "pulse.md",
     "triage.md",
 }
-ADAPTER_RESOLVED_REFERENCES = {"decision-trace.md", "handoff.md", "journal.md", "mekiki.md", "pulse.md", "triage.md"}
+ADAPTER_RESOLVED_REFERENCES = {"graduate.md", "tasks.md", "decision-trace.md", "handoff.md", "journal.md", "mekiki.md", "pulse.md", "triage.md"}
 EXPECTED_REFERENCE_ASSETS = {
     "hirameki-cmds-full-ja.md",
     "hirameki-cmds-full-zh-TW.md",
@@ -78,6 +80,28 @@ def test_codex_references_are_expected_set() -> None:
     references_dir = SKILL / "references"
     actual = {path.name for path in references_dir.glob("*.md")}
     assert actual == EXPECTED_REFERENCES
+
+
+def test_concept_and_status_adapter_regression_guards() -> None:
+    # Static instruction guards complement the independent fixture runs;
+    # they do not claim to execute or prove model behavior.
+    graduate = (SKILL / "references" / "graduate.md").read_text(encoding="utf-8")
+    tasks = (SKILL / "references" / "tasks.md").read_text(encoding="utf-8")
+    router = (SKILL / "SKILL.md").read_text(encoding="utf-8")
+    assert "{vault}/0 Material/" not in graduate
+    assert "Check `{material}`" in graduate
+    assert "{material}/<Title>.md" in graduate
+    assert "discovery-only request returns candidates without writing" in graduate
+    assert "even without repeated wraps" in tasks
+    assert "not as a required threshold for handoff actions" in tasks
+    assert "latest authoritative handoff frontmatter status" in tasks
+    assert "Do not close unrelated subtasks" in tasks
+    assert "status uncertain" in tasks
+    assert "AND never appearing" not in tasks
+    assert "If no recurring tasks found" not in tasks
+    assert "finding concepts" in extract_frontmatter(router)["description"]
+    assert "checking stuck work" in extract_frontmatter(router)["description"]
+    assert "`/hirameki:__init` | `references/__init.md`" in router
 
 
 def test_codex_router_mentions_every_reference() -> None:
@@ -386,6 +410,7 @@ if __name__ == "__main__":
     test_forming_persistence_is_present_in_shipped_guides()
     test_codex_skill_shape()
     test_codex_references_are_expected_set()
+    test_concept_and_status_adapter_regression_guards()
     test_codex_router_mentions_every_reference()
     test_codex_reference_assets_are_exactly_bundled()
     test_non_platform_codex_references_match_claude_commands()
