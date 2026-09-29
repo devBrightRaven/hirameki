@@ -46,6 +46,12 @@ REQUIRED_CONTENT: dict[str, list[str]] = {
     "triage": [
         "wrap", "journal", "handoff",  # the three sub-flows
         "save this", "save all", "skip",  # action prompts
+        "缺口判定",  # 2.1.0: gap check decides which artifacts are proposed
+        "本次建議：",  # 2.1.0: plan line
+        "lesson",  # 2.1.0: fourth artifact, proposed only when the gap check says so
+        "本次沒有新增價值",  # 2.1.0: zero-artifact exit
+        "未提",  # 2.1.0: completion summary distinguishes not-proposed from skipped
+        "The plan line is information, not a question",  # 2.1.0 R1: no extra confirmation stop
     ],
     "lens": [
         "arc", "bridge", "challenge",  # three of four sub-flows
@@ -70,12 +76,21 @@ REQUIRED_CONTENT: dict[str, list[str]] = {
         "Done", "In progress", "Next",
         "templates",
         "daily",
+        "撤回：",  # 2.1.0: withdrawal semantics
+        "已撤回",  # 2.1.0: merge section shown only when a withdrawal exists
+        "實際使用有效",  # 2.1.0: status suffix vocabulary
     ],
     "journal": [
         "HHMM",  # filename format
         "Create", "Append",  # modes
         "Background",
         "Open items",
+        "{journal}/lessons/",  # 2.1.0: lesson entries live under journal
+        "後續結果",  # 2.1.0: follow-up block links outcome back to the earlier judgment
+        "範圍未定",  # 2.1.0: corrections scope tag with an explicit undecided value
+        "行動狀態",  # 2.1.0: judgment vs action state kept apart
+        "No corrections or lesson candidates found",  # 2.1.0 R2: review exits only when both lists are empty
+        "LESSON CANDIDATES",  # 2.1.0 R2: lessons reviewed as rule candidates
     ],
     "decision-trace": [
         "Establish the decision state",

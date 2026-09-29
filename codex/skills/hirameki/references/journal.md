@@ -60,7 +60,7 @@ What prompted this. If related prior notes exist in the vault, reference them wi
 Specific actions and decisions taken, with cause-and-effect narrative.
 
 ## Why this approach
-Reasoning behind key decisions. If trade-offs were made, describe what was chosen and what was set aside.
+Reasoning behind key decisions. If trade-offs were made, describe what was chosen and what was set aside. Omit this section when 判斷與決策過程 already carries the reasoning; do not write the same prose twice.
 
 ## 判斷與決策過程
 
@@ -72,7 +72,8 @@ Reasoning behind key decisions. If trade-offs were made, describe what was chose
   - 尚未驗證的假設：
 - 新出現的證據或經驗：
 - 判斷結果（形成／改變／維持，以及原因）：
-- 現場（原始素材）：
+- 行動狀態（提案／已決定／已執行／結果已驗證）：
+- 現場（原始素材；每條標來源：可回查對話／spec／工具輸出／僅 compaction 摘要）：
 - 仍然不知道什麼：
 - 什麼情況值得重新檢視：
 
@@ -86,9 +87,10 @@ Unexplored directions, alternatives, potential risks worth investigating. If non
 
 ## Corrections
 Things the user corrected the agent on during this session. Each item = one correction.
-Format: "Wrong: [what the agent did] → Right: [what the user wanted]"
+Format: "Wrong: [what the agent did] → Right: [what the user wanted]（範圍：本次任務／專案慣例／長期偏好／範圍未定）"
+Add the scope tag only when it is clear from the conversation; otherwise write 範圍未定. A one-off instruction is not a long-term preference.
 If no corrections happened, write "None."
-These corrections are candidates for agent-guidance updates after review and explicit user approval.
+These corrections are candidates for agent-guidance updates after review and explicit user approval; only 長期偏好 and repeated 專案慣例 are candidates.
 
 ## Open items
 Things still to follow up on. If all done, write "No open items."
@@ -120,6 +122,18 @@ Add to the end of the matched file:
 [New directions to explore. If none, write "None."]
 ```
 
+Optional block, only when this session produced the outcome of a judgment recorded in an earlier entry (same file or another journal file):
+
+```
+### 後續結果（接回 YYYY-MM-DD-HHMM 判斷）
+- 當時預期：
+- 實際結果：
+- 後來修正：
+- 原條目：[[YYYY-MM-DD-HHMM-{topic-slug}]]
+```
+
+The earlier text is never rewritten; the follow-up links back to it.
+
 Also check the "Open items" section — if any items are now complete, mark them with "✓ Done [HH:MM]".
 
 Rules:
@@ -127,7 +141,9 @@ Rules:
 - Show filename, mode (create / append), content summary, and full path, then wait for confirmation before writing
 - Print the full path after writing
 - Append mode does not modify existing content — only adds to the end and updates completion status
-- `Why this approach` explains the rationale for the action taken. `判斷與決策過程` records how a judgment formed or changed; do not repeat the same prose in both sections.
+- `Why this approach` explains the rationale for the action taken. `判斷與決策過程` records how a judgment formed or changed; do not repeat the same prose in both sections. Sections are written only when there is material: omit `Why this approach` when the judgment section carries it; when nothing substantive happened, the judgment section is only its one-line "no update" sentence.
+- 判斷與行動分開：「判斷結果」說判斷本身，「行動狀態」只用四態之一（提案／已決定／已執行／結果已驗證），不混寫。
+- 現場每條標明來源類型；只剩 compaction 摘要時標「僅 compaction 摘要」，拿不到的理由寫未知，不補。
 - Label important claims by evidence level: explicitly stated, reasonably inferred, or insufficient data. Never turn missing evidence into a smooth narrative.
 - 證據硬閘：「當時根據」與「新出現的證據或經驗」各至少包含一項本次對話可直接追溯的具體事實（原句、數值、命令或輸出片段、具名檔案／操作結果）；只寫概括結論不合格。
 - 現場（原始素材）：最多六個依 session 發生順序排列的原始證據單位；每點標明來源角色或操作，保留最小充分原句、數字或輸出片段；未明說的利害關係、動機與因果不得補寫；某類材料不存在就省略，不為湊數改寫。
@@ -142,18 +158,61 @@ Write output in the language specified in `## Vault Structure` → `language`.
 
 ---
 
+## Lesson entries — `{journal}/lessons/`
+
+A lesson is a journal artifact for something reusable beyond the task it came from. It is proposed by `/hirameki:triage` when its gap check finds one; there is no separate command. A lesson qualifies only when all three hold: the evidence is traceable (conversation, spec, tool output, or a linked record); it applies beyond this task; it adds something not already in an existing journal entry, lesson, or spec. Successes qualify as much as failures.
+
+Write target: `{journal}/lessons/YYYY-MM-DD-{slug}.md` (create the folder on first use). Slug language follows the journal rule.
+
+```
+---
+tags:
+  - journal
+  - lesson
+status: reference
+source: codex
+created: YYYY-MM-DD HH:MM
+---
+
+# {one-line lesson}
+
+## 適用範圍
+Where it applies and where it does not.
+
+## 教訓
+The reusable point, in a few sentences.
+
+## 反例
+[[link to a real counterexample]] with one line on why it cuts the other way — or "尚無反例".
+
+## 重新檢查條件
+Observable events that should trigger a re-check.
+
+## 未驗證的部分
+(only when there is material)
+
+## 來源
+[[originating journal entry]], raw evidence links, and the record that holds the counterexample.
+```
+
+Do not retell the event; link to where it is recorded. One fact lives in one place: wrap may summarise the outcome and link here, the journal entry keeps the judgment at the time, the raw record keeps the evidence.
+
+---
+
 ## Review mode — `journal review`
 
 Input: $ARGUMENTS = `review` or `review N` (N = number of days to scan, default 7)
 
 Scan recent journal entries for `## Corrections` sections and propose updates to the owning Codex personal- or project-layer guidance.
 
-### Step 1 — Collect corrections
+### Step 1 — Collect corrections and lesson candidates
 
 Read all `{journal}/YYYY-MM-DD-*.md` files from the past N days.
-Extract items from `## Corrections` sections.
-Skip entries marked "None."
-If no corrections found, respond: "No corrections found in the past N days." and stop.
+Extract items from `## Corrections` sections. Skip entries marked "None."
+
+Also read `{journal}/lessons/YYYY-MM-DD-*.md` from the past N days (by filename date). Each lesson is a candidate for the single question "should this become a rule?"; it keeps its scope, counterexample, and unverified parts as written.
+
+Only when both lists are empty, respond: "No corrections or lesson candidates found in the past N days." and stop. A lesson-only period still runs the review.
 
 ### Step 2 — Deduplicate against existing rules
 
@@ -165,9 +224,10 @@ For each correction, search for existing coverage:
 ### Step 3 — Filter one-time issues
 
 For each remaining correction, assess:
-- Did this type of issue appear in 2+ different sessions? → KEEP
-- Is it a general pattern that could recur? → KEEP
-- Was it a one-time situational mistake? → mark as "SKIP — one-time"
+- Scope tag 長期偏好 → KEEP
+- Scope tag 專案慣例 that appeared in 2+ different sessions → KEEP
+- Scope tag 本次任務 or 範圍未定 → mark as "SKIP — scope" (never promote an undecided scope into a rule)
+- No scope tag: did this type of issue appear in 2+ different sessions, or is it a general pattern? → KEEP; otherwise "SKIP — one-time"
 
 ### Step 4 — Route to correct file
 
@@ -200,13 +260,30 @@ SKIP (one-time):
   - "..." → one-time situational issue
 
 PROPOSED UPDATES:
-  1. [UPDATE] rules/common/coding-style.md
+  1. [UPDATE] <existing owning Codex or project guidance>
      Merge into existing rule: "..."
      + "new wording"
 
   2. [ADD] ~/.codex/AGENTS.md → ## Environment
      + "new rule"
+
+  3. [NARROW] <existing owning Codex personal-layer file>
+     Existing rule "..." → limit to "..."
+
+  4. [EXCEPTION] / [WITHDRAW] as applicable
 ```
+
+Actions are ADD, UPDATE, NARROW (縮小範圍), EXCEPTION (補例外), WITHDRAW (撤回), or KEEP (維持原狀).
+
+Lesson candidates get their own block after PROPOSED UPDATES:
+
+```
+LESSON CANDIDATES (past N days):
+  - [[YYYY-MM-DD-{slug}]] — 適用範圍: ... / 反例: ... / 未驗證: ...
+    Become a rule? (yes → target file per Step 4 / no / later)
+```
+
+A lesson is never promoted automatically; `yes` still goes through Steps 2, 4, and 5 like a correction, and the lesson file itself is not edited.
 
 Wait for user confirmation before making any changes.
 Apply only the changes the user approves (user may approve selectively).

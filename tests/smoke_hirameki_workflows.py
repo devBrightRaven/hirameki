@@ -20,6 +20,7 @@ from validate_commands import WRITE_COMMANDS, check_file
 
 
 ROOT = Path(__file__).resolve().parents[1]
+COMMANDS = ROOT / "commands"
 REFERENCES = ROOT / "codex" / "skills" / "hirameki" / "references"
 TODAY = date(2026, 5, 30)
 
@@ -94,6 +95,34 @@ def normalize_task(item: str) -> str:
     item = re.sub(r"^\[[ xX]\]\s*", "", item.strip())
     item = item.replace("✓ Done", "").strip()
     return re.sub(r"\s+", " ", item).lower()
+
+
+def collect_review_candidates(journal: Path, days: int, today: date) -> dict[str, list[str]]:
+    """Mirror of `journal review` Step 1 (2.1.0): corrections from recent journal
+    entries plus lesson candidates from `{journal}/lessons/`. Read-only."""
+    cutoff = today - timedelta(days=days)
+    corrections: list[str] = []
+    lessons: list[str] = []
+    for path in sorted(journal.glob("????-??-??-*.md")):
+        try:
+            day = date.fromisoformat(path.name[:10])
+        except ValueError:
+            continue
+        if day < cutoff:
+            continue
+        for item in extract_section_items(path.read_text(encoding="utf-8"), {"Corrections"}):
+            if item.strip().rstrip(".").lower() != "none":
+                corrections.append(item)
+    lessons_dir = journal / "lessons"
+    if lessons_dir.exists():
+        for path in sorted(lessons_dir.glob("????-??-??-*.md")):
+            try:
+                day = date.fromisoformat(path.name[:10])
+            except ValueError:
+                continue
+            if day >= cutoff:
+                lessons.append(path.stem)
+    return {"corrections": corrections, "lessons": lessons}
 
 
 def build_fixture(vault: Path) -> None:
@@ -473,6 +502,36 @@ def test_controlled_write_samples_stay_in_fixture_and_use_codex_source() -> None
         assert "本次沒有需要接手的判斷更新" in handoff.read_text(encoding="utf-8")
 
 
+def test_journal_review_runs_on_lesson_only_period() -> None:
+    """R2 regression: a period with lessons but no corrections must not exit early,
+    and the review contract must say so on both the Claude command and the Codex
+    reference."""
+    with tempfile.TemporaryDirectory() as tmp:
+        vault = Path(tmp)
+        journal = vault / "Logs"
+        (journal / "lessons").mkdir(parents=True)
+        (journal / "2026-05-30-1200-no-corrections.md").write_text(
+            "---\ntags:\n  - journal\nstatus: log\nsource: codex\n---\n\n# x\n\n## Corrections\n- None.\n\n## Open items\n- None.\n",
+            encoding="utf-8",
+        )
+        (journal / "lessons" / "2026-05-30-check-process-source-first.md").write_text(
+            "---\ntags:\n  - journal\n  - lesson\nstatus: reference\nsource: codex\n---\n\n# check process source first\n\n## 適用範圍\nx\n\n## 教訓\ny\n\n## 反例\n尚無反例\n\n## 重新檢查條件\nz\n",
+            encoding="utf-8",
+        )
+        before = snapshot_files(vault)
+        found = collect_review_candidates(journal, days=7, today=date(2026, 5, 31))
+        assert found["corrections"] == []
+        assert found["lessons"] == ["2026-05-30-check-process-source-first"]
+        assert snapshot_files(vault) == before
+
+    for root in (COMMANDS, REFERENCES):
+        text = (root / "journal.md").read_text(encoding="utf-8")
+        assert "{journal}/lessons/YYYY-MM-DD-*.md" in text, f"{root}/journal.md: review Step 1 must read lessons"
+        assert "No corrections or lesson candidates found" in text, f"{root}/journal.md: exit only when both lists are empty"
+        assert "No corrections found in the past N days." not in text, f"{root}/journal.md: old corrections-only exit still present"
+        assert "LESSON CANDIDATES" in text, f"{root}/journal.md: lessons must be surfaced as rule candidates"
+
+
 def main() -> None:
     tests = [
         test_init_resolution_prefers_existing_folders,
@@ -482,6 +541,7 @@ def main() -> None:
         test_pulse_week_and_patterns_sources,
         test_write_references_keep_safety_contract,
         test_controlled_write_samples_stay_in_fixture_and_use_codex_source,
+        test_journal_review_runs_on_lesson_only_period,
     ]
     for test in tests:
         test()

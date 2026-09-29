@@ -29,7 +29,7 @@ Block format (append after a `---` horizontal rule):
     ## Wrap [HH:MM]
 
     ### Done
-    - **Item title** `#action-type` `#project`
+    - **Item title** `#action-type` `#project` 已完成
       Description of what was done (optional, can be multi-line with sub-items)
 
     ### In progress
@@ -37,6 +37,13 @@ Block format (append after a `---` horizontal rule):
 
     ### Next
     - item or "TBD"
+
+Status suffix on a Done item (optional, one of three): `已完成` / `測試通過` / `實際使用有效`. Write important verification gaps out loud (e.g. `未測試`, `未在真實環境用過`); a missing suffix means nothing by itself. A Done item may summarise its outcome and link to the spec, result, verification record, or lesson so the reader does not have to open another file for the gist.
+
+Change of state (write only when it happened this session, as its own Done line):
+- `撤回：<original Done item>` — a previously reported completion no longer holds
+- `重開：<item>` — a previously completed or dropped item is active again
+- `取代：<old> → <new>` — a new item supersedes an earlier one
 
 Action type tags (use the closest match, one per item):
   `#test-rewrite` `#test-fix` `#code-review` `#config-update` `#hook-setup`
@@ -73,9 +80,10 @@ Parse all Wrap blocks. For each block, extract:
 
 ### Step 2 — Merge
 
-1. **Done**: Union of all items across all Wrap blocks. Deduplicate items that describe the same action (fuzzy match). Keep the most detailed wording. Preserve chronological order.
+1. **Done**: Union of all items across all Wrap blocks. Deduplicate only items that describe the same task with the same result; similar wording with a different time or outcome stays as separate items. Keep the most detailed wording and the status suffix. Preserve chronological order.
 2. **In progress**: Union. If an item appears in「進行中」in an earlier wrap and「完成」in a later wrap, keep it only in「完成」.
 3. **Next**: Union. Deduplicate. If an item appears in「下一步」in an earlier wrap and「完成」in a later wrap, remove it from「下一步」.
+4. **State changes**: a `撤回：` line moves the matching Done item into a `### 已撤回` section (shown only when at least one exists) with the withdrawal time; a `重開：` line moves the item back to In progress; a `取代：` line shows the new item in Done annotated with what it replaced. Original Wrap blocks are never edited.
 
 ### Step 3 — Output
 
@@ -96,9 +104,13 @@ Source: N Wrap blocks ([HH:MM], [HH:MM], ...)
 - item
 - item
 
+### 已撤回
+- item (撤回 HH:MM) — only when a withdrawal happened
+
 ---
 Duplicates removed: N
 Completed "Next" items removed: N
+State changes applied: N
 ```
 
 Rules:
