@@ -1,5 +1,16 @@
 # Changelog
 
+## [2.1.0] — 2026-09-29
+
+### Features
+
+- gap-driven artifacts, lessons, wrap withdrawals, journal follow-ups (c47d872)
+
+### Other
+
+- Preserve Codex plugin payload bytes across Windows checkouts (5132842)
+- Consolidate concept discovery and authoritative stuck-task checks (eed1004)
+
 ## [2.0.1] — 2026-09-01
 
 ### Bug Fixes
