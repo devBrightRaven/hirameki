@@ -6,7 +6,7 @@ Store the machine-specific vault root and language in `~/.codex/hirameki-local.m
 
 ## Existing configuration
 
-Resolve the vault root and language through the umbrella skill. Do not require `~/.codex/hirameki-local.md` when its read-only migration fallback is complete. Then read folder paths from `## Vault Structure` in `{vault}/AGENTS.md`.
+Resolve the vault root and language through the umbrella skill using explicit current-task settings or Codex's own machine-local configuration. Missing values use first-time setup below, never another agent's configuration. Then read folder paths from `## Vault Structure` in `{vault}/AGENTS.md`.
 
 If configuration exists, show its non-secret fields and their owning files, then ask which field to update. Change only the selected fields and wait for confirmation before writing.
 

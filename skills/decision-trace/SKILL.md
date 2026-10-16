@@ -129,6 +129,19 @@ decision node; that node may later have lifecycle status `active`, `superseded`,
 or `closed`. Do not add `decision_state` or another formation-state field to
 decision-node frontmatter.
 
+## Visible decision reminder
+
+When an explicitly decided, not-yet-recorded choice meets the Promotion gate,
+finish the current work and offer at most one declarative sentence:
+`◆ **決策可記錄｜decision-trace**：{decision and why its rationale or boundary matters to future work; source}`.
+Keep the symbol and workflow name across runtimes; translate the label when needed.
+Use plain Markdown, not color, HTML, or terminal escape sequences.
+Do not repeat the same reminder, ask a follow-up, open a draft/menu, or interrupt
+the task. The marker does not mean saved and does not authorize a write.
+Do not scan the whole vault merely to decide whether to offer the reminder.
+Ordinary-work discovery belongs to each runtime's standing entry; this contract
+alone does not prove automatic triggering.
+
 ## Resolve existing state
 
 Decision nodes use `{journal}/decisions/YYYY-MM-DD-{slug}.md`.

@@ -1,168 +1,51 @@
-# Hirameki コマンド
+# Hirameki — 目的別の五つの入口
 
-Claude Code CLI で使用します。すべてのコマンドは `/hirameki:` で始まります。
+> 2.2.0 ではワークフローの入口を統合しました。ソース検証、モデル評価、インストール、スケジュールは別々に扱います。
 
----
+すべてのコマンドは、まず自分の `~/.claude/vault-local.md` を使い、共有フォルダーは `<vault>/AGENTS.md` の `## Vault Structure` から読みます。vault へのアクセスが必要な場合だけ設定を解決します。明示設定を優先し、他の agent の私有設定は読みません。不足時は `/hirameki:__init` を使い、初期設定の書き込みにも承認が必要です。
 
-## Orchestrators（オーケストレーター）
+## 主な入口
 
-ここから始めましょう — 各 orchestrator は関連するプリミティブを一つのガイド付きフローにまとめます。個々のプリミティブは単独でも引き続き使用できます。
+| Entry | Purpose |
+|---|---|
+| `next` | 作業を再開し、有効なタスクや障害を確認します。`next tasks [N]`、`next stuck [N]`、`next week [N]` に対応します。 |
+| `lens` | 問いに応じて履歴、立場、関係、弱点、機会、パターンを調べます。`lens cards` は概念カード候補、`lens random` は明示されたランダム探索です。 |
+| `compose` | 目的に応じて執筆、編集、構成、文体、企画評価、レビューを行います。提供された原稿の編集に vault 全体の走査は不要です。 |
+| `decision-trace` | 重要な選択とトレードオフを整理します。ユーザーの代わりに決定しません。 |
+| `triage` | 新しい価値のある wrap、journal、lesson、handoff だけを提案します。最初の草稿の前に確認段階を増やしません。 |
 
-### `/hirameki:triage`
-セッション終了バンドル：wrap → journal → handoff を順番に実行。各ステップで完全なドラフトを表示し、save this / save all / skip / edit を選択。`save all` は残りを一括承認します。
-引数なし。セッション終了時に実行。
+## 専用ツールと恒久的なショートカット
 
-### `/hirameki:lens <概念>`
-トピック理解フロー：arc → ポジション抽出 → bridge → challenge。各ステップを個別に保存またはスキップできます。
-入力：単一の概念またはトピック（必須）。
+| Entry | Purpose |
+|---|---|
+| `tidy` | 保守：`tidy tasks` はアーカイブ提案のみ、`tidy review` は corrections／lessons の検討、`tidy snapshot` は読み取り専用の棚卸しです。引数なしの Claude は metadata 検査、Codex はタスク提案を維持します。 |
+| `mekiki` | 外部資料の研究入口です。他の処理から自動実行しません。 |
+| `init (`__init`)` | この機械と共有フォルダーを設定します。他の agent の設定は借用しません。 |
+| `wrap` | 進捗を一件記録します。全体の triage は不要です。 |
+| `journal` | 作業・判断・条件を満たす lesson を記録または追記します。`journal review` は `tidy review` と同じ契約を使います。 |
+| `handoff` | 直接引き継ぎを準備します。全体の triage は不要です。 |
 
-### `/hirameki:compose <トピック>`
-トピック創作フロー：あなたの文体で回答を作成 → 五問フレームテスト。各ステップを個別に保存またはスキップできます。
-入力：トピックまたは質問（必須）。スタンドアロン — `/hirameki:lens` を先に実行する必要はありません。
+## 旧名からの移行
 
-### `/hirameki:mekiki <入力>`
-外部リソースキャプチャ。入力タイプを自動検出：
-- GitHub URL または `owner/repo` → リポジトリ分析（テクニック抽出 + adopt/defer/reject 判定）
-- 記事 URL → Web 記事キャプチャ + vault クロスリファレンス
-- 貼り付けたテキストまたはローカルファイルパス → 記事キャプチャ + vault クロスリファレンス
+十の旧名は最初の統合リリースでのみ転送として残します。恒久的に呼び出せる名前は十一です。直接記録のショートカットは失効しません。宿主での metadata 非表示は未検証です。
 
-リポジトリ出力：`{research}/mekiki-{repo名}.md`
-記事出力：`{inbox}/YYYY-MM-DD-{slug}.md`
+| Old name | Destination |
+|---|---|
+| `arc` | lens history |
+| `bridge` | lens bridge |
+| `challenge` | lens challenge |
+| `harvest` | lens opportunities |
+| `graduate` | lens cards |
+| `reflect` | compose voice |
+| `frame` | compose frame |
+| `critique` | compose review |
+| `tasks` | next tasks; stuck → next stuck |
+| `pulse` | next week; patterns → lens patterns; snapshot → tidy snapshot |
 
----
+## 安全と証拠
 
-## セッション
+保存前に全文と保存先を表示します。`save all` は表示済みの草稿だけを対象とし、残りの書き込み前に残りの草稿をすべて表示します。変更した草稿は再表示して承認を得ます。分析、転送、規則の提案、決定のリマインダーは書き込み権限ではありません。一部成功を保持し、復旧では未完了の承認済み操作だけを扱います。
 
-### `/hirameki:next`
-セッション再開後の定位。完了した作業・未処理事項・次のステップを整理。入力不要。ファイルへの書き込みなし。
+未解決または形成中の trace は `save this` を使います。確定した決定ノードとは区別します。
 
-### `/hirameki:wrap [説明]`
-進捗スナップショット。完了・進行中・次のステップを記録 — 当日の wrap log に追記。1 日に複数回実行可能。
-オプション入力：今回の wrap の重点説明。
-書き込み先：`{daily}/YYYY-MM-DD.md`
-
-### `/hirameki:journal <説明>`
-作業ログ、推論、判断の軌跡を記録。以前の見方、証拠、変化、未解明点、再検討条件を区別し、変化がなければ捏造しない。
-入力：トピック説明（必須）。
-書き込み先：`{journal}/YYYY-MM-DD-HHMM-{トピック}.md`
-
-### `/hirameki:decision-trace <決定の問いまたは文脈>`
-読み取り専用の形成フェーズでは `unresolved`、`forming`、`decided`、`reviewing` を識別し、決定の問い、実行可能な選択肢、出典付きの証拠、仮定と未解明点、制約、結果、撤回コスト、一つの未解決の核心質問を示す。あなたの代わりに選ばず、書き込まない。
-未解決または形成中の trace は `save this` で session 間保存し、`{journal}` または `{handoff}` に置く。`{journal}/decisions/` には置かない。明示的に決定された選択だけが decision node になる。
-条件付き書き込みフェーズは、あなたが選択を明示または確認した後だけ開始する。昇格根拠、完全なドラフト、対象パス、status 変更を表示し、`save this` のときだけ書き込む。`active`／`superseded`／`closed` のライフサイクル動作を維持する。
-書き込み先：未解決／形成中の trace → `{journal}` または `{handoff}`。明示的に決定された node → `{journal}/decisions/YYYY-MM-DD-{slug}.md`。いずれも `save this` が必要
-
-### `/hirameki:handoff`
-セッション引き継ぎ文書。現在有効な決定と、次のセッションに影響する判断の更新を分けて記録。
-書き込み先：`{handoff}/YYYY-MM-DD-{slug}.md`
-
----
-
-## 理解（スタンドアロン）
-
-これらは `/hirameki:lens` がまとめるプリミティブです。素早いピンポイント調査には直接呼び出せます。
-
-### `/hirameki:arc <概念>`
-概念進化トラッカー。vault 全体でその概念の最初の登場・タイムライン・現在の状態・未探索の角度を表示。
-書き込み先：`{research}/arc/YYYY-MM-DD-{概念}.md`。同概念・同日は追記。
-
-### `/hirameki:bridge <A> and <B>`
-二つのトピック間の隠れたつながり。直接の交差点・橋渡しノート・より深いつながりの仮説を提案。
-書き込み先：`{research}/bridge/YYYY-MM-DD-{A}-{B}.md`。同ペア・同日は追記。
-
-### `/hirameki:challenge <トピック>`
-論証の弱点分析。このトピックに関する vault の各主張について、内部矛盾・未検証の前提・論理の飛躍・証拠の欠缺を確認。
-書き込み先：`{research}/challenge/YYYY-MM-DD-{トピック}.md`
-
-### `/hirameki:reflect <質問>`
-Vault 文体での回答。あなたの文章スタイルを分析し、ポジションを抽出し、あなたの文体で回答を記述。出典引用と確信度の注記付き。
-`save` を追加で書き込み：`{research}/reflect/YYYY-MM-DD-{質問}.md`
-
----
-
-## 創作（スタンドアロン）
-
-これらは `/hirameki:compose` がまとめるプリミティブです。
-
-### `/hirameki:frame <アイデア>`
-制作前チェックポイント。五問フレーム（Only-I テスト・衝突スキャン・賭け・緊張・証拠）。四つの判定：PROCEED / RETHINK / KILL / CONSOLIDATE。コンテンツを生成しない — 存在すべきかどうかのみを評価。
-`save` を追加で書き込み：`{research}/frame/YYYY-MM-DD-{slug}.md`
-
-### `/hirameki:critique <ファイル>`
-マルチモデル文章クリティーク。三評者を並列起動（Opus / Codex GPT / Gemini Pro）。各評者が感官密度・構造的緊張・共鳴を評点（1–10）。比較表に統合し、不一致を強調表示。
-書き込み先：`{vault}/_writing_lab/benchmark/`
-
----
-
-## Vault
-
-### `/hirameki:pulse [week|patterns]`
-3 つのモード：
-- **`pulse`** — 即時概要：コンテンツテーマ・最近の活動・統計。
-- **`pulse week`** — 週次レビュー：宣言した優先事項と実際のファイル変更のギャップ分析。
-- **`pulse patterns`** — 潜流とクラスター：独立した記事のない繰り返しテーマと形成中のアイデアグループ。
-ファイルへの書き込みなし。
-
-### `/hirameki:harvest [save]`
-既存コンテンツから実行可能なアイデアを収穫。7 カテゴリ（各最大 5 件）：書ける記事 / 作れるツールまたはプロジェクト / 研究すべきテーマ / 連絡すべき人またはコミュニティ / 別のメディアで表現したいアイデア / まだ取引していない価値 / 卒業できるアイデア。
-卒業カテゴリ：2 フェーズ — 候補を確認後にファイルを作成。
-`save` を追加でサマリーを書き込み：`{research}/harvest/`
-
-### `/hirameki:graduate <ノート>`
-ノートを安定した概念カードに昇格。フロントマターを検証し、正式ステータスを設定、関連カードにリンク。
-
-### `/hirameki:tasks [日数|stuck]`
-wrap logs と journal から次のアクションを集約。重複除去して出現頻度順に並べる。3 回以上登場するアイテムは先延ばしシグナルとしてフラグ表示。
-- **`tasks`** — 直近 3 日
-- **`tasks N`** — N 日分を遡る
-- **`tasks stuck`** — 「完了」セクションに一度も現れていない繰り返し未完了タスク
-ファイルへの書き込みなし。
-
----
-
-## メンテナンス
-
-### `/hirameki:tidy [tags|fix|full|lint]`
-フロントマター健全性チェック。デフォルトは欠落フィールド + 一致性チェックのみ（軽量）。
-- **`tidy`** — 欠落フィールド + 一致性チェック
-- **`tidy tags`** — タグ収束分析（主要タグ・孤立タグ・統合候補）
-- **`tidy fix`** — 欠落フィールド + 一致性 + 自動修正
-- **`tidy full`** — 全チェック
-- **`tidy lint`** — コンテンツ健全性（矛盾・陳腐な主張・孤立ノート・デッドリンク）
-
-書き込み先：`{research}/tidy/`
-
-### `/hirameki:__init`
-初回セットアップ：vault の検出・言語設定・フォルダー解決、`~/.claude/vault-local.md`（vault パス・言語）と `<vault>/AGENTS.md`（フォルダー構造）への書き込み。マシンごとに一回実行。設定が存在する場合は Mode B（再設定）として動作。
-
----
-
-## 書き込み動作一覧
-
-| コマンド | 書き込み先 | トリガー | 同日重複 |
-|----------|-----------|---------|---------|
-| `triage` | daily + journal + handoff | ステップごと（save this/save all/skip） | `save all` は残りを一括承認 |
-| `lens` | research/lens/ | ステップごと（save/skip） | 各ステップで独立したファイル |
-| `compose` | research/compose/ | ステップごと（save/skip） | 各ステップで独立したファイル |
-| `wrap` | daily | 常時 | 新しい Wrap ブロックを追記 |
-| `journal` | journal | 常時 | 同テーマは追記、別テーマは新規作成 |
-| `decision-trace` | journal/decisions | 明示的な選択と `save this` の後 | 昇格条件を満たす場合のみ；active/superseded/closed lifecycle |
-| `handoff` | handoff | 常時 | 同日付は上書き |
-| `arc` | research/arc/ | 常時 | 同概念は追記 |
-| `bridge` | research/bridge/ | 常時 | 同ペアは追記 |
-| `challenge` | research/challenge/ | 常時 | 同トピックは追記 |
-| `reflect` | research/reflect/ | `save` のみ | 同質問は追記 |
-| `frame` | research/frame/ | `save` のみ | アイデアごとに新規 |
-| `mekiki`（リポジトリ） | research/ | 常時 | リポジトリごとに新規 |
-| `mekiki`（記事） | inbox/ | 常時 | 記事ごとに新規 |
-| `graduate` | コンテンツフォルダー | 確認後 | 毎回独立 |
-| `harvest` | research/harvest/ | `save` のみ | 追記更新 |
-| `tidy` | research/tidy/ | 常時 | 追記更新 |
-| `critique` | _writing_lab/benchmark/ | 常時 | 毎回新規 |
-| `tasks` | なし | — | — |
-| `next` | なし | — | — |
-| `pulse` | なし | — | — |
-
-書き込みを行うすべてのコマンドは、実行前にプレビューと完全なパスを表示します。
-
-出力言語は `/hirameki:__init` 初回実行時に設定され、`~/.claude/vault-local.md` に保存されます。
+◆ **決策可記錄｜decision-trace** ：リマインダーであり、保存や承認ではありません。

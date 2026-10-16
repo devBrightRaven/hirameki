@@ -175,7 +175,7 @@ After writing, check if `/hirameki:wrap` has already been run this session (look
 | `/hirameki:handoff` | Work unfinished, next session needs explicit guidance | New file in `{handoff}/` |
 | `/hirameki:wrap` | End of session, log what happened today | Append to today's wrap log |
 | `/hirameki:next` | Start of new session, orient self | Read-only, summarises recent work |
-| `/hirameki:tasks` | Global view of open work across vault | Read-only, aggregates |
+| `/hirameki:next tasks` | Global view of open work across vault | Read-only, aggregates |
 
 If unsure which to use: run both. They are complementary, not duplicates.
 
@@ -190,3 +190,4 @@ If unsure which to use: run both. They are complementary, not duplicates.
 - Do not add a `name:` field to this file's frontmatter — it would break the `hirameki:` prefix
 - Do not turn missing evidence into a judgment update. Keep observations, inferences, assumptions, decisions, and later outcomes distinct.
 - Write output in the language specified in `## Vault Structure` → `language`
+- A file listing shows files only and can miss empty folders; never state or act on a folder or file being missing unless a direct check confirms it; otherwise say no files were found there.

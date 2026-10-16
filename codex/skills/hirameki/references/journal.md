@@ -2,12 +2,12 @@
 description: Write or append a work log entry. Use "review" to extract rule updates from recent corrections.
 ---
 
-Resolve vault configuration through the umbrella Hirameki adapter to get the vault path, journal folder, content folders, and language. The umbrella owns any migration fallback; this reference does not read Claude configuration directly.
+Resolve vault configuration through the umbrella Hirameki adapter to get the vault path, journal folder, content folders, and language. This reference does not read another agent's configuration.
 If the section does not exist or required fields are missing, stop and respond: "Setup not complete. Please run `/hirameki:__init` first."
 
 Write or append a work log and reasoning record for the given topic.
 
-Input: $ARGUMENTS (topic description — optional)
+Input: $ARGUMENTS (topic description — optional). If the first argument is `review`, use Review mode below before any journal drafting or topic confirmation.
 - If $ARGUMENTS is provided, use it as the topic directly.
 - If $ARGUMENTS is empty, infer the topic from session activity (recently modified files, tasks completed, decisions made). Show the inferred topic as a single line — "Topic: {inferred topic} — proceed?" — and wait for a yes/no confirmation before continuing. Do NOT ask open-ended questions.
 
@@ -201,96 +201,8 @@ Do not retell the event; link to where it is recorded. One fact lives in one pla
 
 ## Review mode — `journal review`
 
-Input: $ARGUMENTS = `review` or `review N` (N = number of days to scan, default 7)
-
-Scan recent journal entries for `## Corrections` sections and propose updates to the owning Codex personal- or project-layer guidance.
-
-### Step 1 — Collect corrections and lesson candidates
-
-Read all `{journal}/YYYY-MM-DD-*.md` files from the past N days.
-Extract items from `## Corrections` sections. Skip entries marked "None."
-
-Also read `{journal}/lessons/YYYY-MM-DD-*.md` from the past N days (by filename date). Each lesson is a candidate for the single question "should this become a rule?"; it keeps its scope, counterexample, and unverified parts as written.
-
-Only when both lists are empty, respond: "No corrections or lesson candidates found in the past N days." and stop. A lesson-only period still runs the review.
-
-### Step 2 — Deduplicate against existing rules
-
-For each correction, search for existing coverage:
-- Search `~/.codex/AGENTS.md` and existing Codex personal-layer guidance for personal workflow facts
-- Search the applicable project `AGENTS.md` files for repository requirements
-- If already covered → mark as "SKIP — already exists in {file}:{line}"
-
-### Step 3 — Filter one-time issues
-
-For each remaining correction, assess:
-- Scope tag 長期偏好 → KEEP
-- Scope tag 專案慣例 that appeared in 2+ different sessions → KEEP
-- Scope tag 本次任務 or 範圍未定 → mark as "SKIP — scope" (never promote an undecided scope into a rule)
-- No scope tag: did this type of issue appear in 2+ different sessions, or is it a general pattern? → KEEP; otherwise "SKIP — one-time"
-
-### Step 4 — Route to correct file
-
-For each KEEP correction, determine the target file:
-
-| Fact ownership | Target file |
-|-------|------------|
-| Personal workflow, environment, communication, cross-project preferences | `~/.codex/AGENTS.md` or the existing owning Codex personal-layer file |
-| Requirements needed by any agent working in one repository | Applicable project `AGENTS.md` |
-| Vault knowledge or reflection | Keep in the vault; do not treat it as runtime guidance |
-
-Before proposing a personal-layer edit, read `~/.codex/agent-docs-constitution.md` when present. Do not create a parallel rules file when an existing file already owns the fact.
-
-### Step 5 — Check for merge opportunities
-
-Before adding a new rule, check if it can be merged with an existing rule in the target file.
-Prefer updating an existing bullet point over adding a new one.
-
-### Step 6 — Output
-
-Show a table:
-
-```
-=== Corrections Review (past N days) ===
-
-SKIP (already covered):
-  - "..." → exists in rules/common/testing.md:12
-
-SKIP (one-time):
-  - "..." → one-time situational issue
-
-PROPOSED UPDATES:
-  1. [UPDATE] <existing owning Codex or project guidance>
-     Merge into existing rule: "..."
-     + "new wording"
-
-  2. [ADD] ~/.codex/AGENTS.md → ## Environment
-     + "new rule"
-
-  3. [NARROW] <existing owning Codex personal-layer file>
-     Existing rule "..." → limit to "..."
-
-  4. [EXCEPTION] / [WITHDRAW] as applicable
-```
-
-Actions are ADD, UPDATE, NARROW (縮小範圍), EXCEPTION (補例外), WITHDRAW (撤回), or KEEP (維持原狀).
-
-Lesson candidates get their own block after PROPOSED UPDATES:
-
-```
-LESSON CANDIDATES (past N days):
-  - [[YYYY-MM-DD-{slug}]] — 適用範圍: ... / 反例: ... / 未驗證: ...
-    Become a rule? (yes → target file per Step 4 / no / later)
-```
-
-A lesson is never promoted automatically; `yes` still goes through Steps 2, 4, and 5 like a correction, and the lesson file itself is not edited.
-
-Wait for user confirmation before making any changes.
-Apply only the changes the user approves (user may approve selectively).
-
-Rules:
-- NEVER add a rule without checking for duplicates first
-- NEVER modify Codex or project guidance without explicit user approval
-- NEVER copy Claude personal config into a repository or use the vault as runtime config
-- Prefer merging into existing rules over adding new ones
-- Show the exact diff (old → new) for merge operations
+This is a permanent shortcut to `tidy review`, not a parallel rule-review implementation.
+Before ordinary journal topic inference, recognize `review [N]` and load the delivered
+`capabilities/review.md` under the loaded skill's `references/`.
+Preserve the requested scope and date window, then execute that shared contract only.
+No journal draft, save menu or rule write is implied by a review request.

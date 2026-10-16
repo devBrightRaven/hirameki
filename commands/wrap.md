@@ -121,3 +121,4 @@ Rules:
 ---
 
 Write section headings in the language specified in `## Vault Structure` → `language`.
+A file listing shows files only and can miss empty folders; never state or act on a folder or file being missing unless a direct check confirms it; otherwise say no files were found there.

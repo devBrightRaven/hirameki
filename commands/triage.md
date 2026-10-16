@@ -14,10 +14,45 @@ Input: $ARGUMENTS — ignored. Triage takes no arguments. (The user may adjust t
 Every sub-flow uses `save this / save all / skip / edit`.
 
 - `save this` writes only the current draft, prints its path, and continues to the next sub-flow.
-- `save all` writes the current draft and grants batch approval for every remaining triage draft. For each remaining sub-flow, still show the full draft and target path, then write it without another `Action?` pause and print the path.
+- `save all` authorizes only drafts whose full content and target path have been displayed in a visible reply. Approval is bound to the displayed text: the written bytes must equal the displayed draft, with no recomposition between display and write.
+- When `save all` is chosen, write the current (already shown) draft; then, before any further write, display every remaining proposed draft in full with its target path in one visible reply. Only after that display, write them in run order without another `Action?` pause, printing each path.
+- A remaining draft that was not displayed before its write is not covered by `save all`. If a draft must change after display (for example a write failure changes a path), display the changed draft again before writing it.
 - `skip` does not write the current draft and continues to the next sub-flow.
 - `edit` takes inline edits, shows the full revised draft, then asks the same action menu again.
 - Accept legacy `save` as an alias for `save this`.
+
+---
+
+## Task view (shared step)
+
+A valid restore_pending task is visible and actionable now; do not require waiting for scheduled integration before the task can resume. Only the designated writer integrates the formal index; do not suggest that this reader performs that operation. Restoring visibility does not grant permission to execute the underlying task or its external actions.
+
+Resolve `{research}` from `## Vault Structure`. If `<vault>/<research>/tidy/tasks/index.json` exists, run:
+
+`python3 -B -X utf8 "${CLAUDE_PLUGIN_ROOT}/scripts/task_view_cli.py" --vault <vault> --data <research>/tidy/tasks --gate-version <G> --page-size 20 --offset 0`
+
+This is a bounded preview when `pagination.all_displayed` is false. For active, uncertain and exceptions, report total, returned, earlier_not_displayed, remaining and next_offset. Unshown uncertain items stay visible as counts; never claim all done or a complete inventory from a partial page.
+
+For subsequent pages use the reported next_offset and pin both --expected-revision <index_revision> and --expected-view-revision <view_revision> from the first response. Changed index, source or restore overlay invalidates the combined inventory: report it and stop. Discard the completeness claim, do not combine the pages, and do not retry through another interpreter or fall back to raw notes. A later empty page does not mean the full list is empty.
+
+A comprehensive inventory requires all relevant pages. A bounded orientation may show a preview with totals and next offsets, but must not rank unseen tasks. If output is too large, reduce page size and read complete records; tool truncation is not successful inspection. “Every” below means every returned record plus explicit omitted counts until all requested pages have been read. Paging does not weaken full reader validation or the archive gate.
+
+
+Before running, check that `${CLAUDE_PLUGIN_ROOT}/scripts/task_view_cli.py` exists. If it is missing, say so explicitly (「外掛目錄缺少任務檢視腳本」: the installed plugin payload does not yet ship the task-view scripts, a plugin payload limitation), then use the raw-note fallback below as unverified candidates only; never imply the task view ran or that nothing is open.
+
+Run the line with `python3`; if it cannot start (command not found, or a Windows Store stub error / non-JSON output mentioning the Microsoft Store), run the same line with `python`. `<G>` is the single line of `${CLAUDE_PLUGIN_ROOT}/scripts/TASK_GATE_VERSION`. If that file is missing, empty or not exactly one line, the gate version is unavailable: report it, never substitute a remembered or hard-coded value, do not run the reader, and use the raw-note fallback below as unverified candidates only; never imply the task view ran or that nothing is open. The command is read-only. Parse its JSON (`active`, `uncertain`, `exceptions`) and show three sections:
+
+- **有效待辦**: every `active` task with summary and source link. Mark `restore_pending` as 「取回申請待整合」 and `source_changed` as 「來源已變更」.
+- **狀態未確認**: every `uncertain` task with its reason (the `exceptions` entry for that task_id) and source link. Keep each item's own reason visible (for example a stale gate version versus missing evidence); never merge uncertain items under one generic label.
+- **例外**: every `exceptions` entry with its path.
+
+Never hide uncertain tasks or exceptions, and never read an empty list as "all done" when `view_status` is not `complete`. A task the view lists as archived is not open: do not re-derive it from raw notes. List every returned record individually; never collapse records into ID ranges or "and N more" without the omitted counts above. A non-zero exit whose JSON exception reason is `page-index-revision-changed` or `page-effective-view-changed` (a revision mismatch on a later page) is not an unreadable index: report the mismatch and stop, with no raw-note fallback. Any other non-zero exit or unparseable output: say 「待辦索引無法讀取」 and fall back to the raw-note behavior below.
+
+If no index exists, keep the raw-note behavior below unchanged and print exactly one line: 「尚無有效待辦索引，以下由原始紀錄推導，未經歸檔驗證。」
+
+The raw-note fallback excludes items explicitly finished (「已完成」, 「完成」, `✓ Done`, `[x]`, `Done`), withdrawn (「撤回」, `withdrawn`) or superseded (「已取代」, `superseded`), including a later closing Wrap block in the scanned window. Interpret marks in context: 未完成 is not closed; a replacement is a separate item. Unmarked items without explicit status evidence are `status uncertain`, not confirmed active tasks. Keep them visible in a separate uncertain list in default and stuck modes; never automatically archive them. Explicit unfinished or reopened evidence may establish active status; missing an index or repeating an Open item does not. repetition cannot reopen a closed item, only newer explicit reopening does. If an existing index is unreadable, raw notes produce unverified candidates, not authoritative active or completed state; do not silently discard indexed closure or bypass a cross-page revision mismatch.
+
+For triage the view is the saved baseline: wrap and handoff must not re-propose archived tasks as open, and uncertain tasks are listed as 「未確認」 in In progress / In flight. This adds no confirmation stop.
 
 ---
 
@@ -302,7 +337,7 @@ Show the full draft and the target path. Then ask:
 [Lesson] — Action? (save this / save all / skip / edit)
 ```
 
-Apply the action model above. At the final sub-flow, `save all` is equivalent to `save this` because no sub-flow remains.
+Apply the action model above. At the final sub-flow, `save all` is equivalent to `save this` because no sub-flow remains and no undisplayed draft exists.
 
 ---
 
@@ -320,8 +355,8 @@ Triage done: wrap {✓ saved | – skipped | · 未提} / journal {✓ saved | �
 
 ## Rules
 
-- Never write a file without `save this`, `save all`, or legacy `save` approval. An active `save all` is confirmation for the remaining triage drafts.
-- Show the FULL draft content and target path before every write. With active `save all`, show each remaining draft and write it without another `Action?` pause.
+- Never write a file without `save this`, `save all`, or legacy `save` approval. An active `save all` is confirmation only for remaining drafts already displayed in full with their target path in a visible reply.
+- Show the FULL draft content and target path before every write. With active `save all`, display every remaining draft before the first further write, then write them without another `Action?` pause; a draft changed after display is displayed again before it is written.
 - A sub-flow that the gap check did not propose is not run; every 略過 in the plan line carries a reason. The plan line itself never pauses for an answer; the user adjusts the run with `all`, `+artifact`, or `-artifact` at any `Action?` prompt, and only `save this` / `save all` writes.
 - Do not accept $ARGUMENTS input.
 - Timestamps use local time in HH:MM format (24-hour)

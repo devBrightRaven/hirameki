@@ -64,241 +64,75 @@ Either way, `__init` writes a **split configuration**: your vault's folder struc
 
 ### Codex compatibility
 
-Claude Code remains the command-native surface for Hirameki. The repository also includes a Codex adapter at `codex/skills/hirameki/`: one umbrella `SKILL.md` plus 21 same-name workflow references. Codex users keep the same Hirameki vocabulary (`wrap`, `journal`, `decision-trace`, `handoff`, `mekiki`, etc.) while avoiding 21 always-visible skill entries.
-
-The Codex adapter prefers `~/.codex/hirameki-local.md` for per-machine vault settings, with `~/.claude/vault-local.md` as a migration fallback. Claude-specific features are adapted where possible: `__init` writes Codex-local config, and `critique` uses only the reviewers available from a Codex session.
+Claude Code remains the command-native surface. The Codex adapter uses one umbrella skill with five primary purpose routes, permanent direct shortcuts and small transitional redirects. Only the needed contract is loaded; independent review uses the host's existing authorized pipeline. Each runtime resolves its own configuration; there is no other-agent migration fallback.
 
 ---
 
-### Commands
+### Hirameki — five purpose-based entries — Detailed guide
 
-21 commands, grouped by how you use them.
+> Version 2.2.0 consolidates the workflow entries; source validation, model acceptance, installation and scheduling are separate.
 
----
+Every command reads its own `~/.claude/vault-local.md` only when vault access is needed, then `<vault>/AGENTS.md` (`## Vault Structure`) for canonical folders. Explicit task settings take precedence. Never read another agent's private configuration. Missing setup uses `/hirameki:__init`; setup writes require approval.
 
-#### Orchestrators
+## Primary entries
 
-Guided flows that bundle related primitives into a single interactive sequence. Each step shows a full draft — save, skip, or edit before moving on. The underlying primitives all work standalone.
+| Entry | Purpose |
+|---|---|
+| `next` | Continue work, inspect effective tasks or blockers; `next tasks [N]`, `next stuck [N]`, `next week [N]`. |
+| `lens` | Explore only the requested history, positions, relationships, weaknesses, opportunities or patterns; `lens cards` discovers concept cards and `lens random` requires an explicit request. |
+| `compose` | Draft, edit, outline, voice, frame or review according to purpose; supplied drafts do not require a vault scan. |
+| `decision-trace` | Form and preserve consequential choices without choosing for the user. |
+| `triage` | Close with only useful wrap, journal, lesson or handoff drafts; no new confirmation before the first draft. |
 
-**`/hirameki:triage`**
+## Specialized tools and permanent shortcuts
 
-*Use when: you're wrapping up a session and want to capture everything in one go.*
+| Entry | Purpose |
+|---|---|
+| `tidy` | Maintenance: `tidy tasks` is read-only archive proposals; `tidy review` reviews corrections/lessons; `tidy snapshot` is read-only inventory. Claude bare tidy retains metadata checks; Codex bare tidy retains task proposals. |
+| `mekiki` | External research intake; it does not start automatically during other workflows. |
+| `init (`__init`)` | Configure the current machine and canonical folder layout; do not borrow another agent's setup. |
+| `wrap` | Record one progress checkpoint without full triage. |
+| `journal` | Record or append work, judgments or a qualified lesson. `journal review` uses the same `tidy review` capability. |
+| `handoff` | Prepare a direct handoff without running full triage. |
 
-End-of-session bundle. Walks through wrap → journal → handoff in sequence. Each step shows a full draft with save this / save all / skip / edit. `save all` approves the current and remaining drafts without repeated prompts. Shares a single session-state scan across all three sub-flows. Run once at session end. No arguments.
+## Migration redirects
 
----
+Ten names remain as redirects for the first consolidation release only; eleven permanent callable names remain. Direct shortcuts do not expire. Host metadata hiding has not been verified.
 
-**`/hirameki:lens <concept>`**
+| Old name | Destination |
+|---|---|
+| `arc` | lens history |
+| `bridge` | lens bridge |
+| `challenge` | lens challenge |
+| `harvest` | lens opportunities |
+| `graduate` | lens cards |
+| `reflect` | compose voice |
+| `frame` | compose frame |
+| `critique` | compose review |
+| `tasks` | next tasks; stuck → next stuck |
+| `pulse` | next week; patterns → lens patterns; snapshot → tidy snapshot |
 
-*Use when: you want to deeply understand how a concept lives in your vault — its history, your positions on it, how it connects to something else, and where the arguments might be weak.*
+## Safety and evidence
 
-Topic understanding flow. Four steps in sequence: arc → position extraction → bridge → challenge. Bridge auto-suggests a related topic from the arc step; you can accept or change it. Each step can be saved or skipped individually. Saves to `{research}/lens/`.
+Show complete content and target path before saving. `save all` covers only displayed drafts; display all remaining drafts before further writes. A changed draft needs a new display and approval. Analysis, redirect, rule-review proposal or a decision reminder is not write authority. Preserve partial success and retry only unfinished approved operations under the applicable contract.
 
----
+An unresolved or forming trace may persist across sessions only after `save this`; it remains a discussion trace, not a decided node.
 
-**`/hirameki:compose <topic>`**
+◆ **決策可記錄｜decision-trace** : reminder only, not saved or approved.
 
-*Use when: you want to write something grounded in your vault, and want to validate the idea before fully committing.*
+## Operational details
 
-Topic creation flow. Two steps: voice (writes a response in your style, drawing on your vault positions) → frame (runs the five-question validation test). Standalone — does not require running `/hirameki:lens` first. Each step can be saved or skipped. Saves to `{research}/compose/`.
+- The bundled task reader provides separately labelled active, uncertain and exceptions lists. State omitted counts and revision pins; never infer all done from an empty or partial page.
+- Unmarked items without explicit status evidence stay visible as status uncertain, not confirmed active tasks, and are never automatically archived. A newer evidenced closure wins over an old Open item.
+- Restore uses the delivered small operation guide, `--restore-contract`, `--validate-restore` and `--task-id`. Never print the entire index or search the implementation to discover schema. After separately approved immutable request/approval records, read back immediate visibility.
+- Lens produces one coherent sourced result, not four mandatory reports. Atomic cards require provenance, existing-card checks, full draft approval and separately approved MOC updates.
+- Compose preserves uncertainty, quotations, URLs and authored positions. Technical usefulness is not rejected for lacking literary tension. Independent review uses the actual authorized host pipeline, not simulated panels.
+- Triage keeps zero-artifact and existing-spec exits, display-before-save and partial-save recovery. Review proposals never change rules through `save all`.
+- The five-entry layout does not enable a scheduler, add hooks, deploy runtime copies or integrate akegarasu-no-yume automatically. Existing acceptance evidence retains its tested version and scope.
 
----
-
-**`/hirameki:mekiki <input>`**
-
-*Use when: you want to capture an external resource — a GitHub repo, a web article, or a piece of text — and integrate it into your vault.*
-
-External resource capture. Auto-detects input type:
-
-| Input | Route | Output |
-|-------|-------|--------|
-| GitHub URL or `owner/repo` | Repo analysis: technique extraction + adopt/defer/reject | `{research}/mekiki-{repo}.md` |
-| Article URL | Article capture + vault cross-reference + integration verdict (integrate / revisit-later / skip) | `{inbox}/YYYY-MM-DD-{slug}.md` |
-| Pasted text or local file path | Article capture + vault cross-reference + integration verdict (integrate / revisit-later / skip) | `{inbox}/YYYY-MM-DD-{slug}.md` |
-
----
-
-#### Session
-
-**`/hirameki:next [N|lucky]`**
-
-*Use when: you're resuming mid-session and need a quick orientation.*
-
-Orient after resuming a session. Summarises what was done, what's open, what's in your inbox, and what to do next — scanning the session's task list, file activity, recent decisions, and yesterday's wrap log. Pass a number to look back that many days for wrap-log context (default 1). Add `lucky` to append a **constellation reading**: it draws five notes from your vault (favouring ones untouched for 30+ days), finds the hidden theme connecting them, and surfaces the question you might be circling.
-
----
-
-**`/hirameki:wrap [description|merge]`**
-
-*Use when: you're done for the day (or pausing a session) and want a record of what happened.*
-
-Progress snapshot. Scans session file activity, appends a timestamped block to today's daily note with: completed, in-progress, and next steps. Can run multiple times a day — each run appends a new block. Optional: describe the session focus to shape the summary. Run `wrap merge` to consolidate all of today's wrap blocks into one unified summary at the top of the log.
-
----
-
-**`/hirameki:journal [topic|review]`**
-
-*Use when: you made a non-obvious decision and want to record why — so future-you (or a collaborator) can understand the reasoning.*
-
-Work log with reasoning. Writes a structured entry covering background, actions, rationale, and the judgment trajectory: the earlier view, observations, inferences, unverified assumptions, new evidence, current view, unknowns, and revisit trigger. If no judgment changed, it says so instead of inventing one. Same topic, same day: appends an update section and marks completed follow-ups.
-
-Different from `wrap`: wrap records what happened in a session. Journal records why you made a specific decision.
-
-`journal review` (or `journal review N`) scans the `## Corrections` sections of recent journal entries, deduplicates them against your existing rules, and proposes updates to `~/.claude/CLAUDE.md` or `~/.claude/rules/` — applied only on your confirmation. It is the one command that writes outside the vault.
+Executable contracts are in `commands/` and the Codex adapter's `references/`. Shared card/review capabilities live in package `references/capabilities/`; task capabilities preserve their host-specific reader roots. These summaries are not runtime configuration.
 
 ---
-
-**`/hirameki:decision-trace [decision question or context]`**
-
-*Use when: you're weighing options, asking whether to do something, comparing plausible approaches, or asking for help structuring an unresolved decision. The workflow activates automatically on decision-forming language.*
-
-It identifies one of four states: `unresolved`, `forming`, `decided`, or `reviewing`. For unresolved or forming decisions, it stays read-only and shows the decision question, viable options, evidence and source, assumptions and unknowns, constraints and non-negotiables, consequences, reversal cost, and one key unresolved question. It distinguishes observations, evidence, inferences, assumptions, preferences, and decisions; the agent identifies trade-offs but does not choose for you.
-
-An unresolved or forming trace may persist across sessions after `save this`, but it is stored as a journal note or handoff, never as a decision node. Only an explicitly decided choice can enter `{journal}/decisions/` and receive an `active`, `superseded`, or `closed` lifecycle status.
-
-Only after you explicitly state or confirm a choice can the promotion gate offer lifecycle storage. The complete draft, affected paths, and status changes are shown first; only `save this` writes or updates a node with status `active`, `superseded`, or `closed`. `skip` writes nothing, and `edit` revises the draft before asking again.
-
----
-
-**`/hirameki:handoff`**
-
-*Use when: work isn't finished and the next session needs explicit guidance to pick up.*
-
-Snapshots session state into a new handoff document at `{handoff}/YYYY-MM-DD-{slug}.md`. It keeps current decisions separate from a compact judgment-update table containing only changes that affect pickup, including evidence, unknowns, and revisit triggers. It then shows a full draft for confirmation before writing.
-
----
-
-#### Understanding — standalone
-
-These are the primitives that `/hirameki:lens` orchestrates. Call them directly for quick, targeted investigation.
-
-**`/hirameki:arc <concept>`**
-
-*Use when: you keep returning to the same concept and want to see how your thinking has changed.*
-
-Concept evolution tracker. Shows first appearance, evolution timeline, current state, and unexplored angles across your vault. Prints to the terminal by default; add `save` to write to `{research}/arc/YYYY-MM-DD-{concept}.md` (same concept, same day appends).
-
----
-
-**`/hirameki:bridge <A> and <B>`**
-
-*Use when: two interests feel separate but might be related, and you want to find the connection.*
-
-Hidden connections between two topics. Finds direct intersections, bridge notes, and proposes deep connection hypotheses. Prints to the terminal by default; add `save` to write to `{research}/bridge/YYYY-MM-DD-{A}-{B}.md`.
-
----
-
-**`/hirameki:challenge <topic>`**
-
-*Use when: before publishing something — find the holes before your readers do.*
-
-Argument weakness analysis. Checks each claim in the vault about a topic for: internal contradictions, unverified assumptions, logic gaps, and evidence gaps. Prints to the terminal by default; add `save` to write to `{research}/challenge/YYYY-MM-DD-{topic}.md`.
-
----
-
-**`/hirameki:reflect <question>`**
-
-*Use when: you need a position statement or first draft in your actual voice.*
-
-Answer in your vault's voice. Analyzes your writing style, extracts your existing positions, and writes a response in your voice with source citations and confidence notes. Add `save` to write to `{research}/reflect/YYYY-MM-DD-{question}.md`.
-
----
-
-#### Creation — standalone
-
-These are the primitives that `/hirameki:compose` orchestrates.
-
-**`/hirameki:frame <idea>`**
-
-*Use when: you have a creative idea (article, product, design) and want to validate it before investing effort.*
-
-Pre-creation checkpoint. Runs five questions against your vault: Only-I test (what makes this uniquely yours?), collision scan (have you already published this?), stakes (what changes for the reader/user?), tension (what's the surprising or uncomfortable part?), and evidence (what grounds this in lived experience?). Produces one of four verdicts: **PROCEED** / **RETHINK** / **KILL** / **CONSOLIDATE**. Does not generate content — only evaluates whether content should exist. Add `save` to write the result to `{research}/frame/YYYY-MM-DD-{idea}.md`.
-
----
-
-**`/hirameki:critique <file>`**
-
-*Use when: you want independent feedback on a piece of writing.*
-
-Multi-model writing critique. Dispatches three reviewers in parallel — Claude Opus, Codex (via `codex exec`), and Gemini (via `gemini -p`) — each scoring three dimensions: sensory density, structural tension, and resonance (1–10). Synthesises results into a comparison table highlighting where reviewers agree and where they diverge by 3+ points. Strongest line, weakest line, and recommended edits from all three. Saves output to `{vault}/_writing_lab/benchmark/`. After you revise the piece, an optional Phase 3 re-runs Opus and Codex on the new version and appends a final review.
-
----
-
-#### Vault
-
-**`/hirameki:pulse [week|patterns]`**
-
-*Use when: you want to know what's going on across your vault without diving in manually.*
-
-Three modes depending on what you need:
-
-- **Default snapshot** — content topics per folder, recent file changes, and vault-wide counts. This snapshot runs automatically on every Claude Code session start (via the SessionStart hook). Running `/hirameki:pulse` bare will prompt you to pick `week` or `patterns`.
-
-- **`/hirameki:pulse week`** — Weekly gap analysis. Compares what you said was a priority (from daily notes) against what you actually worked on (from file changes). Surfaces drift between intentions and effort. Requires at least 3 days of daily notes.
-
-- **`/hirameki:pulse patterns`** — Undercurrents and clusters. Surfaces recurring themes without dedicated articles (appears in 3+ files, no standalone write-up), and groups of notes converging on unnamed themes. Good for finding what's been quietly accumulating.
-
----
-
-**`/hirameki:harvest [save]`**
-
-*Use when: you have a lot of accumulated content and want to know what to do with it.*
-
-Harvests actionable ideas from existing content. Scans content folders, 30 days of daily notes, and inbox. Outputs seven categories (max 5 each):
-
-1. **Articles you could write** — topics with enough material to develop now
-2. **Tools or projects to build** — tool needs, pain points, or product ideas mentioned in your notes
-3. **Topics worth researching** — things mentioned but not explored
-4. **People or communities to contact** — mentioned and relevant to where you're headed
-5. **Ideas for a different medium** — content better suited to video, visual, talk, or newsletter
-6. **Untransacted value** — expertise worth productizing or pitching
-7. **Ideas ready to graduate** — half-formed ideas dense enough to become a standalone note
-
-The graduate category has a second phase: after seeing the candidates, you confirm which ones to execute. Each selected idea gets a new note in the appropriate content folder, with source context and wiki links back to related notes.
-
-Add `save` to write the harvest summary to `{research}/harvest/YYYY-MM-DD.md` (same-day runs append).
-
----
-
-**`/hirameki:graduate [note]`**
-
-*Use when: a half-formed idea has matured and you want to formalize it as a stable concept.*
-
-Promotes an idea into a stable concept card in `{vault}/0 Material/`. Two modes: with no argument (or a topic keyword) it scans the last 14 days of inbox, journal, daily, and research notes for graduation candidates and lets you choose; with a file path it extracts the atomic ideas from that file. Validates and completes frontmatter, sets a formal status, and links related cards with wiki links.
-
----
-
-**`/hirameki:tasks [days|stuck]`**
-
-*Use when: you want a single prioritised list of everything you said you'd do next.*
-
-Aggregates next actions from your wrap logs and journal. Default: scans the last 3 days of wrap logs plus today's and yesterday's journal entries, deduplicates and ranks by recurrence. Items appearing 3+ times are flagged as potential procrastination. Use `tasks stuck` to find recurring unfinished tasks that have never appeared in a "Done" section.
-
----
-
-#### Maintenance
-
-**`/hirameki:tidy [tags|fix|full|lint]`**
-
-*Use when: you notice your frontmatter has drifted, tags have multiplied inconsistently, or you want a health check.*
-
-Frontmatter and content health check. Five modes:
-
-- **`tidy`** — Missing fields + consistency check (lightweight default).
-- **`tidy tags`** — Tag convergence analysis: dominant tags, orphan tags, merge candidates.
-- **`tidy fix`** — Missing fields + consistency + auto-correct (with confirmation prompts for judgment calls).
-- **`tidy full`** — All checks combined.
-- **`tidy lint`** — Content health: contradiction detection, stale claims, orphan notes, dead wiki links. Surfaces follow-up suggestions for lens, pulse, and graduate when issues are found.
-
-Saves output to `{research}/tidy/`.
-
----
-
-**`/hirameki:__init`**
-
-*Use when: first time setup on a new machine, or reconfiguring an existing setup.*
-
-First-time setup: vault detection, language, and folder resolution. Writes a **split configuration** — vault folder structure to `<vault>/AGENTS.md`, per-machine values (vault path, language) to `~/.claude/vault-local.md`. Optionally links a shared policies vault and a personal policies vault. Run once per machine. If config already exists, runs as Mode B — reconfigure individual settings.
 
 ### Why commands, not agents
 
@@ -421,241 +255,75 @@ claude   # 任何地方
 
 ### Codex 相容層
 
-Claude Code 仍然是 Hirameki 的原生指令入口。repo 另外提供 Codex adapter：`codex/skills/hirameki/`。這是一個 umbrella `SKILL.md` 加上 21 個同名 workflow reference，讓 Codex 使用者可以沿用 `wrap`、`journal`、`decision-trace`、`handoff`、`mekiki` 等原本語彙，同時避免 21 個 skill metadata 常駐。
-
-Codex adapter 優先讀 `~/.codex/hirameki-local.md` 作為 per-machine vault 設定；為了遷移方便，也會 fallback 到 `~/.claude/vault-local.md`。Claude 專用功能會在 Codex 端盡量適配：`__init` 寫 Codex-local config，`critique` 則只使用 Codex session 裡實際可用的 reviewer。
+Claude Code 是原生指令介面；Codex 以一個 umbrella skill 路由五個主要目的、永久捷徑與暫時轉向名稱，按需讀契約。兩側只讀自己的設定，沒有另一側設定的退路。
 
 ---
 
-### 指令說明
+### Hirameki — 五個目的導向入口 — 完整指南
 
-21 個指令，依照使用方式分組。
+> 2.2.0 整合工作流程入口；來源驗證、模型驗收、安裝與排程分開判定。
 
----
+每個指令先從自己的 `~/.claude/vault-local.md` 取得本機 vault 設定，再從 `<vault>/AGENTS.md` 的 `## Vault Structure` 讀取共用資料夾。只有需要讀寫 vault 時才解析；當前明示設定優先，不讀其他 agent 私有設定。缺少設定使用 `/hirameki:__init`，初始化寫入仍須核准。
 
-#### Orchestrators（編排指令）
+## 五個主入口
 
-每個編排指令把相關的基礎指令整合成一個引導式互動流程。每一步都會顯示完整草稿，讓你選擇 save / skip / edit 後才繼續。各基礎指令仍可單獨呼叫。
+| Entry | Purpose |
+|---|---|
+| `next` | 接續工作、查看有效待辦與卡點；支援 `next tasks [N]`、`next stuck [N]`、`next week [N]`。 |
+| `lens` | 按問題探索歷史、立場、關聯、弱點、機會與模式；`lens cards` 找概念卡候選，`lens random` 只在明確要求時使用。 |
+| `compose` | 按目的寫稿、改稿、大綱、語氣、構想評估或審查；已有稿件不必掃描整個 vault。 |
+| `decision-trace` | 整理重要選擇與取捨，不替使用者拍板。 |
+| `triage` | 只提出有新增價值的 wrap、journal、lesson 或 handoff；第一份草稿前不新增確認層。 |
 
-**`/hirameki:triage`**
+## 專用工具與永久捷徑
 
-*適合：session 即將結束，想一次完成所有記錄工作時。*
+| Entry | Purpose |
+|---|---|
+| `tidy` | 維護：`tidy tasks` 只提歸檔建議；`tidy review` 審查 corrections／lessons；`tidy snapshot` 唯讀盤點。Claude 無參數仍做 metadata 檢查，Codex 無參數仍提任務建議。 |
+| `mekiki` | 外部研究入口，不隨其他流程自動執行。 |
+| `init (`__init`)` | 設定本機與共用資料夾；不借用其他 agent 的設定。 |
+| `wrap` | 直接記一筆進度，不必先跑完整 triage。 |
+| `journal` | 寫入或追加工作、判斷與符合門檻的教訓；`journal review` 共用 `tidy review` 契約。 |
+| `handoff` | 直接準備交接，不必先跑完整 triage。 |
 
-Session 結束整合。依序執行 wrap → journal → handoff 三步。每步顯示完整草稿，可選 save this / save all / skip / edit；`save all` 會一次核准目前與剩餘草稿，不再重複詢問。三個子流程共用同一次 session 狀態掃描。Session 結尾時執行，不需要任何參數。
+## 舊名稱轉向
 
----
+十個舊名稱只在首個整合發布版本保留轉向；永久可叫用名稱共十一個。直接捷徑不會到期移除；尚未驗證宿主能隱藏其 metadata。
 
-**`/hirameki:lens <概念>`**
+| Old name | Destination |
+|---|---|
+| `arc` | lens history |
+| `bridge` | lens bridge |
+| `challenge` | lens challenge |
+| `harvest` | lens opportunities |
+| `graduate` | lens cards |
+| `reflect` | compose voice |
+| `frame` | compose frame |
+| `critique` | compose review |
+| `tasks` | next tasks; stuck → next stuck |
+| `pulse` | next week; patterns → lens patterns; snapshot → tidy snapshot |
 
-*適合：想深入了解某個概念在 vault 中的樣貌 — 它的演化歷史、你對它的立場、與其他主題的連結，以及論述的薄弱之處。*
+## 安全與證據
 
-主題理解流程。四步依序執行：arc → 立場萃取 → bridge → challenge。Bridge 步驟會從 arc 結果自動推薦一個相關主題，你可以接受或更換。每步可單獨 save 或 skip。寫入：`{research}/lens/`。
+保存前完整展示內容與目標路徑。`save all` 只涵蓋已展示的草稿；後續寫入前須先展示其餘全部草稿，改稿後重新展示並取得核准。分析、轉向、規則提案或決策提醒都不代表寫入授權。部分成功如實保留，恢復只處理尚未完成且已核准的操作。
 
----
+未決或形成中的 trace 若需跨 session 保存，仍須 `save this`；它是討論脈絡，不是已定案節點。
 
-**`/hirameki:compose <主題>`**
+◆ **決策可記錄｜decision-trace** ：只是提醒，不代表已保存或取得授權。
 
-*適合：想圍繞某個主題寫點東西，希望植根於 vault，並在全力投入前先驗證想法時。*
+## 操作細節
 
-主題創作流程。兩步：voice（用你的文風、依據 vault 的立場作答）→ frame（執行五問驗證）。Standalone — 不需要先跑 `/hirameki:lens`。每步可單獨 save 或 skip。寫入：`{research}/compose/`。
+- 共用 reader 分列有效待辦、狀態未確認與例外，揭露未顯示筆數與分頁版本；空頁或不完整頁不能推成全部完成。
+- 沒有明確狀態證據的未標記事項列在狀態未確認，不當成確定待辦、不自動歸檔；舊 Open item 不能推翻較新的明確結案。
+- 取回使用套件內的小型操作文件、`--restore-contract`、`--validate-restore` 與 `--task-id`。不輸出整份索引或搜尋實作找 schema。每次核准的獨立申請與核准紀錄保存後，立即讀回可見性。
+- lens 交付一份有來源的整合回答，不固定產生四份報告。概念卡須是單一主張，先查既有卡、展示全文並核准；MOC 修改另行核准。
+- compose 保留不確定性、引文、URL 與作者立場；技術文件不因缺少文學張力被否決。獨立審查沿用實際授權管道，不模擬多人共識。
+- triage 保留零產物、已有 spec、展示後保存與部分失敗恢復；`save all` 不授權修改規則。
+- 入口整合不自動啟用排程、增加 hook、部署 runtime 或接入 akegarasu-no-yume。既有驗收只證明當時版本與受測範圍。
 
----
-
-**`/hirameki:mekiki <輸入>`**
-
-*適合：想捕獲一個外部資源並整合進 vault 時。*
-
-外部資源捕獲。自動偵測輸入類型：
-
-| 輸入 | 路由 | 輸出位置 |
-|------|------|----------|
-| GitHub URL 或 `owner/repo` | Repo 分析：技術提取 + adopt/defer/reject 裁決 | `{research}/mekiki-{repo}.md` |
-| 文章 URL | 文章捕獲 + vault 交叉引用 + 整合裁決（integrate / revisit-later / skip） | `{inbox}/YYYY-MM-DD-{slug}.md` |
-| 貼上文字或本機檔案路徑 | 文章捕獲 + vault 交叉引用 + 整合裁決（integrate / revisit-later / skip） | `{inbox}/YYYY-MM-DD-{slug}.md` |
-
----
-
-#### Session
-
-**`/hirameki:next [N|lucky]`**
-
-*適合：在 session 中途回來，需要快速定向時。*
-
-恢復 session 後定向。整理已完成的工作、待處理事項、收件匣內容、下一步 — 掃描本次 session 的任務清單、檔案活動、近期決定，以及昨天的 wrap log。傳入數字可往回看 N 天的 wrap log 脈絡（預設 1）。加 `lucky` 會附上一段**星座占卜**：從 vault 抽 5 篇筆記（偏好 30 天以上沒動過的），找出串起它們的隱藏主題，並點出你可能正在繞的那個問題。
-
----
-
-**`/hirameki:wrap [描述|merge]`**
-
-*適合：一天結束（或暫停 session）時，記錄發生了什麼。*
-
-進度快照。掃描本次 session 的檔案操作，在今天的 daily note 末尾追加一個帶時間戳的區塊，包含：已完成、進行中、下一步。可一天執行多次，每次追加新區塊。可加入描述來聚焦摘要方向。執行 `wrap merge` 可把今天所有 wrap 區塊整合成一個統一摘要，置於 log 頂端。
-
----
-
-**`/hirameki:journal [描述|review]`**
-
-*適合：做了一個不直觀的決定，想記錄下為什麼時。*
-
-工作紀錄與思考記錄。除了背景、行動與理由，也保存判斷軌跡：原先判斷、觀察、推論、未驗證假設、新證據、目前判斷、尚未知與重新檢視條件。沒有實質判斷更新時會明確寫明，不補成故事。同主題同天則追加更新。
-
-與 `wrap` 的差別：wrap 記錄一個 session 發生了什麼。journal 記錄你為什麼做某個特定決定。
-
-`journal review`（或 `journal review N`）會掃描近期 journal 的 `## Corrections` 段落，與你既有的規則去重，然後提議更新 `~/.claude/CLAUDE.md` 或 `~/.claude/rules/` — 只在你確認後才套用。它是唯一一個會寫到 vault 外的指令。
+實際契約位於 `commands/` 與 Codex adapter 的 `references/`。共用概念卡／審查能力放在套件 `references/capabilities/`，待辦能力保留各宿主的 reader 路徑。摘要不是 runtime 設定。
 
 ---
-
-**`/hirameki:decision-trace [決策問題或脈絡]`**
-
-*適用情境：你正在權衡選項、詢問是否該做某事、比較可行方向，或想整理尚未解決的決策。流程會在偵測到決策形成語言時自動觸發。*
-
-它會辨識四種狀態：`unresolved`（未決）、`forming`（形成中）、`decided`（已決定）、`reviewing`（檢視中）。對未決或形成中的決策，流程保持唯讀，整理決策問題、可行選項、證據與來源、假設與未知、限制與不可妥協條件、後果、回復成本，以及一個關鍵未解問題。它區分觀察、證據、推論、假設、偏好與決定；agent 只指出取捨，不替你選擇。
-
-未決或形成中的 trace 若需跨 session 保存，必須先選擇 `save this`，並存成 journal note 或 handoff，不能成為 decision node。只有明確決定的選擇能進入 `{journal}/decisions/`，並使用 `active`、`superseded`、`closed` lifecycle status。
-
-只有在你明確說出或確認選擇後，提升門檻才會提供生命週期儲存。流程會先顯示完整草稿、受影響路徑與 status 變更；只有 `save this` 才會寫入或更新 `active`、`superseded`、`closed` lifecycle node。`skip` 不寫入，`edit` 會先修改草稿再重新詢問。
-
----
-
-**`/hirameki:handoff`**
-
-*適合：工作尚未完成，下一個 session 需要明確指引才能銜接時。*
-
-將 session 狀態快照寫入 `{handoff}/YYYY-MM-DD-{slug}.md`。目前決定與判斷形成／改變歷史分開：精簡的「判斷更新」只保留會影響接手的改變依據、尚未知與重新檢視條件。完整草稿仍會在確認後才寫入。
-
----
-
-#### 理解（Standalone）
-
-這些是 `/hirameki:lens` 整合的基礎指令，可以直接單獨呼叫做快速的針對性調查。
-
-**`/hirameki:arc <概念>`**
-
-*適合：你不斷回到同一個概念，想看看自己的思考如何演變時。*
-
-概念演化追蹤。顯示某概念在 vault 中的首次出現、演化時間軸、目前狀態與空白地帶。預設印在終端機；加 `save` 才寫入 `{research}/arc/YYYY-MM-DD-{概念}.md`（同概念同天追加）。
-
----
-
-**`/hirameki:bridge <A> and <B>`**
-
-*適合：兩個感覺分開但可能相關的興趣，想找出連結時。*
-
-兩主題間的隱藏連結。找出直接交集、橋樑筆記，並提出深層連結假設。預設印在終端機；加 `save` 才寫入 `{research}/bridge/YYYY-MM-DD-{A}-{B}.md`。
-
----
-
-**`/hirameki:challenge <主題>`**
-
-*適合：發表前 — 在讀者找到漏洞之前先找到它時。*
-
-論點弱點分析。對 vault 中關於此主題的每個主張，逐一檢查內部矛盾、未驗證假設、邏輯跳躍與證據缺口。預設印在終端機；加 `save` 才寫入 `{research}/challenge/YYYY-MM-DD-{主題}.md`。
-
----
-
-**`/hirameki:reflect <問題>`**
-
-*適合：需要一個初稿或立場陳述，用自己真實的語氣時。*
-
-Vault 語氣作答。分析你的寫作風格、萃取你的立場，用你的語氣寫出一段回答，附上出處引用與信心標注。加 `save` 才寫入：`{research}/reflect/YYYY-MM-DD-{問題}.md`。
-
----
-
-#### 創作（Standalone）
-
-這些是 `/hirameki:compose` 整合的基礎指令。
-
-**`/hirameki:frame <想法>`**
-
-*適合：有一個創作想法（文章、產品、設計），想在投入心力之前先驗證時。*
-
-創作前檢查站。針對 vault 執行五個問題：Only-I 測試、碰撞掃描、賭注、張力、證據。產出四種裁決之一：**PROCEED** / **RETHINK** / **KILL** / **CONSOLIDATE**。不產生內容 — 只評估內容是否應該存在。加 `save` 可寫入 `{research}/frame/YYYY-MM-DD-{想法}.md`。
-
----
-
-**`/hirameki:critique <檔案>`**
-
-*適合：想對一篇文章獲得獨立回饋時。*
-
-多模型寫作評審。同時啟動三位評審：Claude Opus、Codex（透過 `codex exec`）、Gemini（透過 `gemini -p`），各自對三個維度評分：感官密度、結構張力、觸動力（1–10）。整合結果為比較表，重點標出評審之間分差 3 分以上的地方。三方各自的最強句、最弱句和修改建議。輸出儲存至 `{vault}/_writing_lab/benchmark/`。你修改完文章後，可選的 Phase 3 終審會用 Opus 與 Codex 重跑新版本，附上一段最終評估。
-
----
-
-#### Vault
-
-**`/hirameki:pulse [week|patterns]`**
-
-*適合：想不深入文件就能掌握 vault 整體狀況時。*
-
-三種模式：
-
-- **預設概覽** — 各資料夾的主題、最近的檔案變更、vault 整體統計。這份概覽在每次 Claude Code session 啟動時自動執行（透過 SessionStart hook）。直接執行 `/hirameki:pulse` 會提示你選擇 `week` 或 `patterns`。
-
-- **`/hirameki:pulse week`** — 週回顧與落差分析。比對 daily notes 中聲稱的優先事項與實際的檔案變更，找出意圖與行動之間的落差。需要至少 3 天的 daily notes。
-
-- **`/hirameki:pulse patterns`** — 潛流與聚攏分析。找出繁複出現但沒有獨立文章的主題（出現在 3 個以上不同檔案），以及正在聚攏成形但尚未命名的筆記群。適合找出悄悄在積累的東西。
-
----
-
-**`/hirameki:harvest [save]`**
-
-*適合：累積了大量內容，想知道下一步該怎麼做時。*
-
-從既有內容收割可行動想法。掃描內容資料夾、30 天 daily notes、inbox。輸出七個類別（各最多 5 個）：
-
-1. **可以寫的文章** — 已有足夠素材可以發展的主題
-2. **可以做的工具或專案** — 筆記中提到的工具需求、流程痛點、產品想法
-3. **值得研究的主題** — 被提及但未深入探討的東西
-4. **可以聯繫的人或社群** — 被提及且與你目前方向相關的人
-5. **適合換個媒介的想法** — 更適合影片、視覺圖表、演講或電子報的內容
-6. **尚未變現的價值** — 值得產品化或推銷的專業知識
-7. **可以畢業的想法** — 半成形但已有足夠密度可以獨立成筆記的想法
-
-「可以畢業的想法」有第二階段：看到候選清單後，你確認哪些要執行畢業。每個選中的想法會在對應的內容資料夾下建立新筆記，附上出處脈絡和 wiki link 連回相關筆記。
-
-末尾加 `save` 可將收割摘要寫入 `{research}/harvest/YYYY-MM-DD.md`（同天執行會追加）。
-
----
-
-**`/hirameki:graduate [筆記]`**
-
-*適合：一個半成形的想法已經成熟，想將它正式化為穩定概念時。*
-
-將想法升格為 `{vault}/0 Material/` 裡的穩定概念卡片。兩種模式：不給參數（或給一個主題關鍵字）時，掃描最近 14 天的 inbox、journal、daily、research 筆記找出可畢業的候選讓你挑選；給檔案路徑時，從該檔案萃取原子想法。驗證並補全 frontmatter、設定正式 status、用 wiki link 連結相關卡片。
-
----
-
-**`/hirameki:tasks [天數|stuck]`**
-
-*適合：想把所有「下一步」整合成一份清單時。*
-
-從 wrap log 和 journal 彙整下一步行動。預設掃描最近 3 天的 wrap log，加上今天與昨天的 journal 條目，去重後依出現頻率排序。出現 3 次以上的項目會標記為可能的拖延信號。使用 `tasks stuck` 可找出反覆出現、從未進入「完成」的卡住任務。
-
----
-
-#### 維護
-
-**`/hirameki:tidy [tags|fix|full|lint]`**
-
-*適合：發現 frontmatter 開始亂掉、tag 越來越不一致，或在一次大整理前先做健檢時。*
-
-Frontmatter 與內容健檢。五種模式：
-
-- **`tidy`** — 缺漏欄位 + 一致性檢查（輕量預設）。
-- **`tidy tags`** — Tag 收斂分析：核心標籤、孤立標籤、合併建議。
-- **`tidy fix`** — 缺漏 + 一致性 + 自動修正（需判斷的逐一確認）。
-- **`tidy full`** — 全部檢查。
-- **`tidy lint`** — 內容健檢：矛盾偵測、過時主張、孤立筆記、死連結。找到問題時提示 lens、pulse、graduate 的後續建議。
-
-寫入：`{research}/tidy/`。
-
----
-
-**`/hirameki:__init`**
-
-*適合：新機器的首次設定，或重新設定現有配置時。*
-
-首次設定：偵測 vault、設定語言、解析資料夾。寫入**拆分設定** — vault 資料夾結構寫入 `<vault>/AGENTS.md`，per-machine 值（vault 路徑、語言）寫入 `~/.claude/vault-local.md`。可選擇連結共用 policies vault 與個人 policies vault。每台機器執行一次。已有設定時執行進入 Mode B（重新設定個別項目）。
 
 ### 為什麼是指令，而不是 Agent
 
@@ -776,235 +444,71 @@ claude   # どこからでも
 
 ---
 
-### コマンド説明
+### Hirameki — 目的別の五つの入口 — 詳細ガイド
 
-21 のコマンド、使い方でグループ化。
+> 2.2.0 ではワークフローの入口を統合しました。ソース検証、モデル評価、インストール、スケジュールは別々に扱います。
 
----
+すべてのコマンドは、まず自分の `~/.claude/vault-local.md` を使い、共有フォルダーは `<vault>/AGENTS.md` の `## Vault Structure` から読みます。vault へのアクセスが必要な場合だけ設定を解決します。明示設定を優先し、他の agent の私有設定は読みません。不足時は `/hirameki:__init` を使い、初期設定の書き込みにも承認が必要です。
 
-#### Orchestrators（オーケストレーター）
+## 主な入口
 
-関連するプリミティブを一つのインタラクティブなシーケンスにまとめたガイド付きフロー。各ステップで完全なドラフトを表示 — save / skip / edit を選択してから次へ進む。各プリミティブはスタンドアロンでも使用可能。
+| Entry | Purpose |
+|---|---|
+| `next` | 作業を再開し、有効なタスクや障害を確認します。`next tasks [N]`、`next stuck [N]`、`next week [N]` に対応します。 |
+| `lens` | 問いに応じて履歴、立場、関係、弱点、機会、パターンを調べます。`lens cards` は概念カード候補、`lens random` は明示されたランダム探索です。 |
+| `compose` | 目的に応じて執筆、編集、構成、文体、企画評価、レビューを行います。提供された原稿の編集に vault 全体の走査は不要です。 |
+| `decision-trace` | 重要な選択とトレードオフを整理します。ユーザーの代わりに決定しません。 |
+| `triage` | 新しい価値のある wrap、journal、lesson、handoff だけを提案します。最初の草稿の前に確認段階を増やしません。 |
 
-**`/hirameki:triage`**
+## 専用ツールと恒久的なショートカット
 
-*使うとき：セッションを終了する段階で、すべての記録を一気にまとめたいとき。*
+| Entry | Purpose |
+|---|---|
+| `tidy` | 保守：`tidy tasks` はアーカイブ提案のみ、`tidy review` は corrections／lessons の検討、`tidy snapshot` は読み取り専用の棚卸しです。引数なしの Claude は metadata 検査、Codex はタスク提案を維持します。 |
+| `mekiki` | 外部資料の研究入口です。他の処理から自動実行しません。 |
+| `init (`__init`)` | この機械と共有フォルダーを設定します。他の agent の設定は借用しません。 |
+| `wrap` | 進捗を一件記録します。全体の triage は不要です。 |
+| `journal` | 作業・判断・条件を満たす lesson を記録または追記します。`journal review` は `tidy review` と同じ契約を使います。 |
+| `handoff` | 直接引き継ぎを準備します。全体の triage は不要です。 |
 
-セッション終了バンドル。wrap → journal → handoff を順番に実行。各ステップで完全なドラフトを表示し、save this / save all / skip / edit を選択。`save all` は現在と残りのドラフトを一括承認し、確認を繰り返さない。3 つのサブフローで一度のセッション状態スキャンを共有。セッション終了時に実行。引数なし。
+## 旧名からの移行
 
----
+十の旧名は最初の統合リリースでのみ転送として残します。恒久的に呼び出せる名前は十一です。直接記録のショートカットは失効しません。宿主での metadata 非表示は未検証です。
 
-**`/hirameki:lens <概念>`**
+| Old name | Destination |
+|---|---|
+| `arc` | lens history |
+| `bridge` | lens bridge |
+| `challenge` | lens challenge |
+| `harvest` | lens opportunities |
+| `graduate` | lens cards |
+| `reflect` | compose voice |
+| `frame` | compose frame |
+| `critique` | compose review |
+| `tasks` | next tasks; stuck → next stuck |
+| `pulse` | next week; patterns → lens patterns; snapshot → tidy snapshot |
 
-*使うとき：ある概念が vault にどのように存在するかを深く理解したいとき — その歴史、立場、他のテーマとの繋がり、論述の弱点まで。*
+## 安全と証拠
 
-トピック理解フロー。四ステップ順番に実行：arc → 立場萃取 → bridge → challenge。Bridge ステップは arc の結果から関連トピックを自動提案。受け入れるか変更するかを選択。各ステップを個別に save または skip 可能。書き込み先：`{research}/lens/`。
+保存前に全文と保存先を表示します。`save all` は表示済みの草稿だけを対象とし、残りの書き込み前に残りの草稿をすべて表示します。変更した草稿は再表示して承認を得ます。分析、転送、規則の提案、決定のリマインダーは書き込み権限ではありません。一部成功を保持し、復旧では未完了の承認済み操作だけを扱います。
 
----
+未解決または形成中の trace を session 間で保存する場合も `save this` が必要です。議論の経緯であり、確定した決定ノードではありません。
 
-**`/hirameki:compose <トピック>`**
+◆ **決策可記錄｜decision-trace** ：リマインダーであり、保存や承認ではありません。
 
-*使うとき：vault に根ざした形で何かを書きたいとき、そして全力投入する前にアイデアを検証したいとき。*
+## 操作の詳細
 
-トピック創作フロー。二ステップ：voice（あなたのスタイルで、vault の立場を踏まえて回答を作成）→ frame（五問テストを実行）。スタンドアロン — `/hirameki:lens` を先に実行する必要なし。各ステップを個別に save または skip 可能。書き込み先：`{research}/compose/`。
+- 共通 reader は有効タスク、状態未確認、例外を分け、未表示件数とページの版を示します。空のページや部分表示を全件完了と解釈しません。
+- 明確な状態証拠がない未マーク項目は状態未確認に残し、有効タスクとも自動アーカイブ対象とも扱いません。古い Open item は新しい明示的な完了を覆しません。
+- 復元には同梱の小さな操作文書、`--restore-contract`、`--validate-restore`、`--task-id` を使います。索引全体を出力したり、schema を探して実装全体を検索したりしません。承認済みの独立した記録を保存後、可視性を直ちに読み返します。
+- lens は出典付きの一つの回答を返し、四つのレポートを強制しません。概念カードは一つの主張とし、既存カードを確認し、全文への承認を得ます。MOC の変更は別途承認します。
+- compose は不確実性、引用、URL、著者の立場を守ります。技術文書を文学的な緊張の欠如だけで否定しません。独立レビューには実際に許可された経路を使い、架空の合意を作りません。
+- triage は成果物ゼロ、既存 spec、表示後の保存、一部失敗からの復旧を維持します。`save all` は規則変更を許可しません。
+- 入口の統合はスケジュール、追加 hook、runtime 配備、akegarasu-no-yume 接続を自動的に有効化しません。既存の評価は、その版と対象範囲に限られます。
 
----
-
-**`/hirameki:mekiki <入力>`**
-
-*使うとき：外部リソースをキャプチャして vault に統合したいとき。*
-
-外部リソースキャプチャ。入力タイプを自動検出：
-
-| 入力 | ルーティング | 出力先 |
-|------|-------------|--------|
-| GitHub URL または `owner/repo` | リポジトリ分析：技術抽出 + adopt/defer/reject 判定 | `{research}/mekiki-{repo}.md` |
-| 記事 URL | 記事キャプチャ + vault クロスリファレンス + 統合判定（integrate / revisit-later / skip） | `{inbox}/YYYY-MM-DD-{slug}.md` |
-| 貼り付けたテキストまたはローカルファイルパス | 記事キャプチャ + vault クロスリファレンス + 統合判定（integrate / revisit-later / skip） | `{inbox}/YYYY-MM-DD-{slug}.md` |
-
----
-
-#### セッション
-
-**`/hirameki:next [N|lucky]`**
-
-*使うとき：セッションの途中で再開して、素早く状況を把握したいとき。*
-
-セッション再開後の定位。完了した作業・未処理の事項・inbox の中身・次のステップを整理 — セッションのタスクリスト・ファイル活動・最近の決定、そして昨日の wrap log をスキャン。数字を渡すと wrap log の文脈を N 日分さかのぼる（デフォルト 1）。`lucky` を追加すると**星座リーディング**を末尾に付加：vault から 5 つのノートを引き（30 日以上触れていないものを優先）、それらをつなぐ隠れたテーマを見つけ、あなたが巡っているかもしれない問いを浮かび上がらせる。
-
----
-
-**`/hirameki:wrap [説明|merge]`**
-
-*使うとき：1 日が終わった（またはセッションを一時停止する）時に、何が起きたかを記録するとき。*
-
-進捗スナップショット。セッションのファイル操作をスキャンし、今日の daily note の末尾にタイムスタンプ付きのブロックを追記。内容：完了・進行中・次のステップ。1 日に複数回実行可能で、毎回新しいブロックを追記。オプションで説明を追加すると要約の方向性が定まる。`wrap merge` を実行すると、今日のすべての wrap ブロックを一つの統合サマリーにまとめ、log の先頭に配置する。
-
----
-
-**`/hirameki:journal [説明|review]`**
-
-*使うとき：直感的でない決断を下して、なぜそうしたかを記録したいとき。*
-
-作業ログと思考記録。背景・行動・理由に加え、以前の判断、観察、推論、未検証の仮説、新しい証拠、現在の判断、未解明点、再検討条件を区別して判断の軌跡を残す。実質的な更新がなければ、その旨だけを記し、物語を補完しない。
-
-`wrap` との違い：wrap はセッションで何が起きたかを記録。journal は特定の決断をなぜ下したかを記録。
-
-`journal review`（または `journal review N`）は、最近の journal の `## Corrections` セクションをスキャンし、既存のルールと重複を除去したうえで、`~/.claude/CLAUDE.md` または `~/.claude/rules/` への更新を提案する — 適用はあなたの確認後のみ。vault の外に書き込む唯一のコマンド。
+実行契約は `commands/` と Codex adapter の `references/` にあります。共通のカード／レビュー契約はパッケージの `references/capabilities/` に置き、タスク能力は各宿主の reader の場所を維持します。この要約は runtime 設定ではありません。
 
 ---
-
-**`/hirameki:decision-trace [決定の問いまたは文脈]`**
-
-*使うとき：選択肢を比較している、「〜すべきか」と尋ねている、または未解決の決定を整理したいとき。決定形成の言葉を検出すると自動的に起動します。*
-
-4 つの状態、`unresolved`（未解決）、`forming`（形成中）、`decided`（決定済み）、`reviewing`（見直し中）を識別します。未解決または形成中の決定では読み取り専用で、決定の問い、実行可能な選択肢、出典付きの証拠、仮定と未解明点、制約と譲れない条件、結果、撤回コスト、そして一つの未解決の核心質問を示します。観察、証拠、推論、仮定、好み、決定を区別し、エージェントはトレードオフを示しますがあなたの代わりに選びません。
-
-未解決または形成中の trace を session 間で保存する場合は、先に `save this` を選び、journal note または handoff として保存する。decision node にはしない。明示的に決定された選択だけが `{journal}/decisions/` に入り、`active`、`superseded`、`closed` の lifecycle status を持つ。
-
-あなたが選択を明示または確認した後にだけ、昇格条件がライフサイクル保存を提案します。完全なドラフト、対象パス、status 変更を先に表示し、`save this` のときだけ `active`、`superseded`、`closed` のライフサイクルノードを書き込みまたは更新します。`skip` は書き込まず、`edit` はドラフトを修正してから再確認します。
-
----
-
-**`/hirameki:handoff`**
-
-*使うとき：作業が未完了で、次のセッションが引き継ぐために明確なガイダンスが必要なとき。*
-
-セッション状態を `{handoff}/YYYY-MM-DD-{slug}.md` に保存。現在の決定と判断の形成・変更履歴を分離し、引き継ぎに影響する変更根拠、未解明点、再検討条件だけを簡潔な表に残す。完全なドラフトを表示し、確認後に書き込む。
-
----
-
-#### 理解（スタンドアロン）
-
-これらは `/hirameki:lens` がまとめるプリミティブです。素早いピンポイント調査には直接呼び出せます。
-
-**`/hirameki:arc <概念>`**
-
-*使うとき：同じ概念に繰り返し戻ってきて、思考がどう変わったか見たいとき。*
-
-概念進化トラッカー。vault 全体でその概念の最初の登場・タイムライン・現在の状態・未探索の角度を表示。デフォルトでは端末に出力。`save` を追加すると `{research}/arc/YYYY-MM-DD-{概念}.md` に書き込み（同じ概念・同じ日は追記）。
-
----
-
-**`/hirameki:bridge <A> and <B>`**
-
-*使うとき：別々に見える 2 つの興味が実はつながっているかもしれないと感じるとき。*
-
-二つのトピック間の隠れたつながり。直接の交差点・橋渡しノート・より深いつながりの仮説を提案。デフォルトでは端末に出力。`save` を追加すると `{research}/bridge/YYYY-MM-DD-{A}-{B}.md` に書き込み。
-
----
-
-**`/hirameki:challenge <トピック>`**
-
-*使うとき：公開前に — 読者に見つけられる前に穴を見つけるとき。*
-
-論証の弱点分析。このトピックに関する vault の各主張について、内部矛盾・未検証の前提・論理の飛躍・証拠の欠缺を確認。デフォルトでは端末に出力。`save` を追加すると `{research}/challenge/YYYY-MM-DD-{トピック}.md` に書き込み。
-
----
-
-**`/hirameki:reflect <質問>`**
-
-*使うとき：自分の実際の声で立場表明や初稿が必要なとき。*
-
-Vault 文体での回答。あなたの文章スタイルを分析し、ポジションを抽出し、あなたの文体で回答を記述。出典引用と確信度の注記付き。`save` を追加で書き込み：`{research}/reflect/YYYY-MM-DD-{質問}.md`。
-
----
-
-#### 創作（スタンドアロン）
-
-これらは `/hirameki:compose` がまとめるプリミティブです。
-
-**`/hirameki:frame <アイデア>`**
-
-*使うとき：クリエイティブなアイデア（記事・製品・デザイン）があり、労力を投じる前に検証したいとき。*
-
-制作前チェックポイント。五問フレーム（Only-I テスト・衝突スキャン・賭け・緊張・証拠）。四つの判定：PROCEED / RETHINK / KILL / CONSOLIDATE。コンテンツを生成しない — 存在すべきかどうかのみを評価。`save` を追加すると `{research}/frame/YYYY-MM-DD-{アイデア}.md` に保存。
-
----
-
-**`/hirameki:critique <ファイル>`**
-
-*使うとき：文章に対する独立したフィードバックを得たいとき。*
-
-マルチモデル文章クリティーク。三評者を並列起動：Claude Opus・Codex（`codex exec` 経由）・Gemini（`gemini -p` 経由）。各評者が三つの次元をスコアリング：感官密度・構造的緊張・共鳴（1–10）。比較表に統合し、不一致を強調表示。三者それぞれの最強の一文・最弱の一文・推奨編集。書き込み先：`{vault}/_writing_lab/benchmark/`。文章を修正した後、オプションの Phase 3 が新バージョンを Opus と Codex で再評価し、最終レビューを追記する。
-
----
-
-#### Vault
-
-**`/hirameki:pulse [week|patterns]`**
-
-*使うとき：ファイルを深く掘り下げずに vault 全体の状況を把握したいとき。*
-
-3 つのモード：
-
-- **デフォルトスナップショット** — 各フォルダのコンテンツテーマ・最近のファイル変更・vault 全体の統計。このスナップショットは Claude Code のセッション開始ごとに自動実行されます（SessionStart フック経由）。`/hirameki:pulse` を単体で実行すると `week` か `patterns` の選択を求められます。
-
-- **`/hirameki:pulse week`** — 週次レビューとギャップ分析。daily notes で宣言した優先事項と実際のファイル変更を比較し、意図と行動のずれを表面化。最低 3 日分の daily notes が必要。
-
-- **`/hirameki:pulse patterns`** — 潜流とクラスター分析。独立した記事がないのに繰り返し登場するテーマ（3 つ以上の異なるファイルに出現）と、名前のついていないテーマに収束しつつあるノートのグループを表面化。静かに蓄積されてきたものを見つけるのに最適。
-
----
-
-**`/hirameki:harvest [save]`**
-
-*使うとき：コンテンツが蓄積されていて、次に何をすべきか知りたいとき。*
-
-既存コンテンツから実行可能なアイデアを収穫。コンテンツフォルダ・30 日分の daily notes・inbox をスキャン。7 カテゴリを出力（各最大 5 件）：
-
-1. **書ける記事** — 今すぐ発展させるだけの素材があるテーマ
-2. **作れるツールまたはプロジェクト** — ノートで言及されたツールのニーズ・痛点・プロダクトアイデア
-3. **研究すべきテーマ** — 言及されたが深掘りされていないもの
-4. **連絡すべき人またはコミュニティ** — 言及されていて、今の方向性に関連する人
-5. **別のメディアで表現したいアイデア** — 動画・ビジュアル・講演・ニュースレターの方が合うコンテンツ
-6. **まだ取引していない価値** — 商品化したり売り込む価値のある専門知識
-7. **卒業できるアイデア** — 独立したノートになれるだけの密度を持つ半成形アイデア
-
-「卒業できるアイデア」は第 2 フェーズあり：候補リストを確認した後、どれを実行するか選択。選んだアイデアは対応するコンテンツフォルダに新しいノートとして作成され、出典の脈絡と関連ノートへの wiki link が付く。
-
-末尾に `save` を追加すると収穫サマリーを `{research}/harvest/YYYY-MM-DD.md` に保存（同日の実行は追記）。
-
----
-
-**`/hirameki:graduate [ノート]`**
-
-*使うとき：半成形のアイデアが成熟し、安定した概念として正式化したいとき。*
-
-アイデアを `{vault}/0 Material/` 内の安定した概念カードに昇格。二つのモード：引数なし（またはトピックキーワード）の場合、直近 14 日の inbox・journal・daily・research ノートから卒業候補をスキャンして選択させる。ファイルパスを指定した場合、そのファイルから原子的なアイデアを抽出。フロントマターを検証・補完し、正式ステータスを設定、wiki link で関連カードにリンク。
-
----
-
-**`/hirameki:tasks [日数|stuck]`**
-
-*使うとき：すべての「次のステップ」を 1 つのリストにまとめたいとき。*
-
-wrap log と journal から次のアクションを集約。デフォルトは直近 3 日分の wrap log に加えて今日と昨日の journal をスキャンし、重複を除去して出現頻度順に並べる。3 回以上登場するアイテムは先延ばしのシグナルとしてフラグ表示。`tasks stuck` を使うと、繰り返し登場するのに「完了」セクションに一度も現れたことのないスタック中タスクを発見できる。
-
----
-
-#### メンテナンス
-
-**`/hirameki:tidy [tags|fix|full|lint]`**
-
-*使うとき：frontmatter が崩れてきた、タグの一貫性が失われてきた、または大きな整理の前に健全性チェックをしたいとき。*
-
-フロントマターとコンテンツの健全性チェック。5 つのモード：
-
-- **`tidy`** — 欠落フィールド + 一致性チェック（軽量デフォルト）。
-- **`tidy tags`** — タグ収束分析：主要タグ・孤立タグ・統合候補。
-- **`tidy fix`** — 欠落 + 一致性 + 自動修正（判断が必要なものは個別確認）。
-- **`tidy full`** — 全チェック。
-- **`tidy lint`** — コンテンツ健全性：矛盾検出・古い主張・孤立ノート・デッドリンク。問題が見つかった場合は lens・pulse・graduate の後続提案を表示。
-
-書き込み先：`{research}/tidy/`。
-
----
-
-**`/hirameki:__init`**
-
-*使うとき：新しいマシンへの初回セットアップ、または既存の設定を変更したいとき。*
-
-初回セットアップ：vault の検出・言語設定・フォルダー解決。**分割設定**を書き込む — vault のフォルダ構造を `<vault>/AGENTS.md` に、マシン固有の値（vault パス・言語）を `~/.claude/vault-local.md` に。オプションで共有ポリシー vault と個人ポリシー vault をリンク。マシンごとに一回実行。設定が存在する場合は Mode B（再設定）として動作。
 
 ### なぜエージェントではなくコマンドなのか
 

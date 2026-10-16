@@ -2,12 +2,15 @@ import re
 import shutil
 import subprocess
 import tempfile
+import sys
 from pathlib import Path
 
-from validate_commands import REQUIRED_CONTENT, check_file
+from validate_commands import REQUIRED_CONTENT, check_file, REDIRECTS
 
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / 'scripts'))
+from codex_reference_assets import render_asset
 COMMANDS = ROOT / "commands"
 SKILL = ROOT / "codex" / "skills" / "hirameki"
 ASSETS = SKILL / "assets" / "_hirameki_cmds"
@@ -15,6 +18,7 @@ ASSETS = SKILL / "assets" / "_hirameki_cmds"
 EXPECTED_REFERENCES = {f"{name}.md" for name in REQUIRED_CONTENT}
 PLATFORM_DIVERGENT_REFERENCES = {
     "graduate.md",
+    "next.md",
     "tasks.md",
     "__init.md",
     "critique.md",
@@ -24,8 +28,10 @@ PLATFORM_DIVERGENT_REFERENCES = {
     "mekiki.md",
     "pulse.md",
     "triage.md",
+    # Codex-only task proposal adapter; Claude entry is outside this change's scope.
+    "tidy.md",
 }
-ADAPTER_RESOLVED_REFERENCES = {"graduate.md", "tasks.md", "decision-trace.md", "handoff.md", "journal.md", "mekiki.md", "pulse.md", "triage.md"}
+ADAPTER_RESOLVED_REFERENCES = EXPECTED_REFERENCES - {"__init.md", "critique.md"}
 EXPECTED_REFERENCE_ASSETS = {
     "hirameki-cmds-full-ja.md",
     "hirameki-cmds-full-zh-TW.md",
@@ -88,23 +94,30 @@ def test_codex_references_are_expected_set() -> None:
 def test_concept_and_status_adapter_regression_guards() -> None:
     # Static instruction guards complement the independent fixture runs;
     # they do not claim to execute or prove model behavior.
-    graduate = (SKILL / "references" / "graduate.md").read_text(encoding="utf-8")
-    tasks = (SKILL / "references" / "tasks.md").read_text(encoding="utf-8")
+    graduate = (SKILL / "references" / "capabilities/concept-card.md").read_text(encoding="utf-8")
+    tasks = (SKILL / "references" / "capabilities/tasks.md").read_text(encoding="utf-8")
     router = (SKILL / "SKILL.md").read_text(encoding="utf-8")
     assert "{vault}/0 Material/" not in graduate
-    assert "Check `{material}`" in graduate
+    assert "Check `{material}` for existing cards" in graduate
     assert "{material}/<Title>.md" in graduate
     assert "discovery-only request returns candidates without writing" in graduate
+    assert "folder path or pasted text" in graduate
+    assert "resolved scan scope" in graduate
+    assert "one candidate across source files" in graduate
+    assert "Insights note without a follow-up material card remains a candidate" in graduate
+    assert "Insights coverage: unverified" in graduate
+    assert "Do not invent an Insights path" in graduate
     assert "even without repeated wraps" in tasks
     assert "not as a required threshold for handoff actions" in tasks
-    assert "latest authoritative handoff frontmatter status" in tasks
+    assert "Frontmatter alone is not task status" in tasks
+    assert "shared task-status ordering rules" in tasks
     assert "Do not close unrelated subtasks" in tasks
     assert "status uncertain" in tasks
     assert "AND never appearing" not in tasks
     assert "If no recurring tasks found" not in tasks
     assert "finding concepts" in extract_frontmatter(router)["description"]
     assert "checking stuck work" in extract_frontmatter(router)["description"]
-    assert "`/hirameki:__init` | `references/__init.md`" in router
+    assert "`/hirameki:__init`" in router and "`references/__init.md`" in router
 
 
 def test_codex_payload_materializes_as_lf_on_windows() -> None:
@@ -143,7 +156,13 @@ def test_codex_reference_assets_are_exactly_bundled() -> None:
         asset = ASSETS / name
         canonical = ROOT / "_hirameki_cmds" / name
         assert asset.is_file()
-        assert asset.read_bytes() == canonical.read_bytes(), f"Bundled reference asset drifted: {name}"
+        expected = render_asset(name, canonical.read_text(encoding='utf-8'))
+        actual = asset.read_text(encoding='utf-8')
+        assert actual == expected, f"Bundled Codex asset projection drifted: {name}"
+        assert '~/.claude/' not in actual and 'CLAUDE.md' not in actual
+        assert '~/.codex/hirameki-local.md' in actual
+        if '-full' in name:
+            assert 'hirameki-local.md' in actual and '<vault>/AGENTS.md' in actual
 
 
 def test_non_platform_codex_references_match_claude_commands() -> None:
@@ -152,7 +171,15 @@ def test_non_platform_codex_references_match_claude_commands() -> None:
             continue
         command = (COMMANDS / name).read_text(encoding="utf-8")
         reference = (SKILL / "references" / name).read_text(encoding="utf-8")
-        assert reference == command, f"Codex reference drifted from commands/{name}"
+        def without_config_line(text):
+            return '\n'.join(line.replace('`commands/', '`references/').replace(
+                'under the currently loaded Hirameki skill root (the directory containing its SKILL.md)',
+                'under the package root') for line in text.split('\n')
+                             if not line.startswith(('Read `vault:` from',
+                                                     'Resolve vault configuration through',
+                                                     'For a natural-language request, apply')))
+        assert without_config_line(reference) == without_config_line(command), \
+            f"Codex workflow body drifted from commands/{name} beyond config resolution"
 
 
 def test_codex_platform_adapters_exclude_claude_runtime_assumptions() -> None:
@@ -160,7 +187,7 @@ def test_codex_platform_adapters_exclude_claude_runtime_assumptions() -> None:
         "SKILL.md": (SKILL / "SKILL.md").read_text(encoding="utf-8").lower(),
         **{
             name: (SKILL / "references" / name).read_text(encoding="utf-8").lower()
-            for name in PLATFORM_DIVERGENT_REFERENCES
+            for name in EXPECTED_REFERENCES
         },
     }
     combined = "\n".join(texts.values())
@@ -175,34 +202,20 @@ def test_codex_platform_adapters_exclude_claude_runtime_assumptions() -> None:
             assert "source: claude-code" not in texts[name]
 
     assert "~/.codex/hirameki-local.md" in texts["__init.md"]
-    assert "~/.codex/agents.md" in texts["journal.md"]
-    assert "native codex reviewers" in texts["critique.md"]
-    assert "read-only" in texts["critique.md"]
-    assert "/hirameki:__init" in texts["critique.md"]
-    for phrase in ("感官密度", "結構張力", "觸動力", "strongest sentences", "weakest sentences", "structural suggestion", "wait for confirmation", "final review"):
-        assert phrase in texts["critique.md"], f"Codex critique lost workflow contract: {phrase}"
-    for phrase in ("benchmark", "read-only", "consensus", "append it to the same benchmark file"):
-        assert phrase in texts["critique.md"], f"Codex critique lost adapter contract: {phrase}"
+    assert "capabilities/review.md" in texts["journal.md"]
+    review = (SKILL / 'references/capabilities/review.md').read_text(encoding='utf-8')
+    assert "never the other agent's private configuration" in review
+    assert "compose review" in texts["critique.md"]
+    assert "not an independent workflow or a write authorization" in texts["critique.md"]
     for phrase in ("vault structure", "traditional chinese", "_yorozuya/daily/", "create folders only after confirmation", "parse the section again", "assets/_hirameki_cmds", "reference doc sync", "reconfigure", "start over completely", "source assets are unavailable", "do not write"):
         assert phrase in texts["__init.md"], f"Codex init lost workflow contract: {phrase}"
     assert "corrected the agent on" in texts["triage.md"]
     assert "corrected claude on" not in texts["triage.md"]
     assert "applicable codex personal and project guidance" in texts["mekiki.md"]
     assert "do not treat vault notes as runtime configuration" in texts["mekiki.md"]
-    assert "automatic sessionstart snapshot is claude-only" in texts["pulse.md"]
-    assert "codex does not run it automatically" in texts["pulse.md"]
-    for promise in (
-        "default snapshot runs automatically via sessionstart hook",
-        "default snapshot runs automatically at session start",
-        "now runs automatically via the sessionstart hook",
-    ):
-        assert promise not in texts["pulse.md"], f"Codex pulse contains an unqualified auto-run promise: {promise}"
-
-    command_pulse = (COMMANDS / "pulse.md").read_text(encoding="utf-8")
-    reference_pulse = (SKILL / "references" / "pulse.md").read_text(encoding="utf-8")
-    command_analysis = command_pulse.split("\n---\n\n## `pulse week`", 1)[1]
-    reference_analysis = reference_pulse.split("\n---\n\n## `pulse week`", 1)[1]
-    assert reference_analysis == command_analysis, "Codex pulse analysis workflow drifted beyond the platform note"
+    assert "tidy snapshot" in texts["pulse.md"]
+    assert "lens patterns" in texts["pulse.md"]
+    assert "next week" in texts["pulse.md"]
 
 
 def test_codex_vault_resolution_has_one_layout_source() -> None:
@@ -211,7 +224,9 @@ def test_codex_vault_resolution_has_one_layout_source() -> None:
 
     assert "{vault}/agents.md" in router
     assert "canonical source" in router
-    assert "do not require `~/.codex/hirameki-local.md`" in router
+    assert "never read another agent's configuration" in router
+    assert "~/.claude/" not in router
+    assert "migration fallback" not in init
     assert "vault root and language only" in init
     assert "write folder layout only to `{vault}/agents.md`" in init
     assert "do not duplicate folder paths" in init
@@ -339,6 +354,11 @@ def test_canonical_decision_trace_behavior_contract() -> None:
         assert phrase in trace, f"skills/decision-trace/SKILL.md lost behavior contract: {phrase}"
 
     codex_trace = (SKILL / "references" / "decision-trace.md").read_text(encoding="utf-8")
+    canonical_reminder = trace.split("## Visible decision reminder\n", 1)[1].split("## Resolve existing state", 1)[0]
+    adapter_reminder = codex_trace.split("## Visible decision reminder\n", 1)[1].split("## Resolve existing state", 1)[0]
+    assert canonical_reminder == adapter_reminder, "Decision reminder differs across runtimes"
+    assert "◆ **決策可記錄｜decision-trace**" in canonical_reminder
+    assert "does not authorize a write" in canonical_reminder
     for phrase in (
         "An unresolved or forming trace may persist across sessions only after the user",
         "Do not add `decision_state` or another formation-state field",
@@ -379,17 +399,59 @@ def test_triage_batch_save_contract() -> None:
         triage = (root / "triage.md").read_text(encoding="utf-8")
         for phrase in (
             "save this / save all / skip / edit",
-            "grants batch approval for every remaining triage draft",
-            "show the full draft and target path",
             "without another `Action?` pause",
             "legacy `save` as an alias for `save this`",
         ):
             assert phrase in triage, f"{root}/triage.md lost batch-save contract: {phrase}"
+        if "authorizes only drafts" in triage:
+            for phrase in (
+                "full content and target path have been displayed in a visible reply",
+                "written bytes must equal the displayed draft",
+                "before any further write, display every remaining proposed draft in full",
+                "not displayed before its write is not covered by `save all`",
+            ):
+                assert phrase in triage, f"{root}/triage.md lost display-before-write contract: {phrase}"
+        else:
+            for phrase in ("grants batch approval for every remaining triage draft",
+                           "show the full draft and target path"):
+                assert phrase in triage, f"{root}/triage.md lost batch-save contract: {phrase}"
+
+
+def test_language_and_presence_rules_in_both_hosts() -> None:
+    immediate_restore = 'A valid restore_pending task is visible and actionable now; do not require waiting for scheduled integration before the task can resume.'
+    for path in (ROOT / 'commands/next.md', ROOT / 'commands/triage.md',
+                 ROOT / 'references/capabilities/tasks.md',
+                 SKILL / 'references/next.md', SKILL / 'references/triage.md',
+                 SKILL / 'references/capabilities/tasks.md'):
+        assert immediate_restore in path.read_text(encoding='utf-8'), f'{path}: approved restore must be actionable before index integration'
+    template_rule = (
+        "Template headings and labels are structure: render them and all prose in the vault `language`"
+    )
+    presence_rule = 'A file listing shows files only and can miss empty folders; never state or act on a folder or file being missing unless a direct check confirms it; otherwise say no files were found there.'
+    for root in (ROOT, SKILL):
+        tasks = (root / "references" / "capabilities/tasks.md").read_text(encoding="utf-8")
+        assert tasks.count(template_rule) == 2, f"{root}: template language rule must precede both templates"
+    for rel in (
+        ROOT / "commands/next.md",
+        ROOT / "commands/wrap.md",
+        ROOT / "commands/handoff.md",
+        ROOT / "references/capabilities/concept-card.md",
+        SKILL / "SKILL.md",
+        SKILL / "references/next.md",
+        SKILL / "references/wrap.md",
+        SKILL / "references/handoff.md",
+        SKILL / "references/capabilities/concept-card.md",
+    ):
+        assert presence_rule in rel.read_text(encoding="utf-8"), f"{rel} lost the file-listing presence rule"
 
 
 def test_codex_references_satisfy_command_spec() -> None:
     for name in EXPECTED_REFERENCES:
-        if name in {"__init.md", "critique.md"}:
+        if Path(name).stem in REDIRECTS:
+            errors = check_file(Path(name).stem, (SKILL / "references" / name).read_text(encoding="utf-8"))
+            assert not errors, errors
+            continue
+        if name == "__init.md":
             content = (SKILL / "references" / name).read_text(encoding="utf-8")
             frontmatter = extract_frontmatter(content)
             assert frontmatter.get("description"), f"{name}: missing description"
@@ -447,5 +509,6 @@ if __name__ == "__main__":
     test_decision_trace_contract()
     test_triage_batch_save_contract()
     test_codex_references_satisfy_command_spec()
+    test_language_and_presence_rules_in_both_hosts()
     test_tidy_accepts_codex_source_and_skips_generated_content()
     print("Codex Hirameki skill adapter validation passed")

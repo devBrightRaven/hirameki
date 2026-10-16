@@ -1,5 +1,15 @@
 # Validation Contract
 
+Restore operation delivery: the public `--restore-contract`/`--validate-restore`
+interfaces use canonical reader validators; `tests/test_task_view_cli.py` checks
+schema/digest/error consistency. `tests/test_codex_task_payload.py` exercises the
+actual relocated package using only its delivered procedure and public CLI.
+
+Read-only task-ID lookup: `tests/test_task_view_cli.py` covers archived tasks,
+unknown IDs, changed sources, full/global validation and explicit UTF-8 size
+limits; `tests/test_codex_task_payload.py` checks the actual relocated tarball's
+root and Codex readers. Existing behavioral PASS is separate from these tests.
+
 Hirameki is a released Tier 1 asset. A change is releasable only when the
 command contract, Codex adapter, workflow smoke tests, local gate, and CI pass.
 
@@ -15,11 +25,33 @@ command contract, Codex adapter, workflow smoke tests, local gate, and CI pass.
 
 ## Mapped tests
 
+- `tests/test_workflow_routes.py`: five primary entries, permanent shortcuts,
+  legacy redirects and argument preservation; canonical/adapter capability parity.
+  This is deterministic contract validation, not fresh-dialogue acceptance.
+- Consolidation capabilities and routing metadata are delivered in `references/`
+  and the Codex skill references. Actual relocated-package tests check delivery;
+  installed host discovery and routing remain separate deployment checks.
+
+- `tests/test_tidy_dry_run.py`: concrete synthetic A1 structural acceptance,
+  A3 stale source despite preserved mtime, E1 conflict-copy paths, E2 gate
+  invalidation, and E3 public CLI revision rejection. These are program evidence;
+  assessor declarations and passing tests do not establish model semantics.
+
+- `tests/test_vault_route.py`: optional agent-neutral multi-vault preflight,
+  destination isolation and refusal to write under ambiguous context. Run it
+  separately with Python3.10+ before deploying this optional helper. Personal
+  adapter discovery and model context classification remain runtime checks.
+
 - `tests/validate_commands.py`: command structure and write safeguards.
 - `tests/smoke_hirameki_workflows.py`: workflow routing and expected outcomes.
 - `tests/test_open_handoff.mjs`: handoff action behavior.
 - `tests/validate_codex_skill.py`: Codex adapter contract.
+  Includes canonical/adapter visible decision-reminder parity and its no-write boundary;
+  static parity does not prove ordinary-work automatic triggering.
 - `tests/validate_release_contract.py`: release and package test-chain parity.
+- `tests/test_codex_task_payload.py`: acceptance payload and actual npm tarball
+  delivery; bundled task readers and gate run from relocated package roots
+  without source-checkout imports. Packing does not establish deployment.
 
 ## Gates
 

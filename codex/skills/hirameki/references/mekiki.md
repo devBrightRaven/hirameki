@@ -8,7 +8,7 @@ description: >
   or any URL / pasted text with evaluation or vault-storage intent.
 ---
 
-Resolve vault configuration through the umbrella Hirameki adapter to get the vault path, content folders, inbox folder, research folder, and language. The umbrella owns any migration fallback; this reference does not read Claude configuration directly.
+Resolve vault configuration through the umbrella Hirameki adapter to get the vault path, content folders, inbox folder, research folder, and language. This reference does not read another agent's configuration.
 If the section does not exist or required fields are missing, stop and respond: "Setup not complete. Please run `/hirameki:__init` first."
 
 Input: $ARGUMENTS (required — GitHub URL, article URL, pasted text, or file path)

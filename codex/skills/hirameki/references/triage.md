@@ -4,7 +4,7 @@ description: End-of-session checkpoint — decides which of wrap, journal, hando
   or edit before moving on. Wrap and journal and handoff remain callable individually.
 ---
 
-Resolve vault configuration through the umbrella Hirameki adapter to get the vault path and folder locations: daily, journal, handoff, templates, and language. The umbrella owns any migration fallback; this reference does not read Claude configuration directly.
+Resolve vault configuration through the umbrella Hirameki adapter to get the vault path and folder locations: daily, journal, handoff, templates, and language. This reference does not read another agent's configuration.
 If the section does not exist or required fields are missing, stop and respond: "Setup not complete. Please run `/hirameki:__init` first."
 
 Input: $ARGUMENTS — ignored. Triage takes no arguments. (The user may adjust the plan at an `Action?` prompt; see Step 0.5.)
@@ -14,7 +14,9 @@ Input: $ARGUMENTS — ignored. Triage takes no arguments. (The user may adjust t
 Every sub-flow uses `save this / save all / skip / edit`.
 
 - `save this` writes only the current draft, prints its path, and continues to the next sub-flow.
-- `save all` writes the current draft and grants batch approval for every remaining triage draft. For each remaining sub-flow, still show the full draft and target path, then write it without another `Action?` pause and print the path.
+- `save all` authorizes only drafts whose full content and target path have been displayed in a visible reply. Approval is bound to the displayed text: the written bytes must equal the displayed draft, with no recomposition between display and write.
+- When `save all` is chosen, write the current (already shown) draft; then, before any further write, display every remaining proposed draft in full with its target path in one visible reply. Only after that display, write them in run order without another `Action?` pause, printing each path.
+- A remaining draft that was not displayed before its write is not covered by `save all`. If a draft must change after display (for example a write failure changes a path), display the changed draft again before writing it.
 - `skip` does not write the current draft and continues to the next sub-flow.
 - `edit` takes inline edits, shows the full revised draft, then asks the same action menu again.
 - Accept legacy `save` as an alias for `save this`.
@@ -22,6 +24,32 @@ Every sub-flow uses `save this / save all / skip / edit`.
 ---
 
 ## Step 0 — Collect session state (shared)
+## Task view (shared step)
+
+Resolve vault and `{research}` through the umbrella adapter. When `<vault>/<research>/tidy/tasks/index.json` exists, resolve `<HIRAMEKI_TASK_ROOT>` from an explicitly configured machine-local `task_view_root`, otherwise the directory containing the actually loaded Hirameki SKILL.md when it contains the bundled scripts, otherwise the verified source checkout containing this loaded reference. Check that both `scripts/task_view_cli.py` and `scripts/TASK_GATE_VERSION` exist there. Do not use Claude configuration, CLAUDE_PLUGIN_ROOT, a guessed cache path, or a recursive filesystem search. If an explicit root is invalid, report unavailable rather than silently switching roots. A plugin-only payload without these files is not yet wired; report that limitation.
+
+`python3 -X utf8 "<HIRAMEKI_TASK_ROOT>/scripts/task_view_cli.py" --vault <vault> --data <research>/tidy/tasks --gate-version <G> --page-size 20 --offset 0`
+
+This is a bounded preview, not a complete baseline when `pagination.all_displayed` is false. For each of active, uncertain and exceptions, retain the total, returned, earlier_not_displayed, remaining and next_offset in the report; do not claim all done, no exceptions or a complete inventory from an incomplete page. Totals describe the full validated view, not just the displayed items. Unshown uncertain items remain explicitly visible as a count, not silently discarded or promoted to active tasks.
+
+For further pages, replace --offset with a reported next_offset and include --expected-revision <index_revision> and --expected-view-revision <view_revision> from the first response. Both tokens must match; index, source or restore-overlay changes invalidate a combined inventory. Report that change and discard any combined completeness claim; do not combine incompatible pages, retry via another interpreter, or silently fall back to old notes. A later empty page never proves an empty task list.
+
+Read further pages when needed for the requested scope; a requested comprehensive inventory requires all relevant pages. A bounded orientation/checkpoint may report a preview with totals and deferred next offsets, but must not rank unseen tasks or conclude they are finished. If an individual page is too large for the output channel, reduce page size and read complete records; tool truncation is not successful inspection. This presentation option does not reduce full reader validation or change the writer/dry-run archive gate.
+
+Read `<G>` from that root's `scripts/TASK_GATE_VERSION`; missing/blank/multiline version is unavailable, never a hard-coded fallback. Use a verified Python 3.10+ executable: python3 then python only when the first cannot launch (including a Store stub). Do not retry a real CLI data/schema failure as an interpreter failure. On Windows use PowerShell native argument arrays, not cmd wrappers. This step is read-only.
+
+Invoke the script directly with that interpreter; do not nest interpreter subprocesses or replace the CLI with runpy. A policy or access denial makes this launch unavailable: report it, do not rewrite the launch to evade the denial. The missing-command/Store-stub fallback above is not permission to bypass an access restriction.
+
+A valid restore_pending task is visible and actionable now; do not require waiting for scheduled integration before the task can resume. Only the designated writer integrates the formal index; do not suggest that this reader performs that operation. Restoring visibility does not grant permission to execute the underlying task or its external actions.
+
+Show three separately labelled lists: 「有效待辦」 (active), 「狀態未確認」 (uncertain), 「例外」 (exceptions). Do not blend uncertain items into the active list; these lists may be nested inside the entry's normal output sections. Mark restore_pending as 「取回申請待整合」, source_changed as 「來源已變更」, and partial/unavailable explicitly. Retain all in-scope uncertainty and exception paths. An empty partial/unavailable result never means all done. Archived indexed items are not reopened by old note text. Raw notes may add context or identify unindexed candidates, not override existing dispositions.
+
+If no index exists, print 「尚無有效待辦索引，以下由原始紀錄推導，未經歸檔驗證。」 and use the existing raw-note flow. If an existing index/CLI cannot be read, print 「待辦索引無法讀取」; any raw-note fallback is explicitly unverified candidates, not authoritative active or completed state. Do not write an index or add confirmation stops.
+
+Raw-note fallback must respect explicit task dispositions: exclude the same item marked finished (已完成, 完成, [x], ✓ Done), withdrawn (撤回, withdrawn), or superseded (已取代, superseded), including a later closing Wrap block in the scanned window. Interpret the mark in context, not by substring: 未完成 is not closed; a replacement remains a separate open item. Unmarked items without explicit status evidence are `status uncertain`, not confirmed active tasks. Keep them visible in a separate uncertain list in default and stuck modes; never automatically archive them. Explicit unfinished or reopened evidence may establish active status; missing an index or repeating an Open item does not. Repetition does not reopen a closed item; only newer explicit reopening does.
+
+
+Use the view as the saved task baseline. Wrap/handoff must not re-propose archived items; uncertain items remain separately visible. Current-session explicit new/reopened work remains evidence, not an unauthorized index edit.
 
 Gather this once. All sub-flows draw from it — do not re-scan per sub-flow.
 
@@ -302,7 +330,7 @@ Show the full draft and the target path. Then ask:
 [Lesson] — Action? (save this / save all / skip / edit)
 ```
 
-Apply the action model above. At the final sub-flow, `save all` is equivalent to `save this` because no sub-flow remains.
+Apply the action model above. At the final sub-flow, `save all` is equivalent to `save this` because no sub-flow remains and no undisplayed draft exists.
 
 ---
 
@@ -320,8 +348,8 @@ Triage done: wrap {✓ saved | – skipped | · 未提} / journal {✓ saved | �
 
 ## Rules
 
-- Never write a file without `save this`, `save all`, or legacy `save` approval. An active `save all` is confirmation for the remaining triage drafts.
-- Show the FULL draft content and target path before every write. With active `save all`, show each remaining draft and write it without another `Action?` pause.
+- Never write a file without `save this`, `save all`, or legacy `save` approval. An active `save all` is confirmation only for remaining drafts already displayed in full with their target path in a visible reply.
+- Show the FULL draft content and target path before every write. With active `save all`, display every remaining draft before the first further write, then write them without another `Action?` pause; a draft changed after display is displayed again before it is written.
 - A sub-flow that the gap check did not propose is not run; every 略過 in the plan line carries a reason. The plan line itself never pauses for an answer; the user adjusts the run with `all`, `+artifact`, or `-artifact` at any `Action?` prompt, and only `save this` / `save all` writes.
 - Do not accept $ARGUMENTS input.
 - Timestamps use local time in HH:MM format (24-hour)

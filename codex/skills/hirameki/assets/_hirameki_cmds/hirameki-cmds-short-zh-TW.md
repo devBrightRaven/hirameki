@@ -1,168 +1,53 @@
-# Hirameki 指令
+> Codex 版生成指南。實際工作流以 `references/` 為準；這份翻譯摘要不是 runtime 設定。
 
-在 Claude Code CLI 中使用。所有指令以 `/hirameki:` 開頭。
+# Hirameki — 五個目的導向入口
 
----
+> 2.2.0 整合工作流程入口；來源驗證、模型驗收、安裝與排程分開判定。
 
-## Orchestrators（編排指令）
+先用當前明示設定或 `~/.codex/hirameki-local.md` 取得 vault 路徑與語言，再從 `<vault>/AGENTS.md` 讀取共用資料夾配置。不得以其他 agent 設定作為退路。
 
-從這裡開始 — 每個 orchestrator 把相關的基礎指令整合成一個引導式流程。各基礎指令仍可單獨呼叫。
+## 五個主入口
 
-### `/hirameki:triage`
-Session 結束整合：依序執行 wrap → journal → handoff。每步顯示完整草稿，可選 save this / save all / skip / edit；`save all` 一次核准剩餘草稿。
-無參數。Session 結尾時執行。
+| Entry | Purpose |
+|---|---|
+| `next` | 接續工作、查看有效待辦與卡點；支援 `next tasks [N]`、`next stuck [N]`、`next week [N]`。 |
+| `lens` | 按問題探索歷史、立場、關聯、弱點、機會與模式；`lens cards` 找概念卡候選，`lens random` 只在明確要求時使用。 |
+| `compose` | 按目的寫稿、改稿、大綱、語氣、構想評估或審查；已有稿件不必掃描整個 vault。 |
+| `decision-trace` | 整理重要選擇與取捨，不替使用者拍板。 |
+| `triage` | 只提出有新增價值的 wrap、journal、lesson 或 handoff；第一份草稿前不新增確認層。 |
 
-### `/hirameki:lens <概念>`
-主題理解流程：arc → 立場萃取 → bridge → challenge。每步可單獨 save 或 skip。
-輸入：單一概念或主題（必填）。
+## 專用工具與永久捷徑
 
-### `/hirameki:compose <主題>`
-主題創作流程：用你的語氣作答 → 五問框架測試。每步可單獨 save 或 skip。
-輸入：主題或問題（必填）。Standalone — 不需要先執行 `/hirameki:lens`。
+| Entry | Purpose |
+|---|---|
+| `tidy` | 維護：`tidy tasks` 只提歸檔建議；`tidy review` 審查 corrections／lessons；`tidy snapshot` 唯讀盤點。Claude 無參數仍做 metadata 檢查，Codex 無參數仍提任務建議。 |
+| `mekiki` | 外部研究入口，不隨其他流程自動執行。 |
+| `init (`__init`)` | 設定本機與共用資料夾；不借用其他 agent 的設定。 |
+| `wrap` | 直接記一筆進度，不必先跑完整 triage。 |
+| `journal` | 寫入或追加工作、判斷與符合門檻的教訓；`journal review` 共用 `tidy review` 契約。 |
+| `handoff` | 直接準備交接，不必先跑完整 triage。 |
 
-### `/hirameki:mekiki <輸入>`
-外部資源捕獲。自動偵測輸入類型：
-- GitHub URL 或 `owner/repo` → Repo 分析（技術提取 + adopt/defer/reject 裁決）
-- 文章 URL → 網路文章捕獲 + vault 交叉引用
-- 貼上文字或本機檔案路徑 → 文章捕獲 + vault 交叉引用
+## 舊名稱轉向
 
-Repo 輸出：`{research}/mekiki-{repo名稱}.md`
-文章輸出：`{inbox}/YYYY-MM-DD-{slug}.md`
+十個舊名稱只在首個整合發布版本保留轉向；永久可叫用名稱共十一個。直接捷徑不會到期移除；尚未驗證宿主能隱藏其 metadata。
 
----
+| Old name | Destination |
+|---|---|
+| `arc` | lens history |
+| `bridge` | lens bridge |
+| `challenge` | lens challenge |
+| `harvest` | lens opportunities |
+| `graduate` | lens cards |
+| `reflect` | compose voice |
+| `frame` | compose frame |
+| `critique` | compose review |
+| `tasks` | next tasks; stuck → next stuck |
+| `pulse` | next week; patterns → lens patterns; snapshot → tidy snapshot |
 
-## Session
+## 安全與證據
 
-### `/hirameki:next`
-Session 恢復後定向。整理已完成的工作、待處理事項和下一步。無輸入。不寫入檔案。
+保存前完整展示內容與目標路徑。`save all` 只涵蓋已展示的草稿；後續寫入前須先展示其餘全部草稿，改稿後重新展示並取得核准。分析、轉向、規則提案或決策提醒都不代表寫入授權。部分成功如實保留，恢復只處理尚未完成且已核准的操作。
 
-### `/hirameki:wrap [描述]`
-進度快照。記錄已完成、進行中、下一步 — 追加到當天的 wrap log。一天可執行多次。
-可選輸入：本次 wrap 的重點描述。
-寫入：`{daily}/YYYY-MM-DD.md`
+未決或形成中的 trace 使用 `save this`，不等於已定案節點。
 
-### `/hirameki:journal <描述>`
-工作紀錄、推理與判斷軌跡：原先看法、證據、改變、尚未知與重新檢視條件。沒有改變時不捏造。
-輸入：主題描述（必填）。
-寫入：`{journal}/YYYY-MM-DD-HHMM-{主題}.md`
-
-### `/hirameki:decision-trace <決策問題或脈絡>`
-唯讀形成階段辨識 `unresolved`、`forming`、`decided`、`reviewing`，呈現決策問題、可行選項、證據與來源、假設與未知、限制、後果、回復成本，以及一個關鍵未解問題。不替使用者選擇，也不寫入。
-未決或形成中的 trace 使用 `save this` 跨 session 保存到 `{journal}` 或 `{handoff}`，絕不放進 `{journal}/decisions/`。只有明確決定的選擇才能成為 decision node。
-條件式寫入階段只在使用者明確說出或確認選擇後開始：顯示提升依據、完整草稿、受影響路徑與 status 變更，只有 `save this` 才寫入。保留 `active`／`superseded`／`closed` lifecycle 行為。
-寫入：未決／形成中 trace → `{journal}` 或 `{handoff}`；明確決定的 node → `{journal}/decisions/YYYY-MM-DD-{slug}.md`；兩者都需 `save this`
-
-### `/hirameki:handoff`
-Session 移交文件。把目前有效決定與會影響接手的判斷更新分開記錄。
-寫入：`{handoff}/YYYY-MM-DD-{slug}.md`
-
----
-
-## 理解（Standalone）
-
-這些是 `/hirameki:lens` 整合的基礎指令，可以直接單獨呼叫。
-
-### `/hirameki:arc <概念>`
-概念演化追蹤。顯示某概念在 vault 中的首次出現、演化時間軸、目前狀態與空白地帶。
-寫入：`{research}/arc/YYYY-MM-DD-{概念}.md`。同概念同天追加。
-
-### `/hirameki:bridge <A> and <B>`
-兩主題間的隱藏連結。找出直接交集、橋樑筆記，並提出深層連結假設。
-寫入：`{research}/bridge/YYYY-MM-DD-{A}-{B}.md`。同組主題同天追加。
-
-### `/hirameki:challenge <主題>`
-論點弱點分析。對 vault 中關於此主題的每個主張，逐一檢查內部矛盾、未驗證假設、邏輯跳躍與證據缺口。
-寫入：`{research}/challenge/YYYY-MM-DD-{主題}.md`
-
-### `/hirameki:reflect <問題>`
-Vault 語氣作答。分析你的寫作風格、萃取你的立場，用你的語氣寫出一段回答，附上出處引用與信心標注。
-加 `save` 才寫入：`{research}/reflect/YYYY-MM-DD-{問題}.md`
-
----
-
-## 創作（Standalone）
-
-這些是 `/hirameki:compose` 整合的基礎指令。
-
-### `/hirameki:frame <想法>`
-創作前檢查站。五問框架（Only-I 測試、碰撞掃描、賭注、張力、證據）。四種裁決：PROCEED / RETHINK / KILL / CONSOLIDATE。不產生內容，只評估內容是否應該存在。
-加 `save` 才寫入：`{research}/frame/YYYY-MM-DD-{slug}.md`
-
-### `/hirameki:critique <檔案>`
-多模型寫作評審。三位評審同時執行（Opus / Codex GPT / Gemini Pro），各自對感官密度、結構張力、觸動力評分（1–10）。整合為比較表，重點標出分歧。
-寫入：`{vault}/_writing_lab/benchmark/`
-
----
-
-## Vault
-
-### `/hirameki:pulse [week|patterns]`
-三種模式：
-- **`pulse`** — 即時概覽：內容主題、近期活動、統計數據。
-- **`pulse week`** — 週回顧：比對聲稱的優先事項與實際檔案變更，找出落差。
-- **`pulse patterns`** — 潛流與聚攏：找出反覆出現但沒有獨立文章的主題，以及正在形成的想法群。
-不寫入檔案。
-
-### `/hirameki:harvest [save]`
-從既有內容中收割可行動的想法。七個類別（各最多 5 個）：可以寫的文章 / 可以做的工具或專案 / 值得研究的主題 / 可以聯繫的人或社群 / 適合換個媒介的想法 / 尚未變現的價值 / 可以畢業的想法。
-畢業類別：兩階段，確認候選清單後才建立檔案。
-加 `save` 才寫入摘要：`{research}/harvest/`
-
-### `/hirameki:graduate <筆記>`
-將筆記升格為穩定概念卡片。驗證 frontmatter、設定正式 status、連結相關卡片。
-
-### `/hirameki:tasks [天數|stuck]`
-從 wrap logs 和 journal 彙整下一步行動，去重後依出現頻率排序。出現 3 次以上的項目標記為拖延信號。
-- **`tasks`** — 最近 3 天
-- **`tasks N`** — 回溯 N 天
-- **`tasks stuck`** — 從未出現在「完成」區塊的反覆未完成任務
-不寫入檔案。
-
----
-
-## 維護
-
-### `/hirameki:tidy [tags|fix|full|lint]`
-Frontmatter 屬性健檢。預設只跑缺漏 + 一致性（輕量）。
-- **`tidy`** — 缺漏 + 一致性檢查
-- **`tidy tags`** — tag 收斂分析（核心標籤、孤立標籤、合併建議）
-- **`tidy fix`** — 缺漏 + 一致性 + 自動修正
-- **`tidy full`** — 全部區塊
-- **`tidy lint`** — 內容健檢（矛盾、過時主張、孤立筆記、死連結）
-
-寫入：`{research}/tidy/`
-
-### `/hirameki:__init`
-首次設定：偵測 vault、設定語言、解析資料夾，寫入 `~/.claude/vault-local.md`（vault 路徑、語言）與 `<vault>/AGENTS.md`（資料夾結構）。每台機器執行一次。已有設定時執行進入 Mode B（重新設定）。
-
----
-
-## 寫入行為一覽
-
-| 指令 | 寫入位置 | 觸發條件 | 同天重複 |
-|------|----------|----------|----------|
-| `triage` | daily + journal + handoff | 逐步（save this/save all/skip） | `save all` 一次核准剩餘草稿 |
-| `lens` | research/lens/ | 逐步（save/skip） | 每步各自建檔 |
-| `compose` | research/compose/ | 逐步（save/skip） | 每步各自建檔 |
-| `wrap` | daily | 總是 | 追加新 Wrap 區塊 |
-| `journal` | journal | 總是 | 同主題追加，不同主題建新檔 |
-| `decision-trace` | journal/decisions | 明確選擇並 `save this` 後 | 通過提升門檻後才寫入；active/superseded/closed lifecycle |
-| `handoff` | handoff | 總是 | 同日期覆蓋 |
-| `arc` | research/arc/ | 總是 | 同概念追加 |
-| `bridge` | research/bridge/ | 總是 | 同組主題追加 |
-| `challenge` | research/challenge/ | 總是 | 同主題追加 |
-| `reflect` | research/reflect/ | 加 `save` | 同問題追加 |
-| `frame` | research/frame/ | 加 `save` | 每個想法建新檔 |
-| `mekiki`（Repo） | research/ | 總是 | 每個 repo 建新檔 |
-| `mekiki`（文章） | inbox/ | 總是 | 每篇文章建新檔 |
-| `graduate` | 內容資料夾 | 確認後 | 每次建新檔 |
-| `harvest` | research/harvest/ | 加 `save` | 追加更新 |
-| `tidy` | research/tidy/ | 總是 | 追加更新 |
-| `critique` | _writing_lab/benchmark/ | 總是 | 每次建新檔 |
-| `tasks` | 不寫入 | — | — |
-| `next` | 不寫入 | — | — |
-| `pulse` | 不寫入 | — | — |
-
-所有寫入檔案的指令都會在寫入前顯示預覽和完整路徑。
-
-輸出語言在首次執行 `/hirameki:__init` 時設定，儲存在 `~/.claude/vault-local.md` 中。
+◆ **決策可記錄｜decision-trace** ：只是提醒，不代表已保存或取得授權。

@@ -3,7 +3,9 @@
   "version": "2.1.0",
   "description": "Obsidian vault knowledge management commands for Claude Code",
   "scripts": {
-    "test": "python -X utf8 tests/validate_commands.py && python -X utf8 tests/smoke_hirameki_workflows.py && node tests/test_open_handoff.mjs && python -X utf8 tests/validate_codex_skill.py && python -X utf8 tests/validate_release_contract.py"
+    "test": "python -X utf8 tests/validate_commands.py && python -X utf8 tests/smoke_hirameki_workflows.py && node tests/test_open_handoff.mjs && python -B -X utf8 tests/test_tidy_dry_run.py && python -B -X utf8 tests/test_tidy_writer.py && python -B -X utf8 tests/test_tidy_archive_writer.py && python -B -X utf8 tests/test_archive_gate.py && python -B -X utf8 tests/test_task_view.py && python -B -X utf8 tests/test_task_view_cli.py && python -B -X utf8 tests/test_task_view_commands.py && python -B -X utf8 tests/test_codex_task_view_commands.py && python -B -X utf8 tests/test_codex_task_payload.py && python -B -X utf8 tests/test_workflow_routes.py && python -X utf8 tests/validate_codex_skill.py && python -X utf8 tests/validate_release_contract.py",
+    "test:task-view": "python -B -X utf8 tests/test_task_view.py && python -B -X utf8 tests/test_task_view_cli.py && python -B -X utf8 tests/test_task_view_commands.py",
+    "prepack": "node scripts/build_package_payload.mjs"
   },
   "keywords": [
     "claude-code",
@@ -22,7 +24,17 @@
   },
   "files": [
     "commands/",
+    "skills/",
+    "references/",
     "codex/",
-    ".claude-plugin/plugin.json"
+    ".claude-plugin/plugin.json",
+    "scripts/build_package_payload.mjs",
+    "scripts/task_view.py",
+    "scripts/task_view_cli.py",
+    "scripts/archive_gate.py",
+    "scripts/task_contract_primitives.py",
+    "scripts/task_restore_contract.py",
+    "scripts/TASK_GATE_VERSION",
+    "scripts/tidy_dry_run.py"
   ]
 }

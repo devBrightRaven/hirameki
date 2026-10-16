@@ -4,9 +4,11 @@ on:
   push:
     paths:
       - "commands/**"
+      - "references/**"
       - "codex/**"
       - "skills/**"
       - "tests/**"
+      - "scripts/**"
       - ".release.json"
       - "package.json"
       - "VALIDATION.md"
@@ -14,9 +16,11 @@ on:
   pull_request:
     paths:
       - "commands/**"
+      - "references/**"
       - "codex/**"
       - "skills/**"
       - "tests/**"
+      - "scripts/**"
       - ".release.json"
       - "package.json"
       - "VALIDATION.md"

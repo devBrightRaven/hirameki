@@ -1,0 +1,83 @@
+{
+  "schema_version": 1,
+  "primary": [
+    "next",
+    "lens",
+    "compose",
+    "decision-trace",
+    "triage"
+  ],
+  "specialized": [
+    "tidy",
+    "mekiki",
+    "__init"
+  ],
+  "shortcuts": [
+    "wrap",
+    "journal",
+    "handoff"
+  ],
+  "redirect_policy": "Keep for the first consolidation release only; remove no earlier than the following release. Release version is assigned by the release flow.",
+  "redirects": {
+    "arc": {
+      "target": "lens",
+      "mode": "history"
+    },
+    "bridge": {
+      "target": "lens",
+      "mode": "bridge"
+    },
+    "challenge": {
+      "target": "lens",
+      "mode": "challenge"
+    },
+    "harvest": {
+      "target": "lens",
+      "mode": "opportunities"
+    },
+    "graduate": {
+      "target": "lens",
+      "mode": "cards"
+    },
+    "reflect": {
+      "target": "compose",
+      "mode": "voice"
+    },
+    "frame": {
+      "target": "compose",
+      "mode": "frame"
+    },
+    "critique": {
+      "target": "compose",
+      "mode": "review"
+    },
+    "tasks": {
+      "target": "next",
+      "mode": "tasks",
+      "variants": {
+        "stuck": {
+          "target": "next",
+          "mode": "stuck"
+        }
+      }
+    },
+    "pulse": {
+      "target": "next",
+      "mode": "week",
+      "variants": {
+        "patterns": {
+          "target": "lens",
+          "mode": "patterns"
+        },
+        "week": {
+          "target": "next",
+          "mode": "week"
+        },
+        "snapshot": {
+          "target": "tidy",
+          "mode": "snapshot"
+        }
+      }
+    }
+  }
+}

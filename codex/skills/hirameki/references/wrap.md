@@ -2,7 +2,7 @@
 description: Snapshot session progress to wrap log. Use "merge" to consolidate multiple wrap blocks.
 ---
 
-Read `vault:` from `~/.claude/vault-local.md` for the vault root, then read `## Vault Structure` from `<vault>/AGENTS.md` (fall back to `~/.claude/vault-local.md`, then `~/.claude/CLAUDE.md` for setups predating 1.4.3) to get the vault path and the locations of the daily and templates folders.
+Resolve vault configuration through the umbrella Hirameki adapter to get the vault path and the locations of the daily and templates folders.
 If the section does not exist or required fields are missing, stop and respond: "Setup not complete. Please run `/hirameki:__init` first."
 
 Input: $ARGUMENTS (optional)
@@ -121,3 +121,4 @@ Rules:
 ---
 
 Write section headings in the language specified in `## Vault Structure` → `language`.
+A file listing shows files only and can miss empty folders; never state or act on a folder or file being missing unless a direct check confirms it; otherwise say no files were found there.

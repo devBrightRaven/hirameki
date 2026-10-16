@@ -16,8 +16,45 @@ Select which checks to run based on $ARGUMENTS:
 | `tidy fix` | Missing + Consistency + Auto-fix |
 | `tidy full` | All blocks |
 | `tidy lint` | Content health check (contradictions, stale, orphans, dead links) |
+| `tidy review [N]` | Corrections/lessons proposals under the shared review capability |
+| `tidy snapshot` | Read-only inventory; no cleanup or archive |
+| `tidy tasks` | Task archival proposals (read-only dry run; see Task proposals) |
 
 Only run the blocks for the selected mode — omit all others from the report.
+
+## Review and snapshot modes
+
+`tidy review` loads only the delivered `capabilities/review.md` under `${CLAUDE_PLUGIN_ROOT}/references/`.
+Use its source-anchored, deduplicated corrections and lessons proposals; no parallel journal review implementation or automatic rule promotion.
+
+`tidy snapshot` reports a bounded inventory of the explicitly selected scope:
+readable file counts, document roles and observed activity, with coverage limits.
+Skip generated/dependency and private runtime material. File dates and mtime describe
+activity only, not task completion or knowledge validity. Do not create a report,
+modify notes or run another maintenance mode. No new startup hook is added.
+
+## Task proposals (`tidy tasks`)
+
+This mode shares the effective task view with next/tasks/triage. It is a proposal only: it never writes any file (no report under `{research}/tidy/`, no index, no source note), never asks whether to save, never archives, never integrates restores and never edits the formal index. The Write logic section below does not apply to it, and no other mode's behavior changes.
+
+Resolve `{research}` from `## Vault Structure`. If `<vault>/<research>/tidy/tasks/index.json` does not exist, print exactly one line: 「尚無有效待辦索引，無法執行任務歸檔試算。」 and stop. Do not create an index and do not read raw notes as a substitute.
+
+Before running, check that `${CLAUDE_PLUGIN_ROOT}/scripts/tidy_dry_run.py` and `${CLAUDE_PLUGIN_ROOT}/scripts/TASK_GATE_VERSION` exist. If either is missing, say so explicitly (「外掛目錄缺少任務歸檔試算腳本」: the installed plugin payload does not yet ship the task scripts, a plugin payload limitation) and stop. A missing script never implies there is nothing to archive.
+
+`python3 -B -X utf8 "${CLAUDE_PLUGIN_ROOT}/scripts/tidy_dry_run.py" --vault <vault> --data <research>/tidy/tasks`
+
+Run the line with `python3`; if it cannot start (command not found, or a Windows Store stub error / non-JSON output mentioning the Microsoft Store), run the same line with `python`. The tool reads its own gate file and takes no `--gate-version`. The command is read-only and always reports `write_authorized: false`.
+
+Exit code 1, or output that does not parse as JSON: say 「任務歸檔試算無法執行」 with the reported exception reason, and stop. Never read an unavailable result as "nothing to archive", and do not fall back to raw notes or another interpreter for a real data failure.
+
+On success, parse the JSON and show:
+
+- **Proposals**: every entry of `proposals` individually (never collapsed into ID ranges), each with its `classification` (`completion_candidate`, `incomplete`, `unknown` or `conflict`) and its `reasons`. A `completion_candidate` is a candidate only: declaration consistency is not proof of completion or of human approval.
+- **狀態未確認**: every `uncertain` task with its own reason.
+- **例外**: every `exceptions` entry with its path and reason.
+- **Context**: `gate_version`, `index_revision`, `view_status` and `limitations`.
+
+Restore items the tool reports (`restore-awaiting-integration`) are shown as reported, not judged or integrated. State clearly at the top of the output that this is a proposal only and that nothing was written, archived or changed.
 
 ## Scan scope
 
@@ -170,11 +207,11 @@ Most-conflicted topic found: {topic with the most contradictions}
 
 ### Surface vault patterns
 (Only if isolated tags ≥ 5 or orphan notes ≥ 5)
-Run `/hirameki:pulse patterns` to see recurring themes and gaps across the full vault.
+Run `/hirameki:lens patterns` to see recurring themes and gaps across the full vault.
 
 ### Handle stale claims
 (Only if stale claims N > 0)
-For claims that are still valid: run `/hirameki:graduate <note>` to promote to a stable concept card.
+For claims that are still valid: run `/hirameki:lens cards <note>` to promote to a stable concept card.
 For claims that are outdated: update `status: archive` in frontmatter.
 Stale files needing attention: N
 ```

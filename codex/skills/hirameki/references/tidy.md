@@ -1,9 +1,77 @@
 ---
-description: Frontmatter health check and cleanup
+description: Read-only task completion proposals and explicit content health checks
 ---
 
-Read `vault:` from `~/.claude/vault-local.md` for the vault root, then read `## Vault Structure` from `<vault>/AGENTS.md` (fall back to `~/.claude/vault-local.md`, then `~/.claude/CLAUDE.md` for setups predating 1.4.3) to get the vault path and the list of content folders.
-If the section does not exist or required fields are missing, stop and respond: "Setup not complete. Please run `/hirameki:__init` first."
+Resolve vault configuration through the umbrella Hirameki adapter. For task proposals,
+require the vault root, research folder and language; content folders are not a task-reader prerequisite.
+For explicit metadata/content modes, resolve content folders using the existing `references/__init.md`
+rule: top-level folders minus hidden and configured system subtrees, then root Markdown if none remain.
+Do not invent a required `content` field or persist setup during a read-only trial.
+If the vault root or required research/language fields are missing, stop and
+respond: "Setup not complete. Please run `/hirameki:__init` first."
+
+## Review and snapshot modes
+
+`tidy review` loads only `references/capabilities/review.md` under the loaded skill root. Preserve the requested scope and date window; report source-anchored corrections and lessons proposals without automatic rule promotion.
+
+`tidy snapshot` gives a bounded read-only inventory of the explicitly selected scope, with file counts, roles, observed activity and coverage limits. Exclude generated/dependency and private runtime material. Dates and mtime describe activity, not task state or validity. Do not write a report, run another maintenance mode or add a startup hook.
+
+Recognize these explicit modes before the default task proposals; return after their selected contract.
+
+## Task proposals (default; `tidy tasks`)
+
+This entry shares the effective task view with next/tasks/triage. Interactive tidy
+only reports proposals; it never archives, integrates restores, creates authority,
+or asks the user to save a dry-run report. Source narratives remain unchanged.
+
+Read the loaded reference, vault AGENTS.md and gate as UTF-8. On Windows PowerShell
+use `Get-Content -LiteralPath <path> -Encoding utf8`; do not read without an explicit
+encoding, or reconstruct garbled Chinese labels from memory.
+
+Resolve `<HIRAMEKI_TASK_ROOT>` from an explicitly configured machine-local
+`task_view_root`, otherwise the directory containing the actually loaded Hirameki
+SKILL.md when it contains bundled scripts, otherwise the verified source checkout
+containing this loaded reference. If an explicit root is invalid, report unavailable
+rather than silently switching roots. Do not guess cache paths, search recursively
+for another root, or read another agent's settings. Require
+`scripts/task_view_cli.py`, `scripts/tidy_dry_run.py` and `scripts/TASK_GATE_VERSION`.
+Read the gate from this one version file; missing/blank/multiline is unavailable.
+Use a verified Python 3.10+ executable: python3, then python only when python3 cannot
+launch (including a Store stub). A real data/schema failure is not an interpreter
+failure. Use native argument arrays on Windows; invoke the CLI directly, without
+runpy or nested interpreter subprocesses. An access denial stops the invocation.
+
+`python3 -B -X utf8 "<HIRAMEKI_TASK_ROOT>/scripts/tidy_dry_run.py" --vault <vault> --data <research>/tidy/tasks`
+
+This CLI loads the full effective view without presentation paging and always
+returns `write_authorized: false`. Read actual sources and completion evidence
+before endorsing any completion_candidate: declaration consistency does not prove
+semantic truth or human approval. Classifications: completion_candidate (candidate
+only), incomplete, unknown, conflict. Show candidate IDs/source paths and reasons
+for excluded tasks, including progress, deployment dependencies, missing/stale
+evidence, changed sources, and pending restores. Historical unresolved records
+remain uncertain, never become archival proposals or active tasks automatically.
+
+Use these exact zh-TW section/status labels, preserving UTF-8: 「有效待辦」,
+「狀態未確認」, 「例外」, 「取回申請待整合」, 「來源已變更」.
+The proposal CLI returns assessments rather than full active source records; when
+task details are needed, read the same root's task_view_cli with the same gate:
+
+`python3 -X utf8 "<HIRAMEKI_TASK_ROOT>/scripts/task_view_cli.py" --vault <vault> --data <research>/tidy/tasks --gate-version <G> --page-size 20 --offset 0`
+
+Pin additional pages using both --expected-revision and --expected-view-revision.
+Do not combine different revisions or infer a complete inventory from a bounded
+preview. Disclose all totals, remaining counts, partial/unavailable and exception
+paths. A requested full inventory needs all pages. A valid restore_pending is
+actionable now, labelled 「取回申請待整合」; formal integration belongs to the single
+authorized writer and does not authorize executing the underlying task.
+
+If no index exists, report 「尚無有效待辦索引，無法執行任務歸檔試算。」 and retain
+raw notes as unverified candidates only. An unreadable existing index reports
+「待辦索引無法讀取」, never all done. Old Wrap text cannot reopen indexed archives.
+Do not create an index, run a writer or change notes as a fallback.
+
+## Explicit content modes
 
 ## Modes
 
@@ -11,7 +79,7 @@ Select which checks to run based on $ARGUMENTS:
 
 | Call | Runs |
 |------|------|
-| `tidy` (no argument) | Missing field check + Consistency check |
+| `tidy metadata` | Missing field check + Consistency check |
 | `tidy tags` | Tag convergence analysis only |
 | `tidy fix` | Missing + Consistency + Auto-fix |
 | `tidy full` | All blocks |
@@ -170,11 +238,11 @@ Most-conflicted topic found: {topic with the most contradictions}
 
 ### Surface vault patterns
 (Only if isolated tags ≥ 5 or orphan notes ≥ 5)
-Run `/hirameki:pulse patterns` to see recurring themes and gaps across the full vault.
+Run `/hirameki:lens patterns` to see recurring themes and gaps across the full vault.
 
 ### Handle stale claims
 (Only if stale claims N > 0)
-For claims that are still valid: run `/hirameki:graduate <note>` to promote to a stable concept card.
+For claims that are still valid: run `/hirameki:lens cards <note>` to promote to a stable concept card.
 For claims that are outdated: update `status: archive` in frontmatter.
 Stale files needing attention: N
 ```

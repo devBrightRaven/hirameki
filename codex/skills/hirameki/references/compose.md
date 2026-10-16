@@ -1,191 +1,44 @@
 ---
 description: >
-  Topic-driven creation workflow — voice composition followed by a five-question
-  frame test. Use before investing effort in writing.
-  Compose is standalone — does not require /hirameki:lens to have run first.
-  For standalone use: /hirameki:reflect (voice only), /hirameki:frame (frame only).
-  For deep understanding before creating, run /hirameki:lens first.
-argument-hint: "<topic or question>"
+  Select and assemble vault notes into sourced work, preserve author positions,
+  or prepare a requested vault artifact. Ordinary writing uses language skills.
+argument-hint: "[draft|edit|outline|voice|frame|review] <material or purpose>"
 ---
 
-Read `vault:` from `~/.claude/vault-local.md` for the vault root, then read `## Vault Structure` from `<vault>/AGENTS.md` (fall back to `~/.claude/vault-local.md`, then `~/.claude/CLAUDE.md` for setups predating 1.4.3) to get the vault path, the research folder location, and the list of content folders.
-If the section does not exist or required fields are missing, stop and respond: "Setup not complete. Please run `/hirameki:__init` first."
+For a natural-language request, apply `references/capabilities/natural-routing.md` under the currently loaded skill root; do not require the user to name this capability. Preserve the actual request as input.
 
-Input: $ARGUMENTS
-- A topic or question to write about (required).
-- If $ARGUMENTS is empty, ask: "Compose on which topic or question?" in the language specified in `## Vault Structure` → `language`. Wait for the answer.
+Resolve vault configuration through the umbrella Hirameki adapter. Read `## Vault Structure` from `<vault>/AGENTS.md` only when this task needs vault material; use explicit supplied material without a vault scan.
+If a vault-dependent request lacks configuration, stop and respond: "Setup not complete. Please run `/hirameki:__init` first." A supplied draft can be edited without opening the vault or requiring setup.
 
-Print before starting:
-```
-Compose on: {topic or question}
-```
+Input: $ARGUMENTS. Preserve the requested operation: an edit is not a request for a new article, an outline is not a request for full prose, and a review is not publication authority.
 
----
+## Purpose before procedure
 
-## [1/2] Voice — Write in my own voice
+Automatic selection is for cross-note source selection, author-position handling or requested vault artifact delivery. Ordinary supplied-text drafts and outlines use the relevant language-writing entry directly; an explicit compose request remains supported without requiring vault access.
 
-Run the same logic as `/hirameki:reflect`:
+Use the stated audience, purpose and acceptance criteria. Ask only when a missing fact materially changes the result. Do not run a mandatory voice → frame ritual, scan the full vault, or write a draft first merely to decide whether it deserves to exist.
 
-### Step 1 — Analyse writing style
+- `draft` / `edit` / `outline`: use supplied material and the relevant installed language-writing entry when available. Preserve facts, uncertainty, quotation and URLs. If that entry is unavailable, disclose the limit and do not claim it ran.
+- `voice`: use provided author samples or narrowly selected, authorized vault passages. Separate supplied/vault-supported positions from style inference; never invent personal anecdotes or beliefs.
+- `frame`: assess audience, overlap, useful outcome and evidence before investing further. Apply narrative tension or the Only-I criterion only when the work's purpose warrants them.
+- `review`: select the needed existing review pipeline, not a new mandatory panel.
 
-Scan completed articles in content folders (exclude `drafts/` and `thoughts/` subdirectories if present).
+Technical documentation is judged by correctness, reproducibility and usefulness. Do not KILL a useful tutorial merely because it lacks personal uniqueness, emotional stakes or a literary reversal. Recommendations to consolidate drafts are proposals, not deletion authority.
 
-Extract:
-- Sentence patterns and typical length
-- Vocabulary level and recurring phrasing
-- Argument structure (how claims are introduced, supported, qualified)
-- Rhetorical moves that appear repeatedly
+## Authorship and routing
 
-### Step 2 — Extract positions
+Keep supplied material, vault provenance and new suggestions distinguishable. Contradictory author positions remain visible unless the user resolves them. Same author does not mean same brand voice. Brand checks, councils, Ravenquill and publishing gates apply only when explicitly requested or required by an approved project contract.
 
-Search the full vault for notes relevant to the topic. Prioritise:
-- Notes in content folders that address the topic directly
-- Permanent concept cards related to the topic
-- Journal entries where the author took a position
-- Wrap logs with relevant observations
+Use only relevant context. Do not require lens first. For an exploration rather than a creation request, use lens instead of duplicating its analysis.
 
-Limit: 5 most relevant sources.
+## Independent review
 
-### Step 3 — Compose answer
+Only when requested or required by an applicable contract, use the runtime's existing authorized independent-review pipeline. Record actual reviewer identity and model when observable, inspected artifact/version, findings and disagreements. A reviewer must not have produced the reviewed work. If unavailable, say there is no independent result; never simulate distinct reviewers in one model or treat an average score as consensus. Respect host delegation restrictions and approval boundaries; do not start external CLIs automatically.
 
-Write an answer using the identified style and the extracted positions. Rules:
-- Match the length of a typical paragraph from their writing
-- Use the author's own arguments, not general knowledge
-- Do not introduce positions the vault does not support
-- If the vault has contradictory positions on the topic, surface the tension rather than resolving it
+## Result and save gate
 
-### Output
+Return the requested draft, outline or review plus material limitations when needed. For reply-only work, stop there; do not force a save menu.
 
-```
-[Answer]
-The answer in the author's voice. One to three paragraphs.
+If a vault save is requested, resolve the destination, show the full draft and target path, then ask `Action? (save this / skip / edit)`. Never write unless the user approves that displayed content. A changed draft must be displayed again. New analysis drafts may use `{research}/compose/YYYY-MM-DD-{slug}.md`; do not move, publish or retire source notes without separate approval. Print the full path after a successful write, and report partial failure accurately.
 
-[Sources]
-- [[note-title]] — the specific position or passage drawn from
-(Limit: 5 sources)
-
-[Confidence]
-- Vault-supported: which parts have direct evidence
-- Style-inferred: which parts extend the style without direct backing
-- Tensions: any contradictions found across vault notes
-```
-
-Print full output. Then:
-
-```
-[1/2] Voice — Action? (save / skip / edit-question)
-```
-
-- `save` → write to `{research}/compose/YYYY-MM-DD-{topic}-voice.md`, print path, proceed to [2/2]
-- `skip` → do not write, proceed to [2/2]
-- `edit-question` → ask: "Revised topic or question?" — wait for input, rerun voice step with new input
-
----
-
-## [2/2] Frame — Does this pass the five-question test?
-
-Run the same logic as `/hirameki:frame`, treating the voice output from [1/2] as the idea to frame.
-
-If [1/2] was skipped, ask: "Frame which idea?" — wait for the user to describe the idea.
-
-### Phase 1: Understand the idea
-
-Determine the type of creative work (Article / Product / Design).
-
-Print the thesis and type, then proceed.
-
-### Phase 2: Five-question frame test
-
-**Q1 — Only-I test**: What is this saying that only I can say?
-- Scan vault for personal experiences, unique perspectives, proprietary knowledge
-- Evaluate: Strong / Weak / None
-
-**Q2 — Collision scan**: Does something I've already made cover this?
-- Tier 1 — Published work: absorbed / adjacent / superseded
-- Tier 2 — Unpublished drafts: competing / adjacent / feeds
-
-**Q3 — Stakes**: After encountering this, what changes for the reader?
-- Reframes / Equips / Provokes / None of the above
-
-**Q4 — Tension**: What is the surprising or counterintuitive part?
-- Contradiction the author is willing to sit with / Reversal / Confession
-
-**Q5 — Evidence**: What lived experience or data makes this credible?
-- Embodied / Researched / Speculative
-
-### Phase 3: Verdict
-
-Assign one of: **PROCEED** / **RETHINK** / **KILL** / **CONSOLIDATE**
-
-```
-PROCEED — Q1 Strong + at least one of Q3/Q4 strong + no Tier 1 absorbed collision
-
-## Frame: PROCEED
-**Thesis**: [one sentence]
-**Unique angle**: [from Q1]
-**Core tension**: [from Q4]
-**Key evidence**: [from Q5]
-### Before starting
-- [1-2 specific things to nail down]
-
-
-RETHINK — Q1 Weak or adjacent collision or Q3 "informs only"
-
-## Frame: RETHINK
-**Thesis**: [one sentence]
-**Problem**: [which questions failed and why]
-### What would make this worth doing
-- [1-3 specific directions]
-### Existing work to build on
-- [[filename]] — [how it relates]
-
-
-KILL — Q1 None or Tier 1 absorbed or both Q3 and Q4 empty
-
-## Frame: KILL
-**Thesis**: [one sentence]
-**Reason**: [one sentence]
-**Salvageable parts**: [any fragments worth keeping, or "none"]
-
-
-CONSOLIDATE — Q2 has multiple Tier 2 competing drafts
-
-## Frame: CONSOLIDATE
-**Thesis**: [one sentence]
-**Competing drafts**:
-- [[draft 1]] — strength: X, weakness: Y
-**Recommended vessel**: [[strongest draft]] — because [reason]
-**Parts to absorb from other drafts**: [specific content]
-**Drafts to retire after consolidation**: [list]
-```
-
-Print full output. Then:
-
-```
-[2/2] Frame — Action? (save / skip / next)
-```
-
-- `save` → write to `{research}/compose/YYYY-MM-DD-{topic}-frame.md`, print path, then show summary
-- `skip` or `next` → show summary
-
----
-
-## Completion summary
-
-```
-Compose done: voice {✓ saved | – skipped} / frame {✓ saved | – skipped}
-```
-
----
-
-## Rules
-
-- Do not hardcode vault paths — resolve the root from `vault-local.md` and folders from `<vault>/AGENTS.md` every time
-- Use `[[wiki link]]` format for all vault note references
-- Timestamps use local time in HH:MM (24-hour)
-- Always print the full output for each step before the Action? prompt
-- Do not skip any sub-flow automatically — always show and let the user decide
-- Never soften the frame verdict — if KILL, say KILL
-- Frame does not generate content — it only evaluates whether content should exist
-- Print the full path after each write
-- Write output in the language specified in `## Vault Structure` → `language`
+Use the requested language or the language specified in `## Vault Structure` when working with the vault.

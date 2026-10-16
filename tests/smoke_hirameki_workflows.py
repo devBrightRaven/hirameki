@@ -466,8 +466,8 @@ def test_write_references_keep_safety_contract() -> None:
             assert "Print the saved path" in content
             continue
         errors = check_file(command, content)
-        if command in {"graduate", "decision-trace", "journal", "mekiki", "triage"}:
-            assert "Resolve vault configuration through the umbrella Hirameki adapter" in content
+        if "Resolve vault configuration through the umbrella Hirameki adapter" in content:
+            assert "~/.claude/" not in content
             # Adapter-resolved references delegate config resolution to the
             # Codex umbrella, so they name neither the per-machine config file
             # nor the <vault>/AGENTS.md layout source.
@@ -525,7 +525,7 @@ def test_journal_review_runs_on_lesson_only_period() -> None:
         assert snapshot_files(vault) == before
 
     for root in (COMMANDS, REFERENCES):
-        text = (root / "journal.md").read_text(encoding="utf-8")
+        text = (ROOT / "references/capabilities/review.md" if root == COMMANDS else root / "capabilities/review.md").read_text(encoding="utf-8")
         assert "{journal}/lessons/YYYY-MM-DD-*.md" in text, f"{root}/journal.md: review Step 1 must read lessons"
         assert "No corrections or lesson candidates found" in text, f"{root}/journal.md: exit only when both lists are empty"
         assert "No corrections found in the past N days." not in text, f"{root}/journal.md: old corrections-only exit still present"
