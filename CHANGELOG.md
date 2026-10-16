@@ -1,5 +1,15 @@
 # Changelog
 
+## [2.2.0] — 2026-10-16
+
+### Features
+
+- consolidate Hirameki workflows and evidence-bound task restore (959b748)
+
+### Bug Fixes
+
+- align Hirameki plugin version with 2.1.0 release (b11d002)
+
 ## [2.1.0] — 2026-09-29
 
 ### Features

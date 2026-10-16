@@ -1,6 +1,6 @@
 # Hirameki
 
-Hirameki is a plugin of Obsidian vault knowledge-management commands (daily wrap, journal, handoff, concept tools, decision trace) for Claude Code, with a Codex adapter. MIT licensed, current version 2.1.0.
+Hirameki is a plugin of Obsidian vault knowledge-management commands (daily wrap, journal, handoff, concept tools, decision trace) for Claude Code, with a Codex adapter. MIT licensed; the current version is recorded in `.claude-plugin/plugin.json`.
 Agent-agnostic project rules. Any AI agent should read this before changing the repo.
 
 ## Purpose / status
