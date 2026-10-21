@@ -1,6 +1,6 @@
 ---
 description: Snapshot session state into a handoff doc for future-session pickup.
-  Use when work isn't complete and the next session needs explicit guidance.
+  Use when future pickup needs explicit guidance, including after a completed batch.
   Distinct from wrap (records what's done) — handoff captures what's left + how to resume.
 argument-hint: "[topic-slug]"
 ---
@@ -23,6 +23,8 @@ Use the vault root, `handoff`, and `templates` paths already resolved by the umb
 Handoff dir: `{vault}/{handoff}/`
 Template file (optional reference, do not copy blindly): `{vault}/{templates}/handoff.md`
 
+Before candidate selection, load and apply `references/capabilities/session-traces.md` under the currently loaded Hirameki skill root. Preserve this workflow's existing write gate.
+
 ### Step 2 — Collect session state
 
 Gather the following automatically. Do not ask the user for these:
@@ -36,6 +38,8 @@ Gather the following automatically. Do not ask the user for these:
 **Judgment updates**: Keep only judgment changes that affect the next session. For each, separate the earlier judgment, the evidence that changed it, the current judgment, remaining unknowns, and the condition for reopening it. Distinguish explicit statements from reasonable inference; omit items with insufficient data rather than completing the story.
 
 **Deferred items**: Scan for items explicitly pushed out ("下次", "後面再做", "deferred", "skip for now", "not in scope"). Note what was deferred and why.
+
+**Pickup constraints**: Check completed work too for deferred validation, authorization boundaries, environment constraints, recovery caveats and revisit triggers. Preserve them in the relevant sections without reopening completed tasks or inventing follow-up commitments. Reference verified existing coverage instead of duplicating it.
 
 **Background tasks**: Note any `run_in_background` tasks from this session and their status.
 
@@ -167,7 +171,7 @@ After writing, check if `/hirameki:wrap` has already been run this session (look
 
 | Command | When | Output |
 |---------|------|--------|
-| `/hirameki:handoff` | Work unfinished, next session needs explicit guidance | New file in `{handoff}/` |
+| `/hirameki:handoff` | Future pickup needs explicit guidance, even after a completed batch | New file in `{handoff}/` |
 | `/hirameki:wrap` | End of session, log what happened today | Append to today's wrap log |
 | `/hirameki:next` | Start of new session, orient self | Read-only, summarises recent work |
 | `/hirameki:next tasks` | Global view of open work across vault | Read-only, aggregates |

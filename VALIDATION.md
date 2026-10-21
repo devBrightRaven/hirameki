@@ -28,6 +28,14 @@ command contract, Codex adapter, workflow smoke tests, local gate, and CI pass.
 - `tests/test_workflow_routes.py`: five primary entries, permanent shortcuts,
   legacy redirects and argument preservation; canonical/adapter capability parity.
   This is deterministic contract validation, not fresh-dialogue acceptance.
+  Also checks session-trace delivery, all three entrypoints, create/append clue
+  sections, removal of premature skip rules and the unchanged batch-write gate.
+  Behavioral acceptance must separately exercise completed-work pickup, one-event
+  lessons, immature clues, verified full coverage and genuinely empty sessions.
+  Lesson lookup/append checks require cross-date lesson discovery, explicit
+  new/append/reference/unresolved branches, conflict refusal and byte preservation.
+  Actual model/file acceptance must find a lesson not preloaded into the prompt,
+  make no write before approval, and append only the displayed evidence block.
 - Consolidation capabilities and routing metadata are delivered in `references/`
   and the Codex skill references. Actual relocated-package tests check delivery;
   installed host discovery and routing remain separate deployment checks.
@@ -52,6 +60,7 @@ command contract, Codex adapter, workflow smoke tests, local gate, and CI pass.
 - `tests/test_codex_task_payload.py`: acceptance payload and actual npm tarball
   delivery; bundled task readers and gate run from relocated package roots
   without source-checkout imports. Packing does not establish deployment.
+  Requires the shared session-trace capability in both relocated host payloads.
 
 ## Gates
 

@@ -10,6 +10,66 @@ from workflow_routes import load_routes, resolve
 
 
 class RouteTests(unittest.TestCase):
+    def test_lesson_lookup_and_append_contract(self):
+        for root, entries in ((ROOT, ROOT / 'commands'),
+                              (ROOT / 'codex/skills/hirameki', ROOT / 'codex/skills/hirameki/references')):
+            contract = (root / 'references/capabilities/session-traces.md').read_text(encoding='utf-8')
+            for phrase in ('## Bounded lesson lookup and disposition',
+                           'Search across dates', 'three literal queries',
+                           '20 matching files', 'read a selected match in\nfull',
+                           '**reference-existing**', '**append**', '**unresolved**',
+                           '## Lesson append procedure',
+                           'all original bytes, frontmatter',
+                           'original bytes remain an unchanged prefix',
+                           'suffix equals the\napproved block',
+                           'fresh approval', 'never overwrite on a filename collision'):
+                self.assertIn(phrase, contract)
+            self.assertIn('include those line breaks in the displayed block itself', contract)
+            self.assertIn('block as UTF-8 with LF line endings', contract)
+            self.assertIn('disclose before approval', contract)
+            self.assertIn('Never normalize the original', contract)
+            self.assertIn('verify the target is UTF-8', contract)
+            self.assertIn('unresolved and refuse append', contract)
+            triage = (entries / 'triage.md').read_text(encoding='utf-8')
+            baseline = next(line for line in triage.splitlines() if line.startswith('**Already saved**'))
+            self.assertIn('`{journal}/lessons/` across dates', baseline)
+            lesson = triage.split('## Sub-flow — Lesson', 1)[1].split('## Completion summary', 1)[0]
+            self.assertIn('**Append**', lesson)
+            self.assertIn('existing target', lesson)
+            self.assertIn('**Reference-existing**', lesson)
+            self.assertIn('target is absent', lesson)
+            journal = (entries / 'journal.md').read_text(encoding='utf-8')
+            lesson = journal.split('## Lesson entries', 1)[1].split('## Review mode', 1)[0]
+            self.assertIn('bounded lesson lookup', lesson)
+            self.assertIn('Lesson append procedure', lesson)
+            self.assertIn('template below is for new entries, not append mode', lesson)
+
+    def test_session_trace_contract_delivery_and_entrypoints(self):
+        relative = 'references/capabilities/session-traces.md'
+        source = (ROOT / relative).read_bytes()
+        self.assertEqual(source, (ROOT / 'codex/skills/hirameki' / relative).read_bytes())
+        for directory in ('commands', 'codex/skills/hirameki/references'):
+            for name in ('triage', 'journal', 'handoff'):
+                body = (ROOT / directory / (name + '.md')).read_text(encoding='utf-8')
+                self.assertIn('Before candidate selection, load and apply', body)
+                self.assertIn('capabilities/session-traces.md', body)
+                if name != 'handoff':
+                    self.assertIn('## Emerging clues', body)
+            triage = (ROOT / directory / 'triage.md').read_text(encoding='utf-8')
+            self.assertNotIn("Skip when wrap's Next covers it.", triage)
+            self.assertNotIn('the lesson applies beyond this task', triage)
+            self.assertIn('One event can qualify within a narrow scope', triage)
+            self.assertIn('written bytes must equal the displayed draft', triage)
+            journal = (ROOT / directory / 'journal.md').read_text(encoding='utf-8')
+            self.assertIn('### Emerging clues', journal)
+            self.assertIn('one event may qualify without cross-project generalization', journal)
+        contract = source.decode('utf-8')
+        for boundary in ('coverage unknown', 'do not manufacture',
+                         'separate judgment-update evidence gate',
+                         'does not\ncreate unfinished work',
+                         'a saved note alone never proves it was ingested'):
+            self.assertIn(boundary.lower(), contract.lower())
+
     def test_natural_input_is_preserved_and_bounded(self):
         for base in ('commands', 'codex/skills/hirameki/references'):
             for name in ('next', 'lens', 'compose'):

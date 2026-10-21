@@ -74,6 +74,7 @@ class PayloadTests(unittest.TestCase):
         self.assertTrue((package / 'codex/.codex-plugin/plugin.json').is_file())
         self.assertTrue((package / '.claude-plugin/plugin.json').is_file())
         for relative in ('references/capabilities/tasks.md',
+                         'references/capabilities/session-traces.md',
                          'references/capabilities/natural-routing.md',
                          'references/capabilities/concept-card.md',
                          'references/capabilities/review.md',

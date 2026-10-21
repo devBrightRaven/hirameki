@@ -65,9 +65,11 @@ Gather this once. All sub-flows draw from it — do not re-scan per sub-flow.
 
 **Deferred items**: Scan for items pushed out ("下次", "後面再做", "deferred", "skip for now", "not in scope").
 
-**Already saved**: Read today's `{daily}/YYYY-MM-DD.md`, today's `{journal}/YYYY-MM-DD-*.md`, the newest file in `{handoff}/`, and any spec the conversation explicitly named. This is the baseline the gap check compares against. Do not scan the whole vault.
+**Already saved**: Read today's `{daily}/YYYY-MM-DD.md`, today's `{journal}/YYYY-MM-DD-*.md`, the newest file in `{handoff}/`, and any spec the conversation explicitly named. For each lesson candidate, also perform the bounded lesson lookup in session-traces.md against `{journal}/lessons/` across dates before choosing new, append or reference-existing. Reuse those reads across sub-flows. Do not scan the whole vault.
 
 ---
+
+Before candidate selection, load and apply `references/capabilities/session-traces.md` under the currently loaded Hirameki skill root. Preserve this workflow's existing write gate.
 
 ## Step 0.5 — Gap check (缺口判定)
 
@@ -80,9 +82,9 @@ Compare the collected state with what is already saved and decide which artifact
 Rules for each artifact:
 
 - **wrap**: propose when there is progress not yet in today's daily (new Done, In progress, Next, or a 撤回／重開／取代 of an earlier item). Skip when nothing moved.
-- **journal**: propose when there is a substantive judgment update or at least one correction not yet recorded. Skip when the only content is progress, or the decision already lives in a named spec (then journal would only link to that spec version and section, which is not worth a new entry by itself).
-- **handoff**: propose only when unfinished work needs a different session to pick it up. Skip when wrap's Next covers it.
-- **lesson**: propose only when all three hold: evidence is traceable (conversation, spec, tool output, or a linked record); the lesson applies beyond this task; it adds something not already in an existing journal, lesson, or spec. Successes qualify as much as failures. Otherwise skip.
+- **journal**: propose for an uncovered judgment update, correction or worthwhile emerging clue. A named spec or closeout report is sufficient only after checking that it preserves the relevant context, alternatives and unknowns. Prefer append or reference-existing when covered; an immature clue does not need to satisfy the separate judgment-update gate.
+- **handoff**: propose for uncovered future pickup context even when this batch is complete. Check deferred validation, authorization boundaries, environment constraints and recovery caveats. Skip only when there is no pickup need or a verified existing section fully covers it; a wrap Next line alone is not proof.
+- **lesson**: propose a traceable, useful reusable point or boundary that is not already fully covered. One event can qualify within a narrow scope; report its evidence count and limits. It need not generalize beyond the project. An untested idea stays in journal, and no proposal promotes a rule.
 
 Every 略過 carries a one-clause reason. The plan line is information, not a question: do not wait for an answer. Go straight to the first proposed sub-flow and show its draft; the existing action menu is the only write gate.
 
@@ -184,6 +186,9 @@ Reasoning behind key decisions. Omit this section when 判斷與決策過程 alr
 
 <use the /hirameki:journal fields: 判斷的問題、起點（原先判斷）、觀察、推論、尚未驗證的假設、新出現的證據或經驗、判斷結果（形成／改變／維持）、行動狀態（提案／已決定／已執行／結果已驗證）、現場（原始素材，每條標來源：可回查對話／spec／工具輸出／僅 compaction 摘要）、仍然不知道什麼、什麼情況值得重新檢視 — if no substantive update, write only "本次沒有需要保存的判斷更新。">
 
+## Emerging clues
+<optional: preserve source/context, observation, interpretation and unknown using session-traces.md; omit when empty>
+
 ## Inspiration connections
 Links to other ideas. [[wiki links]]. If none: "None."
 
@@ -197,7 +202,7 @@ Unexplored directions or risks. If none: "None."
 {incomplete tasks from Step 0, or "No open items."}
 ```
 
-**Append mode** — add the `/hirameki:journal` Addendum block, including `### 判斷與決策過程`, at the end of the matched file. Mark completed Open items with "✓ Done [HH:MM]". When this session produced the outcome of an earlier entry's judgment, add the optional `### 後續結果（接回 YYYY-MM-DD-HHMM 判斷）` block from `/hirameki:journal` instead of rewriting the earlier text.
+**Append mode** — add the `/hirameki:journal` Addendum block, including `### 判斷與決策過程` and optional `### Emerging clues`, at the end of the matched file. Mark completed Open items with "✓ Done [HH:MM]". When this session produced the outcome of an earlier entry's judgment, add the optional `### 後續結果（接回 YYYY-MM-DD-HHMM 判斷）` block from `/hirameki:journal` instead of rewriting the earlier text.
 
 Show the full draft and the target path. Then ask:
 
@@ -316,7 +321,11 @@ Apply the action model above, then proceed to the next proposed sub-flow.
 
 ## Sub-flow — Lesson
 
-Only when the gap check proposed it. Generate a lesson entry using the `/hirameki:journal` lesson format:
+Only when the gap check proposed a new or append lesson. Use the verified disposition and target from the bounded lesson lookup; unresolved coverage is not a new-entry authorization.
+
+- **Append**: use the Lesson append procedure in session-traces.md, the existing target and the complete displayed append block. Preserve the original bytes and verify the appended suffix. Do not use today's new-entry filename or replace the existing frontmatter. Then use the same Lesson action menu below.
+- **Reference-existing**: show the existing path/section in the candidate summary; no Lesson write sub-flow.
+- **New**: generate a lesson entry using the `/hirameki:journal` lesson format below; confirm the target is absent before saving.
 
 - Write target: `{journal}/lessons/YYYY-MM-DD-{slug}.md`; create the `lessons/` folder on first use
 - Frontmatter: `tags: [journal, lesson]`, `status: reference`, `source: codex`, `created: YYYY-MM-DD HH:MM`

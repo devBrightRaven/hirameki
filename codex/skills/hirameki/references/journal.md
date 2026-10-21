@@ -11,6 +11,8 @@ Input: $ARGUMENTS (topic description — optional). If the first argument is `re
 - If $ARGUMENTS is provided, use it as the topic directly.
 - If $ARGUMENTS is empty, infer the topic from session activity (recently modified files, tasks completed, decisions made). Show the inferred topic as a single line — "Topic: {inferred topic} — proceed?" — and wait for a yes/no confirmation before continuing. Do NOT ask open-ended questions.
 
+Before candidate selection, load and apply `references/capabilities/session-traces.md` under the currently loaded Hirameki skill root. Preserve this workflow's existing write gate.
+
 Scan sources:
 - Session activity
 - Existing notes in the vault related to the topic (search all content folders)
@@ -79,6 +81,9 @@ Reasoning behind key decisions. If trade-offs were made, describe what was chose
 
 實質更新的判準：只有 session 明示新判斷，或新證據使結論、信心或行動產生可指認的形成、改變或有理由的維持，才算實質更新；未明說者留空，不合併、不補寫。 If there is no substantive update by this criterion, write only: "本次沒有需要保存的判斷更新。" Do not invent a trajectory.
 
+## Emerging clues
+Optional: preserve source/context, observation, interpretation and unknown using session-traces.md. Omit when empty.
+
 ## Inspiration connections
 Links to other ideas, possible extensions, cross-topic connections. Use [[wiki links]]. If none, write "None."
 
@@ -114,6 +119,9 @@ Add to the end of the matched file:
 ### 判斷與決策過程
 
 [Record only judgment that formed, changed, or was maintained against new evidence, using the Create-mode fields. Keep observations, inferences, and unverified assumptions distinct. If there is no substantive update, write "本次沒有需要保存的判斷更新。"]
+
+### Emerging clues
+[Optional new clues with source/context, observation, interpretation and unknown; omit when empty.]
 
 ### Inspiration connections
 [New connections or extensions. If none, write "None."]
@@ -160,9 +168,11 @@ Write output in the language specified in `## Vault Structure` → `language`.
 
 ## Lesson entries — `{journal}/lessons/`
 
-A lesson is a journal artifact for something reusable beyond the task it came from. It is proposed by `/hirameki:triage` when its gap check finds one; there is no separate command. A lesson qualifies only when all three hold: the evidence is traceable (conversation, spec, tool output, or a linked record); it applies beyond this task; it adds something not already in an existing journal entry, lesson, or spec. Successes qualify as much as failures.
+A lesson preserves a traceable reusable point within an explicit scope. Apply the session-traces.md selection contract: one event may qualify without cross-project generalization, but an untested hunch remains an emerging clue. State the evidence count and limits. A fully covered lesson is referenced or appended rather than duplicated; proposing it never promotes a rule. It is proposed by `/hirameki:triage`; there is no separate command. Successes qualify as much as failures.
 
-Write target: `{journal}/lessons/YYYY-MM-DD-{slug}.md` (create the folder on first use). Slug language follows the journal rule.
+Before selecting a lesson target, perform the bounded lesson lookup in session-traces.md across dates under `{journal}/lessons/`. Fully covered evidence uses reference-existing with no write. New evidence for one verified existing lesson uses the Lesson append procedure there, preserving its original bytes and showing the complete append block and existing target before approval. Unresolved coverage stays explicit and does not authorize a new duplicate.
+
+New-entry target only: `{journal}/lessons/YYYY-MM-DD-{slug}.md` (create the folder on first approved use). Slug language follows the journal rule. Check that this target is absent; never overwrite a collision. The template below is for new entries, not append mode.
 
 ```
 ---
