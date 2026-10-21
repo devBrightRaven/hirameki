@@ -1,5 +1,11 @@
 # Changelog
 
+## [2.3.0] — 2026-10-21
+
+### Features
+
+- preserve session clues and append evidence to existing lessons (5db34c7)
+
 ## [2.2.0] — 2026-10-16
 
 ### Features
