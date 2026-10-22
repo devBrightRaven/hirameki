@@ -1,5 +1,11 @@
 # Changelog
 
+## [2.3.3] — 2026-10-22
+
+### Bug Fixes
+
+- render frozen append drafts without boundary whitespace drift (8e62087)
+
 ## [2.3.2] — 2026-10-22
 
 ### Bug Fixes
