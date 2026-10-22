@@ -1,5 +1,11 @@
 # Changelog
 
+## [2.3.2] — 2026-10-22
+
+### Bug Fixes
+
+- distinguish internal append plans from visibly displayed drafts (4aed5fc)
+
 ## [2.3.1] — 2026-10-22
 
 ### Bug Fixes
