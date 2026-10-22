@@ -132,12 +132,27 @@ def validate(plan):
 def describe(plan, plan_hash):
     draft = validate(plan)
     _, path = target_path(plan['root'], plan['target'])
-    return dict(status='prepared', target=str(path), plan_sha256=plan_hash,
+    result = dict(status='prepared', target=path.as_posix(), plan_sha256=plan_hash,
                 before_sha256=plan['before_sha256'], draft_sha256=digest(draft),
                 draft_bytes=len(draft),
                 leading_newline_bytes=len(draft) - len(draft.lstrip(b'\r\n')),
                 trailing_newline_bytes=len(draft) - len(draft.rstrip(b'\r\n')),
                 draft_text=utf8(draft))
+    # Render the whole approval display, rather than asking a model to reconstruct
+    # code-fence boundary whitespace. A non-final-LF suffix uses a JSON string.
+    text = result['draft_text']
+    fence = '`' * max(3, 1 + max((len(m[0]) for m in
+                                 re.finditer(r'`+', text + path.as_posix())), default=0))
+    plain = draft.endswith(b'\n') and b'\r' not in draft
+    body = text if plain else json.dumps(text, ensure_ascii=False) + '\n'
+    language = 'markdown' if plain else 'json'
+    result['display_markdown'] = (
+        fence + 'text\nTarget: ' + json.dumps(path.as_posix(), ensure_ascii=False) + '\n'
+        + '\n'.join(k + ': ' + str(result[k]) for k in
+                    ('draft_bytes', 'draft_sha256', 'plan_sha256',
+                     'leading_newline_bytes', 'trailing_newline_bytes'))
+        + '\n' + fence + '\n\n' + fence + language + '\n' + body + fence + '\n')
+    return result
 
 
 def prepare(root, relative, draft_file, plan_file):

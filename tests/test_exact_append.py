@@ -3,6 +3,7 @@ from contextlib import contextmanager
 import hashlib
 import json
 import os
+import re
 from pathlib import Path
 import subprocess
 import sys
@@ -65,6 +66,27 @@ class ExactAppend(unittest.TestCase):
                     staged = self.prepare()
                     self.assertEqual(writer.apply(self.plan, staged['plan_sha256'])['status'], 'appended')
                     self.assertEqual(self.note.read_bytes(), original + suffix)
+
+    def test_rendered_display_preserves_boundary_bytes_and_nested_fences(self):
+        self.note = self.note.rename(self.root / '[lesson](link)`note.md')
+        for suffix in (b'\n\n## evidence\n', b'\n## evidence\n\n', b'\n## no final', b'\r\n## CRLF\r\n',
+                       b'\n## example\n```python\nprint(1)\n```\n'):
+            with self.subTest(suffix=suffix):
+                self.plan.unlink(missing_ok=True)
+                self.draft.write_bytes(suffix)
+                result = self.prepare()
+                display = result['display_markdown']
+                match = re.search(r'(?m)^(`{3,})(markdown|json)\n', display)
+                self.assertIsNotNone(match)
+                body = display[match.end():].removesuffix(match[1] + '\n')
+                actual = json.loads(body).encode() if match[2] == 'json' else body.encode()
+                self.assertEqual(actual, suffix)
+                self.assertIn(result['plan_sha256'], display)
+                self.assertIn(result['draft_sha256'], display)
+                self.assertIn(self.note.as_posix(), display)
+                metadata = re.match(r'(`{3,})text\n(.*?)\n\1\n', display, re.S)
+                self.assertIsNotNone(metadata)
+                self.assertIn(json.dumps(self.note.as_posix(), ensure_ascii=False), metadata[2])
 
     def test_target_conflict_and_fresh_approval_plan(self):
         old = self.prepare()

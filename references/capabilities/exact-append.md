@@ -23,6 +23,11 @@ checkout. Do not install tools or weaken host permissions to make a save succeed
    --draft <session-draft> --plan <new-session-plan.json>`. This reads/locks the
    existing note and creates only a private plan, never a vault note or sidecar.
 3. Display its full `target` and `draft_text` verbatim in a Markdown code fence;
+   use the helper's complete `display_markdown` value verbatim as the actual
+   assistant reply block, rather than constructing a new fence or whitespace.
+   Do not translate its metadata keys or add a blank line inside its fence.
+   For a suffix without final LF or containing CR the renderer uses a JSON string: the decoded
+   UTF-8 string is the exact suffix, not the fence's formatting newline.
    disclose `draft_bytes`, `draft_sha256`, `plan_sha256`, and
    `trailing_newline_bytes` (including zero). Leading separator newlines belong
    inside the fence. The fence's formatting is not permission to add/remove a
