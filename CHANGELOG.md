@@ -1,5 +1,11 @@
 # Changelog
 
+## [2.3.1] — 2026-10-22
+
+### Bug Fixes
+
+- preserve approved append bytes with a verified local helper (73dc8ad)
+
 ## [2.3.0] — 2026-10-21
 
 ### Features
