@@ -19,6 +19,9 @@ class RouteTests(unittest.TestCase):
                        'helper cannot authenticate', 'write_unverified', 'never silently retry',
                        'POSIX advisory locks', 'outside the vault'):
             self.assertIn(phrase.lower(), body.lower())
+        self.assertIn('A tool response is internal evidence', body)
+        self.assertIn('actual assistant reply', body)
+        self.assertIn('before any remaining apply', body)
         for directory in ('commands', 'codex/skills/hirameki/references'):
             for name in ('triage', 'journal'):
                 self.assertIn('capabilities/exact-append.md',

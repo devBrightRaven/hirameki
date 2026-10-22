@@ -21,6 +21,10 @@ If preparation or byte verification is unavailable, stop and retain the draft.
 Any append failure stops the batch without automatic retry. A changed append
 plan requires fresh approval after redisplay; active save-all cannot cover it.
 These append rules take precedence over the generic redisplay/retry rules below.
+Prepared tool output is not a visible assistant reply. Before any append apply,
+check that its full target, frozen draft and hashes appeared in an actual reply;
+if absent, display them first. With save-all, display all remaining plans together
+before applying any remaining plan. A candidate summary is not a full draft.
 
 - `save this` writes only the current draft, prints its path, and continues to the next sub-flow.
 - `save all` authorizes only drafts whose full content and target path have been displayed in a visible reply. Approval is bound to the displayed text: the written bytes must equal the displayed draft, with no recomposition between display and write.

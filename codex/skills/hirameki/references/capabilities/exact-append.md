@@ -27,6 +27,13 @@ checkout. Do not install tools or weaken host permissions to make a save succeed
    `trailing_newline_bytes` (including zero). Leading separator newlines belong
    inside the fence. The fence's formatting is not permission to add/remove a
    final LF. The helper's prepared bytes are the draft; do not recompose them.
+   A tool response is internal evidence, not a visible assistant reply: neither
+   `prepare` nor `show` output counts as displaying a draft to the user. Before
+   each apply, locate the actual assistant reply containing that plan's full
+   target, draft text and hashes. If none exists, emit that complete reply first.
+   With active save-all, show all remaining frozen drafts in one assistant reply
+   before any remaining apply. Never claim a draft was shown merely because a
+   tool returned it or a candidate summary mentioned its lesson.
 4. Wait for the existing `save this / save all / skip / edit` action. Preparation
    is not consent. `edit` means a new draft and new plan, displayed before fresh
    approval. `skip` never calls apply. The helper cannot authenticate a human's
