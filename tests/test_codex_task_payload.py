@@ -97,6 +97,30 @@ class PayloadTests(unittest.TestCase):
             for name in builder.DEPENDENCIES:
                 self.assertEqual((ROOT / 'scripts' / name).read_bytes(),
                                  (root / 'scripts' / name).read_bytes())
+            append_case = base / ('append-root' if relative == '.' else 'append-codex')
+            append_case.mkdir()
+            append_vault = append_case / 'synthetic vault'
+            append_vault.mkdir()
+            append_note = append_vault / '舊.md'
+            append_note.write_bytes(b'# original\r\nno final newline')
+            append_before = append_note.read_bytes()
+            suffix = '\n\n## 證據追加\n- 未知：synthetic\n'.encode()
+            append_draft, append_plan = append_case / 'draft.bin', append_case / 'plan.json'
+            append_draft.write_bytes(suffix)
+            append_cli = [sys.executable, '-B', '-X', 'utf8', str(root / 'scripts/exact_append.py')]
+            staged = subprocess.run(append_cli + ['prepare', '--root', str(append_vault),
+                '--target', append_note.name, '--draft', str(append_draft), '--plan', str(append_plan)],
+                cwd=relocated, env=env, capture_output=True, text=True, encoding='utf-8', timeout=15)
+            self.assertEqual(staged.returncode, 0, staged.stderr or staged.stdout)
+            prepared = json.loads(staged.stdout)
+            self.assertEqual(append_note.read_bytes(), append_before)
+            for expected_status in ('appended', 'already_applied'):
+                applied = subprocess.run(append_cli + ['apply', '--plan', str(append_plan),
+                    '--plan-sha256', prepared['plan_sha256']], cwd=relocated, env=env,
+                    capture_output=True, text=True, encoding='utf-8', timeout=15)
+                self.assertEqual(applied.returncode, 0, applied.stderr or applied.stdout)
+                self.assertEqual(json.loads(applied.stdout)['status'], expected_status)
+                self.assertEqual(append_note.read_bytes(), append_before + suffix)
             gate = (root / 'scripts/TASK_GATE_VERSION').read_text(encoding='utf-8').strip()
             for name in ('task_view_cli.py', 'tidy_dry_run.py'):
                 argv = [sys.executable, '-B', '-X', 'utf8', str(root / 'scripts' / name),

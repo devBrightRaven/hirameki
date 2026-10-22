@@ -90,6 +90,11 @@ overlap. A copied event is not another independent observation. Choose:
 
 ## Lesson append procedure
 
+Use the delivered `references/capabilities/exact-append.md` under this workflow's
+own plugin/skill root to freeze, display and apply the append plan. It is required
+for Lesson evidence and Journal clue appends; unavailable verification stops the
+write. The following content rules do not authorize a native text-editor fallback.
+
 Before an append disposition, verify the target is UTF-8 (an existing UTF-8 BOM
 may remain in its original prefix). If encoding is unknown or not UTF-8, report
 unresolved and refuse append; do not transcode it or mix encodings.

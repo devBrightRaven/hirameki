@@ -103,6 +103,11 @@ Things still to follow up on. If all done, write "No open items."
 
 ### Append mode
 
+Load `references/capabilities/exact-append.md` under this skill root before
+preparing an existing-note append. Freeze its byte plan before displaying the
+draft and use only that helper after approval. Unavailable verification stops
+the write; no native Edit/Write fallback or in-place completion-status changes.
+
 Add to the end of the matched file:
 
 ```
@@ -142,13 +147,13 @@ Optional block, only when this session produced the outcome of a judgment record
 
 The earlier text is never rewritten; the follow-up links back to it.
 
-Also check the "Open items" section — if any items are now complete, mark them with "✓ Done [HH:MM]".
+Also check the "Open items" section — record any newly completed items as "✓ Done [HH:MM]" in the append block, linking to the earlier item; never rewrite the original section.
 
 Rules:
 - Timestamps use local time in HH:MM format (24-hour)
 - Show filename, mode (create / append), content summary, and full path, then wait for confirmation before writing
 - Print the full path after writing
-- Append mode does not modify existing content — only adds to the end and updates completion status
+- Append mode does not modify existing content — completion updates are new statements at the end.
 - `Why this approach` explains the rationale for the action taken. `判斷與決策過程` records how a judgment formed or changed; do not repeat the same prose in both sections. Sections are written only when there is material: omit `Why this approach` when the judgment section carries it; when nothing substantive happened, the judgment section is only its one-line "no update" sentence.
 - 判斷與行動分開：「判斷結果」說判斷本身，「行動狀態」只用四態之一（提案／已決定／已執行／結果已驗證），不混寫。
 - 現場每條標明來源類型；只剩 compaction 摘要時標「僅 compaction 摘要」，拿不到的理由寫未知，不補。

@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 export const dependencies = [
   'task_view.py', 'task_view_cli.py', 'archive_gate.py',
   'task_contract_primitives.py', 'TASK_GATE_VERSION', 'tidy_dry_run.py',
-  'task_restore_contract.py',
+  'task_restore_contract.py', 'exact_append.py',
 ];
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');

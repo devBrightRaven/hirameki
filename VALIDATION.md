@@ -25,6 +25,12 @@ command contract, Codex adapter, workflow smoke tests, local gate, and CI pass.
 
 ## Mapped tests
 
+- `tests/test_exact_append.py`: private preparation/show without note writes,
+  hash-bound apply, exact BOM/CRLF/LF/no-final-newline preservation, safe replay,
+  target/plan conflict refusal, local locking, linked-target rejection, partial
+  write and readback failure reporting. Actual model approval and installed helper
+  invocation remain separate native-host acceptance, not inferred from unit tests.
+
 - `tests/test_workflow_routes.py`: five primary entries, permanent shortcuts,
   legacy redirects and argument preservation; canonical/adapter capability parity.
   This is deterministic contract validation, not fresh-dialogue acceptance.

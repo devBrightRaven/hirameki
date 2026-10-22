@@ -10,6 +10,20 @@ from workflow_routes import load_routes, resolve
 
 
 class RouteTests(unittest.TestCase):
+    def test_exact_append_contract_and_host_delivery(self):
+        relative = 'references/capabilities/exact-append.md'
+        self.assertEqual((ROOT / relative).read_bytes(),
+                         (ROOT / 'codex/skills/hirameki' / relative).read_bytes())
+        body = (ROOT / relative).read_text(encoding='utf-8')
+        for phrase in ('freeze', 'plan_sha256', 'trailing_newline_bytes', 'save this / save all / skip / edit',
+                       'helper cannot authenticate', 'write_unverified', 'never silently retry',
+                       'POSIX advisory locks', 'outside the vault'):
+            self.assertIn(phrase.lower(), body.lower())
+        for directory in ('commands', 'codex/skills/hirameki/references'):
+            for name in ('triage', 'journal'):
+                self.assertIn('capabilities/exact-append.md',
+                              (ROOT / directory / (name + '.md')).read_text(encoding='utf-8'))
+
     def test_lesson_lookup_and_append_contract(self):
         for root, entries in ((ROOT, ROOT / 'commands'),
                               (ROOT / 'codex/skills/hirameki', ROOT / 'codex/skills/hirameki/references')):

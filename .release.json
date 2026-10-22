@@ -3,7 +3,7 @@
   "tagPrefix": "v",
   "versionFile": ".claude-plugin/plugin.json",
   "versionField": "version",
-  "test": "python -X utf8 tests/validate_commands.py && python -X utf8 tests/smoke_hirameki_workflows.py && node tests/test_open_handoff.mjs && python -B -X utf8 tests/test_tidy_dry_run.py && python -B -X utf8 tests/test_tidy_writer.py && python -B -X utf8 tests/test_tidy_archive_writer.py && python -B -X utf8 tests/test_archive_gate.py && python -B -X utf8 tests/test_task_view.py && python -B -X utf8 tests/test_task_view_cli.py && python -B -X utf8 tests/test_task_view_commands.py && python -B -X utf8 tests/test_codex_task_view_commands.py && python -B -X utf8 tests/test_codex_task_payload.py && python -B -X utf8 tests/test_workflow_routes.py",
+  "test": "python -X utf8 tests/validate_commands.py && python -X utf8 tests/smoke_hirameki_workflows.py && node tests/test_open_handoff.mjs && python -B -X utf8 tests/test_tidy_dry_run.py && python -B -X utf8 tests/test_tidy_writer.py && python -B -X utf8 tests/test_tidy_archive_writer.py && python -B -X utf8 tests/test_archive_gate.py && python -B -X utf8 tests/test_task_view.py && python -B -X utf8 tests/test_task_view_cli.py && python -B -X utf8 tests/test_task_view_commands.py && python -B -X utf8 tests/test_codex_task_view_commands.py && python -B -X utf8 tests/test_codex_task_payload.py && python -B -X utf8 tests/test_workflow_routes.py && python -B -X utf8 tests/test_exact_append.py",
   "verify": "python -X utf8 tests/validate_codex_skill.py && python -X utf8 tests/validate_release_contract.py",
   "changelogFile": "CHANGELOG.md",
   "readmeSync": [

@@ -13,6 +13,15 @@ Input: $ARGUMENTS — ignored. Triage takes no arguments. (The user may adjust t
 
 Every sub-flow uses `save this / save all / skip / edit`.
 
+For every existing-note append, first load the delivered
+`references/capabilities/exact-append.md` under this workflow's own plugin/skill root.
+Freeze and display its prepared plan before approval; apply that unchanged plan
+only after the save action. No native Edit/Write or hand-built append fallback.
+If preparation or byte verification is unavailable, stop and retain the draft.
+Any append failure stops the batch without automatic retry. A changed append
+plan requires fresh approval after redisplay; active save-all cannot cover it.
+These append rules take precedence over the generic redisplay/retry rules below.
+
 - `save this` writes only the current draft, prints its path, and continues to the next sub-flow.
 - `save all` authorizes only drafts whose full content and target path have been displayed in a visible reply. Approval is bound to the displayed text: the written bytes must equal the displayed draft, with no recomposition between display and write.
 - When `save all` is chosen, write the current (already shown) draft; then, before any further write, display every remaining proposed draft in full with its target path in one visible reply. Only after that display, write them in run order without another `Action?` pause, printing each path.
@@ -202,7 +211,7 @@ Unexplored directions or risks. If none: "None."
 {incomplete tasks from Step 0, or "No open items."}
 ```
 
-**Append mode** — add the `/hirameki:journal` Addendum block, including `### 判斷與決策過程` and optional `### Emerging clues`, at the end of the matched file. Mark completed Open items with "✓ Done [HH:MM]". When this session produced the outcome of an earlier entry's judgment, add the optional `### 後續結果（接回 YYYY-MM-DD-HHMM 判斷）` block from `/hirameki:journal` instead of rewriting the earlier text.
+**Append mode** — add the `/hirameki:journal` Addendum block, including `### 判斷與決策過程` and optional `### Emerging clues`, at the end of the matched file. Record completed Open items as new "✓ Done [HH:MM]" statements in this append block; do not rewrite the earlier items. When this session produced the outcome of an earlier entry's judgment, add the optional `### 後續結果（接回 YYYY-MM-DD-HHMM 判斷）` block from `/hirameki:journal` instead of rewriting the earlier text.
 
 Show the full draft and the target path. Then ask:
 
@@ -363,7 +372,7 @@ Triage done: wrap {✓ saved | – skipped | · 未提} / journal {✓ saved | �
 - Do not accept $ARGUMENTS input.
 - Timestamps use local time in HH:MM format (24-hour)
 - Print the full path after each write
-- Write failure: first check whether the target file was partially written. A transient error (lock, temporary access failure) may be retried at most twice. A conflict, inconsistent content, or anything that needs a new decision stops immediately. Report per file: saved, failed, and retry count. A batch approval never hides a failure.
+- Write failure: first check whether the target file was partially written. Only a new-file create with a proven untouched target may retry a transient error at most twice; append failures follow exact-append.md and never retry automatically. A conflict, inconsistent content, or anything that needs a new decision stops immediately. Report per file: saved, failed, and retry count. A batch approval never hides a failure.
 - Do not repeat action rationale in the judgment sections or turn insufficient evidence into a coherent story
 - 證據硬閘：「當時根據」與「新出現的證據或經驗」各至少包含一項本次對話可直接追溯的具體事實（原句、數值、命令或輸出片段、具名檔案／操作結果）；只寫概括結論不合格。
 - 現場（原始素材）：最多六個依 session 發生順序排列的原始證據單位；每點標明來源角色或操作，保留最小充分原句、數字或輸出片段；未明說的利害關係、動機與因果不得補寫；某類材料不存在就省略，不為湊數改寫。
