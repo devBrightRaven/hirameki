@@ -1,5 +1,10 @@
 # Tasks
 
+2026-11-04 整體接續：見 [workflow-reconciliation.md](workflow-reconciliation.md) 的八項
+source／部署／行為證據對照與未確認項；使用者本輪選定 Vault 候選、GitHub 行動提案。
+本批由 Yatagarasu Codex 先做共用技能，再交 Claude native／dream 範圍；現有 task
+checkbox 不代表全部未實作，也不因本輪對帳改成全數完成。無新增發布／部署授權。
+
 2026-10-01 使用者授權接續 tidy source 工作；真實任務歸檔、runtime/排程部署及發布外部行動仍需各自授權。未勾不等於基礎設施失敗，all_done 不可由規格齊全推得。每階段先完成其受影響契約與驗收，再進下一階段。
 
 ## 1. Review and baseline

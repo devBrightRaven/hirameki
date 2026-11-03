@@ -119,6 +119,13 @@ metadata 與 task ledger 分開，既有 CSV/JSONL 不混為同一契約。Hygie
 
 ## Risks / Trade-offs
 
+2026-11-04 接續裁定：使用者選定「Vault 候選，GitHub 行動提案」。最小痛點／線索
+留在當次選定 Vault，成熟可執行提案才依適用發布授權送 GitHub；以穩定 ID／來源
+互連，不維護兩份候選正本。本輪對帳見 `workflow-reconciliation.md`，它不是新 tasks。
+此裁定不自行啟用背景寫入、指定實體資料夾或改掉現有 native displayed-draft gate；
+writer 如何承接明示自動捕捉授權、跨機 ownership、dream 接收仍須在原契約內對齊。
+歷史全面盤點與遷移 gate 保留；當輪新候選的有界整理不以重掃全部歷史為前置條件。
+
 - 自然語言路由不穩 → 正反例 fresh dialogs，記錄實際 reference 讀取，不只看答案正確。
 - 候選索引本身成 prompt debt → 只存 identity/狀態/來源與必要理由，不保存重複全文。
 - 大改隱含覆寫既有工作 → consumer 盤點與 narrow diff；兩側獨立 deploy。
