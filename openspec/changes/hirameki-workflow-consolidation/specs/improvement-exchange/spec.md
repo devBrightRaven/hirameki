@@ -4,6 +4,21 @@
 
 ## ADDED Requirements
 
+### Requirement: Per-machine collection has one consolidation owner
+使用者選定此模式時，各 origin writer SHALL 在同一候選資料夾以明示 machine ID／唯一 candidate ID 新增自己的紀錄，只在 ownership 可確認時追加自己的筆記；MUST NOT 跨機改寫其他 origin 的來源。Candidate ID 與事件 identity 分開，離線副本可並存。單一指定 owner SHALL 在已授權整併筆記中只維護 ID／連結、去重理由、衝突、覆蓋限制、saved／presented 狀態及建議行動，不複製來源正文；只有該 owner 統一發出批次改善提醒。不新增 store、鎖服務、背景喚醒或自動選主，owner handoff 必須明示。
+
+#### Scenario: Same event collected offline on two machines
+- **WHEN** 兩台離線各保存同來源同事件的候選，後續同步可見
+- **THEN** 保留兩份來源不覆寫，整併 owner 將其連結為同一事件、只計一次；整併紀錄不冒稱原始候選已刪除或取得兩個獨立證據。
+
+#### Scenario: New counterexample belongs to another origin
+- **WHEN** 另一機台發現可追溯反例，原 note 不屬於自己
+- **THEN** 不追加原 note；在自己的已授權範圍保存新證據並引用原 ID，由 owner 整理衝突，不改寫原結論。
+
+#### Scenario: Consolidation owner or synchronization is unavailable
+- **WHEN** 無已確認主責，或部分來源尚未同步／不可讀
+- **THEN** 已授權 origin 收集可繼續，整併狀態標 pending／partial；不自動接管、不宣稱完整去重或重複發出改善批次。
+
 ### Requirement: Improvement proposal envelope
 交換 SHALL 包含 identity/revision、來源、scope、problem、hypothesis、alternatives、unknowns、acceptance、cost boundary、owner 與 review status；沒有 consumer 時 Hirameki 必須仍能獨立整理與提案。
 

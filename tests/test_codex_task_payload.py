@@ -1,5 +1,6 @@
 """Delivery checks use a temporary payload, never installed runtime."""
 import importlib.util
+import hashlib
 import json
 import os
 from pathlib import Path
@@ -121,6 +122,29 @@ class PayloadTests(unittest.TestCase):
                 self.assertEqual(applied.returncode, 0, applied.stderr or applied.stdout)
                 self.assertEqual(json.loads(applied.stdout)['status'], expected_status)
                 self.assertEqual(append_note.read_bytes(), append_before + suffix)
+            create_note, create_plan = append_vault / '新候選.md', append_case / 'create-plan.json'
+            staged = subprocess.run(append_cli + ['prepare', '--create', '--root', str(append_vault),
+                '--target', create_note.name, '--draft', str(append_draft), '--plan', str(create_plan)],
+                cwd=relocated, env=env, capture_output=True, text=True, encoding='utf-8', timeout=15)
+            self.assertEqual(staged.returncode, 0, staged.stderr or staged.stdout)
+            self.assertFalse(create_note.exists())
+            prepared = json.loads(staged.stdout)
+            argv = append_cli + ['apply', '--plan', str(create_plan), '--plan-sha256', prepared['plan_sha256']]
+            created = subprocess.run(argv, cwd=relocated, env=env, capture_output=True,
+                                     text=True, encoding='utf-8', timeout=15)
+            self.assertEqual(created.returncode, 0, created.stderr or created.stdout)
+            receipt = json.loads(created.stdout)
+            self.assertEqual(receipt['status'], 'created')
+            self.assertEqual(receipt['target'], create_note.as_posix())
+            self.assertEqual(receipt['plan_sha256'], prepared['plan_sha256'])
+            self.assertEqual(receipt['after_sha256'], hashlib.sha256(create_note.read_bytes()).hexdigest())
+            self.assertEqual(create_note.read_bytes(), suffix)
+            collision = subprocess.run(argv, cwd=relocated, env=env, capture_output=True,
+                                       text=True, encoding='utf-8', timeout=15)
+            self.assertEqual(collision.returncode, 2, collision.stderr or collision.stdout)
+            self.assertEqual(json.loads(collision.stdout)['status'], 'refused')
+            self.assertEqual(create_note.read_bytes(), suffix)
+            self.assertEqual(append_note.read_bytes(), append_before + suffix)
             gate = (root / 'scripts/TASK_GATE_VERSION').read_text(encoding='utf-8').strip()
             for name in ('task_view_cli.py', 'tidy_dry_run.py'):
                 argv = [sys.executable, '-B', '-X', 'utf8', str(root / 'scripts' / name),

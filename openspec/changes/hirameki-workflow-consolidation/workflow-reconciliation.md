@@ -1,5 +1,23 @@
 # 整體工作流對帳 — 2026-11-04
 
+## 跨機收集裁定與實際套件 create 驗收
+
+使用者本輪明示採用「每機新增，單一主責整併」。design §6、improvement-exchange
+與 canonical／Codex session-traces 已補 origin 擁有自己的來源、machine／candidate
+ID 與 event identity 分離、單一整併／呈現主責、部分同步與主責不在時的延後行為。
+本批整併暫沿用當前 session 主責，不寫私人 runtime config、不部署或改寫舊候選。
+三個新增 spec 情境是待驗要求，不是已完成的跨機測試；G2 保持未完成。
+
+tests/test_codex_task_payload.py 擴充既有 relocated tarball 測試，在來源 snapshot
+搬離後，由 root 與 Codex payload 各執行 prepare --create／apply，確認 prepare
+不建 note、created 的 target／plan／after hash 與 bytes 相符，第二次 create
+exit 2 拒絕且新舊 note 均未改動。七個 payload tests exit 0；初次新增測試因漏
+import hashlib 而 NameError，補上後重跑通過，非產品功能缺陷。Workflow routes
+八個 tests exit 0，OpenSpec strict 與 diff check 通過；正式 installed discovery、
+Claude native 與跨機驗收仍未驗，不以 tarball 證據替代。
+本批提交前完整 `npm test -- --run` 亦 exit 0（23 writer tests，既有一個 skip）；
+只做已授權的本地 commit，push、PR 更新及部署繼續延後。
+
 ## 本批本地提交授權與發布前驗證
 
 使用者後續裁定本任務經驗證的本地 commit 可直接進行，push／部署先延後；

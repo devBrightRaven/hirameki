@@ -65,6 +65,21 @@ next 優先明示專案/最新相關 handoff/有效決策/已保存狀態；狀�
 
 ### 6. 跨 agent 與寫入恢復
 
+使用者本輪採用「每機新增，單一主責整併」。各 origin writer 在選定 pain-point
+資料夾以已宣告 machine ID 加唯一 candidate ID 新增自己的筆記；candidate ID 與
+source event identity 分開。離線同事件副本可並存，不能據此計為獨立觀察。
+只在 ownership／授權可確認時追加自己的筆記，不跨機改寫原紀錄；新 session
+若不知原 ownership，先引用或新增具關聯 ID 的最小新證據，不能自行接管。
+不自動重命名或遷移舊筆記，不增加私人 runtime store。
+
+單一指定主責維護同一資料夾中已授權的整併筆記，只列 ID／連結、去重理由、
+衝突、覆蓋限制、saved／presented 狀態及建議行動，不複製來源敘事。只有它
+統一更新呈現狀態與發出批次改善提醒；origin 可回保存收據，不另發重複批次。
+本批暫沿用目前 session 的整合主責，非永久機器設定。Owner 不在線時仍可依
+既有範圍收集；整併與批次提醒延後，不自動選主、接管或新增排程。
+交接必須明示，跨機同步缺漏只報 partial，不以同步資料夾或本機鎖宣稱全域互斥。
+此為已採用的分工契約，尚未部署或完成真實跨機驗收。
+
 shared candidates 使用穩定 identity；agent-comms 運送同一提案與回覆，沒有修改權。指定 owner 在送出前讀最新狀態及 hash，來源變更則停止該項寫入並報衝突。兩 agent 同時持相同 revision 並非互斥證據；ownership 未確定時兩邊只提案，禁止承諾 Syncthing 提供鎖。
 
 批次保存逐項結果與來源/target before/after digest。重試先確認現有內容是否已套用；只補未完成項。暫時故障有證據時有界重試一次，持續失敗回報位置；不全批 rollback 造成原文遺失。若 durable receipt 未獲授權，只在當前結果中列清單；跨 session 接續須讀目標本身驗證，不能依記憶猜已成功。

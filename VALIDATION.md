@@ -84,6 +84,8 @@ command contract, Codex adapter, workflow smoke tests, local gate, and CI pass.
   delivery; bundled task readers and gate run from relocated package roots
   without source-checkout imports. Packing does not establish deployment.
   Requires the shared session-trace capability in both relocated host payloads.
+  Both roots execute exclusive candidate creation, verify readback receipt hashes,
+  and refuse a second create without changing either new or existing note bytes.
 
 ## Gates
 
