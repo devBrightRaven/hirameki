@@ -4,6 +4,17 @@
 
 ## ADDED Requirements
 
+### Requirement: Exclusive creation for authorized minimal candidates
+明示常設候選保存授權下的新建候選 SHALL 使用既有 exact-append helper 的獨占建立模式，凍結完整 UTF-8 草稿與計畫後才 apply；準備階段不得建立 Vault 目標。目標必須位於已選定且存在的資料夾，MUST NOT 覆寫碰撞、連結或未知狀態。僅 fsync 與完整讀回相符才回 created 收據，包含目標、計畫、草稿與結果 hash；收據不證明跨機同步、事件去重或下游接收。既有追加計畫保持相容。
+
+#### Scenario: Another writer creates the target after preparation
+- **WHEN** 準備後、apply 前，另一 writer 建立相同目標，即使內容相同
+- **THEN** 拒絕建立且保留原 bytes，不將相同內容推定為本操作先前成功。
+
+#### Scenario: New note has uncertain readback
+- **WHEN** 已開始建立或寫入，但寫入、fsync 或讀回失敗
+- **THEN** 標 write_unverified，停止受影響批次；不自動刪除、覆寫或重試，不能宣稱 saved。
+
 ### Requirement: Contextual microlearning without task interruption
 微學習 SHALL 取材自當前工作中有來源的概念、取捨或已驗證教訓，每次最多提出一個短片段，包含概念、當前例子及可選的下次應用。SHALL 在自然完成節點呈現，不要求使用者答題或開新學習任務。高負荷工作中 MUST 延後到收尾；沒有新價值或使用者要求安靜時不呈現，不以每輪配額產生內容。一次片段不是已學會的證據。
 

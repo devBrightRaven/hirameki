@@ -1,8 +1,9 @@
 # Exact append
 
 Use this procedure for existing-note appends in triage and journal, including
-Lesson evidence and Journal clues. It does not authorize a save, create a new
-note, modify earlier completion statuses, or bypass the calling workflow's gate.
+Lesson evidence and Journal clues. The exclusive-create mode below also supports
+new standing-capture candidates. This helper does not authorize a save, modify
+earlier completion statuses, or bypass the calling workflow's gate.
 
 Locate the delivered `scripts/exact_append.py`: Claude uses
 `${CLAUDE_PLUGIN_ROOT}/scripts/exact_append.py`; Codex uses `../../scripts/exact_append.py`
@@ -79,6 +80,29 @@ the frozen draft for display; it neither writes notes nor renews approval.
 
 ## Limits
 
+### Exclusive new candidate
+
+For a new candidate under the explicit standing-capture scope, use the same
+prepare/show/apply procedure with `prepare --create`. The parent folder must
+already exist and be selected by the user; the helper does not create folders.
+Prepare freezes the full UTF-8 note outside the vault without creating its target.
+The create plan uses schema version 2 with `operation: create`; existing append
+plans remain schema version 1. Old helpers reject the new plan rather than append.
+The host still verifies actual user authorization and excludes private raw data.
+
+Apply opens the target with exclusive creation, never replacing a collision,
+then acquires the same local file lock used by append and verifies the file is
+still empty. It writes in append mode and returns `created` only after fsync and
+exact readback. Its receipt fields
+are the same as append; `before_sha256` is SHA-256 of empty bytes and
+`after_sha256` equals `draft_sha256`. Any existing file, even identical content,
+is refused; do not infer successful prior creation or retry after a lost response.
+Reconcile the actual note and event ID first. A partial create or failed readback
+returns `write_unverified`; retain that state, stop the batch and do not delete,
+overwrite or automatically regenerate the note. No append replay inference applies.
+Exclusive creation prevents a local filename collision from overwriting a note;
+it does not establish event deduplication, cross-machine ownership or atomic sync.
+
 Successful `appended` and `already_applied` results include `target`,
 `plan_sha256`, `before_sha256`, `draft_sha256` and `after_sha256` as a save
 receipt. Preserve these with the calling workflow's event identity; the plan hash
@@ -87,8 +111,8 @@ proves only the bytes observed during that operation, not later sync, ingestion,
 deployment or continued file integrity. Do not publish private target paths in a
 repository or GitHub proposal. Failed or unknown outcomes are not save receipts.
 
-Existing UTF-8 regular single-link files only; maximum original 8 MiB and append
-1 MiB. The tool preserves bytes, including BOM and mixed line endings. Local OS
+Appends require existing UTF-8 regular single-link files; maximum original 8 MiB
+and append/new-note draft 1 MiB. The tool preserves bytes, including BOM and mixed line endings. Local OS
 locks coordinate cooperating helper writers. POSIX advisory locks do not prevent
 arbitrary editors or remote sync; append mode avoids overwriting concurrent
 appends, and readback detects observed interference. This is not race-free

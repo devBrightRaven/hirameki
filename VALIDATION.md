@@ -42,6 +42,11 @@ command contract, Codex adapter, workflow smoke tests, local gate, and CI pass.
   target/plan conflict refusal, local locking, linked-target rejection, partial
   write and readback failure reporting. Actual model approval and installed helper
   invocation remain separate native-host acceptance, not inferred from unit tests.
+  New candidate mode additionally checks frozen full-note creation, collision
+  before/after prepare, two actual competing processes (one winner), readback
+  uncertainty, partial-write/fsync failure, linked target/parent and post-prepare
+  link substitution, scope/plan rejection and refusal to infer replay from equal bytes.
+  This is local filesystem evidence, not remote sync or event deduplication.
 
 - `tests/test_workflow_routes.py`: five primary entries, permanent shortcuts,
   legacy redirects and argument preservation; canonical/adapter capability parity.

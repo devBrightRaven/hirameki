@@ -1,5 +1,8 @@
 # Tasks
 
+本批最新授權：使用者允許本任務後續經驗證的本地 commit，push／部署延後；
+PR 發布更新隨 push 另行處理，不將本地提交視為遠端交付或已載入。
+
 2026-11-06 使用者解除候選保存阻礙：明示 br-os-vault 新增 `pain-point/`，
 不使用 journal；「可以，自動記錄，改善另批」。限定最小候選，決策／規則修改／
 發布／部署權限不擴張。八個隔離 fresh-dialogue 驗收已獲准，使用合成資料與
@@ -11,7 +14,12 @@
 
 - [ ] G1 最小保存閉環（2.3、4.1、4.3、4.4）：使用既有 writer 與選定 Vault，
   合成情境驗證最小摘要、同事件引用／新證據追加、衝突拒絕及保存後讀回收據。
-  自動捕捉與 visible-draft gate 的差異明列，未裁定前不啟用隱式保存。
+  自動捕捉已獲限定授權並補 source 契約；部署／實際載入與新建候選路徑仍須驗證。
+  新建候選已補既有 helper 的 create 模式；完整 suite 通過後，補查失敗分支使
+  writer tests 增至 23 個並通過；發布準備時完整 suite 再驗通過，保留既有一個 skip。
+  create/append 競爭缺陷已由獨立 reviewer 隔離 red/green。SW02 source-injected
+  原生新建保存與 parent 收據讀回限定通過。未發布、未部署；installed discovery
+  及跨平台／跨機仍另驗，不以此勾選整項。
 - [ ] G2 批次與跨機（4.1、4.4、6.3）：五條去重後未呈現候選或自然收尾一次呈現；
   明列 writer owner，真實跨機／sync 與單機合成驗證分開，不把同步當成互斥鎖。
 - [ ] G3 行動提案與離線（4.2、5.1）：先查既有 GitHub issue／PR，以 Vault ID
@@ -21,13 +29,15 @@
   與撤回提案，決策辨識仍遵守 Promotion gate。
 - [x] G5 微學習規格：在原 design 與 session-continuity spec 定義片段呈現時機、
   學習地圖、回顧與不干擾驗收；只要求規格，不以文字完成宣稱已啟用。
-  2026-11-06 本機規格與六個相關情境已補，OpenSpec strict 通過；未發布、未啟用，
+  2026-11-06 規格與六個相關情境已補，OpenSpec strict 通過；已隨 cb61c33 發布、未啟用，
   模型遵循與學習成效未驗。部署後觀察條件已定義，G7 仍未完成。
 - [ ] G6 跨專案 preflight 接口：與 Tsuku owner 對帳共用入口、agent adapter
   及 CLI 責任；涵蓋既有單接續、跨 repo、無 GitHub、存取失敗及 owner 衝突。
 - [ ] G7 交付與觀察（6.2、6.5、6.6）：首批最多十個合成情境；記版本、方法、
   結果與限制，完成可審閱 diff 後再取得所需發布／部署批准。實際載入、模型遵循、
   真實保存及跨機行為各自驗收，未驗項不勾選。
+  2026-11-06 本批來源已發布至兩個既有 Draft PR；SW03 強化 readset prompt 重驗
+  限定 PASS，首輪 FAIL 保留。方法／hash／限制見證據對照；整體 G7 未完成。
 
 2026-11-04 整體接續：見 [workflow-reconciliation.md](workflow-reconciliation.md) 的八項
 source／部署／行為證據對照與未確認項；使用者本輪選定 Vault 候選、GitHub 行動提案。

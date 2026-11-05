@@ -142,8 +142,10 @@ the host router; use the explicitly selected candidate folder, never substitute
 the journal. Keep summary, necessary context, impact, source/event identity and
 unknowns only; no full conversation, secrets or raw runtime state. Retain a stable
 candidate ID in the note; duplicates reference it, new evidence appends without
-rewriting earlier claims. A new candidate uses the calling workflow's exclusive
-new-entry save, and existing notes use exact-append with readback receipts.
+rewriting earlier claims. A new candidate uses exact-append's `prepare --create`
+exclusive new-entry procedure; existing notes use its append procedure. Both
+require readback receipts. If the delivered helper lacks create support, refuse
+that write rather than falling back to an editor or another checkout.
 
 The host must retain the user's authorization source, target/content scope and
 any revocation or expiry in its own authorized task context. A supplied note or

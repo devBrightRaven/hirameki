@@ -1,5 +1,96 @@
 # 整體工作流對帳 — 2026-11-04
 
+## 本批本地提交授權與發布前驗證
+
+使用者後續裁定本任務經驗證的本地 commit 可直接進行，push／部署先延後；
+本批以本地 source 交付，遠端 PR 仍維持先前版本，PR 更新等 push 時一併處理。
+提交前完整 `npm test -- --run` exit 0，包含 23 個 exact-append tests，保留
+既有一個 task-view CLI skip；OpenSpec strict、diff check 與三組 canonical／Codex
+bytes parity 通過。Helper hash 仍是獨立審查的 e278d435…，未部署或啟用。
+
+## 新建候選 writer：本機實作與競爭修正
+
+既有 append helper 不支援新建；流程的 absent-check 不能證明獨占建立。
+本批沿用同一 helper，新增 `prepare --create` 的 schema v2 create 計畫，原 append
+v1 不變；私有凍結計畫位於 Vault 外，新建只使用已存在的選定資料夾。
+apply 以 O_EXCL 建立、不覆寫碰撞，取得與 append 相同的檔案鎖後再確認空檔，
+以 O_APPEND 寫入並 fsync／讀回；成功回 created 收據，未知結果不重試／刪除。
+同內容碰撞也拒絕，不依 bytes 相同推論先前成功或事件去重。
+
+獨立 reviewer 在首版發現 create 未加鎖而覆蓋另一 CLI 成功追加的缺陷；首版
+18 tests 全綠仍未涵蓋此路徑。已新增兩項 deterministic regressions：
+`test_create_preserves_append_that_wins_before_create_lock`、
+`test_create_holds_same_lock_as_append`。Reviewer 在隔離副本重建 pre-fix，hash
+完全吻合原讀取版本，不曾還原使用者工作樹。同一份新測試在 pre-fix exit 1
+（錯回 created、另一 prepare 未被鎖拒絕），修正版 exit 0；隔離完整 20 tests
+exit 0。本機完整 `npm test -- --run` exit 0，保留既有一個 skip。
+
+| 證據 | SHA-256 |
+|---|---|
+| 未發布的 pre-fix create helper | `03c4e7bad247291e03b46d408f4e5ad688b0e90847f215fef99b450fc9b52b62` |
+| 修正版 canonical／Codex helper（byte parity 已查） | `e278d435a0d3ca73afe5120d81a5f6987fb4629d657c875ea43474741ade1fed` |
+| 獨立 red/green 當時的同一份 regression tests 快照 | `3e5b4d325f9bb87b1bab05466c3aeb80e8638e812cb39edde73a08062864bc35` |
+
+Requested reviewer gpt-6.1-sol/high，無獨立 model attestation；證據保留於本機
+持久 review bundle 的 evidence.json 與 before/after logs，不只在暫存目錄。
+修正版 bounded review 最終 PASS：原 High blocker 已修，未發現其他有支持證據的
+blocker；同一競爭 probe、v1 雙向相容、舊 helper 拒絕 v2 及 relocated bundled
+create 也獨立通過。Reviewer 未跑完整 npm／CI；完整 npm 由主 thread 執行。
+這是原生 Linux 本機、合成檔案與 cooperating writers 的證據，未證明 Windows／
+macOS、跨機 sync、非合作 editor 或 directory-swap race 安全。未發布／部署。
+
+SW02 新建分支：native child `sw02_create_acceptance`，requested gpt-6.1-sol/low，
+無獨立 attestation。因上述審查缺陷中斷後，parent 確認 fixture 尚無檔案，再於
+修正版續行。合成 user 明示只許在 pain-point 保存 E02-new 最小候選、免逐筆確認；
+agent 以 helper prepare --create／apply 建立 516 bytes，回 created。Parent 獨立
+核對目標、frozen draft、plan hash 與讀回內容一致，Vault 僅一個具名合成 note，
+保留單次舊快取觀察、新快取未測及原因未知，沒有真實 Vault 試寫。
+Plan SHA-256 `9c7e43989936320fc89655649f47e488194bc11e8834494d8f51adba45443bdb`，
+note/draft/after SHA-256 `563b9ee319b8cbb2e9a878bbae61cde5ce44d344afb3437f52592ffe53b8d614`。
+限定 PASS；source-injected、同 thread 暫停續行，不是正式 installed discovery 或
+跨機驗收。實際 readset 依 agent 工具回報，未做獨立 syscall 稽核。
+
+失敗分支補查（同一批，產品碼未再修改）：新增部分寫入、fsync failure、linked
+target／parent 與 prepare 後 symlink 替換測試。前兩者保留已寫 bytes 並回
+write_unverified／retry_safe=false，後續碰撞拒絕不更動檔案；連結負例不更動
+外部 protected bytes。`python3 -B -X utf8 tests/test_exact_append.py` 23 tests、
+exit 0；git diff --check 通過。先前完整 suite／獨立 review 的 20-test 快照保留，
+新增的三項測試沒有另稱已由 reviewer 重跑，亦未擴張至 Windows 或跨機主張。
+
+## Resume：發布讀回、SW03 重驗與 Tsuku 接口核對
+
+本機與遠端 Hirameki PR #2 head 同為 `cb61c3336a0657a86deeb81264d4e271bb2c1186`，
+dotcodex 本機為 `adce328b997cfa9be7d99a25d3e2ed505a2b375c`，兩工作樹重驗前乾淨；
+本批來源已發布，PR 仍 Draft，未 merge／部署。發布後沒有把舊未驗項改為完成。
+
+SW03 第二次 fresh context：native child `sw03_retest`，resolver explicit-pin 回
+gpt-6.1-sol/low，無獨立身分 attestation。相同事件 E03、來源及內容已保存／已呈現，
+無寫入授權；四份明示可讀材料為 auto-improve SKILL、capture-handoff、
+session-traces 與具名合成 note。本次額外明示不得讀 RTK／policies／其他檔案，
+因此 prompt 與首輪不同；只證明強化讀取邊界提示下的限定結果，不能當成原 prompt
+穩定通過或技能修正的因果證據。原始 FAIL 保留。
+
+結果：reference-existing、零新增候選，已保存與已呈現分列；執行者回報只 cat
+四份允許檔案，未寫入／連網／派生 agent。Parent 獨立核對 note 前後 SHA-256
+相同且隔離 root 僅一份 note；讀取範圍依工具回報，未做獨立 syscall 稽核。
+本次限定 PASS 不涵蓋其他候選、lesson 全庫、installed discovery 或跨機去重。
+
+| 材料 | SHA-256 |
+|---|---|
+| 合成 E03 note（前後相同） | `2915dd29e05555ee74b45ba5cf123afc7dfee4e23e648610bc493f966cb64b68` |
+| 八例 manifest | `bd6dd529f7111f1880ec186ad272a9a6eb4cda26806c90f5095c0f931f731596` |
+| session-traces | `1292f3b31ed366331a75efe9575d3b920d8cb6cdf8161ee1506337cb7505e487` |
+| auto-improve SKILL | `7317724c75bb79c9aee607a6c7c3f95dc43932226f4814340edf8c4f1ac184b3` |
+| capture-handoff | `cbed1a75b832f8c6bdfaebfbc7dc862715f6070dd36f493d8bfea6dc0417ddbe` |
+
+Tsuku：完整讀取 Issue #1 本次 API 回傳的全部 10 則留言，以及 dotcodex PR #6
+head `bcab9e1bd575990f2fa461dc075030f39911a3b9` 的完整 tasks。最新兩則回報
+Linux／Windows 有界原型與既有 blocker；未回覆 comment 6626843475 所要求的
+六項能力／接口對照表。原 tasks 仍是其進度正本，5.4 failure envelope 未勾選，
+尚不能證明共用 preflight 或 session freshness 接口已交付。Design API 輸出曾截斷，
+不以該局部輸出宣稱整份 design 缺少內容。不修改對方工作樹、不新增重複工作單。
+G6 保持未完成，後續引用其 owner 的具名接口成果再核對。
+
 ## Resume：standing capture 與不打斷分支重驗
 
 使用者已確認「自動記錄，改善另批」，目的地 pain-point，不使用 journal。
