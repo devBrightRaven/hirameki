@@ -1,5 +1,32 @@
 # 整體工作流對帳 — 2026-11-04
 
+## Codex 單次線索捕捉入口（source，未部署）
+
+查核 dotcodex personal source：原常駐 auto-improve 入口明列更正、重複阻礙、
+判斷被推翻；SKILL 的 capture bridge 已承接痛點，但 Trigger Gate 的 reusable
+限制未明分最小線索捕捉。dotcodex 本地 a21c15c 新增一條授權條件式入口，並
+區分 capture-only 與 rule-proposal routing；只在實際目的地／內容／操作範圍已
+明示時接到既有 writer，依賴不符報未保存。沒有部署、擴張實際授權或新增 hook。
+六個 auto-improve contract tests、三個 trigger metadata tests、一個 shared ownership
+test、scripts/validate.py 及 diff check 通過；這些靜態檢查不證明自動觸發可靠。
+
+SW01 authorized_capture_branch：native `sw01_capture_entry`，requested
+gpt-6.1-sol/low、無獨立 attestation。注入 source personal reminder section 與
+模擬 available skill mapping，事先給定明確最小候選保存授權；當輪 user 只陳述
+一次技能選擇耗時、要求算 3+4，不另要求保存。Agent 回 7，實際依序讀 personal
+entry／auto-improve SKILL／capture-handoff／session-traces／exact-append，
+以既有 helper 建立 602 bytes 最小線索；保留使用者陳述與原因未知，不產生規則。
+Parent 獨立核對 plan、draft、note，成功 hash 相符，合成 Vault 僅一份候選。
+
+Plan SHA-256 `66357cfacaad93e97d4530b9894c858d27f86548ac2df4ed9d595eb3b68a3c8c`，
+note/draft/after SHA-256 `9751bece4b628338ad35f39b6c936e1fbf63053970e1298a286c796711f2cbbd`。
+純合成筆記、注入 section 與 evidence.json 留在本機持久 review bundle 的
+sw01-capture-entry 子目錄。限定 PASS，非正式 installed discovery；未比較舊 source
+同題 baseline，因此不宣稱修改的因果增益。Readset 依 reported tools，無獨立
+syscall audit。未做跨機整併／真實 Vault 寫入／Claude native／部署；G1/G7 未完成。
+本輪只更新合成 manifest 與證據文件，Hirameki 產品碼與既有測試碼未變，沿用
+前批有效完整 suite 結果；本輪另驗 JSON、OpenSpec 與 diff。兩 repo 只本地提交。
+
 ## SW03 跨 origin 分支：來源 writer 與唯讀整併
 
 沿同一 SW03 增加 cross_origin_branch 材料與允收條件，沒有新增獨立案例 ID。

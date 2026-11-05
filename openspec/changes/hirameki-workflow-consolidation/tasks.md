@@ -20,6 +20,8 @@ PR 發布更新隨 push 另行處理，不將本地提交視為遠端交付或�
   create/append 競爭缺陷已由獨立 reviewer 隔離 red/green。SW02 source-injected
   原生新建保存與 parent 收據讀回限定通過。未發布、未部署；installed discovery
   及跨平台／跨機仍另驗，不以此勾選整項。
+  dotcodex a21c15c 已補明示授權下的單次痛點／線索捕捉入口；SW01 source 注入
+  分支完成當前工作並透過 writer 保存，parent 收據核對通過。未證明 installed 觸發。
 - [ ] G2 批次與跨機（4.1、4.4、6.3）：五條去重後未呈現候選或自然收尾一次呈現；
   明列 writer owner，真實跨機／sync 與單機合成驗證分開，不把同步當成互斥鎖。
   使用者採用「每機新增，單一主責整併」；共用／Codex 契約與三個跨機情境已補，
