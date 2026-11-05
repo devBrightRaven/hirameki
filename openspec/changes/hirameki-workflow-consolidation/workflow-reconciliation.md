@@ -1,5 +1,26 @@
 # 整體工作流對帳 — 2026-11-04
 
+## 現行目標的完成邊界對帳
+
+重新完整讀取 goal，核對兩個工作樹與 PR head：Hirameki 本地 e3e8c3f，遠端
+cb61c33；dotcodex 本地 a21c15c，遠端 adce328，兩工作樹乾淨，兩 PR 均 Draft。
+本節是證據邊界表，不是另一份進度清單；完成狀態只依 tasks.md。
+
+| Goal 對應 | 已有本機／來源證據 | 仍不足以完成的部分與依賴 |
+|---|---|---|
+| G1 最小捕捉／讀回 | create／append／replay／碰撞／未知結果；23 writer tests；獨立競爭 regression red/green；SW01/02/03 source-injected 保存／引用 | 正式安裝與 fresh-session 觸發未驗；使用者延後部署。原 SW03 首輪 readset FAIL 不因後續限定 PASS 抹除 |
+| G2 去重／跨機／提醒 | 每機來源＋單一整併 owner 已採用；SW03 模擬三 note／兩事件與 partial sync；SW06 收尾／進行中分支 | 真實兩機同步、ownership handoff／失效與整併狀態持久化未驗；不能以本機角色或鎖替代 |
+| G3 GitHub／離線 | 既有 PR／Issue 曾在明示批准下更新；SW07 模擬 lost response／同單／403／owner conflict；有界續辦契約 | 非真實離線重連驗收；之後 push／PR 更新依使用者最新要求延後。無 session 的喚醒與常設排程未獲准、未新增 |
+| G4 決策／dream／結果 | decision-trace 契約核對；br-improvement/v1 與獨立 experiment validator；SW08 revision／負面結果分離；觀察／撤回提案契約 | Claude native 與 Akegarasu 原 owner 接口、接收收據／提醒未交付；使用者要求 11/8 後確認可用，不能接管。雙側 decision 行為矩陣未完成 |
+| G5 微學習規格 | 原 design／session-continuity 中六個情境，已隨首批發布 | 目標僅要求 spec，本項依 tasks 已完成；沒有學習功能啟用或學習成效主張 |
+| G6 每專案 preflight | Codex source／capture bridge 已接；SW07 同單、跨 repo、無 GitHub、403 與 owner conflict 模擬 | Tsuku 六項接口對照待 owner 回覆。本次一次讀遠端新留言（id > 6665964612）結果空，未重送或接管 |
+| G7 交付／部署／觀察 | 同一 spec/tasks／證據、兩批本地提交、測試／hash／限制；七日或十個相關 session 的窗口已定義 | 後續 source 尚未發布／部署，窗口未開始；Claude、installed discovery、跨機缺口保持未完成；零部署不能以等待時間當觀察成功 |
+
+本機 source／合成驗收已有具名證據，不為維持 goal active 而再造測試、重複跑綠
+suite 或擴大私人歷史掃描。下一個完整閉環的證據需要原 owner 成果、實際跨機
+環境，或在使用者解除延後後的發布／部署；沒有 live job handle，不當作可輪詢的
+verified wait。這些是剩餘依賴，不是縮減 goal，也不授權解除使用者的延後要求。
+
 ## Codex 單次線索捕捉入口（source，未部署）
 
 查核 dotcodex personal source：原常駐 auto-improve 入口明列更正、重複阻礙、

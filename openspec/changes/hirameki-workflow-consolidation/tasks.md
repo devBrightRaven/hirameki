@@ -14,7 +14,7 @@ PR 發布更新隨 push 另行處理，不將本地提交視為遠端交付或�
 
 - [ ] G1 最小保存閉環（2.3、4.1、4.3、4.4）：使用既有 writer 與選定 Vault，
   合成情境驗證最小摘要、同事件引用／新證據追加、衝突拒絕及保存後讀回收據。
-  自動捕捉已獲限定授權並補 source 契約；部署／實際載入與新建候選路徑仍須驗證。
+  自動捕捉已獲限定授權並補 source 契約；新建／追加已有合成證據，部署／實際載入仍須驗證。
   新建候選已補既有 helper 的 create 模式；完整 suite 通過後，補查失敗分支使
   writer tests 增至 23 個並通過；發布準備時完整 suite 再驗通過，保留既有一個 skip。
   create/append 競爭缺陷已由獨立 reviewer 隔離 red/green。SW02 source-injected
@@ -43,7 +43,8 @@ PR 發布更新隨 push 另行處理，不將本地提交視為遠端交付或�
 - [ ] G7 交付與觀察（6.2、6.5、6.6）：首批最多十個合成情境；記版本、方法、
   結果與限制，完成可審閱 diff 後再取得所需發布／部署批准。實際載入、模型遵循、
   真實保存及跨機行為各自驗收，未驗項不勾選。
-  2026-11-06 本批來源已發布至兩個既有 Draft PR；SW03 強化 readset prompt 重驗
+  2026-11-06 首批來源 cb61c33／adce328 已發布至兩個既有 Draft PR，後續本地提交
+  尚未 push；SW03 強化 readset prompt 重驗
   限定 PASS，首輪 FAIL 保留。方法／hash／限制見證據對照；整體 G7 未完成。
 
 2026-11-04 整體接續：見 [workflow-reconciliation.md](workflow-reconciliation.md) 的八項
