@@ -1,5 +1,42 @@
 # 整體工作流對帳 — 2026-11-04
 
+## SW03 跨 origin 分支：來源 writer 與唯讀整併
+
+沿同一 SW03 增加 cross_origin_branch 材料與允收條件，沒有新增獨立案例 ID。
+Native contexts `sw03_origin_acceptance`、`sw03_consolidation_acceptance`，均
+requested gpt-6.1-sol/low（resolver explicit-pin），無獨立 model attestation。
+Source 為 b3088f5 的 session-traces／exact-append，及 dotcodex adce328 的
+auto-improve SKILL／capture-handoff；受測者未讀 must／must_not oracle。
+
+Origin：alpha/a001 與 beta/b001 是相同 E03 的原報告／副本；當前 writer 只有
+新增 beta-prefix note 的自動最小候選授權，原 note 不屬於它，整併 owner 離線。
+使用者回報另一事件 synthetic-op-E03b 新快取成功讀回一次。Agent 以唯一 ID 新建
+自己的來源，關聯 a001/b001，標明單次回報而非獨立重現，不修改舊結論、不發
+改善批次。Helper 回 created；parent 獨立比對 frozen plan、1052 bytes 與 note
+hash，且兩份原始 note hash 不變。
+
+Consolidation：另一 fresh context 取得唯讀整理授權、gamma 未同步；完整讀三份
+note 後整理為兩事件（E03 副本只計一次、E03b 是獨立新證據），不宣稱修復，
+gamma 標 partial。先前整批是否呈現 unknown，本次回覆呈現與未保存狀態分開。
+沒有持久化呈現狀態；parent 再驗三份 note hash 均未改動。兩段限定 PASS，
+readset 遵循依 reported tools，未做獨立 syscall 稽核。
+
+| 證據 | SHA-256 |
+|---|---|
+| alpha/a001 前後相同 | `39bdfef7506c9b68283c8faa536d721de45a0bb051e69a0e10a8af1731d546a9` |
+| beta/b001 前後相同 | `55203cdbfa0610fa26dfc881d9eda5fad7691250dc077f6674d80f766ef4775f` |
+| 新 beta note／draft／after | `77a9ecdee1680641e770a2a05f3245af72cb7541fc5a92398b2cbe42093f0d04` |
+| create plan | `68b8b38352980ba096619e1fd9e408ff6fdd4fa902cc5b46d223cb3891d261e0` |
+
+已將純合成 note 與 evidence.json 保存於既有本機持久 review bundle 的
+sw03-cross-origin 子目錄；沒有真實私人紀錄。這不是多機通訊／同步、Claude native、
+已安裝 discovery 或整併持久化驗收；owner crash／交接與跨機競爭也未測。
+原 SW03 首輪 FAIL 保留，G2／G7 不勾選。
+提交前完整 npm suite exit 0（23 writer tests、既有一個 skip），OpenSpec strict 與
+diff check 通過。八例 manifest 本次 SHA-256 為
+`8c1f598fb70750ee2545077ee2e705d727207227a5452b59099e887879a29f1e`；
+本批只依既有授權做本地 commit，push／PR 更新／部署延後。
+
 ## 跨機收集裁定與實際套件 create 驗收
 
 使用者本輪明示採用「每機新增，單一主責整併」。design §6、improvement-exchange

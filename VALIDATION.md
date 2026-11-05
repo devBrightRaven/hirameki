@@ -35,6 +35,9 @@ command contract, Codex adapter, workflow smoke tests, local gate, and CI pass.
   hashes, actual tool loading, transcript locator, filesystem diff and outcome;
   missing approval, unavailable tools or unexercised branches remain BLOCKED or
   NOT-EXERCISED. Model runs and live deployment require their own authorization.
+  SW03's cross-origin branch uses two sequential native contexts: an authorized
+  origin writer followed by a read-only consolidation owner. Simulated machine
+  labels on one filesystem test role/identity semantics, never actual sync safety.
 
 - `tests/test_exact_append.py`: private preparation/show without note writes,
   hash-bound apply, target/plan/content-hash receipts verified against saved bytes,
