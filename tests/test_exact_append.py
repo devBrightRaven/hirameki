@@ -50,10 +50,17 @@ class ExactAppend(unittest.TestCase):
         args = ('--plan', str(self.plan), '--plan-sha256', result['plan_sha256'])
         self.assertEqual(self.cli('show', *args), result)
         self.assertEqual(self.note.read_bytes(), self.before)
-        self.assertEqual(self.cli('apply', *args)['status'], 'appended')
+        receipt = self.cli('apply', *args)
+        self.assertEqual(receipt['status'], 'appended')
+        self.assertEqual(receipt['target'], self.note.as_posix())
+        self.assertEqual(receipt['plan_sha256'], result['plan_sha256'])
+        self.assertEqual(receipt['before_sha256'], hashlib.sha256(self.before).hexdigest())
+        self.assertEqual(receipt['draft_sha256'], hashlib.sha256(self.draft.read_bytes()).hexdigest())
+        self.assertEqual(receipt['after_sha256'], hashlib.sha256(self.note.read_bytes()).hexdigest())
         stamp = self.note.stat().st_mtime_ns
         self.assertEqual(self.note.read_bytes(), self.before + self.draft.read_bytes())
-        self.assertEqual(self.cli('apply', *args)['status'], 'already_applied')
+        replay = self.cli('apply', *args)
+        self.assertEqual(replay, dict(receipt, status='already_applied', written_bytes=0))
         self.assertEqual(stamp, self.note.stat().st_mtime_ns)
 
     def test_bom_crlf_empty_and_no_final_newline_preserved(self):

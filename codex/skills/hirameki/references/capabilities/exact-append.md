@@ -15,6 +15,13 @@ checkout. Do not install tools or weaken host permissions to make a save succeed
 
 ## Freeze before display
 
+For the explicitly authorized standing candidate scope in session-traces only,
+the host may prepare and apply without a per-item display or save action. Verify
+the actual user's grant and exact destination/content scope before each write;
+keep the frozen plan and all byte, conflict and readback checks below. This
+exception never applies to decision nodes, rule changes or inferred permission.
+All other appends follow the display/approval procedure unchanged.
+
 1. Put the proposed UTF-8 append bytes in a private session temporary draft file
    **outside the vault**, with explicit LF separators and the intended final
    newline. Do not use a vault note as a staging file. Preserve existing BOM,
@@ -71,6 +78,14 @@ write, never silently retry. `show --plan <plan> --plan-sha256 <hash>` can recov
 the frozen draft for display; it neither writes notes nor renews approval.
 
 ## Limits
+
+Successful `appended` and `already_applied` results include `target`,
+`plan_sha256`, `before_sha256`, `draft_sha256` and `after_sha256` as a save
+receipt. Preserve these with the calling workflow's event identity; the plan hash
+identifies this exact write, not a semantic event or a human approval. A receipt
+proves only the bytes observed during that operation, not later sync, ingestion,
+deployment or continued file integrity. Do not publish private target paths in a
+repository or GitHub proposal. Failed or unknown outcomes are not save receipts.
 
 Existing UTF-8 regular single-link files only; maximum original 8 MiB and append
 1 MiB. The tool preserves bytes, including BOM and mixed line endings. Local OS

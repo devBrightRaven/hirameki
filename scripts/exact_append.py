@@ -199,6 +199,9 @@ def load(plan_file, expected):
 
 def apply(plan_file, expected):
     plan, draft = load(plan_file, expected)
+    receipt = dict(target=(Path(plan['root']) / plan['target']).as_posix(),
+                   plan_sha256=expected, before_sha256=plan['before_sha256'],
+                   draft_sha256=plan['draft_sha256'])
     attempted = False
     try:
         with locked_target(plan['root'], plan['target']) as stream:
@@ -209,7 +212,7 @@ def apply(plan_file, expected):
                     and digest(original) == plan['after_sha256']
                     and original.endswith(draft)
                     and digest(original[:plan['before_bytes']]) == plan['before_sha256']):
-                return dict(status='already_applied', after_sha256=digest(original), written_bytes=0)
+                return dict(receipt, status='already_applied', after_sha256=digest(original), written_bytes=0)
             if len(original) != plan['before_bytes'] or digest(original) != plan['before_sha256']:
                 raise Refused('target-changed-fresh-approval-required')
             if digest(original + draft) != plan['after_sha256']:
@@ -229,7 +232,7 @@ def apply(plan_file, expected):
             unchanged_path(plan['root'], plan['target'], stream)
             if actual != original + draft:
                 raise Refused('readback-mismatch')
-        return dict(status='appended', after_sha256=digest(actual), written_bytes=len(draft))
+        return dict(receipt, status='appended', after_sha256=digest(actual), written_bytes=len(draft))
     except (OSError, Refused) as error:
         if attempted:
             return dict(status='write_unverified', reason=str(error) if isinstance(error, Refused) else 'io-error',

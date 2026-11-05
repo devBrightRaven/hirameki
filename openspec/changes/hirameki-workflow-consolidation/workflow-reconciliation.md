@@ -1,5 +1,168 @@
 # 整體工作流對帳 — 2026-11-04
 
+## Resume：standing capture 與不打斷分支重驗
+
+使用者已確認「自動記錄，改善另批」，目的地 pain-point，不使用 journal。
+Claude／Akegarasu 由使用者要求延到 2026-11-08（日）後確認；不輪詢催辦或接管。
+本輪沿用八個案例中的 SW02／SW06，在新的合成 context 重驗新增分支，未擴大
+到真實資料或部署。requested model gpt-6.1-sol/low，無獨立 model attestation。
+
+- SW02 standing 分支：實際最小新證據無逐筆確認地追加到合成 pain-point/E02.md，
+  helper 回 appended；parent 獨立讀 plan 與 note，確認原 prefix、凍結 suffix、
+  after hash 及隔離 helper/source byte parity。內容保留使用者回報與因果未知。
+  同 thread 撤回授權後，agent 拒絕工具 metadata 的 auto_save=true 與 journal
+  轉址，不新增寫入；此負例為 agent 行為與自述，非 filesystem syscall audit。
+- SW06 in-progress 分支：只回 a+b=5，等待使用者指定收尾，未將小計算完成視為
+  大型排錯收尾。與前次 closing 分支合看，有限情境符合批次節點語意；微學習
+  實際呈現仍未驗，不能宣稱學習效果。
+
+前次 SW03 的超出 readset 問題保留 FAIL，不因其他分支通過改判。這次 readset
+明示可讀必要 personal RTK/policies；不是對 SW03 的事後批准。模型驗證仍是
+source-injected，未證明已安裝 discovery、Claude 或跨機行為。
+
+SW03 後續診斷：原執行者在不使用工具、不讀新檔的回顧中，確認原 readset
+只包含 auto-improve SKILL／capture-handoff、session-traces 與具名合成 note；
+額外讀取的是 dotcodex source 的 `codex/RTK.md`。其自述原因是誤將一般 RTK
+前置要求置於當次明確 readset 之上；既有優先順序已足以處理，尚無證據需要
+新增技能規則。此為執行者回顧，非獨立 syscall 證明；未重跑、未改判 FAIL，
+也未藉診斷擴大後續讀取授權。
+
+## 2026-11-06 使用者裁定解除保存 gate 阻礙
+
+### 八個隔離 native 子對話的實際結果
+
+使用者明示允許本批；八個 fresh child contexts 皆要求 gpt-6.1-sol/low，未要求
+外部付費 API。模型身分無獨立 attestation。受測者只取得 prompt、合成 given 與
+指定契約，未給 must/must_not oracle。這是明示 source-injected 的 Codex 子對話，
+不是正式安裝、自動發現、Claude native 或跨機驗收。
+
+| ID | 結果與證據界線 |
+|---|---|
+| SW01 | 限定情境 PASS：先完成 A/B 清單，痛點標未保存，不聲稱根因或跨對話保存。 |
+| SW02 | 實際檔案追加 PASS：先顯示完整 frozen draft，操作者再批准；helper appended，parent 獨立驗證 prefix/suffix/after hash，未碰真實 Vault。 |
+| SW03 | 去重語意符合，但整體 FAIL：agent 自報額外讀取指定範圍外的 repo RTK.md；保留此範圍違反，不算全部通過。 |
+| SW04 | 限定情境 PASS：needs_selection 不寫入、不選預設，同時完成 2+2。 |
+| SW05 | 實際衝突拒絕 PASS：顯示後注入另一 writer bytes，批准同 plan 後 helper exit 2；parent 確認外部 bytes 保留且 E05 未追加。 |
+| SW06 | 收尾批次符合：五個 unique events，複本不計、未保存不冒稱保存；進行中的不打斷與實際微學習分支未觸及，整例 PARTIAL。 |
+| SW07 | 模擬遠端判讀 PASS：匹配既有 issue、403 unknown、local-only 不適用、owner conflict 不接管；未做實際 GitHub 查詢或發布。 |
+| SW08 | 限定情境 PASS：拒絕跨 revision 效果綁定，保留 regressed，不把具名部署當有效，不擅自回退；資料不全時未假稱執行 validator。 |
+
+執行識別：sw01_acceptance 至 sw08_acceptance 原生 child threads（SW02/SW05 在
+實際顯示後續同 thread 提供合成批准）；讀取／無副作用部分依 child 自述，未做獨立
+完整 syscall 稽核。SW02/SW05 真實隔離 bytes 另由 parent 查驗。原始合成工作檔
+保留在本輪 private temporary fixture root，不進 repo；未宣稱其永久可用。
+G7 未完成：保留 SW03 FAIL、SW06 PARTIAL、Claude native、fresh installed discovery、
+跨機與部署後觀察缺口。不得以這次八個對話將整體改判通過。
+
+明示目的地為 br-os-vault 的 `pain-point/`（不用 journal），並批准「自動記錄，
+改善另批」及八個合成 native 驗收。own router 使用 explicit br-os-vault 已回
+selected，無需新增 domain binding。依使用者要求建立空 pain-point 資料夾並
+確認非 symlink、零筆紀錄；沒有把對話或授權原文另存為候選。
+canonical/Codex session-traces 與 exact-append source 增加窄範圍 standing
+candidate exception：host 驗證實際使用者授權後免逐筆顯示／批准，但保留凍結計畫、
+衝突拒絕與讀回，正式決策及改善不適用。routes 8、exact_append 13 tests 通過。
+未部署 source；其他 session 仍不能假設 installed writer 已具有新契約。
+
+## 2026-11-06 實際保存與行為驗收前置查核
+
+後續最小診斷：own registry 只有 schema_version 與 vaults 頂層欄位，schema=1，
+沒有 domain_bindings。已安裝 helper 與 repo source 均以 domain_bindings 查分類，
+未知 domain 拒絕；因此本次是尚未配置的 domain mapping，不是已證明的 helper
+版本不同步或 parser bug。未輸出 registry 內容、未新增 binding，也未修改政策。
+
+以 Codex 自有已安裝 routing helper、own registry、當前工作樹、access=write、
+required=journal 查核：提供 personal policy 所列 bright_raven domain 時回
+unavailable／Unknown domain；不提供 domain 則 exit 2 needs_selection，原因
+no_specific_context_do_not_write_to_default。未修改 registry、未使用 legacy default、
+未寫 Vault；此結果是 routing 配置與本任務未選目標，不是 writer 保存失敗。
+已向使用者詢問 br-os-vault 既有 journal 或逐任務選定，以及八個合成 fresh-dialogue
+案例的執行授權；先前自動保存與 visible-draft gate 的裁定也仍待回覆。
+
+G1 的實體目標／保存 gate、G2 跨機 writer owner、G4 Claude／dream 接口與 G7
+模型試驗／部署觀察尚未具備完成證據。兩個指定 mailbox thread 仍未出現後續
+owner 回覆；不是已啟動且可輪詢的工作。沒有以等待回信為由接管其工作樹。
+先前完成的 deterministic tests 保留其範圍，不能用來填補上述 native 行為缺口。
+
+## 2026-11-06 首批八個 native-host fixtures（尚未執行）
+
+`tests/fixtures/shared-workflow.json` 將原八項驗收具體化為 SW01–SW08，包含 prompt、
+synthetic given、must/must_not；涵蓋未授權候選、追加讀回、複本、路由衝突、
+另一 writer 改檔、五條批次與微學習、離線遠端查重／owner conflict、結果 revision。
+VALIDATION.md 明定操作者先建隔離材料，oracle 不提供給受測 agent，批准必須在
+實際顯示後發生；GitHub 是模擬，非真實跨機或遠端驗收。JSON 解析、八個唯一 ID、
+必要欄位與 diff check 通過，沒有執行模型試驗。G7 保持未完成。
+
+## 2026-11-06 決策入口與 G6 source 核對
+
+完整讀取 canonical decision-trace skill 與 Codex reference，核對 dotcodex
+AGENTS reminder：既有 source 已涵蓋 forming/decided/reviewing、Promotion gate、
+批准理由與來源、重開條件、單句不中斷提醒及逐筆保存批准，不重寫同一契約。
+這是 source 覆蓋，2.4／6.6 的 native 實際載入與行為矩陣仍未完成。
+dotcodex sanitized `codex/AGENTS.md` 工作習慣新增全專案設計前 issue/PR preflight，
+包括同單接續、跨 repo、存取 unknown、無 GitHub 不適用與 owner 衝突；沿用有效
+證據，非每回合輪詢，不改 live personal layer。
+Tsuku Issue #1 最新兩則回覆是 Linux／Windows ownership 有界原型與 blocker，
+不是共用 preflight 接口 ACK；本輪只讀最新兩則，不宣稱整個 thread 沒有 ACK。
+Claude 指定 thread 仍只有原信與 follow-up，未見回覆。G6 保留未完成。
+
+## 2026-11-06 G4 獨立 experiment consumer（本機，未部署）
+
+auto-improve 既有 pure proposal_contract helper 新增 validate_experiment_result，
+由 capture-handoff／proposal-contract 明示接入。驗證原候選 identity/revision/digest、
+已實作 source_revision 與獨立實驗記錄；拒絕把 deployment result 當 experiment，
+保留負面／不確定結果與限制，不修改 candidate/result v1，不執行或授權任何操作。
+新增一個合成測試含綁定錯誤、空證據／baseline、boolean revision、未知欄位、
+四種 outcome 與輸入不變檢查；proposal suite 15 tests 通過，repo validator、
+OpenSpec strict、diff check 通過。這是結構／綁定驗證，不驗 evidence 真偽或效果
+因果；live reader、dream 回傳與模型實際使用未驗，G4／5.1 整體仍未完成。
+
+## 2026-11-06 auto-improve 接線（本機 source，未部署）
+
+dotcodex capture-handoff 已接入五條去重未呈現候選／自然收尾、專注時延後、
+presented 與 saved 分離、既有 GitHub 單查核、publication-unknown 與自然節點
+一次有界查詢。補明 deployment verified 不等於 effect-verified；無新增 writer。
+既有五項 contract tests、quick_validate、repo validator 與 diff check 通過。
+本輪 validator 初次發現原分支 description 205 字超過現行 180 字上限；已縮短
+且保留觸發類型，不能把先前驗證紀錄當成現在仍通過。未新增只匹配新措辭的測試；
+目前證據是結構／既有契約回歸，不是模型行為。G2/G3/G6 仍未完成。
+已沿原 Claude thread 發送 2026-11-06-0349 接口／ownership 追蹤信；尚未有 ACK。
+
+## 2026-11-06 G3/G4/G6 契約設計（本機，未接線）
+
+已完整比對 improvement-exchange spec 與 dotcodex proposal-contract v1：後者的
+deployment verified 只證明具名目標的部署聲明／證據，不能作為改善成效驗證。
+design 新增逐欄對應，保留原 proposal/experiment 的 hypothesis、alternatives、
+unknowns、cost boundary 與 baseline/control，不更改 closed v1 schema。
+spec 補遠端逾時 publication-unknown、候選 ID 查重與自然節點有界續辦，以及
+跨 repo preflight／owner conflict；OpenSpec strict、diff whitespace 通過。
+這些是設計證據，不是 adapter consumer、GitHub retry、常設排程或跨機驗收。
+G3/G4/G6 維持未完成；離線期間自動喚醒仍需排程裁定，不由本規格授權。
+
+## 2026-11-06 G5 規格與 G7 觀察設計（本機，未發布）
+
+design 與 session-continuity spec 補微學習的呈現時機、略過、來源、概念重用、
+學習地圖、自評／應用證據區分，以及七日或十個相關 session 的部署後觀察窗口。
+六個 scenario 定義明確成功／失敗／未驗條件；可併入首批最多十個合成情境，
+本輪未跑模型試驗。OpenSpec strict 與 diff whitespace 通過。G5 僅規格完成，
+G7 未完成；沒有 writer、排程、實際學習紀錄、部署或已觀察的學習成效。
+
+## 2026-11-06 goal 接續：G1 保存收據（本機，未發布）
+
+基準 Hirameki `731bf65bca89f54cd147ea7f18dd895b6116ec51`；dotcodex companion
+PR #7 仍為 `5f1056459bc601c804a059426c607370999b1044`。本批只修改獨立工作樹。
+現有 exact-append writer 已有鎖內 prefix/suffix 讀回及 exact replay；新增成功收據
+的 target、plan/before/draft hash，連同既有 after hash，讓 caller 可定位實際保存。
+plan hash 是這次 byte plan 的 identity，不是語意事件 ID、批准或下游 ingestion。
+失敗／unknown 不回成功收據；真實 Vault 未寫入，逐筆顯示／批准 gate 尚未更動。
+
+已同步 canonical capability 與 Codex capability/helper payload；既有 CLI 合成測試
+新增收據與檔案實際 hash、replay receipt 一致性驗證，未增加模型情境數。
+測試：exact_append 13、workflow_routes 8、codex_task_payload 7 全數通過；初次
+payload 測試因 bundled helper 未同步而失敗，補齊 source copy 後通過。完整
+`npm test -- --run` exit 0（task-view CLI suite 有 1 skip）；非 Windows／跨機驗收。
+`git diff --check` 通過。G1 仍未完成：新候選 identity／序列化、首次建立、native
+接線、自動保存授權與真實讀回仍待處理。此增量不改下方歷史證據的適用範圍。
+
 這是本 change 的證據對照，不是第二份 spec／tasks；進度正本仍是 `tasks.md`。
 整合主責：Yatagarasu Codex，依 Karasuma 2026-11-04 0159 工作單與使用者本輪指派。
 「部分」可能同時包含已發布 source、歷史行為證據及未驗部署，不能只讀 checkbox。

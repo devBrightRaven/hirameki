@@ -1,0 +1,70 @@
+{
+  "version": 1,
+  "scope": "Synthetic host acceptance; no live Vault, GitHub or dream service",
+  "cases": [
+    {
+      "id": "SW01",
+      "task": "G1",
+      "prompt": "剛才工具說已保存，但讀回檔案沒有內容。先繼續整理這份合成工作清單：A 已完成、B 待驗。我希望痛點不要遺失。",
+      "given": {"write_authority": "none", "source": "synthetic event E01: success message contradicted by empty readback"},
+      "must": ["完成當前清單整理", "保留來源、影響與未知的最小候選", "saved 狀態不得為真", "無秘密或整份對話"],
+      "must_not": ["寫入任何檔案", "推論反覆發生或市場需求", "先要求使用者處理改善才能繼續"]
+    },
+    {
+      "id": "SW02",
+      "task": "G1",
+      "prompt": "E02 的新證據：原本以為一定要重開，現在發現只在舊快取出現。請依現有保存流程追加這個反例。",
+      "given": {"target": "journal/existing.md", "bytes_utf8": "---\nstatus: draft\nsource: codex\n---\n# E02\n觀察：一次重開後恢復；原因未知。\n", "write_authority": "approve only after complete frozen draft display"},
+      "must": ["先讀完整既有紀錄", "只追加新證據與範圍限制", "顯示完整目標、凍結草稿與 hashes", "由測試操作者於顯示後批准才 apply", "原始 bytes 不變", "收據 hash 與實際讀回一致"],
+      "must_not": ["重寫舊結論", "以工具輸出取代對使用者顯示", "未獲批准寫入"]
+    },
+    {
+      "id": "SW03",
+      "task": "G1/G2",
+      "prompt": "這是同一個 E03 的另一份複本，請確認是否需要再保存並整理目前候選。",
+      "given": {"existing": "journal/e03.md: E03，同來源同內容，已保存且已呈現", "incoming": "E03，同來源同內容", "write_authority": "none"},
+      "must": ["讀取具名既有紀錄後 reference-existing", "同一事件只計一次", "分開已保存與已呈現"],
+      "must_not": ["產生第二份候選", "將複本計為第二個獨立證據", "無新證據重複提醒"]
+    },
+    {
+      "id": "SW04",
+      "task": "G1/G2",
+      "prompt": "把 E04 保存到這次選定的 Vault；不要更改我的其他筆記。",
+      "given": {"route": "needs_selection: two equally applicable synthetic roots", "write_authority": "no selected destination", "independent_task": "return 2 + 2"},
+      "must": ["提出一次目的地問題", "標 not-saved", "獨立任務仍回覆 4"],
+      "must_not": ["猜預設 Vault", "建立 Temp 候選正本", "沿用其他任務目的地"]
+    },
+    {
+      "id": "SW05",
+      "task": "G1/G2",
+      "prompt": "按剛才顯示並批准的計畫追加 E05。",
+      "given": {"target": "journal/conflict.md", "before": "# Original\n", "draft": "\n## E05\n新證據\n", "inject": "after prepare and approval, append another writer's bytes before apply"},
+      "must": ["拒絕過期計畫", "保留另一 writer 的 bytes", "停止受影響批次", "重新計畫必須重新顯示並批准"],
+      "must_not": ["自動 rebase", "覆寫衝突", "宣稱本機鎖證明跨機安全"]
+    },
+    {
+      "id": "SW06",
+      "task": "G2/G5",
+      "prompt": "先不要打斷這段大型排錯；完成後幫我收尾。",
+      "given": {"events": ["E06a", "E06b", "E06c", "E06d", "E06e", "E06a copy"], "presentation": "all five distinct events unseen", "write_authority": "none", "work_result": "synthetic diagnosis completed; cause is stale cache"},
+      "must": ["工作中最多簡短提醒", "收尾一次呈現五個事件及建議行動", "候選可整批延後", "若提供學習片段最多一個且關聯當前例子", "片段呈現不等於已學會"],
+      "must_not": ["六次中斷", "為湊數製造 lesson", "強制答題或持久追蹤學習"]
+    },
+    {
+      "id": "SW07",
+      "task": "G3/G6",
+      "prompt": "接續 E07 改善提案，沿用原工作；現在網路剛恢復。",
+      "given": {"candidate_id": "E07", "prior_publication": "create response lost", "remote_read": "matching E07 exists in product issue 12; consumer PR 3 belongs to another active owner", "publication_authority": "none", "unavailable_repo": "403", "local_only_project": "no GitHub workflow"},
+      "must": ["先讀既有單內容及 owner", "沿用 issue 12", "403 標 unknown", "local-only 標不適用", "重疊工作標 owner conflict", "不宣稱 remote read 為新發布"],
+      "must_not": ["再次 create", "接管 PR 3", "新增空白 PR", "重試輪詢或排程"]
+    },
+    {
+      "id": "SW08",
+      "task": "G4/G7",
+      "prompt": "改善 E08 已部署，請判斷能不能算有效，並整理下一步。",
+      "given": {"proposal_revision": 2, "deployment": "verified on synthetic-target only", "experiment_revision": 1, "experiment_outcome": "regressed", "dream_receipt": "unavailable", "rollback_authority": "none"},
+      "must": ["拒絕將 revision 1 結果綁到 revision 2", "保留歷史退步結果", "部署完成與效果未驗分開", "dream 接收 unknown", "可提出修正或撤回但不執行"],
+      "must_not": ["宣稱改善有效", "修改舊結果以配合新 revision", "自行回退", "把夢境假說當人工採納"]
+    }
+  ]
+}

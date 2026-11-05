@@ -119,6 +119,61 @@ metadata 與 task ledger 分開，既有 CSV/JSONL 不混為同一契約。Hygie
 
 ## Risks / Trade-offs
 
+### 交換對應與離線續辦（2026-11-06，G3/G4/G6）
+
+兩套契約保持原有責任，不增加第二份 pin、queue 或 candidate schema。對應如下：
+
+| Hirameki 來源 | br-improvement/v1 | 保留限制 |
+|---|---|---|
+| identity／revision | proposal_id／revision，附 origin | origin 為主張，不是認證；不得用信件檔名取代 ID |
+| problem／scope／owner | observed、expected、layer、owner、affected_skills | layer 與 scope 需實際分類，不能任意填預設值 |
+| hypothesis 與最小修正 | proposed_rule | 原 hypothesis、alternatives、unknowns 留在原提案，透過 evidence ref/hash 引用 |
+| acceptance | validation | 是描述，不自動執行收到的命令 |
+| 原提案、來源與 cost boundary | evidence ref／sha256 | hash 必須取實際已審閱 artifact，不把網址或摘要雜湊冒充來源證據 |
+| review status | result decision／rationale／unresolved | accepted 不等於已實作；未解項不可偽填為空 |
+| source revision／檢查 | implementation／validation_evidence | source checked 不等於 runtime 生效 |
+| 具名部署證據 | deployment／expected_targets／deployment_evidence | verified 只對具名部署目標，不等於改善效果 |
+| experiment identity、method、baseline/control、outcome、limitations | 原 Hirameki experiment result | 不塞入 closed result schema；用原 proposal/source revision 與 evidence 關聯 |
+
+此表是 adapter 設計，不是已接通 consumer。效果失敗回原實驗保留反例並提出維持、
+修正或撤回；不得改寫歷史 accepted 結果或自動撤回已部署規則。
+
+本機獨立 fixture consumer 已加入 auto-improve 的 `validate_experiment_result`：
+獨立 experiment record 綁 origin/proposal_id/revision/candidate_sha256 與已實作的
+source_revision，保留 experiment_id、method、baseline_control、outcome、evidence、
+limitations；欄位序列化正本是該 skill 的 proposal-contract「Separate experiment result」。
+outcome 區分 improved/no-improvement/regressed/inconclusive，不能以 deployment
+verified 替代。純 validator 不讀證據、不證明因果、不執行回退，尚未接通 live dream。
+
+離線不需要先新增排程：第一版在自然接續／收尾、使用者要求時重查一次遠端，
+失敗即停止本節點重試。已授權的 Vault 候選保留，遠端查核與發布結果分開。
+發布逾時為 unknown；恢復先查候選 ID、repo、既有內容，再判斷沿用／追加／新建。
+不能以未找到但不完整的搜尋重送，不能由恢復連線推定發布批准仍有效。若後續
+需要離線期間自動喚醒，另提排程 owner、頻率、費用及安全邊界，未批准不啟用。
+
+每專案 preflight 是共用工作規約；native adapter 使用宿主已授權的 GitHub
+讀取能力，正常 Tsuku 維護 CLI 不因此負責 GitHub 管理。Tsuku owner 的接口
+回覆尚待核對；共用入口 source 接線與行為驗收未完成，不以本設計判 G6 完成。
+
+### 微學習與部署後觀察（2026-11-06，G5/G7）
+
+微學習是當前工作結果的可選解說，不是每輪教學配額或新的自動化產品。共用
+session-continuity 契約定義「一個概念＋當前例子＋可選應用」，只在自然節點
+呈現；大型排錯或使用者要求安靜時延後。學習地圖沿用選定 Vault 的知識紀錄與
+來源連結，既有記錄先查重，呈現／自評／實際應用分開，不建立能力分數或推論
+掌握程度。保存仍依原 gate；本批交付規格，不啟用學習 writer、追蹤器或排程。
+
+驗收以 session-continuity 的六個微學習／觀察情境為準：自然節點、專注或拒絕、
+無新證據的重複概念、後續實際應用、零觀察樣本、錯稱 saved。可併入首批最多十個
+合成情境，不額外啟動模型試驗。規格 strict 只證明格式，行為驗收逐側另列。
+
+部署批准後才開始七日或十個相關 session 的觀察窗口（先到者先檢查），不新增
+背景監看。沿用當前 session 的可觀察結果，僅保存已授權的最小證據摘要；未授權
+則在回覆報告。驗收不得將沒有機會、沒載入或沒部署當通過，也不以提醒數宣稱
+學習進步。未授權／錯誤目標寫入、覆寫、重複套用或錯稱保存立即判失敗並停止
+受影響寫入；修正、撤回與重新部署各自遵守既有權限。一般漏提醒與干擾回饋記錄
+失敗例，與成功例並列。此窗口尚未開始，時間經過不等於完成觀察。
+
 2026-11-04 接續裁定：使用者選定「Vault 候選，GitHub 行動提案」。最小痛點／線索
 留在當次選定 Vault，成熟可執行提案才依適用發布授權送 GitHub；以穩定 ID／來源
 互連，不維護兩份候選正本。本輪對帳見 `workflow-reconciliation.md`，它不是新 tasks。

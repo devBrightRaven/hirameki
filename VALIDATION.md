@@ -25,8 +25,20 @@ command contract, Codex adapter, workflow smoke tests, local gate, and CI pass.
 
 ## Mapped tests
 
+- `tests/fixtures/shared-workflow.json`: eight synthetic native-host acceptance
+  cases for the shared improvement goal. These are test inputs and oracle criteria,
+  not executed model evidence. The operator materializes `given` facts in an
+  isolated fixture root; the agent receives the prompt and accessible evidence,
+  never the `must`/`must_not` oracle. Approval in SW02/SW05 must occur after an
+  actual frozen draft is displayed. Simulated GitHub responses in SW07 do not
+  authorize or test live network mutation. Record per host the source/fixture
+  hashes, actual tool loading, transcript locator, filesystem diff and outcome;
+  missing approval, unavailable tools or unexercised branches remain BLOCKED or
+  NOT-EXERCISED. Model runs and live deployment require their own authorization.
+
 - `tests/test_exact_append.py`: private preparation/show without note writes,
-  hash-bound apply, exact BOM/CRLF/LF/no-final-newline preservation, safe replay,
+  hash-bound apply, target/plan/content-hash receipts verified against saved bytes,
+  exact BOM/CRLF/LF/no-final-newline preservation, safe replay,
   target/plan conflict refusal, local locking, linked-target rejection, partial
   write and readback failure reporting. Actual model approval and installed helper
   invocation remain separate native-host acceptance, not inferred from unit tests.
