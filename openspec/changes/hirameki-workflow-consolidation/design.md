@@ -223,3 +223,37 @@ G3：dream-RSI 真實連接、跨機 concurrency 及 consumer 相容性未驗證
 ## Open Questions
 
 可延後且不改外部契約：review events 的最小存法、消費者測試 fixture 的檔名、發布版號。所有影響行為的方案已明寫為待審設計，不藏在本節。
+
+## Adaptive harness extension — 2026-11-07
+
+The execution loop selects and verifies a method for the current authorized task;
+the existing improvement loop proposes durable changes through human promotion.
+Neither loop grants authority to the other. H1–H6 in tasks.md track this extension.
+
+Reuse dotcodex's existing instruction-audit artifacts and skill-review-queue pure
+scanner, not a new registry or experience store. The current-source census is
+`docs/instruction-audit/harness-baseline.json` in dotcodex; it does not supersede
+historical dispositions or establish current behavioral benefit. Entries absent
+from the older census require reconciliation, not automatic removal.
+
+Task-scoped selection semantics live in the existing shared Shikigarasu skill's
+conditional `references/execution-selection.md`; discovery metadata remains
+explicit-only. No permanent universal entry, dispatcher, model ladder or durable
+runtime is introduced. Native adapters continue to own dispatch and persistence.
+
+Upstream Shikigarasu source e31c4dd463bfda3959c6f62002b53ba754c65f21 already
+supports outcome-based inline/delegated work and frozen review tiers. The local
+checkout inspected at 3bf7c1395cfc4752aaa27f892987dd05906ba8fa predates that
+design; dotcodex's shared common contract still has legacy two-pass queue closure.
+This is a compatibility gap, not evidence that upstream lacks adaptive routing.
+Do not lower that shared gate or install newer payloads implicitly. Aligning the
+native and shared closure policies requires a separate reviewed source diff and
+adapter-specific acceptance; this extension preserves the legacy gate meanwhile.
+
+AH01–AH12 extend the existing SW manifest. Validation records separate direct
+execution, suitable skills, disjoint delegation, continuity, justified composition,
+failure/stop, permissions, authorized capture, promotion, runtime interoperability,
+resume and outcome binding. Fixture criteria are not model results. Any pilot
+must first have a bounded authorized resource budget, isolated inputs, controlled
+A/B/C conditions and recorded cost limitations. Dynamic composition remains
+inconclusive until comparative results justify its overhead; do not force its use.

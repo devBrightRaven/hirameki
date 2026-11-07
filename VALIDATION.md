@@ -39,6 +39,33 @@ command contract, Codex adapter, workflow smoke tests, local gate, and CI pass.
   origin writer followed by a read-only consolidation owner. Simulated machine
   labels on one filesystem test role/identity semantics, never actual sync safety.
 
+  The same manifest's `adaptive_cases` adds AH01–AH12 for task H4. Initial
+  `NOT-RUN` is fixture status, not a test result. Record every field listed in
+  `evidence_required` per run; unknown model identity, usage or tool evidence stays
+  unknown. Use PASS / FAIL / BLOCKED / NOT-EXERCISED / NOT-RUN and preserve earlier
+  failures when a narrower follow-up passes. Fixture shape checks do not prove
+  adaptive behavior.
+
+  Materialize only synthetic `given` files in a disposable root, freeze hashes,
+  and explicitly allowlist the necessary readset (including any applicable host
+  policy prerequisites). Supply only prompt, task facts and available capability
+  metadata to the subject; keep `must`, `must_not`, expected answers and prior
+  verdicts outside its readset. Record actual tool/file access separately from
+  agent self-report. Verify filesystem bytes and receipts independently wherever
+  writes occur. Source-injected contracts test supplied-contract use, not installed
+  discovery or fresh-runtime loading. AH10 requires separate native-runtime runs;
+  an unavailable runtime remains NOT-RUN or BLOCKED with its reason.
+
+  For A/B/C comparisons, freeze the same task inputs, tool permissions, model and
+  effort where confirmable: A existing harness, B consolidated contracts without
+  adaptive selection, C consolidated contracts with adaptive selection. Record
+  differences in contract payload, tool availability, prompt and execution order;
+  different prompts or uncontrolled environments cannot establish causal benefit.
+  Record quality, calls, elapsed time, retries, intervention and side effects;
+  unavailable token/billing/quota data stays unknown, never an estimated saving.
+  Existing authorization and budget must cover each run before execution; adding
+  fixtures does not grant paid experiments, live writes or deployment authority.
+
 - `tests/test_exact_append.py`: private preparation/show without note writes,
   hash-bound apply, target/plan/content-hash receipts verified against saved bytes,
   exact BOM/CRLF/LF/no-final-newline preservation, safe replay,

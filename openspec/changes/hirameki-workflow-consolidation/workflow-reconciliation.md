@@ -1,5 +1,75 @@
 # 整體工作流對帳 — 2026-11-04
 
+## 2026-11-07 harness extension: local source, partial
+
+H1–H6 remain open. This is evidence for a bounded first implementation, not
+completion of the full harness directive or a new progress authority.
+
+- Reused dotcodex's prior instruction audit and pure scanner. Current canonical
+  census: 118 entries (12 native, 106 shared), 90 paths represented in the older
+  skill baseline, 28 requiring reconciliation. Absence from that baseline may
+  reflect renames or historical scope; it does not establish a new capability.
+  `docs/instruction-audit/harness-baseline.json` in dotcodex records exact entry
+  hashes, invocation metadata and current-source coverage with unknown stages.
+- Added task-scoped selection as a conditional reference under the existing
+  shared Shikigarasu skill. Explicit-only discovery metadata and the legacy
+  queue gate are unchanged. This supplies contract text, not a dispatcher or
+  automatic native discovery. Independent bounded source review and its limits
+  are recorded in dotcodex `docs/instruction-audit/harness-selection-review.md`.
+- Upstream Shikigarasu HEAD e31c4dd463bfda3959c6f62002b53ba754c65f21 already
+  has outcome-based routing and frozen review tiers. Confirmed by read-only
+  remote HEAD and pinned raw source; latest-release API returned 404 and no tags
+  were returned, so no release-version conclusion is claimed. The inspected local
+  checkout is 3bf7c1395cfc4752aaa27f892987dd05906ba8fa, not latest upstream.
+  Native/shared review-policy reconciliation remains open; no other worktree or
+  installed plugin was modified.
+- Extended the existing fixture manifest with AH01–AH12 and common evidence
+  fields. All AH results remain NOT-RUN. SW01–SW08 values were independently
+  compared to HEAD and are unchanged. Actual A/B/C model behavior, cost, Claude,
+  installed discovery and durable recovery remain unverified.
+- Source checks passed: dotcodex selection 4 tests, discovery 3 tests and repo
+  validator; Hirameki workflow routes 8 tests, release-chain parity, fixture JSON
+  integrity, OpenSpec strict and both diff whitespace checks. These are source
+  checks, not model-behavior or effect evidence.
+
+### Test isolation defect and actual side effect
+
+While running dotcodex `scripts/tests/test_external_skills.py`, 30 tests passed
+with 3 platform skips, but output showed installer writes outside its temporary
+skill roots. Linux `install.main` also calls `install_launchers(Path.home() /
+'.local' / 'bin')`; the suite had not redirected home. This invocation therefore
+wrote the three real managed launchers. Pre-run bytes were not captured; no
+claim of unchanged content or successful restoration is possible. Subsequent
+read-only checks found all three equal to the repository LAUNCHER bytes, SHA-256
+`26d6ba4b88a6f9a1a383500780f290aebde7f7cfc6dd9dfd0cc27f79cdaba52e`.
+
+The test class now redirects Path.home into a per-test TemporaryDirectory and
+checks launcher creation there. Product installer behavior is unchanged. Rerun:
+30 tests, 3 skips, exit 0. Independent guarded pre-fix/post-fix reproduction is
+recorded in dotcodex `docs/instruction-audit/test-isolation-review.md`; do not
+infer other test suites are isolated from this bounded fix.
+
+The attempted minimal-candidate route with explicit selected Vault and required
+`pain-point` key returned `unavailable: Missing or duplicate canonical key:
+pain-point`. No candidate was written, no default/fallback used, and registry
+was not modified. This is a routing prerequisite failure, not saved evidence.
+Follow-up resolved the distinction: explicit Vault selection without an undeclared
+canonical key returned selected. After reading the complete Vault AGENTS and
+checking the user's exact existing non-link folder and matching candidate search,
+the original writer created one minimal origin-owned candidate under the already
+authorized explicit folder. No mapping or Vault structure was changed. Candidate
+ID `yatagarasu-20261107-external-skills-test-home`; writer returned created,
+928 bytes, and an independent exact-byte readback matched after/draft SHA-256
+`97081a6b0e5f6c6f6e12dce11f5e773e42e8415333083f581a89bccd5602530a`.
+This is one real authorized capture, not installed discovery, cross-machine
+consolidation, dream ingestion or permanent improvement approval. Private Vault
+paths and note contents are not copied into the repository.
+
+Remote read-only check: Hirameki PR #2 remains open Draft at cb61c3336a0657a86deeb81264d4e271bb2c1186;
+dotcodex PR #7 remains open Draft at adce328b997cfa9be7d99a25d3e2ed505a2b375c.
+No push, publication update, merge, release or intentional runtime deployment
+was performed; the test-induced launcher writes above are the explicit exception.
+
 ## 現行目標的完成邊界對帳
 
 重新完整讀取 goal，核對兩個工作樹與 PR head：Hirameki 本地 e3e8c3f，遠端

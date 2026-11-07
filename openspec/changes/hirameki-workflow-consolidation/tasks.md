@@ -1,5 +1,46 @@
 # Tasks
 
+## 2026-11-07 Harness consolidation extension
+
+User directive extends this change to shared harness rationalization and adaptive
+execution. This section is the progress authority for the extension; existing
+G1–G7 and their historical evidence remain unchanged. Local source implementation
+and validation are authorized; publication, deployment, paid experiments and
+other owners' worktrees retain their existing boundaries.
+
+- [ ] H1 (1.2, 6.1): Reconcile existing dotcodex instruction-audit inventory,
+  dispositions and tests with current source; locate native Shikigarasu, pstack,
+  Blueprint/EGM/mekiki and owner interfaces. Record implemented/tested/published/
+  deployed/loaded/behavior/effect independently; inaccessible evidence is unknown.
+- [ ] H2 (2.1, 3.3, 6.4): Rationalize entries using existing audit artifacts;
+  preserve consumers, explicit entrypoints, rollback and governance. High-impact
+  dispositions require controlled absent/original/consolidated behavioral evidence;
+  inadequate samples remain inconclusive, not retirement authorization.
+- [ ] H3 (2.1, 5.1): Extend existing canonical shared contracts with applicability,
+  prerequisites, execution options, dependencies, verification, side effects,
+  authorization, stop conditions and runtime adapter status. Reconcile adaptive
+  selection with existing queue delegation and two-review closure semantics before
+  changing those semantics; do not create another orchestrator or registry by default.
+- [ ] H4 (6.2, 6.6): Add AH01–AH12 alongside existing SW01–SW08 fixtures; retain
+  source/fixture hashes, prompt, actual tools, confirmable model/effort, selected
+  path, child count, side effects, evidence and limitations. Separate runtime
+  results and preserve historical failures. New experiment budget is not implied.
+- [ ] H5 (6.4): Pilot existing/consolidated/adaptive paths on comparable inputs
+  within authorized resources; compare verified quality, observable cost, latency,
+  rework and human intervention. Missing usage stays unknown; retain consolidated
+  path if adaptive orchestration does not justify its cost.
+- [ ] H6 (4.3, 5.2, 6.5): Link reusable failures through existing authorized
+  candidate writer and proposal/experiment identities; verify delivered owner
+  interfaces, local revisions and remaining deployment/loading/outcome gaps.
+  No parallel experience store, automatic promotion, intake or delivery authority.
+
+First bounded source batch: H1 census, H3 conditional shared selection and H4
+fixture definitions have local artifacts; none closes the corresponding workstream.
+Current evidence, upstream compatibility gap and test-induced launcher side effect
+are in workflow-reconciliation.md §2026-11-07. AH behavior/performance remains
+NOT-RUN; explicit-folder candidate capture has a checked receipt; do not infer
+installed discovery, deployment or effect.
+
 本批最新授權：使用者允許本任務後續經驗證的本地 commit，push／部署延後；
 PR 發布更新隨 push 另行處理，不將本地提交視為遠端交付或已載入。
 
