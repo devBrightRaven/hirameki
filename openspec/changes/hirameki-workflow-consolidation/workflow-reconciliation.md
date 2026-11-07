@@ -1,5 +1,33 @@
 # 整體工作流對帳 — 2026-11-04
 
+## AH09 installed 邊界與 compose 明示入口（2026-11-08）
+
+使用既有 fixture `43faadf1a3685edac1f694c943511e94bf4b6b0668382ea792eca6dd9419efa6`
+的 AH09 actual_proposal 做 fresh installed invocation；不是 success-only 新重跑，
+A 裁定及原歷史 FAIL 均保留。Subject 實讀 installed auto-improve／proposal-contract
+與合成證據，正確提出最小重試修正、保留一次對照與效益未知、executor unassigned，
+但沒有明列領域 owner 或人類永久採納 gate。獨立 oracle 逐列判 **FAIL／答案不完整**；
+不是 unsupported-owner、缺 JSON 或發生未授權修改。所查工具紀錄無寫入事件，
+整個合成 case file-set／bytes 未變。
+
+當次選路增加既有獨立審查，再由主 Agent 修正答覆，沒有第二次模型試跑或改 skill：
+auto-improve 僅承接未知主責的候選分流，真正 code owner 未知、executor unassigned，
+明列 needs-evidence／人類 Promotion gate。修正 artifact 的同 oracle 複查 PASS，
+原 native FAIL 不變；沒有正式候選保存／實作／發布／部署或自動晉升。這是當次
+bounded correction，不證明模型自發遵循改善或 C beats B，也不據此增寫永久規則。
+審查與主 Agent 修正本身使用模型資源；未重跑 subject，不是零模型成本流程。
+
+HR03 explicit：重用同 retrieval fixture，以明示 hirameki:compose 要求成品；實讀
+installed compose 與 writing-zh-tw、按測試 registry 選 research，交付有來源與效果
+未知的成品，排除退役承諾。12個 fixture 檔前後不變，獨立內容／明示入口驗收 PASS。
+此為 Codex umbrella 的明示意圖相容性，不是 native slash-parser；先前 natural
+HR03 沒讀 compose 的 NOT-EXERCISED 維持，不能拿此替代自然觸發／使用效果。
+
+本次安裝後 pilot 共十次 native invocation，包含首輪配置 BLOCKED、corrected 分支
+及這兩次，到此不擴模型試驗。維持既有 resolver sol/low、provider／billing unknown、
+hook clamp 與 startup 副作用未完整稽核等限制；沒有 Claude／真實跨機或成本效果比較。
+Source、候選、parent修正及 runtime結果各自分列，唯一進度仍為 tasks。
+
 ## 原 goal active 後的 installed next／capture（2026-11-08）
 
 使用者已恢復原 goal，Claude 本輪仍指定延後；#8／#4 merge 尚待批准。未重部署或
@@ -538,13 +566,13 @@ work ledger:
 
 | Existing task | Evidence still needed | Boundary / next authorized response |
 |---|---|---|
-| H1/H3/H4, G7 | Fresh installed-source discovery/reference use and behavior on named Codex/Claude targets | Current publication/byte matches do not provide this; use supported authorized isolation, while real payload changes/deployment retain separate authority and receipts |
-| H3/H4, G4 | Original Claude adapter AH10/common-fixture result and its own revision/tool/model evidence | Review delivered owner artifacts when available; no substitute Claude execution or takeover |
+| H1/H3/H4, G7 | Codex 有具名 installed discovery/reference 與十次 pilot，AH09 native FAIL 保留；不能推論全 profile／一般遵循或效果 | 本批模型試驗停止擴大；依具體缺口處理，不用更多容易案例洗掉 FAIL。Claude 本輪指定延後 |
+| H3/H4, G4 | Original Claude adapter AH10/common-fixture result and its own revision/tool/model evidence | 使用者指定本輪 NOT-RUN／延後，不阻擋本輪 Codex 交付；不替代 Claude 執行或接管，完整跨 runtime 狀態未完成 |
 | H6, G4/5.2 | Original Dream-side revision-bound input/output plus accept/reject receipts | Validate delivered exchange with existing schemas; do not infer a consumer or modify the private store |
 | H1/H6, G6 | Owner-confirmed preflight/maintenance boundary and any named source consumer acceptance | Source opt-in adapter and Tsuku task6.7 can be cited; Tsuku task6.5 formal release authority and deployment remain separate; do not activate Tsuku |
 | G2/G7/6.3 | Actual cross-machine synchronization, owner consolidation/conflict and receipts | Single-filesystem fixtures are insufficient; preserve origin ownership and partial coverage |
 | H2/H5/6.4 | Comparable attributable cost/quality evidence before any further high-impact retirement or claim C beats B | Keep existing provisional dispositions/optional selection; no forced dynamic workflow, invented savings or extra paid model experiment |
-| H6/G7 | Named deployment/loaded evidence followed by the existing observation window and outcome | No deployment authority in this batch; source CI or an accepted candidate cannot start that window or prove effect |
+| H6/G7 | 已批准安裝／指定入口使用有具名證據；原 updater FAIL 與後續分類修正尚未合併，真實使用觀察／效果未齊 | PR #8／#4 新 merge 仍待批准；後續依適用既有授權交付，不把 source CI、保存或一次 pilot 當觀察窗口／效果完成 |
 
 These are not new approval gates for the completed local source work. They state
 why its evidence does not close the full task scopes; continue any independent

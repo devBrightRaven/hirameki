@@ -47,6 +47,11 @@ progress; publication and goal creation do not complete H1–H6.
   拼錯 required key 的同根自修仍保留，capture outcome 不等於完整 routing compliance。
   AH11 同 plan lost-response 重放使用 installed writer，already_applied／0 bytes，
   整個合成 case 不變；不是實際 native session 中斷或 durable-runtime 驗收。
+  AH09 installed actual-proposal 原生答案因領域 owner／明示人類 gate 缺漏而 FAIL；
+  主 Agent 依獨立審查修正答覆後的 artifact PASS，不回填原 native 結果、不改 skill。
+  Compose 明示入口實讀 installed reference／writing-zh-tw 並交付成品，限定 PASS；
+  先前自然 HR03 的 NOT-EXERCISED 維持。本次安裝後 pilot 到十次 invocation，
+  停止擴大模型試驗，成本／使用效果仍無改善主張。
   原 H1–H6／G1–G7 完整 checkbox 不變，不另建 goal／進度正本；細節與限制見對帳。
 
 以下為2026-11-07歷史 checkpoint，後續狀態以上述具名證據為準。
