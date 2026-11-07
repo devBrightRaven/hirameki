@@ -22,6 +22,9 @@ progress; publication and goal creation do not complete H1–H6.
   hashes matching. Mekiki is located in existing Hirameki command/reference.
   Existing-proxy initialize timed out before skills/list; discovery NOT-EXERCISED,
   daemon status unknown. No skill retirement or all-skill model benefit is established.
+  Component lifecycle matrix now links updater preview/0, offline resolver output,
+  14 managed-file observations (13 entry-byte matches; AGENTS differs), and Tsuku
+  c2ac1e3/source opt-in interface; none implies deployment or active runtime loading.
 - H3:shared outcome/frozen-policy alignment has independent source reviews.
   Existing discovery checker now has opt-in source/root/entry-byte binding;
   source1b81184 Windows/Ubuntu CI passed (Windows273script/138repo tests,1repo

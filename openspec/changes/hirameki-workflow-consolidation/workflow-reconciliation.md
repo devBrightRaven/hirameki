@@ -1,5 +1,61 @@
 # 整體工作流對帳 — 2026-11-04
 
+## H1 lifecycle matrix and existing owner interface receipts
+
+The existing dotcodex baseline/report now include a component matrix separating
+implemented/tested/published/deployed/loaded/behavior/effect for guidance, skills,
+native adapters, task continuity, capture/improvement, routing, update, Tsuku and
+hooks. It is an evidence view; this tasks.md remains the sole harness progress
+authority. No new registry, experience store or runtime was created.
+
+Read/hash only14 source-mapped own Codex files: all present,13 raw matches;
+AGENTS.md differs even after UTF-8-BOM/LF normalization. No private body/config,
+auth/session or local registry content retained, and no semantic/authority or
+active-context inference. No overwrite/install/export/model switch followed.
+Actual source updater preview returned0/status preview, empty executed steps;
+five offline source resolver selections returned fixed-no-catalog. No pull,
+installer, bootstrap --execute, model call or account-availability test occurred.
+Unchanged updater/resolver/adapter suites reuse exact-head CI; not rerun locally.
+
+Tsukuroigarasu current local/public main both
+`c2ac1e371f6aa115dde68e852107871787083c76`, local clean. Read its project contract,
+README, integration and acceptance only; no owner CLI/tests/process/work changed.
+The opt-in adapter matches the inspected integration surface, but owner-reported
+80 Windows tests/two reviews are not independent execution here. Its canonical
+agent-tool-maintenance/tasks.md remains in public dotcodex main
+`4010619a8830c320c03210183d5d100a3d1715d1`:6.7 source/isolated adapter acceptance
+is recorded;6.5 release authority/formal delivery stays open. Reference those IDs,
+do not copy their checklist or treat normal maintenance as GitHub preflight.
+
+Scoped issue readback: Shikigarasu#2 open, three integration evidence comments;
+no native owner ACK established by them. Akegarasu#13 open/no comments and public
+main remains adca434. This does not exclude work/messages elsewhere. Claude,
+fresh-runtime, actual cross-machine/Dream and effects remain separate dependencies;
+H1–H6 full scopes stay open. No new polling, schedule, hook, activation or contact.
+
+Fresh independent artifact review h1_lifecycle_matrix_review returned PASS:
+all14 raw/normalized mappings rehashed, source/owner-task references and private
+data boundaries checked. Requested sol/high, actual identity unverified; no past
+execution/CI/deployment/loading/effect attestation. Parent JSON-preservation/count
+controls passed; validator/OpenSpec/diff checks are scoped document/source gates.
+
+Remaining dependency boundaries, using existing task IDs rather than another
+work ledger:
+
+| Existing task | Evidence still needed | Boundary / next authorized response |
+|---|---|---|
+| H1/H3/H4, G7 | Fresh installed-source discovery/reference use and behavior on named Codex/Claude targets | Current publication/byte matches do not provide this; use supported authorized isolation, while real payload changes/deployment retain separate authority and receipts |
+| H3/H4, G4 | Original Claude adapter AH10/common-fixture result and its own revision/tool/model evidence | Review delivered owner artifacts when available; no substitute Claude execution or takeover |
+| H6, G4/5.2 | Original Dream-side revision-bound input/output plus accept/reject receipts | Validate delivered exchange with existing schemas; do not infer a consumer or modify the private store |
+| H1/H6, G6 | Owner-confirmed preflight/maintenance boundary and any named source consumer acceptance | Source opt-in adapter and Tsuku task6.7 can be cited; Tsuku task6.5 formal release authority and deployment remain separate; do not activate Tsuku |
+| G2/G7/6.3 | Actual cross-machine synchronization, owner consolidation/conflict and receipts | Single-filesystem fixtures are insufficient; preserve origin ownership and partial coverage |
+| H2/H5/6.4 | Comparable attributable cost/quality evidence before any further high-impact retirement or claim C beats B | Keep existing provisional dispositions/optional selection; no forced dynamic workflow, invented savings or extra paid model experiment |
+| H6/G7 | Named deployment/loaded evidence followed by the existing observation window and outcome | No deployment authority in this batch; source CI or an accepted candidate cannot start that window or prove effect |
+
+These are not new approval gates for the completed local source work. They state
+why its evidence does not close the full task scopes; continue any independent
+authorized work rather than manufacturing another orchestrator or more trials.
+
 ## H3 contract reach and response-wait correction
 
 The current existing shared Shikigarasu entry/reference were read fully before
