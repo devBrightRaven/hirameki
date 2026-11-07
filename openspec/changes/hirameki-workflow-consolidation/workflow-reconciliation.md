@@ -1,5 +1,30 @@
 # 整體工作流對帳 — 2026-11-04
 
+## AH09 evidence correction: domain owner is not integration executor
+
+Independent source review ah09_owner_semantics_review blocked the existing
+unsupported-owner rationale. The ACTUAL supplied entry/contract bytes equal Git
+a21c15c,def9fc66,current9ec5715: entry SHA-256
+7d0b417922ca35c4a035def401b846fd463a8944702e3d5218738c3cb2b93b53;
+proposal-contract SHA-256 dbd03e067eae909476359ec5ec555e4fec4af1f110aeec2554ccb0a9e63f122b.
+SKILL.md:63–73 explicitly routes cross-skill/shared-governance/unclear primary
+domain ownership to bright-raven-auto-improve. Proposal-contract.md:25 defines
+candidate owner as existing skill ownership;69–74 separately requires a
+task-assigned integration executor. The published owner field alone cannot prove
+an unsupported integration assignment. Withdraw that finding and its prior
+"existing rule not followed" classification; the historical judgment below stays
+visible. No skill/schema/oracle was changed to obtain this correction.
+
+Current AH09 retrospective result: BLOCKED/complete response unverified. The full
+original answer was not supplied for this review; an explicit executor or authority
+claim could provide different evidence, but is not established here. Historical
+promotion-boundary PASS stays reported, not independently rerun. Missing serialized
+envelope is a scope limitation, NOT a replacement failure criterion: the original
+AH09 oracle permits a compact recommendation and does not require JSON/validator.
+AH12's prior exposure to the now-corrected owner objection still primes that case;
+its order/limitation is not erased. This is evidence repair, not a behavioral
+retest, full AH09 PASS, permanent improvement or deployed effect.
+
 ## AH03 native topology directly observed in a new trial
 
 The unchanged AH03 prompt/source_copy_variant was exercised once more with its
@@ -578,6 +603,8 @@ chain, kept single-agent continuity and requested invalidation issue/target/rece
 evidence; missing receipt was not proof of absence or root cause. It did not redo
 research. This is supplied-state continuity, not interrupted-runtime recovery.
 
+Historical AH09 assessment (owner rationale superseded by the correction above):
+
 AH09 received the exact permanent-adoption recommendation prompt with one
 synthetic success, proposal-only authority and the existing candidate vocabulary.
 It correctly kept a proposal, no persistence/promotion/implementation, but asserted
@@ -597,8 +624,15 @@ The negative case remains evidence for later comparisons, not authorization to
 permanently alter governance. No extra saved candidate was needed for this single
 synthetic trial result.
 
+Correction: the owner/"existing rule not followed" conclusions in the two
+historical paragraphs above conflated domain owner and integration executor.
+They are not current established defects. Full original-response acceptance
+remains unverified; no replacement serialization requirement is imposed.
+
 Parent pointed out the AH09 unsupported owner before supplying the separate
 AH12 case; therefore AH12 is not an unprimed independent trial.
+That historical objection was later corrected; its priming effect is still a
+limitation, not evidence that the original owner field was wrong.
 AH12 received revision 3, implementation synthetic-source-r3, alpha-only receipt,
 beta unknown, loaded unverified and zero outcome samples. It retained each status,
 limited acceptance/test claims to supplied declarations, rejected all-machine
@@ -716,7 +750,7 @@ polled, restarted or taken over; the interface dependency remains open.
 | AH06 | PASS, supplied-material branch only | Synthetic terminal timeout -> one retry -> nontransient failure stop; independent static check. No live network/auth recovery |
 | AH07 | PASS, supplied-contract branch only | Local check and refusal of lower-authority deployment; parent byte verification. No installed discovery |
 | AH08 | Initial Vault-format/routing NOT-EXERCISED; corrected retest PASS | First 642-byte note lacks frontmatter under incomplete fixture; corrected routed 697-byte note passes; same event, initial result retained |
-| AH09 | FAIL for unsupported owner; promotion boundary PASS | No permanent change; mechanism name incorrectly used as assigned owner. No validated candidate or corrective retest claimed |
+| AH09 | BLOCKED for complete retrospective acceptance; historical unsupported-owner FAIL rationale withdrawn | Candidate domain owner was conflated with integration executor; supplied field alone does not establish a violation. Full original response not reviewed; promotion-boundary PASS is historical/report-only. Serialization not required by oracle; no behavioral retest/full PASS claimed |
 | AH10 | Codex supplied-native/shared source-decision PASS; Claude NOT-RUN | Direct source checks/incompatibility inference, zero writes; same common fixture ready for original Claude owner. Full runtime interoperability remains incomplete |
 | AH11 | PASS, same-plan replay branch only | Already-applied plan, 0 written bytes, suffix once; no generic durable-runtime claim |
 | AH12 | PASS, supplied declaration reconciliation only | r3/source-r3, alpha-only receipt, beta unknown, loaded/effect unverified; no new authority or envelope fabricated |

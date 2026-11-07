@@ -49,7 +49,8 @@ progress; publication and goal creation do not complete H1–H6.
   unchanged. The older missing-alpha/initial topology limits remain historical.
 - Historical failures remain in reconciliation/forward-tests:SW03 first FAIL,
   AH03 topology/dispatch limits,AH08 missing-prerequisite/frontmatter first result,
-  AH09 unsupported-owner FAIL,2150f99 Windows CI FAIL,intermediate P2 BLOCKs and
+  AH09 historical unsupported-owner FAIL (rationale later withdrawn after contract
+  review; complete original response still unverified),2150f99 Windows CI FAIL,intermediate P2 BLOCKs and
   AH05 initial test overconstraint. Earlier launcher writes with unknown prebytes
   remain documented; later passes do not erase any of these.
 - H5/H6:A/B/C historical engineering pilot remains quality/cost INCONCLUSIVE;
