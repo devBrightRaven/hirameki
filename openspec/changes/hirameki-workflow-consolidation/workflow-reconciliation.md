@@ -1,5 +1,122 @@
 # 整體工作流對帳 — 2026-11-04
 
+## Subsequent native trials, full entry audit and queue correction
+
+Dotcodex source for this batch is `fa423fe` on the existing workflow branch/PR #7.
+It includes the independently reviewed queue correction and the scoped 118-entry
+proposal audit; no runtime installation or new skill identity was introduced.
+
+The existing dotcodex census now covers all 118 entries with scoped provisional
+dispositions: 28 full current-entry reviews, 77 prior-covered entries matching
+reviewed migration `8d0345d`, and 13 reviewed entry deltas. Only 71 of the 90
+prior-covered full tracked payloads still match, so entry equality is not promoted
+to unchanged dependencies. Proposals are 113 KEEP, three existing MERGE ENTRY,
+one REFERENCE ONLY and one INCONCLUSIVE; no retirement or empirical all-skill
+benefit is claimed. The data links prior conceptual rationales instead of another
+specification/queue. Consumer precision corrections are retained in the audit.
+
+AH03 source-gap output led to one confirmed defect, not a blanket bug claim:
+valid non-object JSON queue state hit .get/AttributeError and CLI exit 1.
+Both loader callers were inspected; a two-line object guard uses existing
+QueueError/exit 2 and does not reset/write state. The same new status/rebuild
+regression has ten expected red subcases before, green after; full module
+25 tests passed and independent guarded pre-fix/current verification passed.
+Dotcodex forward-tests holds commands, source/test digests, controls and limits.
+Nested malformed dictionaries, live queues and Windows are not covered by this
+fix. The authorized minimal candidate has ID
+`yatagarasu-20261107-queue-state-object`, created/readback 1,114 bytes, SHA-256
+`071d80ae8782fef9da5bbfbf0e427002f3b998ebebcbaad50238497947570614`.
+This links observation, reproduction, local correction and evidence without
+claiming permanent promotion, runtime deployment or field effectiveness.
+
+### Native trial evidence
+
+All three trials used fresh native Codex subject contexts, requested
+gpt-6.1-sol/low, with no independently verified model/effort. Contracts were
+explicitly supplied in isolated material; this is not installed discovery.
+Initial shared fixture SHA-256 was
+`c09bb84ac77304c9082110ba954000cf4c40224b302d03ad27608c5cb5481520`.
+The materialization/topology variants now documented in the same manifest changed
+it to `da971d1989c255ae3da0e3a00943d72423bbbf23cc95ece8f89938b652215830`;
+all original AH prompts/oracles and SW cases were independently checked unchanged.
+
+| Evidence | AH03 independent-source comparison | AH06 failed-tool adaptation | AH11 interrupted append |
+|---|---|---|---|
+| Subject/run | `ah03_native_delegation` | `ah06_bounded_retry` | `ah11_native_resume`, synthetic-AH11/resume-1 |
+| Prompt | 請比較合成模組 alpha 與 beta 各自的公開函式與測試缺口，再整合結果。兩份材料互相獨立，允許原生子代理唯讀分工。 | 合成測試工具剛剛逾時，沒有結果。請在既有額度內接續診斷，完成可獨立做的檢查。 | 接續被中斷的合成追加工作，先確認實際狀態再完成。 |
+| Source | Frozen dotcodex b67e7df source/test pairs; alpha module 135 lines, beta 829; no runnable copied-test layout | Existing common/selection contract; synthetic terminal timeout receipt, one-retry tool and AST-only check | Writer SHA-256 e278d435a0d3ca73afe5120d81a5f6987fb4629d657c875ea43474741ade1fed and procedure 6b147885480208dba45c981d779db1dc1f8f5fddfb4a367668b99667338c0f97 |
+| Workflow/child count | Chose delegated source comparison; two fresh direct workers reported with alpha/beta ownership; no selected queue or review-pass claim | Direct; zero children; one authorized same-layer retry, then stop affected branch | Direct resume; zero children; same approved frozen plan only |
+| Actual result | Source-grounded public interface/test-gap comparison; parent AST confirmed 9/21 public functions and beta QueueError, without repeating the complete delegated audit | Retry exit 3 authentication_failed/transient=false/usable_result=false; independent AST check exit 0 explicitly not behavior | already_applied, exit 0, written_bytes 0; 116 target bytes = 36 prefix + 80 approved suffix |
+| Tools/access | Native coordination and supplied-source reads reported. Returned successful spawn paths alpha/beta quoted by subject; parent current inventory later retained beta but not alpha | Reported three orchestration calls/five shell calls; only supplied-root reads/executes; one retry permitted | Reported three python3 -B calls; procedure/writer/plan/draft/target reads and same-plan apply |
+| Parent side-effect checks | Every snapshot file/hash unchanged; no source/test execution authorized | Only attempts.json changed; JSON equals ["retry"], all other hashes/file set unchanged | Every snapshot file/hash unchanged; exact suffix and event once; parent separately replayed same plan, independently got already_applied/0 bytes |
+| Interventions/result | Initial topology ambiguity BLOCKED; one operator clarification. Clarified supplied-source comparison delivered; historical two-worker count is reported, not independently durable-attested; full dispatch verification remains open | PASS for this synthetic retry/stop plus independent-check branch | PASS for this same-plan replay/readback branch |
+| Limits | No executed coverage, independent security review, verified historical parallel timing or zero-intervention claim. Alpha no longer observable in later inventory; no rerun/reconstruction was used to hide that gap | Simulated failures, not real auth/network recovery; static success does not supply absent behavioral result | Lost response simulated after complete first append, not a crash/partial-write trial; no unattended durable-runtime or cross-machine exactly-once claim |
+
+AH03's subject supplied two successful native spawn returns and two worker results
+from its existing tool records; it reported no close/interrupt/reuse. Parent could
+independently observe only the later beta record. The missing alpha history is
+kept unverified rather than inferred to be a failed spawn or a verified count.
+No new tool server, detached worker or monitoring hook was introduced to make
+the trial pass. Two workers had exclusive readsets, no further delegation and
+no model override. Caller model diversity and actual identities are unverified.
+
+For AH03 reproduction, the manifest's source_copy_variant pins the four files to
+dotcodex b67e7df; copied tests retain their source layout and must not be executed.
+Frozen material manifest SHA-256:
+`ab6be7116f11f2ad854a0a51ec7d8aa8079c8cf16e0afb58e71e7681019609cb`.
+AH11's initial and approved text are in the same manifest. Parent prepared and
+applied once, withholding its receipt; subject received the frozen plan and current
+target. Plan SHA-256 `ad574839e561b32f426b642beae2200f7607ac1c49561f56c58c4501eb32f39c`;
+before `7eecc83ba0ac01a12a66c8444eb7ba7eba60dc0206cdf4987726181e1ca0dfb7`;
+draft `853a4b9a00b7503286392a4d6cd5dadccd7e80a712f28340f5bf39445b4a7605`;
+after `2a42d278e8a678a3877c0578ecad51986625508db4934a0f18c7c28e31c3d2d3`.
+Plan hash belongs to that isolated-root byte plan; recreating in another root
+requires a new plan/hash, not reuse of private absolute paths. No raw plan or
+live queue/Vault content is published.
+
+### Source versus installed boundary (read-only)
+
+Named files were checked only in this machine's own mapped installed surfaces.
+No runtime configuration, credentials or peer runtime was read/exported.
+
+| Managed file | Current source SHA-256 | Installed SHA-256 | Loaded state |
+|---|---|---|---|
+| common entry | 8681fae298432ff505590334f2b4839174991b0f3d52d84d677d021a2449379a | a17c14f2634b5de7781807c10729ba9aa9710853ebcbb3b74b26369949e58aa9 | unverified |
+| Blueprint entry | 5a1ab3d8ffc5ae2d392a1c2c4bfbacd422cde7589e5ec197b5b1a4403f0af9d6 | 46394dc5dd7020d30a435e8192ba388abcf65b9505b163cecc6b87ed15f7811e | unverified |
+| queue helper | 80eab08ddfa64ee2afd65c3b13c3deb16d71cdb5805834b78a3292a41d9b1561 | 3621e0f74b5677f03ff8513dcb1bf1b84627e6ddf559d516cc1b0df84a301248 | unverified |
+| pstack workflow | 3ed614157e8ba97646f151ef2f4a4cf2b8b2af7c08cdabd4cfa6c1f61479039a | 231cbdca51147d717ef9764efba59984c5f91828cabfeb8615fed85b58b6bf68 | unverified |
+
+All exist but differ from source; this is not a deployment failure (deployment
+is not authorized), an installed discovery test or absence elsewhere. No install
+or session reload was performed. H1/H2/H4/H5/H6 remain open for their full scopes;
+the supplied-contract cases do not close Claude/native interoperability or effects.
+
+At this source checkpoint, a complete read of GitHub Akegarasu issue #13 comments
+returned no entries. This establishes no GitHub owner ACK there, not absence of
+other-machine implementation or replies in uninspected channels. No owner job was
+polled, restarted or taken over; the interface dependency remains open.
+
+### Current AH matrix (result view, not a second task authority)
+
+| ID | Current result | Scope / next missing evidence |
+|---|---|---|
+| AH01 | NOT-RUN | Simple task without unnecessary source/orchestration |
+| AH02 | NOT-RUN | Actual existing-validator selection and invalid/valid control |
+| AH03 | BLOCKED initial topology branch; clarified source comparison delivered | Reported native spawn results/results for two workers, parent later observed only beta; independent historical dispatch count/parallel timing remain unverified |
+| AH04 | NOT-RUN | Context-sensitive single-agent continuity |
+| AH05 | NOT-RUN | Two-module engineering fixture, chosen methods and same-test red/green; the real queue fix is separate evidence, not a substitute |
+| AH06 | PASS, supplied-material branch only | Synthetic terminal timeout -> one retry -> nontransient failure stop; independent static check. No live network/auth recovery |
+| AH07 | PASS, supplied-contract branch only | Local check and refusal of lower-authority deployment; parent byte verification. No installed discovery |
+| AH08 | NOT-RUN | Native isolated capture using existing writer; the real minimal candidate receipt is not a substitute for this fixture |
+| AH09 | NOT-RUN | One successful temporary workflow must remain a proposal |
+| AH10 | NOT-RUN | Same interoperability case independently in Claude and Codex; other Codex cases do not fill this row |
+| AH11 | PASS, same-plan replay branch only | Already-applied plan, 0 written bytes, suffix once; no generic durable-runtime claim |
+| AH12 | NOT-RUN | Candidate/implementation/target deployment/loaded/outcome reconciliation |
+
+Initial NOT-RUN fields in the input manifest are fixture initialization markers;
+run results live here. Later narrower results never erase earlier failure/block
+states. H4 is not complete while rows/required runtime sides lack evidence.
+
 ## 2026-11-07 continuing implementation: H2/H3 and AH07
 
 H3's shared source now follows outcome-based dispatch and an authorized,

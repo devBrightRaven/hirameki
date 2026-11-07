@@ -19,6 +19,15 @@ supplied-contract local-check/denied-deployment branch passed with independent
 fixture-byte checks; other AH cases remain NOT-RUN. Evidence and limitations are
 in workflow-reconciliation.md §continuing implementation. Workstreams stay open.
 
+Next evidence batch: all 118 repo-owned entries have scoped provisional
+dispositions (28 full entry reads, 77 historical entry-byte matches, 13 delta
+reviews). This does not cover all installed external skills or prove model gain.
+AH06 and AH11 supplied-material branches passed; AH03's topology clarification
+and incomplete independent historical dispatch receipt remain explicit.
+Its source-gap output yielded a reproduced queue JSON-object bug, a two-line
+local fix and independent same-test red/green. H1/H2/H4/H5/H6 stay open; see the
+current AH result matrix and installed-boundary evidence in reconciliation.
+
 ## 2026-11-07 Harness consolidation extension
 
 User directive extends this change to shared harness rationalization and adaptive
