@@ -1,5 +1,32 @@
 # 整體工作流對帳 — 2026-11-04
 
+## All canonical entries: isolated native metadata acceptance
+
+Source75cd4e2 extended the already reviewed namespace/foreground/stdin-audit method
+to all118 canonical entries, native12/shared106. The fixture includes ALL2,135
+Git-tracked regular files under their parent-root union,74,360,937bytes. The
+preliminary64MiB estimate was insufficient; final128MiB/4,096-file/minfree512MiB
+bounds were set BEFORE any copy/invocation. No reference/asset pruning or bound
+increase after execution. Ignored/private runtime files and symlinks excluded.
+
+Existing source-bound checker verified every expected name, both roots, paths and
+entry digests against the actual isolated foreground SDK: discovered118/errors0.
+Actual method trio initialize/initialized/skills-list, model/thread0, process
+reaped; all source/copy hashes unchanged. Fresh eligible independent reviewer
+canonical_native_catalog_review copied EXACT driver/input into a fresh temporary
+root and reproduced once: exit0/scoped PASS, receipt identical, all hashes
+independently recomputed, worktree clean. Requested sol/high, actual identity
+unverified. Input/driver/payload/name-set digests and complete sanitized receipt
+are durable in the existing dotcodex baseline/forward-tests.
+
+This proves metadata/entry-byte discoverability for the whole canonical set in
+disposable roots, not all118 skill functions, dependencies, invocation restrictions
+or behavioral gain. Full tracked fixture copy equality is not actual user-profile
+deployment/full-live-payload parity; model/reference use, Claude, Windows native
+metadata, cost/effect remain unverified. Earlier selected/proxy cases are retained
+unchanged. No product source, live model/profile, plugin/owner worktree, schedule,
+hook, privacy authority or permanent workflow changed; H1–H6 full scopes stay open.
+
 ## Selected isolated native discovery, not a model trial
 
 Completion audit found one independently testable gap: native metadata discovery

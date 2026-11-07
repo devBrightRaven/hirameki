@@ -37,6 +37,9 @@ progress; publication and goal creation do not complete H1–H6.
   Subsequent Linux network-isolated empty-profile native discovery passed for
   one source-bound common entry (real app-server,0 model/thread requests), with
   exact-driver independent replay. Real-profile/reference use/behavior stay open.
+  The same bounded isolation now validates all118 canonical metadata entries,
+  native12/shared106, with complete2,135-file tracked fixture, zero loader errors
+  and exact independent replay. Functions/dependencies/model use stay unverified.
 - H4:AH05 original two-module branch now has corrected same-test red12/current8
   green, independent native review and parent24CLI controls; user intervention0,
   operator correction1. AH10 Codex supplied-native/shared source-decision branch
