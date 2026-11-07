@@ -1,5 +1,14 @@
 # 整體工作流對帳 — 2026-11-04
 
+## Public evidence privacy boundary — 2026-11-07
+
+This source-only cleanup withholds private installation/enabled-version inventory,
+per-entry parity fingerprints, registry diagnostics, real Vault target/folder state
+and thread usage details. It retains synthetic fixtures/source hashes, bounded
+acceptance methods/results, historical failures, ownership and authorization limits.
+Private evidence withheld is not untested source behavior; cleanup does not prove
+deployment, loading or effect. H2/H3 remain open in tasks.md.
+
 ## Issue #3 follow-through: native inventory tool-chain acceptance
 
 The user's subsequent request to continue implementation was applied to the
@@ -43,15 +52,15 @@ remain private and are not copied into this repository. Sanitized artifact hashe
 | results.md | 414b72cde9e6d50afaf7c62278530660aa2bf8d441be7e6f2611338e44be9119 |
 | receipts/page-0.json | 3c356a531d124ab47d11b63c3737d0c332c5a6c707b4a7015b50b2280b7951b3 |
 | receipts/page-20.json | cea22d5a7a84089a13ac0291b743c89415026beb005f3fccc50d3ae8681fa0e1 |
-| tool-receipt-summary.json | 5d452cde65b31048bdeecebd244728e116a2854e8a223a51fabf77a3c7aa69fd |
 
-Host metadata records gpt-6.1-sol/low. Last thread usage counters report input
-815081, cached input 771968, output 5207 and total 820288 tokens; these counters
-include repeated/cached context and do not establish billing, price, provider
-identity or cost per successful task. No comparative savings are claimed.
+Private host tool-metadata fingerprint withheld; synthetic reader receipts above
+remain available for the bounded result comparison.
 
-The configured installed plugin's next/lens/compose/natural-routing bytes were
-separately checked and differ from source; no installed payload was changed.
+Requested model/effort was gpt-6.1-sol/low; actual identity remains independently
+unverified. Private thread usage evidence withheld. Billing, price and cost per
+successful task remain unknown; no comparative savings are claimed.
+
+Private installed-payload evidence withheld; no installed payload was changed.
 Source-guided native acceptance does not demonstrate fresh-installed selection,
 ordinary-user adoption, Claude interoperability or improved cost/quality.
 Merge/deployment remain outside the current authorization. H1/H2/H3 full scopes
@@ -336,8 +345,8 @@ daemon lifecycle, real-profile deployment or owner work occurred.
 
 Actual stdin methods were initialize/initialized/skills-list only; discovered1
 enabled source/path/raw-entry-bound common entry, errors0, model/thread0, owned
-process reaped. All3 copied files unchanged. Installed CLI declared0.167.0 after
-the run; binary/source parity not attested. Fresh independent reviewer
+process reaped. All3 copied files unchanged. Private installed CLI version
+evidence withheld; binary/source parity not attested. Fresh independent reviewer
 isolated_native_discovery_review copied the EXACT driver into a new temporary
 root and reproduced once, exit0/scoped PASS; requested sol/high, actual identity
 unverified. This is repeated verification of one event, not independent pain
@@ -382,13 +391,10 @@ native adapters, task continuity, capture/improvement, routing, update, Tsuku an
 hooks. It is an evidence view; this tasks.md remains the sole harness progress
 authority. No new registry, experience store or runtime was created.
 
-Read/hash only14 source-mapped own Codex files: all present,13 raw matches;
-AGENTS.md differs even after UTF-8-BOM/LF normalization. No private body/config,
-auth/session or local registry content retained, and no semantic/authority or
-active-context inference. No overwrite/install/export/model switch followed.
-Actual source updater preview returned0/status preview, empty executed steps;
-five offline source resolver selections returned fixed-no-catalog. No pull,
-installer, bootstrap --execute, model call or account-availability test occurred.
+Private managed-file parity and local resolver evidence withheld. The method
+was bounded read/hash comparison and nonexecuting preview, not semantic,
+authority or active-context verification. No overwrite/install/export/model
+switch, pull, bootstrap --execute or account-availability test occurred.
 Unchanged updater/resolver/adapter suites reuse exact-head CI; not rerun locally.
 
 Tsukuroigarasu current local/public main both
@@ -408,8 +414,8 @@ fresh-runtime, actual cross-machine/Dream and effects remain separate dependenci
 H1–H6 full scopes stay open. No new polling, schedule, hook, activation or contact.
 
 Fresh independent artifact review h1_lifecycle_matrix_review returned PASS:
-all14 raw/normalized mappings rehashed, source/owner-task references and private
-data boundaries checked. Requested sol/high, actual identity unverified; no past
+source/owner-task references and private data boundaries checked; private
+managed-file parity evidence withheld. Requested sol/high, actual identity unverified; no past
 execution/CI/deployment/loading/effect attestation. Parent JSON-preservation/count
 controls passed; validator/OpenSpec/diff checks are scoped document/source gates.
 
@@ -470,37 +476,29 @@ has no proven causal link. Response-wait tests do not establish a wall-clock
 bound for Popen/startup/stdin/filesystem/cleanup, real app-server/Windows runtime,
 loading or effects. H1–H6 full scopes remain open, other-owner work unchanged.
 
-## Expanded installed-candidate inventory and discovery limit
+## Private inventory evidence and bounded discovery limit
 
-The existing dotcodex baseline/report now extend the earlier19-selector receipt
-without changing118 canonical entries, provisional dispositions or source-stage
-claims. Existing read-only CLI metadata reports57 plugins/17 marketplaces,
-56 enabled and Superpowers7.0.2 disabled. Six opaque host registration IDs are
-redacted; five associated entry names/paths/hashes are withheld. No raw private
-runtime/config/cache content is published. This remains evidence, not a registry.
-
-Existing pure scan_roots over62 explicit native/shared/registered-link/enabled
-exact-version-cache candidate roots observed421 physical parsable SKILL.md files:
-416 public-detail rows and five withheld count-only rows. No warnings or changed
-entry reads; no disabled payload scan. Eighteen identical-entry pairs are not
-capability equivalence or a retirement basis.115 distinct canonical entries have
-matching raw hashes; Auto-improve/Blueprint/shared Shikigarasu are present with
-different bytes. Nested/templates, manifest-at-root exclusion, normalized/raw
-hash distinction and non-atomic scan limits remain explicit. Zero-SKILL plugin
-folders do not establish absent tool/LSP/MCP capabilities. No queue state written.
+The existing audit used read-only CLI metadata and bounded file-root scanning.
+Private installed inventory, enabled state, versions, entry metadata and parity
+fingerprints withheld. The 118 canonical source entries, provisional dispositions
+and source-stage claims are unchanged. No disabled-payload scan or queue write
+was authorized. Identical entry bytes do not establish capability equivalence or
+justify retirement; non-atomic scan, nested/template and manifest-at-root limits
+remain. Zero-SKILL folders do not establish absent tool/LSP/MCP capabilities.
 
 Public upstream HEAD/latest-release/first-three-tag metadata was checked for18
-repositories before the scan. No upgrades or provider repairs followed. Source
-policy marks Airtable/Canva disabled while CLI metadata reports enabled; effective
-runtime precedence/flags remain unverified. Do not auto-change either surface.
+repositories before the scan. No upgrades or provider repairs followed;
+effective runtime precedence/flags remain unverified. Private local policy/CLI
+comparison withheld; no automatic changes followed.
 
 Mekiki is existing commands/mekiki.md and the Codex references/mekiki.md, fully
-read at Hirameki b5609d2. The installed2.3.3 reference raw hash matches
+read at Hirameki b5609d2; public reference source SHA-256 is
 `26a969750473c2f5f8fa94193ebd41c6f38f54a176305236067c66520834cfba`.
-This is reference parity, not discovery/loading/behavior. Existing approval and
+Private installed reference parity evidence withheld;
+source inspection is not discovery/loading/behavior. Existing approval and
 native adapter ownership remain intact; no command execution or Claude config read.
 
-One bounded existing-proxy discovery probe used CLI0.167.0 after checking official
+One bounded existing-proxy discovery probe ran after checking official
 release/proxy-relay source. Only initialize was sent; its20-second observation
 deadline expired without response. Skills/list was NOT-EXERCISED, not a failed
 skills response. Only the owned proxy child was terminated/reaped; no daemon
@@ -510,8 +508,8 @@ handler/startup effects, current model context and fresh runtime remain unverifi
 H1–H6 full scopes/checkboxes remain open; this is additional bounded inventory.
 
 Fresh independent read-only artifact review h1_census_evidence_review returned
-PASS after recomputing all118 canonical and416 public installed raw/normalized
-entry hashes, verifying counts/opaque withholding and Mekiki parity. Requested
+PASS for the scoped artifact review. Canonical source hashes were recomputed;
+private installed inventory/parity evidence withheld. Requested
 sol/high, actual model identity unverified. It did not attest historical CLI,
 network/proxy events, full filesystem/history, remote links or actual load/effect.
 Parent dotcodex validator, OpenSpec strict and scoped diff checks also passed;
@@ -648,17 +646,11 @@ ref is not proof an external checkout is unpinned; counts are not independent
 capabilities. No third-party skill contents were copied or cache updated.
 
 Existing bootstrap_plugins.current_state ran only read-only CLI marketplace-list
-and plugin-list queries. A second query independently checked the serialized
-sanitized selected receipt: all 19 configured public selectors were listed;
-18 enabled, Superpowers 7.0.2 disabled and unchanged. Declared Git marketplace
-sources matched. Hirameki 2.3.3 and native Shikigarasu
-0.3.1+codex.20260822210609 are observed CLI versions, not source/payload/loaded
-proof. Gmail/Sites were listed installed even though their host marketplace
-metadata was unavailable; no provider repair followed. Thirty-eight additional
-installed selectors are outside the selected receipt. Only selected public IDs,
-versions and enabled/source-type claims are retained, no raw CLI paths/config.
-Upstream internal CLI effects were not audited; no add/remove/upgrade/app-server
-or model turn was requested. This is not full host inventory or native behavior.
+and plugin-list queries, with a second query checking the selected receipt.
+Private installed selector, version, enabled-state and marketplace evidence
+withheld. No provider repair, add/remove/upgrade/app-server or model turn was
+requested; internal CLI effects were not audited. This method does not prove
+source/payload loading, complete host inventory or native behavior.
 
 ### Existing checker reused, not another registry
 
@@ -951,19 +943,19 @@ live queue/Vault content is published.
 
 ### Source versus installed boundary (read-only)
 
-Named files were checked only in this machine's own mapped installed surfaces.
-No runtime configuration, credentials or peer runtime was read/exported.
+Public source artifact hashes are retained independently of private parity:
 
-| Managed file | Current source SHA-256 | Installed SHA-256 | Loaded state |
-|---|---|---|---|
-| common entry | 8681fae298432ff505590334f2b4839174991b0f3d52d84d677d021a2449379a | a17c14f2634b5de7781807c10729ba9aa9710853ebcbb3b74b26369949e58aa9 | unverified |
-| Blueprint entry | 5a1ab3d8ffc5ae2d392a1c2c4bfbacd422cde7589e5ec197b5b1a4403f0af9d6 | 46394dc5dd7020d30a435e8192ba388abcf65b9505b163cecc6b87ed15f7811e | unverified |
-| queue helper | 80eab08ddfa64ee2afd65c3b13c3deb16d71cdb5805834b78a3292a41d9b1561 | 3621e0f74b5677f03ff8513dcb1bf1b84627e6ddf559d516cc1b0df84a301248 | unverified |
-| pstack workflow | 3ed614157e8ba97646f151ef2f4a4cf2b8b2af7c08cdabd4cfa6c1f61479039a | 231cbdca51147d717ef9764efba59984c5f91828cabfeb8615fed85b58b6bf68 | unverified |
+| Source artifact | SHA-256 |
+|---|---|
+| common entry | 8681fae298432ff505590334f2b4839174991b0f3d52d84d677d021a2449379a |
+| Blueprint entry | 5a1ab3d8ffc5ae2d392a1c2c4bfbacd422cde7589e5ec197b5b1a4403f0af9d6 |
+| queue helper | 80eab08ddfa64ee2afd65c3b13c3deb16d71cdb5805834b78a3292a41d9b1561 |
+| pstack workflow | 3ed614157e8ba97646f151ef2f4a4cf2b8b2af7c08cdabd4cfa6c1f61479039a |
 
-All exist but differ from source; this is not a deployment failure (deployment
-is not authorized), an installed discovery test or absence elsewhere. No install
-or session reload was performed. H1/H2/H4/H5/H6 remain open for their full scopes;
+Private installed-file existence/parity evidence and fingerprints withheld.
+The bounded read/hash method did not establish loaded state, installed discovery
+or absence elsewhere. No install or session reload was performed; deployment
+was not authorized. H1/H2/H4/H5/H6 remain open for their full scopes;
 the supplied-contract cases do not close Claude/native interoperability or effects.
 
 At this source checkpoint, a complete read of GitHub Akegarasu issue #13 comments
@@ -1124,8 +1116,10 @@ skill roots. Linux `install.main` also calls `install_launchers(Path.home() /
 '.local' / 'bin')`; the suite had not redirected home. This invocation therefore
 wrote the three real managed launchers. Pre-run bytes were not captured; no
 claim of unchanged content or successful restoration is possible. Subsequent
-read-only checks found all three equal to the repository LAUNCHER bytes, SHA-256
-`26d6ba4b88a6f9a1a383500780f290aebde7f7cfc6dd9dfd0cc27f79cdaba52e`.
+private installed-byte checks are withheld; they cannot reconstruct pre-run bytes.
+The public repository LAUNCHER source SHA-256 is
+`26d6ba4b88a6f9a1a383500780f290aebde7f7cfc6dd9dfd0cc27f79cdaba52e`;
+this source identity makes no claim about private installed parity.
 
 The test class now redirects Path.home into a per-test TemporaryDirectory and
 checks launcher creation there. Product installer behavior is unchanged. Rerun:
@@ -1133,15 +1127,11 @@ checks launcher creation there. Product installer behavior is unchanged. Rerun:
 recorded in dotcodex `docs/instruction-audit/test-isolation-review.md`; do not
 infer other test suites are isolated from this bounded fix.
 
-The attempted minimal-candidate route with explicit selected Vault and required
-`pain-point` key returned `unavailable: Missing or duplicate canonical key:
-pain-point`. No candidate was written, no default/fallback used, and registry
-was not modified. This is a routing prerequisite failure, not saved evidence.
-Follow-up resolved the distinction: explicit Vault selection without an undeclared
-canonical key returned selected. After reading the complete Vault AGENTS and
-checking the user's exact existing non-link folder and matching candidate search,
-the original writer created one minimal origin-owned candidate under the already
-authorized explicit folder. No mapping or Vault structure was changed. Candidate
+An initial candidate capture was blocked by a routing prerequisite; no candidate
+was written and no default/fallback or configuration mutation was used. Private
+target selection, folder state and registry diagnostics withheld. After resolving
+the authorized destination prerequisites, the original writer created one minimal
+origin-owned candidate within the existing authorization. Candidate
 ID `yatagarasu-20261107-external-skills-test-home`; writer returned created,
 928 bytes, and an independent exact-byte readback matched after/draft SHA-256
 `97081a6b0e5f6c6f6e12dce11f5e773e42e8415333083f581a89bccd5602530a`.
@@ -1402,10 +1392,9 @@ SW03 後續診斷：原執行者在不使用工具、不讀新檔的回顧中，
 G7 未完成：保留 SW03 FAIL、SW06 PARTIAL、Claude native、fresh installed discovery、
 跨機與部署後觀察缺口。不得以這次八個對話將整體改判通過。
 
-明示目的地為 br-os-vault 的 `pain-point/`（不用 journal），並批准「自動記錄，
-改善另批」及八個合成 native 驗收。own router 使用 explicit br-os-vault 已回
-selected，無需新增 domain binding。依使用者要求建立空 pain-point 資料夾並
-確認非 symlink、零筆紀錄；沒有把對話或授權原文另存為候選。
+使用者批准指定範圍內的最小候選「自動記錄，改善另批」及八個合成 native 驗收。
+公開契約保留候選使用 `pain-point/`、不使用 journal 的資料夾角色。
+私人目的地、資料夾狀態與路由設定證據 withheld；沒有把對話或授權原文另存為候選。
 canonical/Codex session-traces 與 exact-append source 增加窄範圍 standing
 candidate exception：host 驗證實際使用者授權後免逐筆顯示／批准，但保留凍結計畫、
 衝突拒絕與讀回，正式決策及改善不適用。routes 8、exact_append 13 tests 通過。
@@ -1413,18 +1402,10 @@ candidate exception：host 驗證實際使用者授權後免逐筆顯示／批�
 
 ## 2026-11-06 實際保存與行為驗收前置查核
 
-後續最小診斷：own registry 只有 schema_version 與 vaults 頂層欄位，schema=1，
-沒有 domain_bindings。已安裝 helper 與 repo source 均以 domain_bindings 查分類，
-未知 domain 拒絕；因此本次是尚未配置的 domain mapping，不是已證明的 helper
-版本不同步或 parser bug。未輸出 registry 內容、未新增 binding，也未修改政策。
-
-以 Codex 自有已安裝 routing helper、own registry、當前工作樹、access=write、
-required=journal 查核：提供 personal policy 所列 bright_raven domain 時回
-unavailable／Unknown domain；不提供 domain 則 exit 2 needs_selection，原因
-no_specific_context_do_not_write_to_default。未修改 registry、未使用 legacy default、
-未寫 Vault；此結果是 routing 配置與本任務未選目標，不是 writer 保存失敗。
-已向使用者詢問 br-os-vault 既有 journal 或逐任務選定，以及八個合成 fresh-dialogue
-案例的執行授權；先前自動保存與 visible-draft gate 的裁定也仍待回覆。
+當時前置查核遇到路由設定／目標選定阻礙，未寫入 Vault，也未修改設定或採用
+預設 fallback。私人 registry 結構、domain、目的地與 installed-helper 診斷 withheld。
+此阻礙不構成 writer 保存失敗或 parser bug 證據；保存範圍與 visible-draft gate
+當時待使用者裁定，後續授權與合成驗收見上節，未將歷史阻礙當作現況。
 
 G1 的實體目標／保存 gate、G2 跨機 writer owner、G4 Claude／dream 接口與 G7
 模型試驗／部署觀察尚未具備完成證據。兩個指定 mailbox thread 仍未出現後續
@@ -1552,7 +1533,7 @@ D2 human decision gate 的後續裁定。不能把歷史 D1/D2 直接重提為�
 |---|---|---|---|---|
 | W1 當下提醒；2.3/2.4 | session-continuity、dotcodex AGENTS reminder；提醒不是保存 | auto-improve Trigger/Capture、pain-research 與 TEIGI 已區分觀察／推論 | 本輪可見 Codex personal reminder；不能推及 Claude 或每輪可靠觸發 | 部分；Codex 補最小 capture bridge，native 觸發待各 runtime owner 驗 |
 | W2 捕捉模式；2.3/4.1 | session-traces 支援 clue／中途 journal；仍要求顯示草稿與保存授權 | session-traces canonical／Codex 同語意；沒有以本次取證證明 standing auto-capture writer 已接通 | 2026-10-22 報告含明示 source 的選擇／追加行為，不是背景保存；原始 transcripts 在 Karasuma | 部分；共用模式／授權銜接已補 source，auto writer 未啟用；避免撞上 Karasuma dirty commands |
-| W3 共用資料；4.1/4.8/6.3 | 本輪定案 Vault 候選、GitHub 行動提案；vault route 與 write scope 分離 | vault_route helper 已有 read/write 選擇及缺設定拒絕；review capability 明示未建立 review ledger | 五份相關 Codex plugin 檔與 repo 逐 bytes 相同；不代表任一具體目標 vault 可寫或兩側共用已驗 | 僅位置分工定案；實際候選 writer／讀取入口未確認，禁止另建平行 store |
+| W3 共用資料；4.1/4.8/6.3 | 本輪定案 Vault 候選、GitHub 行動提案；vault route 與 write scope 分離 | vault_route helper 已有 read/write 選擇及缺設定拒絕；review capability 明示未建立 review ledger | Private installed parity evidence withheld；具體目標可寫性及兩側共用仍未驗 | 僅位置分工定案；實際候選 writer／讀取入口未確認，禁止另建平行 store |
 | W4 去重／併發；4.1/4.4/6.3 | evidence-and-recovery、review identity/revision/owner | br-improvement/v1 有純分類／result validator；exact_append 有重跑／changed target guard；lesson bounded lookup 已發布 | 單機 helper 測試與歷史 source-injected 行為；真實跨機 sync／雙寫未驗 | 部分；單機鎖不可宣稱分散式互斥；Codex 統一 owner 規則，跨機 adapter 待驗 |
 | W5 收尾／中途紀錄；2.3/6.6 | triage/journal/handoff 共用 session-traces；一事件可成窄 scope lesson，未成熟保留 clue | 已發布選擇／bounded lookup／append；本輪 route 8 tests、exact_append 13 tests 通過 | acceptance 報告兩側合成 filesystem append；同時保留失敗與 encoding 修正；本輪未重跑模型 | 部分；不是未做，完整 save-all／雙側自動載入仍未證明；Karasuma dirty follow-up 未取得 |
 | W6 淬鍊／晉升；3.1/4.2/4.3 | review 與 decision-trace 分開；covered/rejected/deferred 不無條件重提 | review/session-traces 定義來源查重與追加；tidy-progress 報歷史 mapping，但最終 candidate reconciliation 未完成 | 歷史私人證據不可當本輪已重驗；未掃歷史或自動升格規則 | 部分；保留原材料／反例，新增訊息不自動建立 active decision；不以缺 ledger 刪除舊能力 |
@@ -1579,8 +1560,8 @@ dirty scope，不修改 release metadata 或 installed cache。原 task 不因�
 - dotcodex `scripts/validate.py`、OpenSpec strict 與兩 repo diff whitespace 檢查通過。
 - Hirameki `test_workflow_routes.py`：8 tests，exit 0；`test_exact_append.py`：13 tests，exit 0。
   這是既有 deterministic regression suite，沒有新增 13 個模型試驗或讀真實個人資料。
-- Codex installed 2.3.3 的 SKILL、triage、journal、session-traces、review 五檔 byte parity。
-  未觀察本輪自動 skill loading、Claude installed parity、跨機 sync 或新的真實保存。
+- Private installed version／per-entry parity evidence withheld；未觀察本輪自動
+  skill loading、Claude installed parity、跨機 sync 或新的真實保存。
 
 ## 下一批最小驗收（8 個合成情境，未執行模型試驗）
 

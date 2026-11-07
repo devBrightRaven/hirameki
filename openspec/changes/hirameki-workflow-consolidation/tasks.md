@@ -16,15 +16,13 @@ progress; publication and goal creation do not complete H1–H6.
 
 - H1/H2:118 canonical entries have scoped provisional dispositions;37 external
   declarations,7 declared marketplaces and19selectors remain separately inventoried.
-  Expanded CLI receipt observes57 installed/56 enabled across17 marketplaces;
-  Superpowers disabled preserved. Pure file scan observes421 physical SKILL.md
-  candidates,416 with public metadata/five withheld,115 distinct canonical entry
-  hashes matching. Mekiki is located in existing Hirameki command/reference.
+  Private installed inventory, enabled/version state and per-entry parity
+  fingerprints withheld. Mekiki is located in existing Hirameki command/reference.
   Existing-proxy initialize timed out before skills/list; discovery NOT-EXERCISED,
   daemon status unknown. No skill retirement or all-skill model benefit is established.
-  Component lifecycle matrix now links updater preview/0, offline resolver output,
-  14 managed-file observations (13 entry-byte matches; AGENTS differs), and Tsuku
-  c2ac1e3/source opt-in interface; none implies deployment or active runtime loading.
+  Component lifecycle matrix links bounded preview/read-hash methods and Tsuku
+  c2ac1e3/source opt-in interface; private managed-file/resolver evidence withheld.
+  None implies deployment or active runtime loading.
   User-entry pilot HR01–HR06 compares supplied catalogs/notes: B/C same routes
   and core content; no measured gain. C next-index evidence incomplete; A later
   native provenance unavailable. Keep task-first README/UI short_description,
@@ -104,11 +102,17 @@ other owners' worktrees retain their existing boundaries.
   discovery, Claude behavior and effect remain unverified.
   Evidence and limitations are in workflow-reconciliation.md;
   this uses existing H1/H2/H3 work, not a second progress ledger.
+  Public-source privacy cleanup removes machine inventory/parity fingerprints,
+  private routing/target state and thread usage details while retaining synthetic
+  evidence, failures and source-only results. H2 remains open; cleanup is not deployment.
 - [ ] H3 (2.1, 5.1): Extend existing canonical shared contracts with applicability,
   prerequisites, execution options, dependencies, verification, side effects,
   authorization, stop conditions and runtime adapter status. Reconcile adaptive
   selection with existing queue delegation and two-review closure semantics before
   changing those semantics; do not create another orchestrator or registry by default.
+  Public evidence now withholds private installed/configuration evidence; broader
+  privacy-contract work and independent review remain separately tracked by the
+  integration owner within H3. This documentation cleanup does not close H3.
 - [ ] H4 (6.2, 6.6): Add AH01–AH12 alongside existing SW01–SW08 fixtures; retain
   source/fixture hashes, prompt, actual tools, confirmable model/effort, selected
   path, child count, side effects, evidence and limitations. Separate runtime
@@ -134,8 +138,8 @@ installed discovery, deployment or effect.
 使用者允許本任務後續經驗證的本地 commit，push／部署延後；
 PR 發布更新隨 push 另行處理，不將本地提交視為遠端交付或已載入。
 
-2026-11-06 使用者解除候選保存阻礙：明示 br-os-vault 新增 `pain-point/`，
-不使用 journal；「可以，自動記錄，改善另批」。限定最小候選，決策／規則修改／
+2026-11-06 使用者解除候選保存阻礙：明示限定目的地，候選使用 `pain-point/`、
+不使用 journal；實際 Vault 與本機目錄狀態 withheld。「可以，自動記錄，改善另批」。限定最小候選，決策／規則修改／
 發布／部署權限不擴張。八個隔離 fresh-dialogue 驗收已獲准，使用合成資料與
 原生 agent 能力，不呼叫付費外部 API 或寫真實 Vault。G1/G7 尚待實際驗收。
 
