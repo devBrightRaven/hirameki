@@ -18,6 +18,16 @@ class RouteTests(unittest.TestCase):
         for case in cases:
             for source in case['given'].get('sources', []):
                 self.assertIn(source, fixture['natural_routing_materials'])
+            for name, variant in case.get('variants', {}).items():
+                for source in variant['given'].get('sources', []):
+                    self.assertIn(source, fixture['natural_routing_materials'])
+                for key in ('must', 'must_not', 'expected_route'):
+                    self.assertNotIn(key, variant['given'])
+                for folder in variant['given'].get('search_scope', []):
+                    self.assertTrue(any(source.startswith(folder + '/')
+                                        for source in fixture['natural_routing_materials']))
+                self.assertIn('must', variant, name)
+                self.assertIn('must_not', variant, name)
         ah09 = next(case for case in fixture['adaptive_cases'] if case['id'] == 'AH09')
         self.assertNotIn('variants', ah09['given'])
         for key in ('must', 'must_not'):

@@ -1,5 +1,100 @@
 # 整體工作流對帳 — 2026-11-04
 
+## Issue #3: workflow-body source implementation and bounded pilot
+
+The user subsequently authorized implementation of
+[issue #3](https://github.com/devBrightRaven/hirameki/issues/3). Baseline is
+`940927fd5a1d6b0a5beda1abcb5cbfd391cb6295`; H1/H2/H3 remain open and tasks.md
+remains the sole progress authority. This checkpoint supersedes the earlier
+"recording only" state below, retaining its history.
+
+Shared commands and their Codex references now distinguish next source-only,
+resume and inventory scopes; preserve current task authority and reader/restore
+gates; continue only an already-authorized action; and remove the mandatory
+inbox/yesterday/two-to-four-option output. Lens and compose now specify bounded
+topic retrieval, original passage reads, contrary/retired source handling and
+the requested answer/artifact. The existing natural-routing contract explains
+actual host-tool use: these workflow names are not invented executable APIs.
+No new skills, router, hook, task store, model policy, installed payload or Claude
+native-runtime implementation was added. Explicit commands and save gates remain.
+
+Deterministic verification: final `npm test -- --run` exit 0: 216 unittest cases
+(one existing skip), 21 command checks, 8 smoke checks, handoff parser, relocated
+package tests and Codex/release validation. Skill quick validation, OpenSpec strict
+validation and `git diff --check` also passed. Early targeted validation failed
+after removing the adapter's expected resolution phrase; the first full suite
+then failed because next no longer explicitly named `Vault Structure`. Both were
+corrected by restoring explicit adapter/configuration references; the existing
+validators were not weakened. First-failure and final logs are retained locally.
+The new test logic checks variant fixture integrity, not model behavior.
+
+The existing HR01–HR06 fixture gained scoped variants and synthetic current task
+authority, verifier, retired offer and unrelated material. Original prompts and
+their prior results are retained. Fixture SHA-256:
+`43faadf1a3685edac1f694c943511e94bf4b6b0668382ea792eca6dd9419efa6`.
+
+Two fresh native child threads received current/proposed source packages and the
+same seven ordered requests, without fixture oracles or the other arm's results.
+Each arm used one thread for all seven, so cases are not context-independent.
+Only scoped synthetic reads, one existing local verifier and a separate results
+report per arm were authorized; no children inside the trials. Both produced
+source-only answers with current-state caveats, reported C19 execution after
+reading project authority, answered the history question without inventing a reason,
+delivered a current service introduction without retired promises, and kept the
+three direct/writing negative controls free of additional Vault operations.
+These are observed output artifacts; tool-loading/execution details in the
+reports are subject-reported, not independent host attestation. Source-review
+PASS does not establish model compliance or fresh discovery. A separate review of
+the saved outputs found no required source fixes and classified only visible
+answer content as follows; process-oracle claims remain subject-reported:
+
+| Existing case/variant | Current content | Proposed content |
+|---|---|---|
+| HR01 source-only | PASS | PASS |
+| HR01 resume | PASS | PASS |
+| HR02 retrieval | PASS | PASS |
+| HR03 retrieval | PASS | PASS |
+| HR04 repo status | PASS | PASS |
+| HR05 short edit | PASS | PASS |
+| HR06 technical explanation | PASS | PASS |
+
+The reviewer independently checked snapshot source hashes and fixture digest
+against the manifest; this proves frozen-source consistency, not runtime reads.
+
+Retained local artifact set: `issue3-20261107` under the owning machine's private
+acceptance directory; full model reports/logs are not published here. Digests:
+
+| Artifact | SHA-256 |
+|---|---|
+| current/results.md | 441bc37c2a6a5b53d7f712f4510271ae0a0de0a310a4567245ec4f4f79891f40 |
+| proposed/results.md | cf69cfa0850873dfa23f14560b67e25a51dc7ce3617fad48747ae802a06772a7 |
+| tests-first-failure.log | f0e68cf7c8ab14892767d9a804a5c41479396f89f8894dda4f68f7d76fab8c0a |
+| tests-final.log | 1e3aed636a9281d1bb0a5565111afc5bf9b665cd18b52eba5931ada51c62d376 |
+
+Manifest records every supplied reference digest. Current package digest:
+`3d2c63d18b75fb699618f6f0215d0ce8c5aa68013ed6f7fb329b15ff3ff00380`;
+proposed trial digest:
+`57374848c8ba8c856b3a9a9f7257170c9495b5c4f8f918dcbd0133a43d751a55`.
+The proposed snapshot precedes the final one-line clarification naming Vault
+Structure in next; trial next digest is
+`1e1d10784db6729ffba668afea32a337b45e0138c26bee13a910df70a90e40be`, final is
+`047e4fa93fd69cfc9ef2debb0e20953c43f088b08d6cf914a4a4772b67d28123`.
+Final source passed deterministic checks; do not call the frozen pilot an
+exact-byte behavior test of that final clarification. The parent independently
+checked supplied synthetic source bytes against the materialized fixture after
+both trials; that check does not attest all tool calls or all possible side effects.
+
+Comparison is INCONCLUSIVE: both arms satisfy the visible output requirements;
+no new direct/no-skill arm, repeated samples, independent actual model/effort
+attestation, billing, token or latency measurement was obtained. Requested trial
+model/effort was gpt-6.1-sol/low; actual identity remains unverified. The source
+reviewer was separately requested as gpt-6.1-sol/high and did not produce the diff.
+The inventory variant is NOT-RUN for model behavior (existing deterministic
+reader/page tests passed); shared-index runtime, fresh-installed discovery,
+real user adoption, Claude behavior and effect remain NOT-EXERCISED/unknown.
+No push, merge, deployment or effect status follows from these source checks;
+publication receipts, when available, identify only their exact source revision.
+
 ## Recorded direction: natural-request next/lens/compose outcome workflows
 
 The user explicitly requested recording the agreed direction as a GitHub issue.

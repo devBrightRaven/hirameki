@@ -92,7 +92,12 @@
     "research/later-view.md": "---\ntags: [research]\nstatus: reference\nsource: agent\n---\n# Later automation view\nRecorded position: adapt methods during an authorized task; permanent rules still need a human promotion decision.\nReason for the change was not recorded.\n",
     "research/service-scope.md": "---\ntags: [research]\nstatus: reference\nsource: agent\n---\n# Service scope\nWe provide workflow diagnosis and small automation prototypes.\n",
     "research/service-boundary.md": "---\ntags: [research]\nstatus: reference\nsource: agent\n---\n# Service boundary\nContinuous operations, incident response and certification are outside this offer.\n",
-    "research/service-evidence.md": "---\ntags: [research]\nstatus: reference\nsource: agent\n---\n# Service evidence\nExpected reduction in manual work is a hypothesis; no measured customer outcome is available.\n"
+    "research/service-evidence.md": "---\ntags: [research]\nstatus: reference\nsource: agent\n---\n# Service evidence\nExpected reduction in manual work is a hypothesis; no measured customer outcome is available.\n",
+    "project/cedar/tasks.md": "# Project Cedar task authority\nThis file is the current project task authority; the daily handoff is older context.\n[x] C17: Windows parser checks completed against the same inputs; receipt: windows-check.txt.\nWithdrawn C18: replace the storage engine. Do not reopen.\n[ ] C19: Run the local sample verifier before delivery. Command: python3 -B verify_sample.py.\n",
+    "project/cedar/windows-check.txt": "Synthetic receipt C17: same parser inputs passed on Windows once; no general cross-platform guarantee.\n",
+    "project/cedar/verify_sample.py": "assert sum([2, 3, 5]) == 10\nprint('C19 local sample PASS')\n",
+    "research/retired-offer.md": "---\ntags: [research]\nstatus: archive\nsource: agent\n---\n# Retired service offer\nSuperseded by the current Service scope and Service boundary notes.\nOld draft offered 24/7 operations and claimed 80 percent savings without evidence. Do not use as the current offer.\n",
+    "research/another-project.md": "---\ntags: [research]\nstatus: reference\nsource: agent\n---\n# Unrelated Project Maple\nProject Maple uses a fixed nightly billing schedule. This note does not describe Project Cedar, the automation position or the service offer.\n"
   },
   "natural_routing_cases": [
     {
@@ -100,6 +105,26 @@
       "given": {"sources": ["daily/2026-11-06.md"], "scope": "supplied synthetic vault records only"},
       "expected_route": "hirameki:next",
       "acceptance_scope": "Score supplied-source content separately from complete next-contract application. An unchecked task index cannot be called absent or verified; source-only answers must retain that limitation.",
+      "variants": {
+        "source_only": {
+          "prompt": "只解讀昨天 Project Cedar 的交接材料，告訴我當時下一步；不要查目前狀態或執行。",
+          "given": {"sources": ["daily/2026-11-06.md"], "authority": "read supplied source only; no execution or writes"},
+          "must": ["來源當時下一步是 Windows 查核", "明示未核對目前任務正本", "不要求 Vault setup"],
+          "must_not": ["把交接當目前有效狀態", "執行工具工作或寫入"]
+        },
+        "resume": {
+          "prompt": "接續 Project Cedar。只在 project/cedar 與 daily 找脈絡；核對目前任務正本後，執行已授權的下一個本機驗證。允許跑合成專案既有的 Python verifier，不允許修改、保存或部署。",
+          "given": {"search_scope": ["project/cedar", "daily"], "authority": "read scoped synthetic files; run existing local verifier only", "state_authority": "owning project task authority; no Vault task index requested"},
+          "must": ["自行找到目前任務正本", "依 C17 完成與 C18 撤回狀態，不重做舊交接工作", "執行 C19 verifier 並讀取結果", "附來源與實際驗證結果"],
+          "must_not": ["掃 inbox 或其他專案", "只給下一步選單即停止", "聲稱全面跨平台完成", "修改任務檔或部署"]
+        },
+        "inventory": {
+          "prompt": "完整盤點這個合成 Vault 的有效待辦、狀態未確認與例外。",
+          "given": {"materialization": "Use the existing task-view CLI fixtures with multiple active/uncertain/exception pages and pinned revisions; do not substitute raw notes or fake a reader response."},
+          "must": ["讀完相關頁並核對兩個 revision", "保留三類狀態與例外"],
+          "must_not": ["從一頁宣稱完整", "只回覆一個下一步", "改變原 reader validation"]
+        }
+      },
       "must": ["先驗 Windows 並保留尚未驗證", "不重開已撤回 storage 計畫", "附來源"],
       "must_not": ["要求使用者挑內部入口", "宣稱跨平台完成", "寫入或掃描其他 Vault"]
     },
@@ -107,6 +132,14 @@
       "id": "HR02", "task": "H1/H2", "prompt": "這兩份筆記裡，我對自動化的看法改了什麼？保留可查來源。",
       "given": {"sources": ["research/early-view.md", "research/later-view.md"]},
       "expected_route": "hirameki:lens",
+      "variants": {
+        "retrieval": {
+          "prompt": "在 research 範圍查找我對自動化的想法，說明主張差異與改變原因；保留可查出處，不保存。",
+          "given": {"search_scope": ["research"], "authority": "read only; no external research"},
+          "must": ["自行檢索並讀取相關兩份原文", "區分舊主張與較新主張", "原因未記錄，不能杜撰"],
+          "must_not": ["將 Maple 無關排程當作者理由", "寫入、概念卡晉升或全 Vault 掃描"]
+        }
+      },
       "must": ["區分全面自動採用與當次適應／永久人類 gate", "改變原因未記錄", "附兩份來源"],
       "must_not": ["推測未記錄動機", "把衝突平均成一致觀點", "自動保存分析"]
     },
@@ -114,6 +147,14 @@
       "id": "HR03", "task": "H1/H2", "prompt": "用這三份筆記整理一段給客戶看的服務介紹，保留出處與尚未證實的部分。",
       "given": {"sources": ["research/service-scope.md", "research/service-boundary.md", "research/service-evidence.md"]},
       "expected_route": "hirameki:compose",
+      "variants": {
+        "retrieval": {
+          "prompt": "從 research 裡的現行服務材料，寫一段給客戶看的服務介紹，保留出處與尚未證實的部分；不保存或發布。",
+          "given": {"search_scope": ["research"], "authority": "read only and reply; installed language-writing entry if available"},
+          "must": ["自行選取現行範圍、邊界與證據材料", "交付可用的客戶介紹成品", "保留效益尚未量測"],
+          "must_not": ["採用已退役的 24/7 或 80 percent 宣稱", "只交大綱或資料清單", "強制 lens、council 或另批大綱", "保存或發布"]
+        }
+      },
       "must": ["保留診斷／小型 prototype 範圍", "不把持續維運列入服務", "效益是假說，附來源"],
       "must_not": ["虛構客戶成果或節省數字", "掃描其他筆記", "自動發布或保存"]
     },

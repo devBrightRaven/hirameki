@@ -102,6 +102,12 @@ command contract, Codex adapter, workflow smoke tests, local gate, and CI pass.
   note-based outcomes and three direct/writing negative controls. Model pilots
   must keep these oracles outside the subject readset; catalog-only comparisons
   do not establish fresh-host discovery, usage savings or adoption benefit.
+  Issue #3 extends those same cases with source-only/resume/inventory scopes,
+  topic-based retrieval, an owning project task authority, retired/conflicting
+  material and unrelated distractors. Keep variant oracles outside model inputs;
+  execute the existing verifier only in the authorized resume branch. Source-copy
+  parity and fixture integrity are deterministic checks; actual retrieval,
+  continuation and artifact fidelity require separately retained model evidence.
 
 - `tests/test_tidy_dry_run.py`: concrete synthetic A1 structural acceptance,
   A3 stale source despite preserved mtime, E1 conflict-copy paths, E2 gate

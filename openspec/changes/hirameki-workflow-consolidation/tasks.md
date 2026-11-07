@@ -94,9 +94,13 @@ other owners' worktrees retain their existing boundaries.
   one umbrella, conditional natural-request
   selection and preserved explicit commands; scope-aware next resumption,
   question-driven evidence retrieval and source-based finished artifacts. Extend
-  existing HR01–HR06 with retrieval/state/negative controls; workflow bodies and
-  fresh-runtime benefit remain unimplemented/unverified. This line uses the
-  existing H1/H2/H3 work, not a second progress ledger.
+  existing HR01–HR06 with retrieval/state/negative controls. Issue #3 workflow
+  bodies now have shared/Codex source changes, fixture variants and a passing
+  source suite. Two seven-case source-supplied pilots produced usable results
+  in both current/proposed arms; comparative benefit remains inconclusive.
+  Inventory model acceptance, fresh-runtime loading, Claude behavior and effect
+  remain unverified. Evidence and limitations are in workflow-reconciliation.md;
+  this uses existing H1/H2/H3 work, not a second progress ledger.
 - [ ] H3 (2.1, 5.1): Extend existing canonical shared contracts with applicability,
   prerequisites, execution options, dependencies, verification, side effects,
   authorization, stop conditions and runtime adapter status. Reconcile adaptive

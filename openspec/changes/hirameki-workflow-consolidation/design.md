@@ -272,8 +272,10 @@ remain compatible. Selection is conditional model routing, not an always-on hook
 background watcher, new permission or proof of installed-host behavior.
 
 This extends H1/H2/H3 and the existing HR01–HR06 acceptance surface. It is the
-workflow-body direction following the already published UI/README-only change;
-the following body changes are not yet implemented, deployed or effect-verified.
+workflow-body direction following the already published UI/README-only change.
+At direction recording the body changes were not implemented. The subsequent
+issue #3 source checkpoint in workflow-reconciliation.md records implementation
+and bounded tests; deployment, fresh-host loading and effect remain unverified.
 Existing question-driven lens, purpose-driven compose, task reader, language
 skills, source contracts and save gates are reused rather than duplicated.
 

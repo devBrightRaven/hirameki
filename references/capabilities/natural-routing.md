@@ -15,6 +15,14 @@ selected contract. Do not discard it as if only text after a command name counte
 Do not ask the user to select an internal capability or announce a routing menu.
 Resolve vault configuration only if the selected operation needs a vault read/write.
 
+Load the selected workflow before its tools; read any required tool/skill
+contract and use only capabilities actually available in the host. These are
+prompt workflows, not executable tools named next/lens/compose: do not invent an
+API call or install another router. Use existing search/file/Obsidian tools for
+bounded retrieval, the existing task reader for effective task state and the
+available language-writing entry for sourced artifacts. Missing tools are a
+reported limitation, not permission to read another agent's runtime.
+
 Boundaries:
 - A code-task status question that current repository evidence answers does not
   require a vault scan. next is useful for recorded continuity and task views.
