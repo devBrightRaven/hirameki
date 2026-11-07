@@ -257,3 +257,56 @@ resume and outcome binding. Fixture criteria are not model results. Any pilot
 must first have a bounded authorized resource budget, isolated inputs, controlled
 A/B/C conditions and recorded cost limitations. Dynamic composition remains
 inconclusive until comparative results justify its overhead; do not force its use.
+
+### Implementation sequence and repository responsibilities
+
+This is the reviewable plan for H1–H6, not a second checklist. Keep tasks.md as
+the integration progress authority and use workflow-reconciliation.md for evidence.
+Existing repo-local task authorities remain authoritative for their own work;
+link their acceptance IDs rather than copying their checkboxes into this change.
+
+| Batch | Concrete change | Evidence before advancing |
+|---|---|---|
+| 1: reconcile (H1/H3) | Freeze source/installed/native revisions and list contract conflicts; reconcile inline/delegated selection, review tiers and completion authority with current Shikigarasu | Owner-confirmed contract mapping; explicit compatibility/rollback proposal; no silent lowering of review requirements |
+| 2: consolidate (H2) | Prioritize daily engineering/routing entries and the 28 old-baseline coverage gaps; propose KEEP/MERGE ENTRY/REFERENCE ONLY/RETIRE with consumers and recovery | Per-entry rationale and consumer checks; high-impact dispositions remain provisional without behavioral controls |
+| 3: implement (H3/H4) | Apply bounded approved source changes at their actual owner; deliver shared semantics through native adapters; reuse existing metadata/references | Focused deterministic checks, relevant packaged-payload checks and independent review; adapter gaps remain explicit |
+| 4: pilot (H4/H5) | Exercise simple, independent, context-sensitive and failed-method tasks first; then applicable AH/SW branches, including resume and negative permissions | Frozen inputs/model/effort/tools/resource limit; runtime-specific results, side effects and failure history; zero unexplained live writes |
+| 5: compare and feedback (H5/H6) | Compare existing/consolidated/adaptive variants; link reusable failures via the existing candidate/proposal/experiment mechanisms | Measured quality, latency, retries, intervention and available usage; missing billing remains unknown; no claim C beats B without evidence |
+| 6: deliver (H6/G7) | Publish reviewed source only when authorized, then separately approve/deploy named targets and run fresh-session checks | Source/payload/installed/loaded/behavior/outcome recorded separately; seven-day or ten-relevant-session observation window begins only after approved deployment |
+
+Batching does not require waiting for every repo: local inventory and safe
+consolidation can proceed while a native/dream owner resolves an interface.
+Do not start a dependent adapter integration on an assumed interface.
+
+| Repository | Owns this change | Existing entry / proposed routing |
+|---|---|---|
+| dotcodex | Skill/instruction rationalization, Codex integration, auto-improve source, installer/test safety and source-to-payload mapping | Reuse Draft PR #7 for the current shared-workflow batch; existing instruction-audit artifacts hold dispositions/evidence. Separate a later incompatible refactor only if scope genuinely cannot fit |
+| Shikigarasu | Native execution/dispatch, outcome-based routing, review-policy implementation and resume/closure semantics | First compare current upstream implementation against required behavior; propose only remaining compatibility gaps. No new dispatcher. No open issue/PR found in the current read-only inventory; a new bounded issue is proposed only after deduplication |
+| Hirameki | Existing integration design/tasks, candidate writer, provenance/recovery, shared SW/AH acceptance and handoff | Reuse issue #1 and Draft PR #2; retain the current OpenSpec change rather than creating a parallel harness specification |
+| akegarasu-no-yume | Native experience/lesson/use/outcome and dream-side exchange | Original Claude owner confirms existing task and interface; request minimal revision-bound input/output examples and receipts. Existing open defect PRs do not establish completion of this interface; no takeover or speculative new implementation |
+| Tsukuroigarasu | Its existing product and maintenance/preflight interface | Reference original owner's existing issue/PR and supplied contract; do not turn it into general orchestration or take over its worktree |
+| dotclaude | Claude-native integration and its own deployment | Original owner validates shared semantics in Claude and reports native loading/behavior separately; Codex does not modify its runtime or worktree |
+
+### Publication proposal and approval boundaries
+
+Use Hirameki issue #1 as the cross-repo integration index, linking the one
+authoritative OpenSpec change, repo-local tasks/PRs and named owners. dotcodex
+PR #7 may contain a concise navigation summary, not a second integration checklist.
+Do not repurpose dotcodex issue #3: its existing constitution/navigation scope
+and integration owner are different.
+
+Before GitHub writes, prepare the exact affected source diff, issue/PR text,
+branch, tests, remaining failures and exclusions. The user's previous push delay
+still applies; the planning question is not publication permission. The first
+publication batch, when approved, can push the two existing workflow branches
+and update Hirameki #1/#2 and dotcodex #7. Shikigarasu and dream-side issue texts
+must be independently bounded/deduplicated and respect owner authority; adding a
+tracking issue never authorizes code changes in another owner's worktree.
+No merge, release, deployment, hook, schedule or paid experiment is implied.
+
+Current main-thread model/effort selection is retained. For bounded mechanical
+inventory work, gpt-6.1-sol/low is a candidate configuration to compare with the
+user-selected gpt-6.1-sol/high; this is task-fit judgment, not measured cost or
+quality equivalence. No total-cost saving or account availability is established.
+Keep acceptance constant and reassess only with relevant failures or actual usage;
+do not start a model comparison or change settings merely to complete this plan.
