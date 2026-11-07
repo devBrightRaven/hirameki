@@ -1,5 +1,26 @@
 # 整體工作流對帳 — 2026-11-04
 
+## Verified correction delivery checkpoint
+
+Corrected dotcodex source1b81184c1f695d349df148fea331415f76db5ac2 passed
+run42343627317 on windows-2025/job128316515935 and
+ubuntu-24.04/job128316516264. Windows logs show273 deployment-script tests and
+138 repository tests (one explicit repository skip), both steps successful.
+Hirameki4eb565a9eaebc5910610f729f7040def0f75b2f0 passed42343633029.
+This supersedes the pending-CI snapshot below for those named source revisions,
+not their retained failures. Native Windows unit execution is proven; genuine
+app-server/model loading, full payload, deployment and effects remain unverified.
+
+Existing authorized writer created/read back minimal candidate
+`yatagarasu-20261107-discovery-path-alias`,1,541bytes,SHA-256
+`82f7946f6e27d33c62f8e5db055efeb833c8307262f66a741800d0a48d4e6932`.
+One origin-owned event links CI failure→authorized project-code fix→unit-CI
+result. No raw session/runtime, secrets, private note paths or conversation body
+published; no rule promotion, new store, Dream intake or sync success inferred.
+The source-only correction and evidence are on the same authorized branch/PR;
+no merge/release/deployment occurred. H1/H3 full host/runtime/owner scopes remain
+open, alongside the unchanged AH10/Claude/cross-machine/effect dependencies.
+
 ## Native Windows counterexample and entry-origin correction
 
 Published dotcodex 2150f99 / Hirameki 2aa1a86 are verified remote/Draft PR heads;

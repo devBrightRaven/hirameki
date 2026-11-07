@@ -60,6 +60,14 @@ BLOCKs remain recorded. Corrected native Windows CI is pending at this snapshot;
 use exact-head PR Checks/receipt for its subsequent result. No loader/deployment/
 effect completion follows from these tests; H1/H3 full scopes remain open.
 
+Subsequent exact-revision receipt: corrected source1b81184 passed native Windows
+and Ubuntu run42343627317; Windows273 script tests and138 repository tests(one
+skip), both steps successful. Hirameki4eb565a passed42343633029. Prior pending
+snapshot/2150f99 FAIL/P2 BLOCKs remain historical; no app-server/model loading or
+deployment implied. Existing writer saved/read back minimal candidate
+yatagarasu-20261107-discovery-path-alias (1,541bytes/hash in reconciliation),
+without permanent promotion, ingestion or sync claims. H1/H3 still open.
+
 ## 2026-11-07 Harness consolidation extension
 
 User directive extends this change to shared harness rationalization and adaptive
