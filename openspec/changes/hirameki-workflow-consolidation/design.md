@@ -242,13 +242,16 @@ explicit-only. No permanent universal entry, dispatcher, model ladder or durable
 runtime is introduced. Native adapters continue to own dispatch and persistence.
 
 Upstream Shikigarasu source e31c4dd463bfda3959c6f62002b53ba754c65f21 already
-supports outcome-based inline/delegated work and frozen review tiers. The local
-checkout inspected at 3bf7c1395cfc4752aaa27f892987dd05906ba8fa predates that
-design; dotcodex's shared common contract still has legacy two-pass queue closure.
-This is a compatibility gap, not evidence that upstream lacks adaptive routing.
-Do not lower that shared gate or install newer payloads implicitly. Aligning the
-native and shared closure policies requires a separate reviewed source diff and
-adapter-specific acceptance; this extension preserves the legacy gate meanwhile.
+supports outcome-based inline/delegated work and frozen review tiers. At the
+initial reconciliation, the inspected local checkout 3bf7c1395cfc4752aaa27f892987dd05906ba8fa
+and dotcodex's then-legacy-only shared closure contract lagged that design; this
+was a compatibility gap, not evidence that upstream lacked adaptive routing.
+The subsequent dotcodex fa423fe source includes independently reviewed shared
+alignment: a verifiable authorized native policy frozen before work may apply;
+stricter user/project requirements, two independent reviews for high-risk/gate
+changes and legacy two-pass fallback remain. Native adapter acceptance,
+installation and actual runtime closure are separate and still unverified.
+Do not infer deployment or silently lower a gate from this source alignment.
 
 AH01–AH12 extend the existing SW manifest. Validation records separate direct
 execution, suitable skills, disjoint delegation, continuity, justified composition,
@@ -281,7 +284,7 @@ Do not start a dependent adapter integration on an assumed interface.
 | Repository | Owns this change | Existing entry / proposed routing |
 |---|---|---|
 | dotcodex | Skill/instruction rationalization, Codex integration, auto-improve source, installer/test safety and source-to-payload mapping | Reuse Draft PR #7 for the current shared-workflow batch; existing instruction-audit artifacts hold dispositions/evidence. Separate a later incompatible refactor only if scope genuinely cannot fit |
-| Shikigarasu | Native execution/dispatch, outcome-based routing, review-policy implementation and resume/closure semantics | First compare current upstream implementation against required behavior; propose only remaining compatibility gaps. No new dispatcher. No open issue/PR found in the current read-only inventory; a new bounded issue is proposed only after deduplication |
+| Shikigarasu | Native execution/dispatch, outcome-based routing, review-policy implementation and resume/closure semantics | Reuse bounded issue #2, created after the initial deduplication and publication ruling. Upstream comparison and synthetic closure-checker controls are evidence in reconciliation; actual adapter acceptance remains separate. No new dispatcher or other-owner worktree change |
 | Hirameki | Existing integration design/tasks, candidate writer, provenance/recovery, shared SW/AH acceptance and handoff | Reuse issue #1 and Draft PR #2; retain the current OpenSpec change rather than creating a parallel harness specification |
 | akegarasu-no-yume | Native experience/lesson/use/outcome and dream-side exchange | Original Claude owner confirms existing task and interface; request minimal revision-bound input/output examples and receipts. Existing open defect PRs do not establish completion of this interface; no takeover or speculative new implementation |
 | Tsukuroigarasu | Its existing product and maintenance/preflight interface | Reference original owner's existing issue/PR and supplied contract; do not turn it into general orchestration or take over its worktree |

@@ -1,5 +1,79 @@
 # 整體工作流對帳 — 2026-11-04
 
+## H1 declaration coverage and source-bound discovery feature — 2026-11-07
+
+Prior goal turn was progress: engineering pilot/capture evidence published as
+dotcodex c38b102 and Hirameki 7e84223, both Draft PRs open/unmerged and exact-head
+CI completed/success. This batch adds a bounded verification feature and census
+coverage; it does not install the preceding source or close H1/H3.
+
+The existing dotcodex baseline now links source-digested declarations using their
+existing loaders: 37 external skill rows, seven marketplace sources, 19 plugin
+selectors and intended discovery policy. It preserves the entire old canonical
+118-row census, hashes, dispositions and stages unchanged. Missing declaration
+ref is not proof an external checkout is unpinned; counts are not independent
+capabilities. No third-party skill contents were copied or cache updated.
+
+Existing bootstrap_plugins.current_state ran only read-only CLI marketplace-list
+and plugin-list queries. A second query independently checked the serialized
+sanitized selected receipt: all 19 configured public selectors were listed;
+18 enabled, Superpowers 7.0.2 disabled and unchanged. Declared Git marketplace
+sources matched. Hirameki 2.3.3 and native Shikigarasu
+0.3.1+codex.20260822210609 are observed CLI versions, not source/payload/loaded
+proof. Gmail/Sites were listed installed even though their host marketplace
+metadata was unavailable; no provider repair followed. Thirty-eight additional
+installed selectors are outside the selected receipt. Only selected public IDs,
+versions and enabled/source-type claims are retained, no raw CLI paths/config.
+Upstream internal CLI effects were not audited; no add/remove/upgrade/app-server
+or model turn was requested. This is not full host inventory or native behavior.
+
+### Existing checker reused, not another registry
+
+scripts/check_runtime_skills.py previously verified unique enabled names and
+reported their hashes, with CLI output incorrectly labelled loaded. Its new
+opt-in source-baseline/native-root/shared-root arguments reuse the canonical
+census for selected entry identity/path/raw digest. Missing/duplicate/malformed
+selected bindings and invalid approved roots fail before child startup. Wrong
+reported origin is rejected before reading bytes; containment and exact entry
+hash are checked. Names-only API/manifests remain discovery-only and explicitly
+parity unchecked. CLI summary becomes discovered/evidence_scope; no direct repo
+consumer found, but unknown external loaded-key consumers need migration.
+
+Twelve focused controlled in-memory Popen/stream tests passed; these are not a
+real app-server transport, actual model load or subprocess termination experiment.
+Two fresh independent reviewers discovery_binding_review_one/two, requested
+sol/high with actual identity unverified, passed final scope. Their extra probes
+cover construction of all 118 source bindings, 14 legacy delivery names, malformed
+paths/roots and mocked Windows creationflags; no native Windows run is claimed.
+
+Second reviewer identified a nonblocking Windows drive-component normalization
+edge, not a proven root escape. Producer added colon rejection plus a two-case
+direct regression. Independent reviewer isolated the pre-final helper with SAME
+new regression: exit 1, two expected ValueError-not-raised failures; current full
+12 tests green/exit 0. Exact reconstructible pre-final condition, hashes, method
+and consumer/runtime limits are in existing dotcodex forward-tests, not only /tmp.
+
+Final helper SHA-256:
+`1e31df4b766c0d62a1e74f1920c84bd9db9497c98ebfdf57fc1228fcc695f79b`;
+final tests:
+`fa65b9902f2bfc649ac1c1b520812ddeb594709d1a2b630422f1d146f3cd7d6a`.
+
+This feature checks SKILL.md entry bytes, not whole payload, reference loading,
+model selection/behavior or effect. Root binding is not process isolation or a
+concurrent-filesystem sandbox. The helper still inherits parent environment and
+may expose private paths/raw loader errors locally; no genuine app-server was
+started for these tests. Existing nonfatal group discovery_errors and continuous-
+unrelated-message timeout remain explicit limits. No install/deployment, owner
+worktree change or governance/review-policy weakening occurred. The design's
+initial legacy-only compatibility paragraph is now clearly historical; actual
+source alignment and still-open runtime acceptance are separated.
+
+A fresh public-main/issue read found Akegarasu main still adca434 and no comments
+on existing interface issue #13. This is only GitHub state there, not absence of
+other-channel work or authorization to take over Claude/native/dream ownership.
+H1 full host inventory, H3 adapter acceptance, AH10/Claude, installed fresh-runtime
+and effects remain open; current metadata/feature tests do not close them.
+
 ## Engineering pilot and corrected capture acceptance — 2026-11-07
 
 This batch uses unchanged dotcodex fa423fe production source; edits made by test

@@ -39,6 +39,19 @@ receipt authenticity/runtime closure claims. H1–H6 remain open; original AH05,
 AH10/Claude, installed/fresh-runtime and effects are still unverified. See existing
 reconciliation and dotcodex forward-tests/engineering evidence artifact.
 
+H1/H3 verification batch: existing baseline now links 37 external declarations,
+seven marketplaces, 19 plugin selectors and intended discovery policy; canonical
+118 rows unchanged. Selected CLI receipt observes 19 installed/18 enabled,
+Superpowers disabled preserved; 38 unselected IDs outside coverage. Existing
+runtime-discovery checker gains opt-in baseline/root/entry-hash binding, preserves
+names-only API, and replaces misleading CLI loaded label with discovered/scope.
+Twelve controlled-Popen tests and two independent scoped source reviews passed;
+Windows-path normalization hardening has independently reproduced same-test
+pre-final red/current green. No actual app-server/model load, native Windows,
+full payload or effects claimed; remaining timeout/raw-error/startup and external
+CLI-key compatibility limits are recorded in reconciliation/forward-tests.
+H1/H3 remain open for full coverage/adapter acceptance; no deployment authorized.
+
 ## 2026-11-07 Harness consolidation extension
 
 User directive extends this change to shared harness rationalization and adaptive
