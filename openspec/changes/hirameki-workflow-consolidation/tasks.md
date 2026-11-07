@@ -98,8 +98,11 @@ other owners' worktrees retain their existing boundaries.
   bodies now have shared/Codex source changes, fixture variants and a passing
   source suite. Two seven-case source-supplied pilots produced usable results
   in both current/proposed arms; comparative benefit remains inconclusive.
-  Inventory model acceptance, fresh-runtime loading, Claude behavior and effect
-  remain unverified. Evidence and limitations are in workflow-reconciliation.md;
+  A subsequent HR01 inventory trial exercised the exact source payload and
+  native reader calls across two pinned pages; retained tool events, independent
+  replay and before/after hashes support this bounded PASS. Fresh-installed
+  discovery, Claude behavior and effect remain unverified.
+  Evidence and limitations are in workflow-reconciliation.md;
   this uses existing H1/H2/H3 work, not a second progress ledger.
 - [ ] H3 (2.1, 5.1): Extend existing canonical shared contracts with applicability,
   prerequisites, execution options, dependencies, verification, side effects,

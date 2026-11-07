@@ -1,5 +1,62 @@
 # 整體工作流對帳 — 2026-11-04
 
+## Issue #3 follow-through: native inventory tool-chain acceptance
+
+The user's subsequent request to continue implementation was applied to the
+remaining authorized local acceptance. Workflow source remains
+`5be3bc98b3a52b1244fb502ddfb73ad925c44bbc`; no new executable router or API was
+needed. This checkpoint supersedes the inventory NOT-RUN status below for this
+one bounded Codex trial, not for installed discovery or another runtime.
+
+HR01 inventory materialization reused the existing CommandViewTests setup and
+payload builder, with 22 extra active records, 26 unresolved records and 23 invalid
+restore requests. It used an explicit isolated registry and synthetic Vault,
+not a personal Vault or live registry. A fresh native child loaded the exact
+source payload and called its bundled task reader. Offset 0 and offset 20 were
+combined only with matching index/view revisions, yielding 24 active, 26 uncertain
+and 23 exception records. The answer retained each item, pending restore status,
+all invalid-record paths and `view_status=partial`; complete paging was not
+misrepresented as complete state validation or task completion.
+
+The parent inspected only that child thread's host-retained exec events, matching
+calls to outputs: skill/next/task/natural-routing/gate reads, explicit read-only
+route, first reader invocation, receipt read, full reread after tool-output
+truncation, second reader invocation with both revision pins, and second receipt
+read. Both CLI invocations exited 0. The first truncated presentation is retained
+as incomplete inspection; the later read returned complete bytes. Complete native
+readback matched both saved JSON receipts byte-for-byte. The parent separately
+executed the same reader against unchanged inputs and compared parsed results;
+the Vault's complete file set and hashes matched the pre-trial manifest.
+No restore, underlying task execution or source mutation was observed in this
+bounded tool history. This is stronger evidence than the earlier pilots' tool
+self-reports; those earlier results are not retroactively upgraded. A separate
+reviewer checked the frozen payload, native calls/readbacks, source hashes and
+all reported items: bounded inventory PASS, no required fixes. The reviewer
+confirmed observer-result equality but did not inspect the parent's own launch
+history; that independent reader launch is directly recorded by the parent.
+
+Private acceptance artifact set: `issue3-inventory-20261107`. Raw runtime records
+remain private and are not copied into this repository. Sanitized artifact hashes:
+
+| Artifact | SHA-256 |
+|---|---|
+| results.md | 414b72cde9e6d50afaf7c62278530660aa2bf8d441be7e6f2611338e44be9119 |
+| receipts/page-0.json | 3c356a531d124ab47d11b63c3737d0c332c5a6c707b4a7015b50b2280b7951b3 |
+| receipts/page-20.json | cea22d5a7a84089a13ac0291b743c89415026beb005f3fccc50d3ae8681fa0e1 |
+| tool-receipt-summary.json | 5d452cde65b31048bdeecebd244728e116a2854e8a223a51fabf77a3c7aa69fd |
+
+Host metadata records gpt-6.1-sol/low. Last thread usage counters report input
+815081, cached input 771968, output 5207 and total 820288 tokens; these counters
+include repeated/cached context and do not establish billing, price, provider
+identity or cost per successful task. No comparative savings are claimed.
+
+The configured installed plugin's next/lens/compose/natural-routing bytes were
+separately checked and differ from source; no installed payload was changed.
+Source-guided native acceptance does not demonstrate fresh-installed selection,
+ordinary-user adoption, Claude interoperability or improved cost/quality.
+Merge/deployment remain outside the current authorization. H1/H2/H3 full scopes
+remain open; use tasks.md for progress and issue #3/PR #2 for publication.
+
 ## Issue #3: workflow-body source implementation and bounded pilot
 
 The user subsequently authorized implementation of
