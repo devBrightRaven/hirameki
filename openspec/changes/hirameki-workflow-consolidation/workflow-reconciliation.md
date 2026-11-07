@@ -1,5 +1,33 @@
 # 整體工作流對帳 — 2026-11-04
 
+## Goal continuation: local delivery preflight and verifier correction
+
+The user requested continuation after privacy cleanup. The existing tracker still
+reports blocked and cannot be resumed through its status-update tool; authorized
+local work continued under H3/H6 without creating a new goal or task authority.
+Owner interface evidence, merge/deployment and effect observation remain separate
+dependencies; a blocked tracker does not turn source checks into deployment.
+
+Read-only preflight confirmed the source Codex payload includes the eight bundled
+reader/writer dependencies. Managed update preview exited 0 without executing
+pull/install/plugin updates. Its execute path refreshes all configured managed
+Git plugins, so approving a Hirameki source change alone is not approval for that
+broader runtime operation. Runtime backup/recovery and fresh-session acceptance
+must be scoped before a separately approved deployment; no private host profile
+or configuration snapshot is published here.
+
+Preflight exposed one local verification defect: expected source files could
+match while extra delivered skills/links were ignored. The existing dotcodex
+verifier now compares non-excluded file sets using identical source/destination
+rules, rejects extras with a count-only diagnostic and does not delete or modify
+the delivered directory. Same-test baseline red (two expected assertions)/current
+12-test green and independent review support this bounded correction; 21 related
+tests passed, with bootstrap/update calls mocked. The invocation error selecting
+a nonexistent test module is retained separately from the corrected test result.
+Exact regression methods and limitations are in the existing dotcodex
+forward-tests.md, not a second progress ledger. No native installed discovery,
+Windows junction or runtime behavior/effect claim follows from these tests.
+
 ## Public evidence privacy boundary — 2026-11-07
 
 This source-only cleanup withholds private installation/enabled-version inventory,

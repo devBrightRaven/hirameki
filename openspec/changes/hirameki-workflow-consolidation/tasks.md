@@ -113,6 +113,10 @@ other owners' worktrees retain their existing boundaries.
   Public evidence now withholds private installed/configuration evidence; broader
   privacy-contract work and independent review remain separately tracked by the
   integration owner within H3. This documentation cleanup does not close H3.
+  User-requested goal continuation completed a read-only delivery preflight and
+  corrected the existing dotcodex verifier's stale-extra-file acceptance, with
+  isolated red/green and independent review. No runtime/cache was changed; the
+  goal tracker remains blocked and merge/deployment retain their own approval.
 - [ ] H4 (6.2, 6.6): Add AH01–AH12 alongside existing SW01–SW08 fixtures; retain
   source/fixture hashes, prompt, actual tools, confirmable model/effort, selected
   path, child count, side effects, evidence and limitations. Separate runtime
