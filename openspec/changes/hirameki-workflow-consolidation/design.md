@@ -289,6 +289,12 @@ Do not start a dependent adapter integration on an assumed interface.
 
 ### Publication proposal and approval boundaries
 
+2026-11-07 subsequent user ruling: comprehensive GitHub publication and persistent
+goal creation are now explicitly authorized, followed by local implementation.
+The previous push delay described below is historical for this batch; merge,
+release, deployment and other ownership/cost boundaries remain unchanged.
+Published routing: Hirameki #1/#2, dotcodex #7, Shikigarasu #2 and Akegarasu #13.
+
 Use Hirameki issue #1 as the cross-repo integration index, linking the one
 authoritative OpenSpec change, repo-local tasks/PRs and named owners. dotcodex
 PR #7 may contain a concise navigation summary, not a second integration checklist.
@@ -296,8 +302,9 @@ Do not repurpose dotcodex issue #3: its existing constitution/navigation scope
 and integration owner are different.
 
 Before GitHub writes, prepare the exact affected source diff, issue/PR text,
-branch, tests, remaining failures and exclusions. The user's previous push delay
-still applies; the planning question is not publication permission. The first
+branch, tests, remaining failures and exclusions. At proposal time the user's
+push delay applied; the later explicit ruling above authorizes this publication
+batch. A planning question alone is not publication permission. The first
 publication batch, when approved, can push the two existing workflow branches
 and update Hirameki #1/#2 and dotcodex #7. Shikigarasu and dream-side issue texts
 must be independently bounded/deduplicated and respect owner authority; adding a

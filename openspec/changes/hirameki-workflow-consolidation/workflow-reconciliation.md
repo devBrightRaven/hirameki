@@ -1,5 +1,33 @@
 # 整體工作流對帳 — 2026-11-04
 
+## 2026-11-07 publication and continuing goal
+
+The user explicitly lifted the publication delay for this batch and requested
+a persistent goal with implementation starting before their return. The goal is
+active; it does not create another task authority or expand deployment rights.
+
+Both existing branches were pushed without force: dotcodex 7d0c681502b00aacbcc3d845cba88539643aac3a;
+Hirameki 2bba6acfe4e2ce1edcb0c313db23905502c8678f. Hirameki SSH access failed;
+HTTPS to the same repository succeeded without changing remotes or credentials.
+
+- Integration plan: https://github.com/devBrightRaven/hirameki/issues/1
+- Shared source: https://github.com/devBrightRaven/hirameki/pull/2
+- Codex/source integration: https://github.com/devBrightRaven/dotcodex/pull/7
+- Native/shared compatibility: https://github.com/devBrightRaven/shikigarasu/issues/2
+- Original-owner dream interface: https://github.com/devBrightRaven/akegarasu-no-yume/issues/13
+
+New issues were deduplicated against available existing issue bodies before
+creation. The GitHub connector lacked Shikigarasu write access, so the already
+authenticated gh client was used. gh pr edit failed on deprecated classic-project
+GraphQL fields; PR metadata was updated using the REST endpoint instead. Readback
+must establish titles, bodies, PR heads and Draft state, not just command exit.
+
+The first continuing implementation is H3: bounded shared/native selection and
+frozen review-policy compatibility in dotcodex source, with explicit legacy
+fallback, no automatic lowering, and independent review before acceptance.
+No owner worktree was taken over; Akegarasu issue creation is not owner receipt
+or delivery. No merge, release or deployment occurred.
+
 ## 2026-11-07 harness extension: local source, partial
 
 H1–H6 remain open. This is evidence for a bounded first implementation, not

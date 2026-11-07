@@ -1,5 +1,17 @@
 # Tasks
 
+Latest authorization, 2026-11-07: the user explicitly requested comprehensive
+GitHub publication and a persistent goal, followed immediately by implementation.
+This supersedes the earlier push delay for this harness batch: existing work
+branches, linked issue/PR updates and bounded repo issues are authorized. No
+merge/release/deploy, new paid experiments, permanent hooks/schedules or other
+owner worktree changes are authorized. The active goal owns continuation; this
+file remains the single integration progress authority.
+
+Published integration links: Hirameki #1 / PR #2, dotcodex PR #7,
+Shikigarasu #2, Akegarasu #13. H3 native/shared source implementation is in
+progress; publication and goal creation do not complete H1–H6.
+
 ## 2026-11-07 Harness consolidation extension
 
 User directive extends this change to shared harness rationalization and adaptive
