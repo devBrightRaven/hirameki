@@ -28,6 +28,17 @@ Its source-gap output yielded a reproduced queue JSON-object bug, a two-line
 local fix and independent same-test red/green. H1/H2/H4/H5/H6 stay open; see the
 current AH result matrix and installed-boundary evidence in reconciliation.
 
+Engineering/capture evidence batch: A/B/C repaired the identical historical queue
+defect with independent parent red/green/hidden CLI controls. B/C both chose direct;
+no adaptive gain or actual cost saving established (H5 broader INCONCLUSIVE).
+AH01/02/04/12 supplied/cohort branches passed within stated limits; AH08 first
+incomplete-prerequisite/frontmatter result is retained alongside corrected routed
+retest. AH09 promotion stayed bounded but unsupported owner assertion FAIL is
+preserved. Native closure checker passed 13 synthetic binding controls, without
+receipt authenticity/runtime closure claims. H1–H6 remain open; original AH05,
+AH10/Claude, installed/fresh-runtime and effects are still unverified. See existing
+reconciliation and dotcodex forward-tests/engineering evidence artifact.
+
 ## 2026-11-07 Harness consolidation extension
 
 User directive extends this change to shared harness rationalization and adaptive
