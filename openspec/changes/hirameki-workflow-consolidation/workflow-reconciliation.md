@@ -1,5 +1,44 @@
 # 整體工作流對帳 — 2026-11-04
 
+## 原 goal active 後的 installed next／capture（2026-11-08）
+
+使用者已恢復原 goal，Claude 本輪仍指定延後；#8／#4 merge 尚待批准。未重部署或
+改 skill，沿用已安裝 source 與既有 HR01 inventory／SW01 capture 分支，沒有給定
+正確 skill/reference 路徑。另在原 dotcodex baseline 補 immutable source delta：
+118 identities 無增減、116 entry bytes 未變、兩個 privacy entry 改變，skill-owned
+差異共六路徑；原 dispositions／consumer 與行為限制不自動升格。
+
+HR01 inventory：fresh invocation 讀 installed Hirameki→next／tasks／natural-routing
+及 gate，原生 reader offset0／20 與雙 revision pins 可定位。24 active、26 uncertain、
+23 exceptions 與 partial 均保留；pending restore 未被當成任務執行。兩頁原樣 tool
+readback 等於 saved receipts，parent 另跑 installed reader 得相同 parsed results；
+整個合成 Vault file-set／bytes 未變。這新增一次 installed next 證據，不覆蓋較早
+resume 的 NOT-EXERCISED，也不推論 compose 或普遍自然觸發。
+
+SW01 首輪 BLOCKED：parent 把 private staging 放進 Vault，subject 算出7、讀
+installed capture bridge／writer 契約，helper 路徑猜錯後自行修正，prepare 再因
+Vault 內 staging 拒絕。只有一份合成 draft 新增，pain-point 無候選；誠實 not-saved，
+不能把 exit0 當保存 PASS。保留此配置錯誤，沒有為它修改 writer 或驗收判準。
+
+更正 materialization 為 case root 的 vault/／private/，dispatch 前 assert private
+位於 Vault 外；同一合成事件由新 fresh invocation 重驗，不算新獨立觀察。它先把
+required key 拼成 pain_point 得 exit3，之後同一 explicit synthetic 根省略 required、
+讀 AGENTS 確認 pain-point，再 prepare／apply 回 created。parent 核對唯一候選、
+frozen base64 draft、plan hash、written bytes、target 全一致；fixture 原 bytes 未變，
+新增 note／draft／plan。限定 capture outcome 與 routing 過程分列；不宣稱所有 gates
+無錯。只保存單次陳述、影響、事件與未知，無整併／永久晉升／真實 Vault 寫入。
+
+三次均沿用既有 resolver 請求 sol/low，無 provider／billing 獨立認證；hook clamp
+仍可見，沒有 syscall 啟動副作用稽核。沒有 Claude／真實跨機／成本效果比較。
+原生事件與完整合成 receipts 留在本機；方法／歷史失敗見既有 dotcodex forward-tests。
+
+同輪 AH11：沿用既有 materialized_variant，operator 先用 installed writer 對合成
+目標 apply 一次，對 fresh subject 隱去回應，僅給相同 approved frozen plan/hash、
+stable synthetic task/run identity 與 replay 授權。Subject 先讀目標／plan／digest 再
+apply，同 writer 回 already_applied／written_bytes0；parent 核對唯一 receipt、
+note/plan hashes、全 case file-set／bytes 不變。沒有真實 native session 中斷或 resume，
+此分支不推出 durable runtime。仍請求 sol/low，provider／billing 未獨立認證。
+
 ## 已授權本機部署及 fresh Codex 驗收（2026-11-08）
 
 後續使用者明示「claude端暫時不驗」：Claude native／adapter 行為驗收在本輪列為

@@ -37,8 +37,17 @@ progress; publication and goal creation do not complete H1–H6.
 - H6/G1：本次交付分類線索以既有 installed writer 最小保存，exclusive create／exact
   readback 通過；candidate `yatagarasu-af6b3e1d-39e4-489f-82d9-853b1dcc449a`。
   只公開ID／結果，非 Dream ingestion、跨機整併、永久改善批准或效果。
-- 原 H1–H6／G1–G7 完整 checkbox 不變。既有 goal tracker 仍 blocked，工具不能轉回
-  active；不另建 goal，也不因來源合併或本機部署宣稱整體完成。其餘證據詳見對帳。
+- 使用者後續恢復原 goal 為 active；先前 blocked 及當時工具不能恢復的狀態留在歷史。
+  H1：同一 baseline 增加 immutable source delta 對帳，118 entry identity 未增減，
+  116 entry bytes 未變、兩個 privacy entry 改變；不自動更新歷史 disposition 或宣稱退役。
+  H2/H4：新 HR01 inventory fresh installed invocation 實際讀 next／tasks 並使用兩頁
+  reader／revision pins，parent observer/readback 與 fixture controls 一致；保留三類／partial。
+  H6/G1：SW01 installed 首輪因 parent staging 配置在 Vault 內而 BLOCKED，沒有保存；
+  更正為 Vault 外後的新 invocation 完成同一合成事件 create／exact readback。
+  拼錯 required key 的同根自修仍保留，capture outcome 不等於完整 routing compliance。
+  AH11 同 plan lost-response 重放使用 installed writer，already_applied／0 bytes，
+  整個合成 case 不變；不是實際 native session 中斷或 durable-runtime 驗收。
+  原 H1–H6／G1–G7 完整 checkbox 不變，不另建 goal／進度正本；細節與限制見對帳。
 
 以下為2026-11-07歷史 checkpoint，後續狀態以上述具名證據為準。
 
@@ -126,8 +135,9 @@ other owners' worktrees retain their existing boundaries.
   in both current/proposed arms; comparative benefit remains inconclusive.
   A subsequent HR01 inventory trial exercised the exact source payload and
   native reader calls across two pinned pages; retained tool events, independent
-  replay and before/after hashes support this bounded PASS. Fresh-installed
-  discovery, Claude behavior and effect remain unverified.
+  replay and before/after hashes support this bounded source PASS. Subsequent
+  named installed results are recorded in the current checkpoint above; Claude
+  acceptance is user-deferred this round and effect remains unverified.
   Evidence and limitations are in workflow-reconciliation.md;
   this uses existing H1/H2/H3 work, not a second progress ledger.
   Public-source privacy cleanup removes machine inventory/parity fingerprints,
@@ -143,8 +153,9 @@ other owners' worktrees retain their existing boundaries.
   integration owner within H3. This documentation cleanup does not close H3.
   User-requested goal continuation completed a read-only delivery preflight and
   corrected the existing dotcodex verifier's stale-extra-file acceptance, with
-  isolated red/green and independent review. No runtime/cache was changed; the
-  goal tracker remains blocked and merge/deployment retain their own approval.
+  isolated red/green and independent review. That historical preflight changed no
+  runtime/cache; later deployment authorization, active goal and remaining merge
+  boundary are recorded in the current checkpoint above.
 - [ ] H4 (6.2, 6.6): Add AH01–AH12 alongside existing SW01–SW08 fixtures; retain
   source/fixture hashes, prompt, actual tools, confirmable model/effort, selected
   path, child count, side effects, evidence and limitations. Separate runtime
