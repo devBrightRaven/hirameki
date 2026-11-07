@@ -44,6 +44,9 @@ progress; publication and goal creation do not complete H1–H6.
   green, independent native review and parent24CLI controls; user intervention0,
   operator correction1. AH10 Codex supplied-native/shared source-decision branch
   passed; Claude remains NOT-RUN, so global interoperability stays incomplete.
+  New AH03 trial now directly observes2 native workers with disjoint readsets,
+  running overlap and completed source-grounded integration;7 fixture files stay
+  unchanged. The older missing-alpha/initial topology limits remain historical.
 - Historical failures remain in reconciliation/forward-tests:SW03 first FAIL,
   AH03 topology/dispatch limits,AH08 missing-prerequisite/frontmatter first result,
   AH09 unsupported-owner FAIL,2150f99 Windows CI FAIL,intermediate P2 BLOCKs and

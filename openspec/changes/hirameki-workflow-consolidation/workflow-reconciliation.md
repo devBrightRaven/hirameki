@@ -1,5 +1,38 @@
 # 整體工作流對帳 — 2026-11-04
 
+## AH03 native topology directly observed in a new trial
+
+The unchanged AH03 prompt/source_copy_variant was exercised once more with its
+existing topology clarification supplied BEFORE dispatch. Frozen alpha/beta
+source/tests remain b67e7df; current supplied common/selection source515a276,
+hashes8681fae2/e2a96235. Fixturefde61b383b9366a4968a035245bb6e061fc9313da62035f96b5db78dc226b40b;
+material manifest5f15783c9778c0c9a5b1bf32ff6322248f31c374619392bfc165bed66397e5d4.
+Limits8minutes/24 collective reads/2 direct children/2 concurrent/no grandchildren,
+read-only supplied files, no network/test/module execution or real-profile change.
+
+Fresh subject ah03_dispatch_attested chose Delegated+Parallel, assigned exclusive
+alpha/beta source-test ownership and integrated both source-grounded results.
+Parent native inventory directly observed all3 running and later all3 completed;
+new-run child count2/observed grandchildren0/running overlap established. Parent
+AST verified9/21 public functions plus beta QueueError, and exact7-file set/all
+material+manifest hashes unchanged; both worktrees clean before evidence edits.
+Reported4 shell/read calls and actor tool counts are explicitly actor-reported,
+not independently attested full transcripts or a host-wide write audit. No
+post-dispatch operator correction/user intervention; observation timeout did not
+cause duplicate dispatch. Expected/actual cost unknown, actual model unverified.
+
+Scoped PASS for this original AH03 source-comparison branch; full receipt and
+public API/gap examples are in existing dotcodex baseline/forward-tests. Beta's
+historical non-object JSON lead is already fixed in current source, not a new
+defect/event. Older initial topology BLOCKED and missing-alpha evidence remain;
+this does not attest their historical child count or parallel timing. Supplied
+source/reference use is not installed discovery, current-code coverage, Claude,
+ablation/cost benefit, deployment or effect. H4/full H1–H6 scopes remain open.
+Fresh independent artifact review PASS checked hashes/source equality/AST names,
+cited gap examples and evidence boundaries, not past tool execution or cost/model
+identity. Native subject/workers/reviewer do consume runtime model resources;
+this is not a zero-model-turn experiment or extra external-provider comparison.
+
 ## All canonical entries: isolated native metadata acceptance
 
 Source75cd4e2 extended the already reviewed namespace/foreground/stdin-audit method
