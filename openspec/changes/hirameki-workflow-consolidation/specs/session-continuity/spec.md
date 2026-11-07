@@ -4,6 +4,50 @@
 
 ## ADDED Requirements
 
+### Requirement: Exclusive creation for authorized minimal candidates
+明示常設候選保存授權下的新建候選 SHALL 使用既有 exact-append helper 的獨占建立模式，凍結完整 UTF-8 草稿與計畫後才 apply；準備階段不得建立 Vault 目標。目標必須位於已選定且存在的資料夾，MUST NOT 覆寫碰撞、連結或未知狀態。僅 fsync 與完整讀回相符才回 created 收據，包含目標、計畫、草稿與結果 hash；收據不證明跨機同步、事件去重或下游接收。既有追加計畫保持相容。
+
+#### Scenario: Another writer creates the target after preparation
+- **WHEN** 準備後、apply 前，另一 writer 建立相同目標，即使內容相同
+- **THEN** 拒絕建立且保留原 bytes，不將相同內容推定為本操作先前成功。
+
+#### Scenario: New note has uncertain readback
+- **WHEN** 已開始建立或寫入，但寫入、fsync 或讀回失敗
+- **THEN** 標 write_unverified，停止受影響批次；不自動刪除、覆寫或重試，不能宣稱 saved。
+
+### Requirement: Contextual microlearning without task interruption
+微學習 SHALL 取材自當前工作中有來源的概念、取捨或已驗證教訓，每次最多提出一個短片段，包含概念、當前例子及可選的下次應用。SHALL 在自然完成節點呈現，不要求使用者答題或開新學習任務。高負荷工作中 MUST 延後到收尾；沒有新價值或使用者要求安靜時不呈現，不以每輪配額產生內容。一次片段不是已學會的證據。
+
+#### Scenario: Useful concept after completed work
+- **WHEN** 工作已完成一個自然節點，且有可追溯、尚未重複呈現的相關概念
+- **THEN** 最多提供一個簡短片段並連結當前例子；不增加批准或答題停點。
+
+#### Scenario: User is concentrating or declines learning
+- **WHEN** 使用者正在大型改動、排錯，或明示本輪不需學習提醒
+- **THEN** 不插入教學；可在原候選草稿保留待整理線索，但未獲保存授權不持久寫入。
+
+### Requirement: Evidence-based learning map and optional review
+學習地圖 SHALL 使用既有選定 Vault 的知識紀錄與來源連結，不新增私人 runtime 學習正本。片段須區分已呈現、使用者自評、實際應用證據與未知；MUST NOT 由閱讀、沉默、重複次數或 agent 推論標為已掌握。相同概念優先連回既有紀錄；有新例子或反例才提追加。回顧 SHALL 在使用者要求或自然收尾提供可選的一個應用問題，允許略過，不新增排程、評分或強制複習。
+
+#### Scenario: Repeated concept without new evidence
+- **WHEN** 同一概念已呈現，沒有新例子、反例或使用者回顧要求
+- **THEN** 不重複教學、不新建紀錄，也不增加掌握程度。
+
+#### Scenario: Later independent application
+- **WHEN** 後續工作中有可定位的概念應用結果
+- **THEN** 將其視為應用證據候選，保留結果與限制，依既有保存 gate 提追加；不推論全面掌握。
+
+### Requirement: Bounded post-deployment observation
+部署後觀察 SHALL 由核准部署後的首個實際 session 起算七日或十個有相關機會的 session，以先到者為檢查點；沒有機會不計成功樣本。SHALL 分側記錄來源版本、已載入證據、機會、提醒、保存收據、拒絕／衝突與使用者回饋的最小摘要，不收原始對話。任何未授權寫入、錯誤 Vault、覆寫、重複套用或錯稱保存均為失敗，停止受影響寫入並提出修正；一般漏提醒記為未達成，不以其他成功抵銷。零樣本、未知載入或未部署 MUST 保持未驗證，不宣稱學習增益或普遍可靠。
+
+#### Scenario: Observation window has no eligible session
+- **WHEN** 七日檢查點到達但沒有符合條件的實際 session
+- **THEN** 報樣本為零、行為未驗證，不將無錯誤當成成功；後續觀察安排由使用者決定。
+
+#### Scenario: Save receipt contradicts reported success
+- **WHEN** 工作流宣稱 saved，但沒有可定位的成功讀回收據或收據與目標不符
+- **THEN** 該項驗收失敗，保留未知寫入狀態，停止受影響批次並查證，不自動重試。
+
 ### Requirement: Current state outranks repetition
 next SHALL 依相關 handoff、明示決策及實際結果判定待辦；頻率、mtime、未見 Done MUST NOT 單獨證明優先級、拖延或尚未完成。
 

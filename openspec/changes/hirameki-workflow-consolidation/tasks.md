@@ -1,5 +1,196 @@
 # Tasks
 
+Latest authorization, 2026-11-07: the user explicitly requested comprehensive
+GitHub publication and a persistent goal, followed immediately by implementation.
+This supersedes the earlier push delay for this harness batch: existing work
+branches, linked issue/PR updates and bounded repo issues are authorized. No
+merge/release/deploy, new paid experiments, permanent hooks/schedules or other
+owner worktree changes are authorized. The active goal owns continuation; this
+file remains the single integration progress authority.
+
+Published integration links: Hirameki #1 / PR #2, dotcodex PR #7,
+Shikigarasu #2, Akegarasu #13. H3 native/shared source implementation is in
+progress; publication and goal creation do not complete H1–H6.
+
+## Current checkpoint (2026-11-07)
+
+- H1/H2:118 canonical entries have scoped provisional dispositions;37 external
+  declarations,7 declared marketplaces and19selectors remain separately inventoried.
+  Private installed inventory, enabled/version state and per-entry parity
+  fingerprints withheld. Mekiki is located in existing Hirameki command/reference.
+  Existing-proxy initialize timed out before skills/list; discovery NOT-EXERCISED,
+  daemon status unknown. No skill retirement or all-skill model benefit is established.
+  Component lifecycle matrix links bounded preview/read-hash methods and Tsuku
+  c2ac1e3/source opt-in interface; private managed-file/resolver evidence withheld.
+  None implies deployment or active runtime loading.
+  User-entry pilot HR01–HR06 compares supplied catalogs/notes: B/C same routes
+  and core content; no measured gain. C next-index evidence incomplete; A later
+  native provenance unavailable. Keep task-first README/UI short_description,
+  restore original routing description/default_prompt; no forced invocation.
+- H3:shared outcome/frozen-policy alignment has independent source reviews.
+  Existing discovery checker now has opt-in source/root/entry-byte binding;
+  source1b81184 Windows/Ubuntu CI passed (Windows273script/138repo tests,1repo
+  skip). Actual app-server/model loading, whole payload and effects remain open.
+  Subsequent response-wait deadline fix has same-test original red for both RPC
+  phases/current16tests green and independent review PASS; it does not bound
+  startup/stdin/filesystem/cleanup or prove actual app-server behavior.
+  Conditional selection reference now explicitly identifies contract v1 and
+  supported-usage/cost evidence; source review/guards/payload parity pass only.
+  Subsequent Linux network-isolated empty-profile native discovery passed for
+  one source-bound common entry (real app-server,0 model/thread requests), with
+  exact-driver independent replay. Real-profile/reference use/behavior stay open.
+  The same bounded isolation now validates all118 canonical metadata entries,
+  native12/shared106, with complete2,135-file tracked fixture, zero loader errors
+  and exact independent replay. Functions/dependencies/model use stay unverified.
+- H4:AH05 original two-module branch now has corrected same-test red12/current8
+  green, independent native review and parent24CLI controls; user intervention0,
+  operator correction1. AH10 Codex supplied-native/shared source-decision branch
+  passed; Claude remains NOT-RUN, so global interoperability stays incomplete.
+  New AH03 trial now directly observes2 native workers with disjoint readsets,
+  running overlap and completed source-grounded integration;7 fixture files stay
+  unchanged. The older missing-alpha/initial topology limits remain historical.
+  Original AH09 current-source trial FAIL under its old candidate-expression
+  oracle is preserved. User approved A: success-only deferral without forced
+  candidate, plus a concrete-gap proposal branch. Recorded success-only output
+  is reassessed (not rerun); new proposal branch returns needs-evidence compact
+  candidate with human gate/no implementation. Final review remains explicit in
+  reconciliation; earlier owner-rationale correction stays separate.
+- Historical failures remain in reconciliation/forward-tests:SW03 first FAIL,
+  AH03 topology/dispatch limits,AH08 missing-prerequisite/frontmatter first result,
+  AH09 historical unsupported-owner FAIL (rationale later withdrawn after contract
+  review; complete original response still unverified),2150f99 Windows CI FAIL,intermediate P2 BLOCKs and
+  AH05 initial test overconstraint. Earlier launcher writes with unknown prebytes
+  remain documented; later passes do not erase any of these.
+- H5/H6:A/B/C historical engineering pilot remains quality/cost INCONCLUSIVE;
+  minimal candidate receipts link known corrections,without rule promotion,
+  Dream ingestion,sync,release or deployment claims. H1–H6 full scopes remain open.
+
+This file remains the sole progress authority. Exact source/fixture digests,
+methods,side effects,raw outcome qualifications and retained failures are in
+[workflow-reconciliation.md](workflow-reconciliation.md) and its linked existing
+dotcodex audit artifacts. Earlier repetitive preface snapshots are preserved in
+[the prior task revision](https://github.com/devBrightRaven/hirameki/blob/84417b8225a24ce3f77f62827755a603dabd4f2a/openspec/changes/hirameki-workflow-consolidation/tasks.md);
+no task definitions/checkboxes or unique failure evidence were removed.
+
+## 2026-11-07 Harness consolidation extension
+
+User directive extends this change to shared harness rationalization and adaptive
+execution. This section is the progress authority for the extension; existing
+G1–G7 and their historical evidence remain unchanged. Local source implementation
+and validation are authorized; publication, deployment, paid experiments and
+other owners' worktrees retain their existing boundaries.
+
+- [ ] H1 (1.2, 6.1): Reconcile existing dotcodex instruction-audit inventory,
+  dispositions and tests with current source; locate native Shikigarasu, pstack,
+  Blueprint/EGM/mekiki and owner interfaces. Record implemented/tested/published/
+  deployed/loaded/behavior/effect independently; inaccessible evidence is unknown.
+- [ ] H2 (2.1, 3.3, 6.4): Rationalize entries using existing audit artifacts;
+  preserve consumers, explicit entrypoints, rollback and governance. High-impact
+  dispositions require controlled absent/original/consolidated behavioral evidence;
+  inadequate samples remain inconclusive, not retirement authorization.
+  Recorded next/lens/compose direction ([issue #3](https://github.com/devBrightRaven/hirameki/issues/3)):
+  one umbrella, conditional natural-request
+  selection and preserved explicit commands; scope-aware next resumption,
+  question-driven evidence retrieval and source-based finished artifacts. Extend
+  existing HR01–HR06 with retrieval/state/negative controls. Issue #3 workflow
+  bodies now have shared/Codex source changes, fixture variants and a passing
+  source suite. Two seven-case source-supplied pilots produced usable results
+  in both current/proposed arms; comparative benefit remains inconclusive.
+  A subsequent HR01 inventory trial exercised the exact source payload and
+  native reader calls across two pinned pages; retained tool events, independent
+  replay and before/after hashes support this bounded PASS. Fresh-installed
+  discovery, Claude behavior and effect remain unverified.
+  Evidence and limitations are in workflow-reconciliation.md;
+  this uses existing H1/H2/H3 work, not a second progress ledger.
+  Public-source privacy cleanup removes machine inventory/parity fingerprints,
+  private routing/target state and thread usage details while retaining synthetic
+  evidence, failures and source-only results. H2 remains open; cleanup is not deployment.
+- [ ] H3 (2.1, 5.1): Extend existing canonical shared contracts with applicability,
+  prerequisites, execution options, dependencies, verification, side effects,
+  authorization, stop conditions and runtime adapter status. Reconcile adaptive
+  selection with existing queue delegation and two-review closure semantics before
+  changing those semantics; do not create another orchestrator or registry by default.
+  Public evidence now withholds private installed/configuration evidence; broader
+  privacy-contract work and independent review remain separately tracked by the
+  integration owner within H3. This documentation cleanup does not close H3.
+  User-requested goal continuation completed a read-only delivery preflight and
+  corrected the existing dotcodex verifier's stale-extra-file acceptance, with
+  isolated red/green and independent review. No runtime/cache was changed; the
+  goal tracker remains blocked and merge/deployment retain their own approval.
+- [ ] H4 (6.2, 6.6): Add AH01–AH12 alongside existing SW01–SW08 fixtures; retain
+  source/fixture hashes, prompt, actual tools, confirmable model/effort, selected
+  path, child count, side effects, evidence and limitations. Separate runtime
+  results and preserve historical failures. New experiment budget is not implied.
+- [ ] H5 (6.4): Pilot existing/consolidated/adaptive paths on comparable inputs
+  within authorized resources; compare verified quality, observable cost, latency,
+  rework and human intervention. Missing usage stays unknown; retain consolidated
+  path if adaptive orchestration does not justify its cost.
+- [ ] H6 (4.3, 5.2, 6.5): Link reusable failures through existing authorized
+  candidate writer and proposal/experiment identities; verify delivered owner
+  interfaces, local revisions and remaining deployment/loading/outcome gaps.
+  No parallel experience store, automatic promotion, intake or delivery authority.
+
+Historical first bounded source batch (subsequent checkpoint above supersedes status):
+H1 census, H3 conditional shared selection and H4
+fixture definitions have local artifacts; none closes the corresponding workstream.
+Current evidence, upstream compatibility gap and test-induced launcher side effect
+are in workflow-reconciliation.md §2026-11-07. AH behavior/performance remains
+NOT-RUN; explicit-folder candidate capture has a checked receipt; do not infer
+installed discovery, deployment or effect.
+
+歷史授權快照（push 延後已由頁首 2026-11-07 裁定取代，部署仍未授權）：
+使用者允許本任務後續經驗證的本地 commit，push／部署延後；
+PR 發布更新隨 push 另行處理，不將本地提交視為遠端交付或已載入。
+
+2026-11-06 使用者解除候選保存阻礙：明示限定目的地，候選使用 `pain-point/`、
+不使用 journal；實際 Vault 與本機目錄狀態 withheld。「可以，自動記錄，改善另批」。限定最小候選，決策／規則修改／
+發布／部署權限不擴張。八個隔離 fresh-dialogue 驗收已獲准，使用合成資料與
+原生 agent 能力，不呼叫付費外部 API 或寫真實 Vault。G1/G7 尚待實際驗收。
+
+2026-11-06 使用者以完整 goal 授權接續共用流程的本機實作與驗證；不新增發布、
+部署、模型費用、hook 或排程授權。沿用本清單，Tsuku 獨立 session 持有其產品與
+工作樹，Claude native／dream 由原 owner 接續。以下新增細項不取代既有驗收：
+
+- [ ] G1 最小保存閉環（2.3、4.1、4.3、4.4）：使用既有 writer 與選定 Vault，
+  合成情境驗證最小摘要、同事件引用／新證據追加、衝突拒絕及保存後讀回收據。
+  自動捕捉已獲限定授權並補 source 契約；新建／追加已有合成證據，部署／實際載入仍須驗證。
+  新建候選已補既有 helper 的 create 模式；完整 suite 通過後，補查失敗分支使
+  writer tests 增至 23 個並通過；發布準備時完整 suite 再驗通過，保留既有一個 skip。
+  create/append 競爭缺陷已由獨立 reviewer 隔離 red/green。SW02 source-injected
+  原生新建保存與 parent 收據讀回限定通過。未發布、未部署；installed discovery
+  及跨平台／跨機仍另驗，不以此勾選整項。
+  dotcodex a21c15c 已補明示授權下的單次痛點／線索捕捉入口；SW01 source 注入
+  分支完成當前工作並透過 writer 保存，parent 收據核對通過。未證明 installed 觸發。
+- [ ] G2 批次與跨機（4.1、4.4、6.3）：五條去重後未呈現候選或自然收尾一次呈現；
+  明列 writer owner，真實跨機／sync 與單機合成驗證分開，不把同步當成互斥鎖。
+  使用者採用「每機新增，單一主責整併」；共用／Codex 契約與三個跨機情境已補，
+  本批暫沿用目前 session 整合主責。尚未部署或驗證真實跨機同步，整項保持未完成。
+  SW03 跨 origin 分支已用兩個 source-injected context 限定驗證：只新增自身來源、
+  原紀錄 bytes 不變、同事件副本只計一次、新事件獨立保留、同步缺漏標 partial。
+  整併狀態持久化未授權／未執行；這是單機模擬角色，不替代真實跨機驗收。
+- [ ] G3 行動提案與離線（4.2、5.1）：先查既有 GitHub issue／PR，以 Vault ID
+  連結成熟提案；定義離線保留、查重續辦及有界重試，常設排程仍待裁定。
+- [ ] G4 夢境與成效（1.3、2.4、5.1、5.2）：取得 Claude ACK／接口證據，對齊
+  envelope，區分 accepted／applied／deployed／verified；定義觀察窗口、失敗判準
+  與撤回提案，決策辨識仍遵守 Promotion gate。
+- [x] G5 微學習規格：在原 design 與 session-continuity spec 定義片段呈現時機、
+  學習地圖、回顧與不干擾驗收；只要求規格，不以文字完成宣稱已啟用。
+  2026-11-06 規格與六個相關情境已補，OpenSpec strict 通過；已隨 cb61c33 發布、未啟用，
+  模型遵循與學習成效未驗。部署後觀察條件已定義，G7 仍未完成。
+- [ ] G6 跨專案 preflight 接口：與 Tsuku owner 對帳共用入口、agent adapter
+  及 CLI 責任；涵蓋既有單接續、跨 repo、無 GitHub、存取失敗及 owner 衝突。
+- [ ] G7 交付與觀察（6.2、6.5、6.6）：首批最多十個合成情境；記版本、方法、
+  結果與限制，完成可審閱 diff 後再取得所需發布／部署批准。實際載入、模型遵循、
+  真實保存及跨機行為各自驗收，未驗項不勾選。
+  2026-11-06 首批來源 cb61c33／adce328 已發布至兩個既有 Draft PR，後續本地提交
+  尚未 push；SW03 強化 readset prompt 重驗
+  限定 PASS，首輪 FAIL 保留。方法／hash／限制見證據對照；整體 G7 未完成。
+
+2026-11-04 整體接續：見 [workflow-reconciliation.md](workflow-reconciliation.md) 的八項
+source／部署／行為證據對照與未確認項；使用者本輪選定 Vault 候選、GitHub 行動提案。
+本批由 Yatagarasu Codex 先做共用技能，再交 Claude native／dream 範圍；現有 task
+checkbox 不代表全部未實作，也不因本輪對帳改成全數完成。無新增發布／部署授權。
+
 2026-10-01 使用者授權接續 tidy source 工作；真實任務歸檔、runtime/排程部署及發布外部行動仍需各自授權。未勾不等於基礎設施失敗，all_done 不可由規格齊全推得。每階段先完成其受影響契約與驗收，再進下一階段。
 
 ## 1. Review and baseline

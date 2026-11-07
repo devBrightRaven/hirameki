@@ -29,6 +29,19 @@ Choose only the capabilities needed for the question, not a fixed arc / position
 
 State inspected scope, sources and coverage limits. Start with supplied notes, topics or folder paths; expand only as needed to answer the question. Do not silently scan the entire vault for a narrow question. An unreadable source is not an empty source.
 
+## Evidence retrieval
+
+When the user names a topic rather than every note, use available file/search or
+Obsidian tools in the authorized folder with topic names, task IDs or distinctive
+phrases. Read candidate passages and their dates/source links; a filename match
+or search snippet is not evidence of the author's position. Follow relevant
+links only as needed. If evidence is insufficient, expand within the authorized
+scope or report the gap; do not silently search another vault.
+
+Compare claims and their scopes before treating them as a change of mind. A
+newer date does not resolve an unresolved contradiction. State an absent reason
+as unknown; repeated copies are one source event. Keep unrelated matches out.
+
 ## Integrated result
 
 Give one coherent answer with relevant history, evidence, tensions, unknowns and next useful questions. Use `[[wiki links]]` plus passage anchors for vault sources; do not invent connections, references or the author's position. Persist only useful requested artifacts, not a report for every capability.

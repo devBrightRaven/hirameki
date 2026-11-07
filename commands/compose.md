@@ -25,6 +25,24 @@ Use the stated audience, purpose and acceptance criteria. Ask only when a missin
 
 Technical documentation is judged by correctness, reproducibility and usefulness. Do not KILL a useful tutorial merely because it lacks personal uniqueness, emotional stakes or a literary reversal. Recommendations to consolidate drafts are proposals, not deletion authority.
 
+## Material to deliverable
+
+For a topic/folder request without named notes, search only the authorized
+material with the topic, offer name or distinctive phrases using available
+file/search or Obsidian tools. Read candidate passages, source dates and explicit
+status/disposition; do not use search snippets as the final evidence. Include
+relevant service boundaries and contrary evidence, not only promotional matches.
+Keep retired offers and unrelated material out unless their history is requested.
+
+Use the relevant installed language-writing entry when available, passing the
+requested artifact, audience, verified claims and unresolved limits. Read its
+contract before using its tools; do not invent a tool/skill invocation. If it is
+unavailable, disclose that and write directly without claiming the entry ran.
+Check the finished artifact against the selected passages: claims, quotations
+and author positions must be supported; measurable benefits remain hypotheses
+without measured outcomes. Return the requested artifact, not just a plan or
+source list. No mandatory outline approval, lens pass or council is introduced.
+
 ## Authorship and routing
 
 Keep supplied material, vault provenance and new suggestions distinguishable. Contradictory author positions remain visible unless the user resolves them. Same author does not mean same brand voice. Brand checks, councils, Ravenquill and publishing gates apply only when explicitly requested or required by an approved project contract.

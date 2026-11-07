@@ -9,8 +9,8 @@ description: >
 
 For a natural-language request, apply `references/capabilities/natural-routing.md` under the currently loaded skill root; do not require the user to name this capability. Preserve the actual request as input.
 
-Resolve vault configuration through the umbrella Hirameki adapter for the daily, research and inbox folders; this reference does not read Claude configuration.
-If the section does not exist or required fields are missing, stop and respond: "Setup not complete. Please run `/hirameki:__init` first."
+Only before vault access, resolve vault configuration through the umbrella Hirameki adapter for the needed folders from `## Vault Structure` in `<vault>/AGENTS.md`; this reference does not read Claude configuration.
+For a vault-dependent scope, if required configuration is missing, stop and respond: "Setup not complete. Please run `/hirameki:__init` first."
 
 Input: $ARGUMENTS (optional)
 - Empty → default mode
@@ -19,7 +19,35 @@ Input: $ARGUMENTS (optional)
 - `lucky` → compatibility request for `lens random`; use only that explicit exploration, not a default orientation plus exploration.
 - A number (e.g. `3`) → look back N days for wrap logs context (default 1)
 
-Scan the current session and vault to produce a concise orientation summary.
+Recover enough context for the requested outcome; do not scan unrelated sources.
+
+## Scope before tools
+
+- Source-only: when asked to interpret supplied handoff material, answer from that
+  material and label current task state unverified. No vault setup or index query
+  is needed unless the request also requires current state.
+- Resume: locate the named project's handoff and owning task authority within the
+  supplied scope. Check current task dispositions and repository evidence before
+  choosing work; an older Next entry is context, not execution authority.
+- Inventory: use the full validated task-view procedure below, including paging,
+  uncertainty and exceptions. A bounded preview is not a comprehensive inventory.
+
+Resolve vault configuration only before an actual vault read/write. If sources
+are not named, search the authorized project/folder for the project name or task
+ID with available file/search tools; read matching passages before expanding.
+Do not enumerate the entire inbox or unrelated projects to orient one project.
+
+For resume with an applicable existing task index, use the reader resolution and
+validation rules below with `--task-id <exact-id>` for a known ID; otherwise use
+its bounded preview to locate the item. Keep global diagnostics and completeness
+limits. This is a read-only state check, not a restore: load the restore operation
+guide only when restore is explicitly requested. A closed indexed disposition
+cannot be reopened by an older handoff.
+
+Once state is checked, continue the next action already authorized by the user,
+subject to the owning project's rules and scope. A status-only question requires
+an answer, not execution. If blocked, report the precise dependency and complete
+independent authorized work; do not turn every pickup into another approval menu.
 
 ## Purpose modes
 
@@ -102,42 +130,29 @@ Raw-note fallback must respect explicit task dispositions: exclude the same item
 
 - When valid, the shared task view supplies Open and Next; raw sources only add context or explicitly unindexed candidates.
 
-## Scan sources
+## Relevant sources
 
-- Task list (all tasks and their status)
+- Owning project task authority and current status for the requested scope
 - Session activity: files created or modified, decisions made, commits pushed
 - Any open items, blockers, or unresolved questions raised during the session
-- **Inbox folder**: all files in `{inbox}/`
-- **Yesterday's wrap log**: last Wrap block from `{daily}/YYYY-MM-DD.md` (yesterday, or N days back if a number is given)
+- Inbox: only when requested or linked to the current work
+- Daily wrap/handoff: relevant project passages in the requested date window;
+  yesterday is a starting point, not a reason to ignore a later disposition
 
 ## Output format
 
-Respond in the language specified in `## Vault Structure` → `language`.
+Use the requested language, otherwise the resolved vault language when applicable.
+Lead with current position, the next action and any blocker. Cite relevant source
+passages and distinguish recorded context from checked current state. For a
+source-only answer, explicitly state that the owning task authority/index was
+not checked; do not call an unchecked index absent.
 
-### 做了什麼 / Done
-Bullet list of what was accomplished this session. Max 5 items. Be specific — name files, features, or decisions, not vague summaries.
-
-### 還開著的 / Open
-Bullet list of things that are in-progress, blocked, or explicitly deferred. If nothing, write "無".
-
-### 收件匣 / Inbox
-List all files in the inbox folder. For each: filename, creation date, one-sentence summary.
-If inbox is empty, write "收件匣清空" / "Inbox clear".
-Limit: 10 items.
-
-### 昨天的脈絡 / Yesterday
-Extract "In progress" and "Next" items from the last Wrap block in yesterday's wrap log (or N days back).
-If no wrap log or no Wrap block exists, write "無紀錄" / "No record".
-
-### 下一步 / Next
-2–4 concrete, actionable options ranked by naturalness:
-- Continue the most obvious incomplete thread
-- A smaller side task that could be done quickly
-- If inbox has actionable items, suggest processing them
-- If both main tracks are done: suggest ending the session
-
-### 該結束了嗎 / Wrap up?
-One sentence: either "還有明確的下一步，繼續吧。" or "這個 session 已到自然結束點。建議執行 `/hirameki:wrap`。"
+For resumption, report the action actually continued and its verification, or
+what specifically prevents it. Preserve the reader's required status labels,
+uncertainties, exceptions and omitted counts whenever a task view was used.
+For an inventory/week request, use its requested scope and the view above rather
+than reducing it to one next action. Done, inbox and yesterday recaps appear only
+when relevant or requested; never require a fixed menu or automatic wrap-up.
 
 ---
 
@@ -145,6 +160,6 @@ One sentence: either "還有明確的下一步，繼續吧。" or "這個 sessio
 
 - Infer scope from available context; ask only if a material ambiguity cannot be resolved safely.
 - Keep each section tight: no padding, no filler
-- If the task list is empty and session activity is minimal, say so directly and suggest wrapping
+- Do not infer all work is done from an empty partial/unavailable view or minimal session activity
 - Use [[wiki link]] format for all note references
 - A file listing shows files only and can miss empty folders; never state or act on a folder or file being missing unless a direct check confirms it; otherwise say no files were found there.

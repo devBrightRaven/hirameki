@@ -2,7 +2,7 @@
 
 Plans are private session artifacts, never vault notes. Local locks coordinate this
 helper's writers; POSIX locks do not exclude arbitrary editors or remote sync.
-No rollback, automatic retry, new-note creation or cross-machine guarantee.
+New-note plans use exclusive creation. No rollback, automatic retry or cross-machine guarantee.
 """
 import argparse
 import base64
@@ -49,20 +49,23 @@ def linked(path):
     return path.is_symlink() or (hasattr(path, 'is_junction') and path.is_junction())
 
 
-def target_path(root, relative):
+def target_path(root, relative, allow_missing=False):
     root = Path(root)
     if not root.is_absolute() or linked(root) or not root.is_dir():
         raise Refused('invalid-root')
     root = root.resolve(strict=True)
     rel = Path(relative)
-    if not relative or rel.is_absolute() or rel.drive or '..' in rel.parts:
+    if not relative or not rel.parts or rel.is_absolute() or rel.drive or '..' in rel.parts:
         raise Refused('invalid-target')
     path = root
     for part in rel.parts:
         path = path / part
         if linked(path):
             raise Refused('linked-target')
-    if not path.is_file() or not path.resolve(strict=True).is_relative_to(root):
+    if allow_missing and not path.exists():
+        if not path.parent.is_dir() or not path.parent.resolve(strict=True).is_relative_to(root):
+            raise Refused('target-parent-unavailable')
+    elif not path.is_file() or not path.resolve(strict=True).is_relative_to(root):
         raise Refused('target-unavailable')
     return root, path
 
@@ -80,6 +83,27 @@ def unchanged_path(root, relative, stream):
 
 
 @contextmanager
+def locked_stream(stream):
+    fd = stream.fileno()
+    if os.name == 'nt':
+        import msvcrt
+        msvcrt.locking(fd, msvcrt.LK_NBLCK, 1)
+    elif os.name == 'posix':
+        import fcntl
+        fcntl.flock(fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
+    else:
+        raise Refused('locking-unavailable')
+    try:
+        yield stream
+    finally:
+        stream.seek(0)
+        if os.name == 'nt':
+            msvcrt.locking(fd, msvcrt.LK_UNLCK, 1)
+        else:
+            fcntl.flock(fd, fcntl.LOCK_UN)
+
+
+@contextmanager
 def locked_target(root, relative):
     _, path = target_path(root, relative)
     flags = os.O_RDWR | os.O_APPEND | getattr(os, 'O_BINARY', 0) | getattr(os, 'O_NOFOLLOW', 0)
@@ -87,30 +111,19 @@ def locked_target(root, relative):
     fd = os.open(path, flags)
     with os.fdopen(fd, 'r+b', buffering=0) as stream:
         unchanged_path(root, relative, stream)
-        if os.name == 'nt':
-            import msvcrt
-            msvcrt.locking(fd, msvcrt.LK_NBLCK, 1)
-        elif os.name == 'posix':
-            import fcntl
-            fcntl.flock(fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
-        else:
-            raise Refused('locking-unavailable')
-        try:
+        with locked_stream(stream):
             unchanged_path(root, relative, stream)
             yield stream
-        finally:
-            stream.seek(0)
-            if os.name == 'nt':
-                msvcrt.locking(fd, msvcrt.LK_UNLCK, 1)
-            else:
-                fcntl.flock(fd, fcntl.LOCK_UN)
 
 
 def validate(plan):
     keys = {'schema_version', 'root', 'target', 'before_sha256', 'before_bytes',
             'draft_base64', 'draft_sha256', 'after_sha256'}
+    create = isinstance(plan, dict) and plan.get('operation') == 'create'
+    if create:
+        keys.add('operation')
     if (not isinstance(plan, dict) or set(plan) != keys
-            or type(plan['schema_version']) is not int or plan['schema_version'] != 1):
+            or type(plan['schema_version']) is not int or plan['schema_version'] != (2 if create else 1)):
         raise Refused('invalid-plan')
     if not all(isinstance(plan[k], str) for k in keys - {'schema_version', 'before_bytes'}):
         raise Refused('invalid-plan')
@@ -126,12 +139,15 @@ def validate(plan):
     if not draft or len(draft) > DRAFT_LIMIT or digest(draft) != plan['draft_sha256']:
         raise Refused('invalid-draft')
     utf8(draft)
+    if create and (plan['before_bytes'] != 0 or plan['before_sha256'] != digest(b'')
+                   or plan['after_sha256'] != digest(draft)):
+        raise Refused('invalid-create-plan')
     return draft
 
 
 def describe(plan, plan_hash):
     draft = validate(plan)
-    _, path = target_path(plan['root'], plan['target'])
+    _, path = target_path(plan['root'], plan['target'], plan.get('operation') == 'create')
     result = dict(status='prepared', target=path.as_posix(), plan_sha256=plan_hash,
                 before_sha256=plan['before_sha256'], draft_sha256=digest(draft),
                 draft_bytes=len(draft),
@@ -155,8 +171,10 @@ def describe(plan, plan_hash):
     return result
 
 
-def prepare(root, relative, draft_file, plan_file):
-    root, path = target_path(root, relative)
+def prepare(root, relative, draft_file, plan_file, create=False):
+    root, path = target_path(root, relative, create)
+    if create and path.exists():
+        raise Refused('target-exists')
     artifact = Path(plan_file).absolute()
     source = Path(draft_file).resolve(strict=True)
     if artifact.resolve().is_relative_to(root) or source.is_relative_to(root):
@@ -166,14 +184,18 @@ def prepare(root, relative, draft_file, plan_file):
     if not draft:
         raise Refused('empty-draft')
     utf8(draft)
-    with locked_target(root, relative) as stream:
-        original = bounded(stream, NOTE_LIMIT)
-        utf8(original)
-        unchanged_path(root, relative, stream)
+    original = b''
+    if not create:
+        with locked_target(root, relative) as stream:
+            original = bounded(stream, NOTE_LIMIT)
+            utf8(original)
+            unchanged_path(root, relative, stream)
     plan = dict(schema_version=1, root=str(root), target=path.relative_to(root).as_posix(),
                 before_sha256=digest(original), before_bytes=len(original),
                 draft_base64=base64.b64encode(draft).decode('ascii'),
                 draft_sha256=digest(draft), after_sha256=digest(original + draft))
+    if create:
+        plan.update(schema_version=2, operation='create')
     raw = (json.dumps(plan, sort_keys=True, ensure_ascii=False) + '\n').encode('utf-8')
     fd = os.open(artifact, os.O_WRONLY | os.O_CREAT | os.O_EXCL | getattr(os, 'O_BINARY', 0), 0o600)
     with os.fdopen(fd, 'wb') as stream:
@@ -199,8 +221,24 @@ def load(plan_file, expected):
 
 def apply(plan_file, expected):
     plan, draft = load(plan_file, expected)
+    receipt = dict(target=(Path(plan['root']) / plan['target']).as_posix(),
+                   plan_sha256=expected, before_sha256=plan['before_sha256'],
+                   draft_sha256=plan['draft_sha256'])
     attempted = False
     try:
+        if plan.get('operation') == 'create':
+            _, path = target_path(plan['root'], plan['target'], allow_missing=True)
+            # O_EXCL arbitrates local collisions; a pre-existing identical file is not our receipt.
+            fd = os.open(path, os.O_RDWR | os.O_CREAT | os.O_EXCL | os.O_APPEND
+                         | getattr(os, 'O_BINARY', 0) | getattr(os, 'O_NOFOLLOW', 0), 0o600)
+            attempted = True
+            with os.fdopen(fd, 'r+b', buffering=0) as stream:
+                with locked_stream(stream):
+                    unchanged_path(plan['root'], plan['target'], stream)
+                    if bounded(stream, NOTE_LIMIT + DRAFT_LIMIT):
+                        raise Refused('create-target-changed')
+                    write_verified(stream, draft, b'', plan)
+            return dict(receipt, status='created', after_sha256=digest(draft), written_bytes=len(draft))
         with locked_target(plan['root'], plan['target']) as stream:
             original = bounded(stream, NOTE_LIMIT + DRAFT_LIMIT)
             utf8(original)
@@ -209,7 +247,7 @@ def apply(plan_file, expected):
                     and digest(original) == plan['after_sha256']
                     and original.endswith(draft)
                     and digest(original[:plan['before_bytes']]) == plan['before_sha256']):
-                return dict(status='already_applied', after_sha256=digest(original), written_bytes=0)
+                return dict(receipt, status='already_applied', after_sha256=digest(original), written_bytes=0)
             if len(original) != plan['before_bytes'] or digest(original) != plan['before_sha256']:
                 raise Refused('target-changed-fresh-approval-required')
             if digest(original + draft) != plan['after_sha256']:
@@ -217,19 +255,8 @@ def apply(plan_file, expected):
             unchanged_path(plan['root'], plan['target'], stream)
             stream.seek(0, os.SEEK_END)
             attempted = True
-            pending = memoryview(draft)
-            while pending:
-                count = stream.write(pending)
-                if not count:
-                    raise OSError('short-write')
-                pending = pending[count:]
-            os.fsync(stream.fileno())
-            stream.seek(0)
-            actual = bounded(stream, NOTE_LIMIT + DRAFT_LIMIT)
-            unchanged_path(plan['root'], plan['target'], stream)
-            if actual != original + draft:
-                raise Refused('readback-mismatch')
-        return dict(status='appended', after_sha256=digest(actual), written_bytes=len(draft))
+            write_verified(stream, draft, original, plan)
+        return dict(receipt, status='appended', after_sha256=plan['after_sha256'], written_bytes=len(draft))
     except (OSError, Refused) as error:
         if attempted:
             return dict(status='write_unverified', reason=str(error) if isinstance(error, Refused) else 'io-error',
@@ -237,10 +264,26 @@ def apply(plan_file, expected):
         raise
 
 
+def write_verified(stream, draft, original, plan):
+    pending = memoryview(draft)
+    while pending:
+        count = stream.write(pending)
+        if not count:
+            raise OSError('short-write')
+        pending = pending[count:]
+    os.fsync(stream.fileno())
+    stream.seek(0)
+    actual = bounded(stream, NOTE_LIMIT + DRAFT_LIMIT)
+    unchanged_path(plan['root'], plan['target'], stream)
+    if actual != original + draft:
+        raise Refused('readback-mismatch')
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     sub = parser.add_subparsers(dest='command', required=True)
     stage = sub.add_parser('prepare')
+    stage.add_argument('--create', action='store_true', help='Freeze an exclusive new-note plan')
     for name in ('root', 'target', 'draft', 'plan'):
         stage.add_argument('--' + name, required=True)
     for name in ('show', 'apply'):
@@ -250,7 +293,7 @@ def main():
     args = parser.parse_args()
     try:
         if args.command == 'prepare':
-            result = prepare(args.root, args.target, args.draft, args.plan)
+            result = prepare(args.root, args.target, args.draft, args.plan, create=args.create)
         elif args.command == 'show':
             plan, _ = load(args.plan, args.plan_sha256)
             result = describe(plan, args.plan_sha256)
@@ -260,7 +303,7 @@ def main():
         result = dict(status='refused', reason=str(error) if isinstance(error, Refused) else 'io-error',
                       write_may_have_occurred=False)
     print(json.dumps(result, ensure_ascii=False))
-    return 0 if result['status'] in ('prepared', 'appended', 'already_applied') else 3 if result['status'] == 'write_unverified' else 2
+    return 0 if result['status'] in ('prepared', 'created', 'appended', 'already_applied') else 3 if result['status'] == 'write_unverified' else 2
 
 
 if __name__ == '__main__':

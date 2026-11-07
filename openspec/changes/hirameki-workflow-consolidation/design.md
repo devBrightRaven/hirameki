@@ -65,6 +65,21 @@ next 優先明示專案/最新相關 handoff/有效決策/已保存狀態；狀�
 
 ### 6. 跨 agent 與寫入恢復
 
+使用者本輪採用「每機新增，單一主責整併」。各 origin writer 在選定 pain-point
+資料夾以已宣告 machine ID 加唯一 candidate ID 新增自己的筆記；candidate ID 與
+source event identity 分開。離線同事件副本可並存，不能據此計為獨立觀察。
+只在 ownership／授權可確認時追加自己的筆記，不跨機改寫原紀錄；新 session
+若不知原 ownership，先引用或新增具關聯 ID 的最小新證據，不能自行接管。
+不自動重命名或遷移舊筆記，不增加私人 runtime store。
+
+單一指定主責維護同一資料夾中已授權的整併筆記，只列 ID／連結、去重理由、
+衝突、覆蓋限制、saved／presented 狀態及建議行動，不複製來源敘事。只有它
+統一更新呈現狀態與發出批次改善提醒；origin 可回保存收據，不另發重複批次。
+本批暫沿用目前 session 的整合主責，非永久機器設定。Owner 不在線時仍可依
+既有範圍收集；整併與批次提醒延後，不自動選主、接管或新增排程。
+交接必須明示，跨機同步缺漏只報 partial，不以同步資料夾或本機鎖宣稱全域互斥。
+此為已採用的分工契約，尚未部署或完成真實跨機驗收。
+
 shared candidates 使用穩定 identity；agent-comms 運送同一提案與回覆，沒有修改權。指定 owner 在送出前讀最新狀態及 hash，來源變更則停止該項寫入並報衝突。兩 agent 同時持相同 revision 並非互斥證據；ownership 未確定時兩邊只提案，禁止承諾 Syncthing 提供鎖。
 
 批次保存逐項結果與來源/target before/after digest。重試先確認現有內容是否已套用；只補未完成項。暫時故障有證據時有界重試一次，持續失敗回報位置；不全批 rollback 造成原文遺失。若 durable receipt 未獲授權，只在當前結果中列清單；跨 session 接續須讀目標本身驗證，不能依記憶猜已成功。
@@ -119,6 +134,68 @@ metadata 與 task ledger 分開，既有 CSV/JSONL 不混為同一契約。Hygie
 
 ## Risks / Trade-offs
 
+### 交換對應與離線續辦（2026-11-06，G3/G4/G6）
+
+兩套契約保持原有責任，不增加第二份 pin、queue 或 candidate schema。對應如下：
+
+| Hirameki 來源 | br-improvement/v1 | 保留限制 |
+|---|---|---|
+| identity／revision | proposal_id／revision，附 origin | origin 為主張，不是認證；不得用信件檔名取代 ID |
+| problem／scope／owner | observed、expected、layer、owner、affected_skills | layer 與 scope 需實際分類，不能任意填預設值 |
+| hypothesis 與最小修正 | proposed_rule | 原 hypothesis、alternatives、unknowns 留在原提案，透過 evidence ref/hash 引用 |
+| acceptance | validation | 是描述，不自動執行收到的命令 |
+| 原提案、來源與 cost boundary | evidence ref／sha256 | hash 必須取實際已審閱 artifact，不把網址或摘要雜湊冒充來源證據 |
+| review status | result decision／rationale／unresolved | accepted 不等於已實作；未解項不可偽填為空 |
+| source revision／檢查 | implementation／validation_evidence | source checked 不等於 runtime 生效 |
+| 具名部署證據 | deployment／expected_targets／deployment_evidence | verified 只對具名部署目標，不等於改善效果 |
+| experiment identity、method、baseline/control、outcome、limitations | 原 Hirameki experiment result | 不塞入 closed result schema；用原 proposal/source revision 與 evidence 關聯 |
+
+此表是 adapter 設計，不是已接通 consumer。效果失敗回原實驗保留反例並提出維持、
+修正或撤回；不得改寫歷史 accepted 結果或自動撤回已部署規則。
+
+本機獨立 fixture consumer 已加入 auto-improve 的 `validate_experiment_result`：
+獨立 experiment record 綁 origin/proposal_id/revision/candidate_sha256 與已實作的
+source_revision，保留 experiment_id、method、baseline_control、outcome、evidence、
+limitations；欄位序列化正本是該 skill 的 proposal-contract「Separate experiment result」。
+outcome 區分 improved/no-improvement/regressed/inconclusive，不能以 deployment
+verified 替代。純 validator 不讀證據、不證明因果、不執行回退，尚未接通 live dream。
+
+離線不需要先新增排程：第一版在自然接續／收尾、使用者要求時重查一次遠端，
+失敗即停止本節點重試。已授權的 Vault 候選保留，遠端查核與發布結果分開。
+發布逾時為 unknown；恢復先查候選 ID、repo、既有內容，再判斷沿用／追加／新建。
+不能以未找到但不完整的搜尋重送，不能由恢復連線推定發布批准仍有效。若後續
+需要離線期間自動喚醒，另提排程 owner、頻率、費用及安全邊界，未批准不啟用。
+
+每專案 preflight 是共用工作規約；native adapter 使用宿主已授權的 GitHub
+讀取能力，正常 Tsuku 維護 CLI 不因此負責 GitHub 管理。Tsuku owner 的接口
+回覆尚待核對；共用入口 source 接線與行為驗收未完成，不以本設計判 G6 完成。
+
+### 微學習與部署後觀察（2026-11-06，G5/G7）
+
+微學習是當前工作結果的可選解說，不是每輪教學配額或新的自動化產品。共用
+session-continuity 契約定義「一個概念＋當前例子＋可選應用」，只在自然節點
+呈現；大型排錯或使用者要求安靜時延後。學習地圖沿用選定 Vault 的知識紀錄與
+來源連結，既有記錄先查重，呈現／自評／實際應用分開，不建立能力分數或推論
+掌握程度。保存仍依原 gate；本批交付規格，不啟用學習 writer、追蹤器或排程。
+
+驗收以 session-continuity 的六個微學習／觀察情境為準：自然節點、專注或拒絕、
+無新證據的重複概念、後續實際應用、零觀察樣本、錯稱 saved。可併入首批最多十個
+合成情境，不額外啟動模型試驗。規格 strict 只證明格式，行為驗收逐側另列。
+
+部署批准後才開始七日或十個相關 session 的觀察窗口（先到者先檢查），不新增
+背景監看。沿用當前 session 的可觀察結果，僅保存已授權的最小證據摘要；未授權
+則在回覆報告。驗收不得將沒有機會、沒載入或沒部署當通過，也不以提醒數宣稱
+學習進步。未授權／錯誤目標寫入、覆寫、重複套用或錯稱保存立即判失敗並停止
+受影響寫入；修正、撤回與重新部署各自遵守既有權限。一般漏提醒與干擾回饋記錄
+失敗例，與成功例並列。此窗口尚未開始，時間經過不等於完成觀察。
+
+2026-11-04 接續裁定：使用者選定「Vault 候選，GitHub 行動提案」。最小痛點／線索
+留在當次選定 Vault，成熟可執行提案才依適用發布授權送 GitHub；以穩定 ID／來源
+互連，不維護兩份候選正本。本輪對帳見 `workflow-reconciliation.md`，它不是新 tasks。
+此裁定不自行啟用背景寫入、指定實體資料夾或改掉現有 native displayed-draft gate；
+writer 如何承接明示自動捕捉授權、跨機 ownership、dream 接收仍須在原契約內對齊。
+歷史全面盤點與遷移 gate 保留；當輪新候選的有界整理不以重掃全部歷史為前置條件。
+
 - 自然語言路由不穩 → 正反例 fresh dialogs，記錄實際 reference 讀取，不只看答案正確。
 - 候選索引本身成 prompt debt → 只存 identity/狀態/來源與必要理由，不保存重複全文。
 - 大改隱含覆寫既有工作 → consumer 盤點與 narrow diff；兩側獨立 deploy。
@@ -146,3 +223,186 @@ G3：dream-RSI 真實連接、跨機 concurrency 及 consumer 相容性未驗證
 ## Open Questions
 
 可延後且不改外部契約：review events 的最小存法、消費者測試 fixture 的檔名、發布版號。所有影響行為的方案已明寫為待審設計，不藏在本節。
+
+## Adaptive harness extension — 2026-11-07
+
+The execution loop selects and verifies a method for the current authorized task;
+the existing improvement loop proposes durable changes through human promotion.
+Neither loop grants authority to the other. H1–H6 in tasks.md track this extension.
+
+Reuse dotcodex's existing instruction-audit artifacts and skill-review-queue pure
+scanner, not a new registry or experience store. The current-source census is
+`docs/instruction-audit/harness-baseline.json` in dotcodex; it does not supersede
+historical dispositions or establish current behavioral benefit. Entries absent
+from the older census require reconciliation, not automatic removal.
+
+Task-scoped selection semantics live in the existing shared Shikigarasu skill's
+conditional `references/execution-selection.md`; discovery metadata remains
+explicit-only. No permanent universal entry, dispatcher, model ladder or durable
+runtime is introduced. Native adapters continue to own dispatch and persistence.
+
+Upstream Shikigarasu source e31c4dd463bfda3959c6f62002b53ba754c65f21 already
+supports outcome-based inline/delegated work and frozen review tiers. At the
+initial reconciliation, the inspected local checkout 3bf7c1395cfc4752aaa27f892987dd05906ba8fa
+and dotcodex's then-legacy-only shared closure contract lagged that design; this
+was a compatibility gap, not evidence that upstream lacked adaptive routing.
+The subsequent dotcodex fa423fe source includes independently reviewed shared
+alignment: a verifiable authorized native policy frozen before work may apply;
+stricter user/project requirements, two independent reviews for high-risk/gate
+changes and legacy two-pass fallback remain. Native adapter acceptance,
+installation and actual runtime closure are separate and still unverified.
+Do not infer deployment or silently lower a gate from this source alignment.
+
+AH01–AH12 extend the existing SW manifest. Validation records separate direct
+execution, suitable skills, disjoint delegation, continuity, justified composition,
+failure/stop, permissions, authorized capture, promotion, runtime interoperability,
+resume and outcome binding. Fixture criteria are not model results. Any pilot
+must first have a bounded authorized resource budget, isolated inputs, controlled
+A/B/C conditions and recorded cost limitations. Dynamic composition remains
+inconclusive until comparative results justify its overhead; do not force its use.
+
+### Hirameki outcome workflows: next, lens and compose — recorded direction
+
+2026-11-07 user decision: record this direction as
+[Hirameki issue #3](https://github.com/devBrightRaven/hirameki/issues/3), linked
+to parent issue #1; tasks.md remains the progress authority.
+Keep one Hirameki umbrella skill. The main agent selects the needed internal
+capability from the user's natural request; explicit next/lens/compose commands
+remain compatible. Selection is conditional model routing, not an always-on hook,
+background watcher, new permission or proof of installed-host behavior.
+
+This extends H1/H2/H3 and the existing HR01–HR06 acceptance surface. It is the
+workflow-body direction following the already published UI/README-only change.
+At direction recording the body changes were not implemented. The subsequent
+issue #3 source checkpoint in workflow-reconciliation.md records implementation
+and bounded tests; deployment, fresh-host loading and effect remain unverified.
+Existing question-driven lens, purpose-driven compose, task reader, language
+skills, source contracts and save gates are reused rather than duplicated.
+
+| Capability | Natural request | Required useful result |
+|---|---|---|
+| next | Resume the project we left last time | Recover goal, current evidenced state, relevant decision and blocker; identify and continue an already-authorized next action |
+| lens | What changed in my thinking, and where do these records conflict? | Answer the question with passages, changes/contradictions, inference and unknowns; no invented history or mandatory concept-card production |
+| compose | Turn the accumulated material into a client introduction or article | Deliver the requested artifact using relevant sources and the existing writing entry; preserve author positions and unsupported claims as uncertain |
+
+For next, distinguish source-only handoff interpretation, actual task resumption
+and comprehensive inventory. A source-only reply identifies its limited scope
+without claiming current effective task state. Resumption checks the owning
+project task authority/current repo evidence and, when applicable, the existing
+task reader's exact-ID view; completed/withdrawn/superseded items are not reopened
+from an older note. Full inventory retains the existing validated view, paging,
+uncertainty and exception gates. Restore remains its explicit authorized operation
+with the existing conditional guide; no operation/authority gate is removed.
+Default output becomes current position, next action and blocker; inbox/week
+recaps are loaded only when relevant. Continue authorized work rather than
+ending every resumption with a fixed menu of two-to-four options.
+
+For lens, establish a question and authorized search scope, retrieve the smallest
+sufficient evidence set, compare sources and return one integrated answer.
+Dates establish provenance, not authority; source conflicts and reasons not
+recorded stay visible. Existing search/Obsidian tools suffice initially. Save,
+concept-card promotion and external research retain their own applicable gates.
+
+For compose, establish deliverable/audience/constraints, select relevant material,
+resolve or expose author-position conflicts, use the existing language-writing
+entry and check factual/source coverage before returning the requested finished
+artifact. Do not require lens, a separate outline approval or a council by default.
+Ordinary supplied-text edits retain their direct writing route; saving/publishing
+remain separate authorized operations.
+
+Use the existing Vault/project sources, source locators/revisions and task view.
+Do not add a central knowledge store, parallel task queue or three new top-level
+skills. Implementation order starts with one-project next resumption, then one
+actual source-based compose task and one question-driven lens task. Claude native
+adapter execution remains with its original owner; runtime acceptance is separate.
+
+Extend the existing HR cases, preserving prior fixture digests/results: HR01
+tests the three next scopes and stale/withdrawn records; HR02 tests retrieval,
+viewpoint conflicts and unknown reasons; HR03 tests source selection and actual
+artifact fidelity. HR04–HR06 keep repo-status, supplied-text editing and ordinary
+technical negative controls. Do not preselect every relevant source filename:
+bounded distractors and stale/conflicting records must test retrieval/state
+judgment rather than only summarization. Compare direct/current/proposed methods
+with matched inputs/tools/model where verifiable; measure correct completion,
+source/state accuracy, rework, human restatement and observable usage. Keep
+missing billing/identity unknown and inadequate samples inconclusive. No extra
+paid experiment, deployment or source migration follows from recording this plan.
+
+### AH09 option A adopted — 2026-11-07
+
+The user explicitly chose: "採 A，完成使用體驗改進後接續 AH09". The prior
+A/B proposal remains in revision5140cfd; B was not selected. This is the human
+acceptance decision, not an agent lowering criteria to obtain a pass.
+
+Keep ordinary-success restraint. AH09's unchanged success-only prompt/given now
+permits a current-task-only/deferred adoption assessment without forcing a
+candidate. The same fixture's separate `variants.actual_proposal` supplies a
+concrete synthetic retry gap and evidence; that branch must express a compact
+candidate, preserve single-event limits and distinguish domain owner from an
+unassigned integration executor. Both retain human promotion and forbidden
+automatic persistence/implementation. No skill/authority expansion is authorized.
+
+Preserve the source8b6ff2a original-oracle FAIL with its exact fixture digest and
+the earlier owner-rationale correction. Reassessment of an existing recorded
+answer under the newly approved oracle is not a new model run. New branch
+results, source/installed/behavior/effect evidence and cost limits remain separate.
+
+### Implementation sequence and repository responsibilities
+
+This is the reviewable plan for H1–H6, not a second checklist. Keep tasks.md as
+the integration progress authority and use workflow-reconciliation.md for evidence.
+Existing repo-local task authorities remain authoritative for their own work;
+link their acceptance IDs rather than copying their checkboxes into this change.
+
+| Batch | Concrete change | Evidence before advancing |
+|---|---|---|
+| 1: reconcile (H1/H3) | Freeze source/installed/native revisions and list contract conflicts; reconcile inline/delegated selection, review tiers and completion authority with current Shikigarasu | Owner-confirmed contract mapping; explicit compatibility/rollback proposal; no silent lowering of review requirements |
+| 2: consolidate (H2) | Prioritize daily engineering/routing entries and the 28 old-baseline coverage gaps; propose KEEP/MERGE ENTRY/REFERENCE ONLY/RETIRE with consumers and recovery | Per-entry rationale and consumer checks; high-impact dispositions remain provisional without behavioral controls |
+| 3: implement (H3/H4) | Apply bounded approved source changes at their actual owner; deliver shared semantics through native adapters; reuse existing metadata/references | Focused deterministic checks, relevant packaged-payload checks and independent review; adapter gaps remain explicit |
+| 4: pilot (H4/H5) | Exercise simple, independent, context-sensitive and failed-method tasks first; then applicable AH/SW branches, including resume and negative permissions | Frozen inputs/model/effort/tools/resource limit; runtime-specific results, side effects and failure history; zero unexplained live writes |
+| 5: compare and feedback (H5/H6) | Compare existing/consolidated/adaptive variants; link reusable failures via the existing candidate/proposal/experiment mechanisms | Measured quality, latency, retries, intervention and available usage; missing billing remains unknown; no claim C beats B without evidence |
+| 6: deliver (H6/G7) | Publish reviewed source only when authorized, then separately approve/deploy named targets and run fresh-session checks | Source/payload/installed/loaded/behavior/outcome recorded separately; seven-day or ten-relevant-session observation window begins only after approved deployment |
+
+Batching does not require waiting for every repo: local inventory and safe
+consolidation can proceed while a native/dream owner resolves an interface.
+Do not start a dependent adapter integration on an assumed interface.
+
+| Repository | Owns this change | Existing entry / proposed routing |
+|---|---|---|
+| dotcodex | Skill/instruction rationalization, Codex integration, auto-improve source, installer/test safety and source-to-payload mapping | Reuse Draft PR #7 for the current shared-workflow batch; existing instruction-audit artifacts hold dispositions/evidence. Separate a later incompatible refactor only if scope genuinely cannot fit |
+| Shikigarasu | Native execution/dispatch, outcome-based routing, review-policy implementation and resume/closure semantics | Reuse bounded issue #2, created after the initial deduplication and publication ruling. Upstream comparison and synthetic closure-checker controls are evidence in reconciliation; actual adapter acceptance remains separate. No new dispatcher or other-owner worktree change |
+| Hirameki | Existing integration design/tasks, candidate writer, provenance/recovery, shared SW/AH acceptance and handoff | Reuse issue #1 and Draft PR #2; retain the current OpenSpec change rather than creating a parallel harness specification |
+| akegarasu-no-yume | Native experience/lesson/use/outcome and dream-side exchange | Original Claude owner confirms existing task and interface; request minimal revision-bound input/output examples and receipts. Existing open defect PRs do not establish completion of this interface; no takeover or speculative new implementation |
+| Tsukuroigarasu | Its existing product and maintenance/preflight interface | Reference original owner's existing issue/PR and supplied contract; do not turn it into general orchestration or take over its worktree |
+| dotclaude | Claude-native integration and its own deployment | Original owner validates shared semantics in Claude and reports native loading/behavior separately; Codex does not modify its runtime or worktree |
+
+### Publication proposal and approval boundaries
+
+2026-11-07 subsequent user ruling: comprehensive GitHub publication and persistent
+goal creation are now explicitly authorized, followed by local implementation.
+The previous push delay described below is historical for this batch; merge,
+release, deployment and other ownership/cost boundaries remain unchanged.
+Published routing: Hirameki #1/#2, dotcodex #7, Shikigarasu #2 and Akegarasu #13.
+
+Use Hirameki issue #1 as the cross-repo integration index, linking the one
+authoritative OpenSpec change, repo-local tasks/PRs and named owners. dotcodex
+PR #7 may contain a concise navigation summary, not a second integration checklist.
+Do not repurpose dotcodex issue #3: its existing constitution/navigation scope
+and integration owner are different.
+
+Before GitHub writes, prepare the exact affected source diff, issue/PR text,
+branch, tests, remaining failures and exclusions. At proposal time the user's
+push delay applied; the later explicit ruling above authorizes this publication
+batch. A planning question alone is not publication permission. The first
+publication batch, when approved, can push the two existing workflow branches
+and update Hirameki #1/#2 and dotcodex #7. Shikigarasu and dream-side issue texts
+must be independently bounded/deduplicated and respect owner authority; adding a
+tracking issue never authorizes code changes in another owner's worktree.
+No merge, release, deployment, hook, schedule or paid experiment is implied.
+
+Current main-thread model/effort selection is retained. For bounded mechanical
+inventory work, gpt-6.1-sol/low is a candidate configuration to compare with the
+user-selected gpt-6.1-sol/high; this is task-fit judgment, not measured cost or
+quality equivalence. No total-cost saving or account availability is established.
+Keep acceptance constant and reassess only with relevant failures or actual usage;
+do not start a model comparison or change settings merely to complete this plan.

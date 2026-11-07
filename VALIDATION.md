@@ -25,11 +25,63 @@ command contract, Codex adapter, workflow smoke tests, local gate, and CI pass.
 
 ## Mapped tests
 
+- `tests/fixtures/shared-workflow.json`: eight synthetic native-host acceptance
+  cases for the shared improvement goal. These are test inputs and oracle criteria,
+  not executed model evidence. The operator materializes `given` facts in an
+  isolated fixture root; the agent receives the prompt and accessible evidence,
+  never the `must`/`must_not` oracle. Approval in SW02/SW05 must occur after an
+  actual frozen draft is displayed. Simulated GitHub responses in SW07 do not
+  authorize or test live network mutation. Record per host the source/fixture
+  hashes, actual tool loading, transcript locator, filesystem diff and outcome;
+  missing approval, unavailable tools or unexercised branches remain BLOCKED or
+  NOT-EXERCISED. Model runs and live deployment require their own authorization.
+  SW03's cross-origin branch uses two sequential native contexts: an authorized
+  origin writer followed by a read-only consolidation owner. Simulated machine
+  labels on one filesystem test role/identity semantics, never actual sync safety.
+
+  The same manifest's `adaptive_cases` adds AH01–AH12 for task H4. Initial
+  `NOT-RUN` is fixture status, not a test result. Record every field listed in
+  `evidence_required` per run; unknown model identity, usage or tool evidence stays
+  unknown. Use PASS / FAIL / BLOCKED / NOT-EXERCISED / NOT-RUN and preserve earlier
+  failures when a narrower follow-up passes. Fixture shape checks do not prove
+  adaptive behavior.
+  User-approved AH09 option A separates success-only assessment (no forced
+  candidate) from `variants.actual_proposal` with a concrete synthetic gap.
+  Materialize only the chosen branch's prompt/facts/evidence for each subject;
+  never pass `variants`, `must` or `must_not` as task facts. Preserve earlier
+  original-oracle failures under their original fixture digest.
+
+  Materialize only synthetic `given` files in a disposable root, freeze hashes,
+  and explicitly allowlist the necessary readset (including any applicable host
+  policy prerequisites). Supply only prompt, task facts and available capability
+  metadata to the subject; keep `must`, `must_not`, expected answers and prior
+  verdicts outside its readset. Record actual tool/file access separately from
+  agent self-report. Verify filesystem bytes and receipts independently wherever
+  writes occur. Source-injected contracts test supplied-contract use, not installed
+  discovery or fresh-runtime loading. AH10 requires separate native-runtime runs;
+  an unavailable runtime remains NOT-RUN or BLOCKED with its reason.
+
+  For A/B/C comparisons, freeze the same task inputs, tool permissions, model and
+  effort where confirmable: A existing harness, B consolidated contracts without
+  adaptive selection, C consolidated contracts with adaptive selection. Record
+  differences in contract payload, tool availability, prompt and execution order;
+  different prompts or uncontrolled environments cannot establish causal benefit.
+  Record quality, calls, elapsed time, retries, intervention and side effects;
+  unavailable token/billing/quota data stays unknown, never an estimated saving.
+  Existing authorization and budget must cover each run before execution; adding
+  fixtures does not grant paid experiments, live writes or deployment authority.
+
 - `tests/test_exact_append.py`: private preparation/show without note writes,
-  hash-bound apply, exact BOM/CRLF/LF/no-final-newline preservation, safe replay,
+  hash-bound apply, target/plan/content-hash receipts verified against saved bytes,
+  exact BOM/CRLF/LF/no-final-newline preservation, safe replay,
   target/plan conflict refusal, local locking, linked-target rejection, partial
   write and readback failure reporting. Actual model approval and installed helper
   invocation remain separate native-host acceptance, not inferred from unit tests.
+  New candidate mode additionally checks frozen full-note creation, collision
+  before/after prepare, two actual competing processes (one winner), readback
+  uncertainty, partial-write/fsync failure, linked target/parent and post-prepare
+  link substitution, scope/plan rejection and refusal to infer replay from equal bytes.
+  This is local filesystem evidence, not remote sync or event deduplication.
 
 - `tests/test_workflow_routes.py`: five primary entries, permanent shortcuts,
   legacy redirects and argument preservation; canonical/adapter capability parity.
@@ -45,6 +97,17 @@ command contract, Codex adapter, workflow smoke tests, local gate, and CI pass.
 - Consolidation capabilities and routing metadata are delivered in `references/`
   and the Codex skill references. Actual relocated-package tests check delivery;
   installed host discovery and routing remain separate deployment checks.
+  The relocated tarball checks exact SKILL/interface metadata bytes. The existing
+  shared-workflow fixture also has HR01–HR06 natural-request inputs with three
+  note-based outcomes and three direct/writing negative controls. Model pilots
+  must keep these oracles outside the subject readset; catalog-only comparisons
+  do not establish fresh-host discovery, usage savings or adoption benefit.
+  Issue #3 extends those same cases with source-only/resume/inventory scopes,
+  topic-based retrieval, an owning project task authority, retired/conflicting
+  material and unrelated distractors. Keep variant oracles outside model inputs;
+  execute the existing verifier only in the authorized resume branch. Source-copy
+  parity and fixture integrity are deterministic checks; actual retrieval,
+  continuation and artifact fidelity require separately retained model evidence.
 
 - `tests/test_tidy_dry_run.py`: concrete synthetic A1 structural acceptance,
   A3 stale source despite preserved mtime, E1 conflict-copy paths, E2 gate
@@ -67,6 +130,8 @@ command contract, Codex adapter, workflow smoke tests, local gate, and CI pass.
   delivery; bundled task readers and gate run from relocated package roots
   without source-checkout imports. Packing does not establish deployment.
   Requires the shared session-trace capability in both relocated host payloads.
+  Both roots execute exclusive candidate creation, verify readback receipt hashes,
+  and refuse a second create without changing either new or existing note bytes.
 
 ## Gates
 
