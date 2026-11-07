@@ -12,61 +12,36 @@ Published integration links: Hirameki #1 / PR #2, dotcodex PR #7,
 Shikigarasu #2, Akegarasu #13. H3 native/shared source implementation is in
 progress; publication and goal creation do not complete H1–H6.
 
-Continuing batch: H3 source alignment passed two independent scoped reviews;
-H2 Blueprint conditional extraction passed source review and a three-arm
-recommendation pilot (equivalence observed, quality/cost INCONCLUSIVE). AH07's
-supplied-contract local-check/denied-deployment branch passed with independent
-fixture-byte checks; other AH cases remain NOT-RUN. Evidence and limitations are
-in workflow-reconciliation.md §continuing implementation. Workstreams stay open.
+## Current checkpoint (2026-11-07)
 
-Next evidence batch: all 118 repo-owned entries have scoped provisional
-dispositions (28 full entry reads, 77 historical entry-byte matches, 13 delta
-reviews). This does not cover all installed external skills or prove model gain.
-AH06 and AH11 supplied-material branches passed; AH03's topology clarification
-and incomplete independent historical dispatch receipt remain explicit.
-Its source-gap output yielded a reproduced queue JSON-object bug, a two-line
-local fix and independent same-test red/green. H1/H2/H4/H5/H6 stay open; see the
-current AH result matrix and installed-boundary evidence in reconciliation.
+- H1/H2:118 canonical entries have scoped provisional dispositions;37 external
+  declarations,7 marketplaces and19selectors are separately inventoried. Selected
+  CLI receipt observes19 installed/18 enabled, Superpowers disabled preserved;
+  38 other installed selectors remain outside that receipt. No skill retirement
+  or all-skill model benefit is established.
+- H3:shared outcome/frozen-policy alignment has independent source reviews.
+  Existing discovery checker now has opt-in source/root/entry-byte binding;
+  source1b81184 Windows/Ubuntu CI passed (Windows273script/138repo tests,1repo
+  skip). Actual app-server/model loading, whole payload and effects remain open.
+- H4:AH05 original two-module branch now has corrected same-test red12/current8
+  green, independent native review and parent24CLI controls; user intervention0,
+  operator correction1. AH10 Codex supplied-native/shared source-decision branch
+  passed; Claude remains NOT-RUN, so global interoperability stays incomplete.
+- Historical failures remain in reconciliation/forward-tests:SW03 first FAIL,
+  AH03 topology/dispatch limits,AH08 missing-prerequisite/frontmatter first result,
+  AH09 unsupported-owner FAIL,2150f99 Windows CI FAIL,intermediate P2 BLOCKs and
+  AH05 initial test overconstraint. Earlier launcher writes with unknown prebytes
+  remain documented; later passes do not erase any of these.
+- H5/H6:A/B/C historical engineering pilot remains quality/cost INCONCLUSIVE;
+  minimal candidate receipts link known corrections,without rule promotion,
+  Dream ingestion,sync,release or deployment claims. H1–H6 full scopes remain open.
 
-Engineering/capture evidence batch: A/B/C repaired the identical historical queue
-defect with independent parent red/green/hidden CLI controls. B/C both chose direct;
-no adaptive gain or actual cost saving established (H5 broader INCONCLUSIVE).
-AH01/02/04/12 supplied/cohort branches passed within stated limits; AH08 first
-incomplete-prerequisite/frontmatter result is retained alongside corrected routed
-retest. AH09 promotion stayed bounded but unsupported owner assertion FAIL is
-preserved. Native closure checker passed 13 synthetic binding controls, without
-receipt authenticity/runtime closure claims. H1–H6 remain open; original AH05,
-AH10/Claude, installed/fresh-runtime and effects are still unverified. See existing
-reconciliation and dotcodex forward-tests/engineering evidence artifact.
-
-H1/H3 verification batch: existing baseline now links 37 external declarations,
-seven marketplaces, 19 plugin selectors and intended discovery policy; canonical
-118 rows unchanged. Selected CLI receipt observes 19 installed/18 enabled,
-Superpowers disabled preserved; 38 unselected IDs outside coverage. Existing
-runtime-discovery checker gains opt-in baseline/root/entry-hash binding, preserves
-names-only API, and replaces misleading CLI loaded label with discovered/scope.
-Twelve controlled-Popen tests and two independent scoped source reviews passed;
-Windows-path normalization hardening has independently reproduced same-test
-pre-final red/current green. No actual app-server/model load, native Windows,
-full payload or effects claimed; remaining timeout/raw-error/startup and external
-CLI-key compatibility limits are recorded in reconciliation/forward-tests.
-H1/H3 remain open for full coverage/adapter acceptance; no deployment authorized.
-
-Windows CI counterexample: dotcodex2150f99 Windows deployment-script suite failed
-1failure/2errors among270 tests on 8.3 entry-origin aliases; Ubuntu/Hirameki passed.
-Production correction + same-test independent alias red/current15green and both
-final source reviews PASS are complete; intermediate Windows basename-case P2
-BLOCKs remain recorded. Corrected native Windows CI is pending at this snapshot;
-use exact-head PR Checks/receipt for its subsequent result. No loader/deployment/
-effect completion follows from these tests; H1/H3 full scopes remain open.
-
-Subsequent exact-revision receipt: corrected source1b81184 passed native Windows
-and Ubuntu run42343627317; Windows273 script tests and138 repository tests(one
-skip), both steps successful. Hirameki4eb565a passed42343633029. Prior pending
-snapshot/2150f99 FAIL/P2 BLOCKs remain historical; no app-server/model loading or
-deployment implied. Existing writer saved/read back minimal candidate
-yatagarasu-20261107-discovery-path-alias (1,541bytes/hash in reconciliation),
-without permanent promotion, ingestion or sync claims. H1/H3 still open.
+This file remains the sole progress authority. Exact source/fixture digests,
+methods,side effects,raw outcome qualifications and retained failures are in
+[workflow-reconciliation.md](workflow-reconciliation.md) and its linked existing
+dotcodex audit artifacts. Earlier repetitive preface snapshots are preserved in
+[the prior task revision](https://github.com/devBrightRaven/hirameki/blob/84417b8225a24ce3f77f62827755a603dabd4f2a/openspec/changes/hirameki-workflow-consolidation/tasks.md);
+no task definitions/checkboxes or unique failure evidence were removed.
 
 ## 2026-11-07 Harness consolidation extension
 
@@ -102,14 +77,16 @@ other owners' worktrees retain their existing boundaries.
   interfaces, local revisions and remaining deployment/loading/outcome gaps.
   No parallel experience store, automatic promotion, intake or delivery authority.
 
-First bounded source batch: H1 census, H3 conditional shared selection and H4
+Historical first bounded source batch (subsequent checkpoint above supersedes status):
+H1 census, H3 conditional shared selection and H4
 fixture definitions have local artifacts; none closes the corresponding workstream.
 Current evidence, upstream compatibility gap and test-induced launcher side effect
 are in workflow-reconciliation.md §2026-11-07. AH behavior/performance remains
 NOT-RUN; explicit-folder candidate capture has a checked receipt; do not infer
 installed discovery, deployment or effect.
 
-本批最新授權：使用者允許本任務後續經驗證的本地 commit，push／部署延後；
+歷史授權快照（push 延後已由頁首 2026-11-07 裁定取代，部署仍未授權）：
+使用者允許本任務後續經驗證的本地 commit，push／部署延後；
 PR 發布更新隨 push 另行處理，不將本地提交視為遠端交付或已載入。
 
 2026-11-06 使用者解除候選保存阻礙：明示 br-os-vault 新增 `pain-point/`，

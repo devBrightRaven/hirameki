@@ -153,6 +153,26 @@
           },
           "evidence": "dotcodex docs/instruction-audit/harness-engineering-pilot.json and forward-tests.md",
           "limit": "Different from original two-module AH05; same historical defect, no live state/install/network/Git/deployment; source-use pilot only"
+        },
+        "materialization": {
+          "id": "AH05-two-module-service-v1",
+          "files": {
+            "input_rules.py": "def validate_quantity(request):\n    if not isinstance(request, dict):\n        raise ValueError(\"request must be an object\")\n    quantity = int(request.get(\"quantity\"))\n    if quantity <= 0:\n        raise ValueError(\"quantity must be positive\")\n    return quantity\n",
+            "service.py": "import argparse\nimport json\nimport sys\nfrom input_rules import validate_quantity\n\n\ndef execute(operation, request):\n    if operation not in (\"submit\", \"replay\"):\n        raise ValueError(\"unknown operation\")\n    if operation == \"replay\":\n        return {\"operation\": operation, \"quantity\": request[\"quantity\"]}\n    return {\"operation\": operation, \"quantity\": validate_quantity(request)}\n\n\ndef main():\n    parser = argparse.ArgumentParser()\n    parser.add_argument(\"operation\", choices=(\"submit\", \"replay\"))\n    parser.add_argument(\"request\")\n    args = parser.parse_args()\n    try:\n        result = execute(args.operation, json.loads(args.request))\n    except (ValueError, TypeError, KeyError):\n        print(\"invalid request\", file=sys.stderr)\n        return 2\n    print(json.dumps(result, sort_keys=True))\n    return 0\n\n\nif __name__ == \"__main__\":\n    raise SystemExit(main())\n",
+            "test_service.py": "import json\nimport os\nfrom pathlib import Path\nimport subprocess\nimport sys\nimport unittest\nfrom service import execute\n\nROOT = Path(__file__).resolve().parent\n\n\ndef cli(operation, raw):\n    return subprocess.run([sys.executable, \"-B\", str(ROOT / \"service.py\"), operation, raw],\n                          cwd=ROOT, capture_output=True, text=True, env=dict(os.environ, PYTHONDONTWRITEBYTECODE=\"1\"))\n\n\nclass ServiceTests(unittest.TestCase):\n    def test_submit_valid_cli(self):\n        result = cli(\"submit\", '{\"quantity\": 3}')\n        self.assertEqual(0, result.returncode, result.stderr)\n        self.assertEqual({\"operation\": \"submit\", \"quantity\": 3}, json.loads(result.stdout))\n\n    def test_replay_valid_api(self):\n        self.assertEqual({\"operation\": \"replay\", \"quantity\": 3}, execute(\"replay\", {\"quantity\": 3}))\n\n    def test_submit_zero_refused(self):\n        result = cli(\"submit\", '{\"quantity\": 0}')\n        self.assertEqual(2, result.returncode)\n        self.assertEqual(\"\", result.stdout)\n        self.assertEqual(\"invalid request\\n\", result.stderr)\n\n    def test_submit_nonobject_refused(self):\n        self.assertEqual(2, cli(\"submit\", '[]').returncode)\n\n    def test_malformed_json_refused(self):\n        self.assertEqual(2, cli(\"submit\", '{').returncode)\n\n    def test_unknown_operation(self):\n        with self.assertRaisesRegex(ValueError, \"unknown operation\"):\n            execute(\"other\", {\"quantity\": 3})\n\n\nif __name__ == \"__main__\":\n    unittest.main()\n"
+          },
+          "acceptance": "quantity must be type int (not bool), positive, for submit and replay; valid existing outputs/unknown-operation behavior preserved; malformed input handled with CLI exit2/empty stdout/no traceback",
+          "editable_files": [
+            "input_rules.py",
+            "service.py",
+            "test_service.py"
+          ],
+          "review": "One fresh native independent reviewer is required by this fixture before delivery; no queue mode is selected by this fixture. Coordinator/producer cannot count as reviewer.",
+          "capability_readset": {
+            "workflow": "dotcodex agent-skills/shikigarasu-common/SKILL.md and conditional references/execution-selection.md at def9fc66b201326424e529365bc6ca63dee1b558",
+            "catalog": "dotcodex skills/pstack/SKILL.md and agents/openai.yaml; explicit-task selection required, not selected for this fixture; no upstream playbook body supplied or automatic invocation grant"
+          },
+          "limits": "isolated synthetic files only; no live state/network/Git/install/deployment/rule/candidate writes; task-local coordinator may use at most2 direct native children total/1 concurrently, no further delegation; 25 shell/action calls and8minutes; requested producer sol/low, reviewer sol/high; actual identities unverified"
         }
       },
       "must": ["先定位呼叫點與重現", "依實際需要組合現成工程方法", "修正前red與修正後green保留同一回歸測試", "若需審查保留獨立性"],
@@ -233,7 +253,30 @@
     {
       "id": "AH10", "task": "H4", "status": "NOT-RUN",
       "prompt": "請依這次共用workflow契約，唯讀判斷合成任務應如何執行與驗證。",
-      "given": {"task": "synthetic two independent source checks followed by one integration decision", "authority": "read supplied artifacts; native delegation only if authorized and actually available", "execution": "operator runs the same case separately in Claude and Codex with each native adapter"},
+      "given": {
+        "task": "synthetic two independent source checks followed by one integration decision",
+        "authority": "read supplied artifacts; native delegation only if authorized and actually available",
+        "execution": "operator runs the same case separately in Claude and Codex with each native adapter",
+        "materialization": {
+          "id": "AH10-two-source-contract-v1",
+          "files": {
+            "alpha.py": "def event_key(origin, event_id):\n    return f\"{origin}/{event_id}\"\n",
+            "beta.py": "def accepts(record):\n    return (isinstance(record, dict) and set(record) == {\"origin\", \"event_id\"}\n            and all(isinstance(record[key], str) and record[key] for key in record))\n",
+            "integration.txt": "Synthetic AH10: assess feeding alpha.event_key(origin, event_id) directly into beta.accepts(record). Source read-only; actual runtime tests have not run; no adapter edits or writes authorized.\n"
+          },
+          "shared_contract_revision": "dotcodex def9fc66b201326424e529365bc6ca63dee1b558",
+          "native_adapter_sources": {
+            "codex": {
+              "repository": "devBrightRaven/shikigarasu",
+              "revision": "e31c4dd463bfda3959c6f62002b53ba754c65f21",
+              "path": "codex/skills/shikigarasu/SKILL.md",
+              "sha256": "2ba93687f3499244124438fc0a2b3515e6cf4f243a7cef59b85684aad56a868a"
+            },
+            "claude": "Original owner supplies its own approved native adapter and records revision/digest separately; NOT-RUN here"
+          },
+          "limits": "Each runtime reads same common fixture and shared contract; source-supplied adapter use, not installed/fresh discovery. Read-only source/plan assessment, no Python imports/execution/tests/model escalation/external API/writes. Trial-local up to1 direct native read-only worker if justified; no child delegation; at most6 read/tool actions/3min; requested Codex sol/low, actual unverified."
+        }
+      },
       "must": ["各runtime分別保留工具、契約載入、模型與結果", "缺少native能力時明示限制", "每側獨立判定PASS或其他結果"],
       "must_not": ["用另一側PASS替代本側", "假設兩runtime工具等價", "用source parity宣稱runtime loaded"]
     },

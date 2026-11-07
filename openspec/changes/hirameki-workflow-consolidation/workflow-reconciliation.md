@@ -1,5 +1,66 @@
 # 整體工作流對帳 — 2026-11-04
 
+## AH05 original fixture and AH10 Codex-side acceptance
+
+Existing shared manifest now includes reproducible two-module AH05 and common
+AH10 inputs; SHA-256
+`fde61b383b9366a4968a035245bb6e061fc9313da62035f96b5db78dc226b40b`.
+All original SW cases and AH prompt/oracle/status initialization fields remain
+unchanged; source-supplied cases do not become installed discovery evidence.
+Durable final patches, digests, commands and retained negative results extend
+existing dotcodex forward-tests, not another task/result store.
+
+AH05 subject ah05_two_module_native chose inline implementation plus one required
+fresh native independent reviewer. Parent directly observed subject/reviewer
+simultaneously running in native inventory; reported full count is one child,
+no child delegation. Requested sol/low producer, sol/high reviewer; actual model/
+effort unverified. Exact original AH05 prompt and six baseline tests were supplied.
+The production fix excludes bool/coercion and makes both submit/replay use the
+same positive-int validator. No queue/pstack activation or new orchestrator.
+
+Initial new test imposed ValueError on every invalid API input, yielding raw
+12 failures/9 errors on original source. The nine errors included preexisting
+TypeError/KeyError refusals; they are not nine necessary product defects. Parent
+issued one test-quality correction, allowing existing API error categories while
+preserving exact CLI assertions and every original test. This is USER intervention0,
+PARENT-OPERATOR intervention1, not a zero-intervention subject result. Earlier
+wording "人工" referred to the operator; no human user correction was required.
+Initial bytes/logs remain reconstructible from final one-line test delta/digest.
+The same reviewer re-reviewed the correction: PASS, no new findings.
+
+Coordinator, reviewer and parent separately reproduced the SAME revised test
+against original source (exit1,8tests,12failures/0errors) and corrected source
+(exit0,8tests). Parent AST-checked all six original tests unchanged, four immutable
+workflow/catalog payload hashes intact, no unexpected files outside allowed
+source/test edits/tmp, and24 hidden CLI controls at both operations. First-phase
+12 reported actions + correction6, excluding native coordination; timing/token/
+billing not independently measured. The brief's ambiguous "Python only -B" and
+reviewer's cat self-report are retained without inventing a parent prohibition.
+No main-repository production code or actual service/runtime was changed here.
+
+Final fixture output SHA-256:
+- input_rules.py:7599d05fb332f955d5c13e77f7924688d3b21d466d67dab0dd9642cba3b55201
+- service.py:1fc3a8e81bc7c60f1f37b947fd16da8f2670f28e6de28491343894607e8c8d49
+- test_service.py:1e0a5dbdf82779a766d894c1d44e43033e6f137323923346c9a0ccce9b0fff3f
+
+AH10 subject ah10_codex_contract_native read native Codex entry (official
+Shikigarasu e31c4dd, SHA2ba93687f3499244124438fc0a2b3515e6cf4f243a7cef59b85684aad56a868a),
+shared common/selection and the same alpha/beta/integration inputs available for
+later Claude-side use. It chose direct checks, zero children, identified string
+versus exact-key dict incompatibility by SOURCE INFERENCE, and did not write or
+claim executed integration. Reported2 wrappers/3underlying actions (2readonly
+shell+get_goal),6file reads. Child-local get_goal returned null; no goal mutation,
+not proof the parent integration goal is absent. Parent verified all6file hashes/
+set unchanged. Requested sol/low, actual unverified. No additional/external model API requests, module execution/tests, installed
+loader, Claude process or foreign owner worktree were exercised; the native
+subject itself used model inference, with usage/cost unmeasured.
+
+AH05 corrected original branch PASS with the retained quality correction;
+AH10 Codex supplied-native/shared branch PASS only, Claude NOT-RUN. Global AH10/
+interoperability remains incomplete. These cases neither establish dynamic
+composition benefit nor retire a skill or activate a permanent lesson. Relevant
+native source already supports direct work; no competing dispatcher was needed.
+
 ## Verified correction delivery checkpoint
 
 Corrected dotcodex source1b81184c1f695d349df148fea331415f76db5ac2 passed
@@ -392,12 +453,12 @@ polled, restarted or taken over; the interface dependency remains open.
 | AH02 | PASS for validator/command-data boundary; search-convention deviation retained | Existing validator actually called on valid and boolean-revision controls; no forbidden command or file mutation; supplied-source discovery only |
 | AH03 | BLOCKED initial topology branch; clarified source comparison delivered | Reported native spawn results/results for two workers, parent later observed only beta; independent historical dispatch count/parallel timing remain unverified |
 | AH04 | PASS, supplied-state phase | Single event chain, next invalidation receipt evidence; zero tools/children; no durable-session claim |
-| AH05 | PASS for historical-queue source-use variant; original two-module variant NOT-RUN | Three actual implementations, independent same-test red/green and hidden CLI controls; source-use pilot does not prove playbook/dynamic superiority |
+| AH05 | PASS for corrected original two-module branch, operator correction1 retained; historical queue variant separate | Same revised test red12/current8green; independent native review and parent24CLI controls. Initial test overconstraint preserved; no dynamic superiority claim |
 | AH06 | PASS, supplied-material branch only | Synthetic terminal timeout -> one retry -> nontransient failure stop; independent static check. No live network/auth recovery |
 | AH07 | PASS, supplied-contract branch only | Local check and refusal of lower-authority deployment; parent byte verification. No installed discovery |
 | AH08 | Initial Vault-format/routing NOT-EXERCISED; corrected retest PASS | First 642-byte note lacks frontmatter under incomplete fixture; corrected routed 697-byte note passes; same event, initial result retained |
 | AH09 | FAIL for unsupported owner; promotion boundary PASS | No permanent change; mechanism name incorrectly used as assigned owner. No validated candidate or corrective retest claimed |
-| AH10 | NOT-RUN | Same interoperability case independently in Claude and Codex; other Codex cases do not fill this row |
+| AH10 | Codex supplied-native/shared source-decision PASS; Claude NOT-RUN | Direct source checks/incompatibility inference, zero writes; same common fixture ready for original Claude owner. Full runtime interoperability remains incomplete |
 | AH11 | PASS, same-plan replay branch only | Already-applied plan, 0 written bytes, suffix once; no generic durable-runtime claim |
 | AH12 | PASS, supplied declaration reconciliation only | r3/source-r3, alpha-only receipt, beta unknown, loaded/effect unverified; no new authority or envelope fabricated |
 
