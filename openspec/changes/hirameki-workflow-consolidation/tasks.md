@@ -25,6 +25,10 @@ progress; publication and goal creation do not complete H1–H6.
   Component lifecycle matrix now links updater preview/0, offline resolver output,
   14 managed-file observations (13 entry-byte matches; AGENTS differs), and Tsuku
   c2ac1e3/source opt-in interface; none implies deployment or active runtime loading.
+  User-entry pilot HR01–HR06 compares supplied catalogs/notes: B/C same routes
+  and core content; no measured gain. C next-index evidence incomplete; A later
+  native provenance unavailable. Keep task-first README/UI short_description,
+  restore original routing description/default_prompt; no forced invocation.
 - H3:shared outcome/frozen-policy alignment has independent source reviews.
   Existing discovery checker now has opt-in source/root/entry-byte binding;
   source1b81184 Windows/Ubuntu CI passed (Windows273script/138repo tests,1repo
@@ -47,10 +51,12 @@ progress; publication and goal creation do not complete H1–H6.
   New AH03 trial now directly observes2 native workers with disjoint readsets,
   running overlap and completed source-grounded integration;7 fixture files stay
   unchanged. The older missing-alpha/initial topology limits remain historical.
-  New AH09 current-source trial FAILS the unchanged candidate-expression oracle,
-  while respecting ordinary-success/promotion limits. Input/oracle/trigger mismatch
-  needs human acceptance clarification (pending proposal in existing design);
-  no fixture/skill changed. Earlier owner-rationale correction stays separate.
+  Original AH09 current-source trial FAIL under its old candidate-expression
+  oracle is preserved. User approved A: success-only deferral without forced
+  candidate, plus a concrete-gap proposal branch. Recorded success-only output
+  is reassessed (not rerun); new proposal branch returns needs-evidence compact
+  candidate with human gate/no implementation. Final review remains explicit in
+  reconciliation; earlier owner-rationale correction stays separate.
 - Historical failures remain in reconciliation/forward-tests:SW03 first FAIL,
   AH03 topology/dispatch limits,AH08 missing-prerequisite/frontmatter first result,
   AH09 historical unsupported-owner FAIL (rationale later withdrawn after contract

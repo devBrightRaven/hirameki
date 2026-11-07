@@ -68,6 +68,17 @@ Claude Code remains the command-native surface. The Codex adapter uses one umbre
 
 ---
 
+### Start with the task
+
+Ask in your own words: "Pick up the work in yesterday's handoff", "How did my
+view change between these notes?", or "Use these notes to write a sourced intro".
+The agent selects the matching capability and preserves the requested scope;
+you do not need to choose next, lens or compose. Use it when saved context or
+cross-note sources help; ordinary repo status and supplied-text edits keep their
+existing tools. Saving remains subject to the existing approval gate. Explicit
+commands below remain available. Automatic routing and benefit depend on the
+installed host and need separate behavioral verification.
+
 ### Hirameki — five purpose-based entries — Detailed guide
 
 > Version 2.2.0 consolidates the workflow entries; source validation, model acceptance, installation and scheduling are separate.
@@ -259,6 +270,14 @@ Claude Code 是原生指令介面；Codex 以一個 umbrella skill 路由五個�
 
 ---
 
+### 從你要完成的事開始
+
+直接說「接回昨天交接裡的工作」、「這幾份筆記裡，我的看法改了什麼？」或
+「用這些筆記整理一段附來源的介紹」。Agent 依需求選用能力並保留範圍，
+你不用先選 next、lens 或 compose。有已保存脈絡或跨筆記來源需求時才使用；
+一般 repo 狀態查詢、提供文字的短修改沿用既有工具。保存仍遵守原批准流程，
+下方指令保留直接使用。實際自動選用與效益須依已安裝 host 另外驗證。
+
 ### Hirameki — 五個目的導向入口 — 完整指南
 
 > 2.2.0 整合工作流程入口；來源驗證、模型驗收、安裝與排程分開判定。
@@ -443,6 +462,15 @@ claude   # どこからでも
 セットアップ後、`__init` は**分割設定**を書き込みます：vault のフォルダ構造は `<vault>/AGENTS.md`（エージェント中立 — vault と一緒に移動し、どの AI エージェントも読める）に、マシン固有の値（vault パス・言語）は `~/.claude/vault-local.md` に保存されます。以降は Claude Code をどこで開いても、すべての Hirameki コマンドが正常に動作します。`~/.claude/` をマシン間で同期する場合、`vault-local.md` は gitignore に追加してください。各マシンで `/hirameki:__init` を一度実行するだけで済みます。
 
 ---
+
+### やりたいことから始める
+
+「昨日の引き継ぎから作業を再開して」「このノート間で私の考えはどう変わった？」
+「この資料から出典付きの紹介文を作って」のように依頼できます。Agent が目的と
+範囲に合う機能を選び、next・lens・compose を先に選ぶ必要はありません。
+保存済みの文脈や複数ノートの出典が必要な場合に使い、通常の repo 状態確認や
+提供文の短い修正は既存ツールで処理します。保存の承認と明示コマンドは維持します。
+自動選択や効果は、インストール先の host で別途検証が必要です。
 
 ### Hirameki — 目的別の五つの入口 — 詳細ガイド
 

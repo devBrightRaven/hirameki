@@ -1,6 +1,42 @@
 # 整體工作流對帳 — 2026-11-04
 
-## New AH09 original-oracle failure and pending acceptance decision
+## Outcome-first Hirameki entry and user-approved AH09 A
+
+The user reported no reason/habit to invoke next/lens/compose and then explicitly
+chose "採 A，完成使用體驗改進後接續 AH09". The entry experiment used HR01–HR06
+in the existing shared fixture with identical task/source inputs: A supplied
+catalog omits Hirameki, B original metadata, C proposed outcome-first metadata.
+All retained core answers are equivalent; B/C route positives to the intended
+three capabilities and negatives to direct/writing. C's unchecked index makes
+HR01 source-only, not complete next-contract PASS. A's native inventory later
+became unavailable; review used parent-retained A text, direct B/C finals. Exact
+10/57/57 file sets/hashes stayed unchanged. A2/B4/C4 reads are reports, no cost
+claim. One fixed-order six-case context/arm, no real-host discovery/adoption proof.
+
+Independent source/outcome review BLOCKed full metadata replacement. Adopt only
+three-language task-first README and UI short_description; restore original
+SKILL description/default_prompt. Source contracts/direct commands/save authority
+unchanged. New packaging byte checks bind actual relocated entry/interface, not
+model use. Prototype/limitations/full digests remain in the existing dotcodex
+baseline/forward-tests; no new registry, skill or hypothesis promoted as effect.
+
+AH09 A is now a human-approved acceptance change in the existing design/fixture.
+The success-only prompt/given/must_not are unchanged; recorded prior output is
+reassessed against no-forced-candidate criteria, not reexecuted or retroactively
+called an original-oracle PASS. A separate concrete retry-gap branch has actual
+new source-supplied result ah09_actual_proposal_a: needs-evidence compact
+candidate, native-adapter scope uncertain, domain owner vs unassigned integration
+executor separate, single synthetic trace limits, human gate/no implementation.
+Parent verified exact6-file set/hashes unchanged; reported3read/hash calls and
+model/usage/cost unknown. Fresh independent hirameki_ux_ah09_final_review directly
+read the proposal final and checked all11source/evidence diffs: PASS for the
+success-only recorded-evidence reassessment and synthetic proposal branch.
+Ambiguous model-service wording was clarified: native resources were used,
+actual usage/cost unknown. No real save/Dream/sync,
+installed/Claude/performance/deployment/effect result follows from this evidence.
+Original FAILs/owner correction/AH12 priming remain separate historical cases.
+
+## Historical: new AH09 original-oracle failure before A approval
 
 Fresh subject ah09_current_recommendation received unchanged prompt/given with
 four supplied source8b6ff2a contracts. Fixture SHA-256
@@ -782,7 +818,7 @@ polled, restarted or taken over; the interface dependency remains open.
 | AH06 | PASS, supplied-material branch only | Synthetic terminal timeout -> one retry -> nontransient failure stop; independent static check. No live network/auth recovery |
 | AH07 | PASS, supplied-contract branch only | Local check and refusal of lower-authority deployment; parent byte verification. No installed discovery |
 | AH08 | Initial Vault-format/routing NOT-EXERCISED; corrected retest PASS | First 642-byte note lacks frontmatter under incomplete fixture; corrected routed 697-byte note passes; same event, initial result retained |
-| AH09 | New trial FAIL against unchanged candidate-expression oracle; earlier full-response reassessment BLOCKED/owner rationale withdrawn | New ordinary-success restraint/promotion limits observed, but no present candidate; input/oracle/trigger mismatch needs human acceptance decision. Old response unverified/AH12 priming retained; no serialization requirement or full PASS |
+| AH09 | A approved: success-only reassessment PASS and supplied proposal branch PASS, independently reviewed; original-oracle FAIL retained | Success deferral reuses recorded output, proposal has new needs-evidence compact result; no automatic promotion. Earlier owner-cohort answer remains unverified/AH12 priming retained; no fresh-runtime/Claude/effect claim |
 | AH10 | Codex supplied-native/shared source-decision PASS; Claude NOT-RUN | Direct source checks/incompatibility inference, zero writes; same common fixture ready for original Claude owner. Full runtime interoperability remains incomplete |
 | AH11 | PASS, same-plan replay branch only | Already-applied plan, 0 written bytes, suffix once; no generic durable-runtime claim |
 | AH12 | PASS, supplied declaration reconciliation only | r3/source-r3, alpha-only receipt, beta unknown, loaded/effect unverified; no new authority or envelope fabricated |

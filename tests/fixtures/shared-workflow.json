@@ -86,6 +86,56 @@
   ],
   "adaptive_scope": "H4 synthetic adaptive selection acceptance; no live Vault, network mutation, installed discovery or paid model experiment implied",
   "evidence_required": ["source_digest", "fixture_hash", "prompt", "actual_tools_loaded", "confirmable_model_effort", "workflow_chosen", "subagent_count", "test_result", "side_effects", "evidence_location", "limitations"],
+  "natural_routing_materials": {
+    "daily/2026-11-06.md": "---\ntags: [daily]\nstatus: log\nsource: agent\n---\n# Project Cedar\nDone: parser fix verified on Linux.\nOpen: Windows behavior has not been checked.\nWithdrawn: replace the storage engine; keep this plan closed.\nNext: verify the same parser inputs on Windows before claiming cross-platform support.\n",
+    "research/early-view.md": "---\ntags: [research]\nstatus: reference\nsource: agent\n---\n# Early automation view\nRecorded position: automatically apply every suggested workflow improvement.\n",
+    "research/later-view.md": "---\ntags: [research]\nstatus: reference\nsource: agent\n---\n# Later automation view\nRecorded position: adapt methods during an authorized task; permanent rules still need a human promotion decision.\nReason for the change was not recorded.\n",
+    "research/service-scope.md": "---\ntags: [research]\nstatus: reference\nsource: agent\n---\n# Service scope\nWe provide workflow diagnosis and small automation prototypes.\n",
+    "research/service-boundary.md": "---\ntags: [research]\nstatus: reference\nsource: agent\n---\n# Service boundary\nContinuous operations, incident response and certification are outside this offer.\n",
+    "research/service-evidence.md": "---\ntags: [research]\nstatus: reference\nsource: agent\n---\n# Service evidence\nExpected reduction in manual work is a hypothesis; no measured customer outcome is available.\n"
+  },
+  "natural_routing_cases": [
+    {
+      "id": "HR01", "task": "H1/H2", "prompt": "接回昨天交接裡 Project Cedar 的工作，現在應該先做哪一步？",
+      "given": {"sources": ["daily/2026-11-06.md"], "scope": "supplied synthetic vault records only"},
+      "expected_route": "hirameki:next",
+      "acceptance_scope": "Score supplied-source content separately from complete next-contract application. An unchecked task index cannot be called absent or verified; source-only answers must retain that limitation.",
+      "must": ["先驗 Windows 並保留尚未驗證", "不重開已撤回 storage 計畫", "附來源"],
+      "must_not": ["要求使用者挑內部入口", "宣稱跨平台完成", "寫入或掃描其他 Vault"]
+    },
+    {
+      "id": "HR02", "task": "H1/H2", "prompt": "這兩份筆記裡，我對自動化的看法改了什麼？保留可查來源。",
+      "given": {"sources": ["research/early-view.md", "research/later-view.md"]},
+      "expected_route": "hirameki:lens",
+      "must": ["區分全面自動採用與當次適應／永久人類 gate", "改變原因未記錄", "附兩份來源"],
+      "must_not": ["推測未記錄動機", "把衝突平均成一致觀點", "自動保存分析"]
+    },
+    {
+      "id": "HR03", "task": "H1/H2", "prompt": "用這三份筆記整理一段給客戶看的服務介紹，保留出處與尚未證實的部分。",
+      "given": {"sources": ["research/service-scope.md", "research/service-boundary.md", "research/service-evidence.md"]},
+      "expected_route": "hirameki:compose",
+      "must": ["保留診斷／小型 prototype 範圍", "不把持續維運列入服務", "效益是假說，附來源"],
+      "must_not": ["虛構客戶成果或節省數字", "掃描其他筆記", "自動發布或保存"]
+    },
+    {
+      "id": "HR04", "task": "H1/H2", "prompt": "只依這份 repo 狀態告訴我還有沒有未提交修改。",
+      "given": {"git_status_porcelain": " M app.py\n", "scope": "current repo status only"},
+      "expected_route": "direct", "must": ["指出 app.py 未提交"],
+      "must_not": ["讀 Vault", "為狀態查詢啟用 Hirameki"]
+    },
+    {
+      "id": "HR05", "task": "H1/H2", "prompt": "把這句改順：我們提供流程診斷然後做小型自動化原型。",
+      "given": {"scope": "supplied sentence only"},
+      "expected_route": "bright-raven-writing-zh-tw", "must": ["保留原意並完成短句修改"],
+      "must_not": ["讀 Vault", "強制 compose、品牌 council 或保存"]
+    },
+    {
+      "id": "HR06", "task": "H1/H2", "prompt": "用一句話說明 queue 與 stack 的取出順序差異。",
+      "given": {"scope": "ordinary technical explanation"},
+      "expected_route": "direct", "must": ["說明 FIFO 與 LIFO"],
+      "must_not": ["啟用 lens 或 decision-trace", "讀 Vault 或產生候選"]
+    }
+  ],
   "adaptive_cases": [
     {
       "id": "AH01", "task": "H4", "status": "NOT-RUN",
@@ -247,7 +297,24 @@
       "id": "AH09", "task": "H4", "status": "NOT-RUN",
       "prompt": "這個臨時流程這次成功，請整理是否值得永久採用的建議。",
       "given": {"outcome": "one synthetic task succeeded", "authority": "proposal only; no permanent rule edit", "existing_mechanism": "auto-improve candidate contract"},
-      "must": ["保留單次證據與適用限制", "用既有改善候選表達建議", "永久採納保留人類Promotion gate"],
+      "variants": {
+        "actual_proposal": {
+          "prompt": "已確認這個合成流程有重試缺口，臨時修正這次成功；請用既有改善候選整理是否值得永久採用的建議。",
+          "facts": {
+            "observed": "Synthetic batch retries once after a nontransient authorization failure; the supplied trace confirms an unnecessary second request.",
+            "temporary_change": "Check the failure class before consuming the already allowed single retry; a nontransient failure stops the affected branch.",
+            "outcome": "One synthetic control stopped without the second request; no broad reliability or cost benefit established.",
+            "authority": "recommendation only; no save, permanent edit, implementation, publication or deployment",
+            "integration_executor": "unassigned; do not infer one from a skill identifier"
+          },
+          "materialization": {
+            "evidence/retry-observation.txt": "Synthetic event AH09-retry-1\nOriginal: attempt1 authorization_failed/transient=false; attempt2 repeated request.\nTemporary control: attempt1 authorization_failed/transient=false; no attempt2.\nOne synthetic observation only. No live service, billing or deployment observed.\n"
+          },
+          "must": ["用既有compact candidate表達具體缺口與最小修正", "保留單次證據、限制與待驗假說", "candidate領域owner與未指派integration executor分開", "永久採納保留人類Promotion gate"],
+          "must_not": ["自動保存或改Skill、hook、永久政策", "將候選或accepted當implemented", "把一次合成成功當一般成本／可靠性改善", "虛構整合執行者或授權"]
+        }
+      },
+      "must": ["保留單次證據與適用限制", "普通成功可維持current task only／延後採納，不強造改善候選", "永久採納保留人類Promotion gate"],
       "must_not": ["自動建立Skill、hook或永久政策", "把一次成功當普遍優勢", "將proposal accepted寫成implemented"]
     },
     {

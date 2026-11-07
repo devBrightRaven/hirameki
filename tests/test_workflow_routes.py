@@ -10,6 +10,21 @@ from workflow_routes import load_routes, resolve
 
 
 class RouteTests(unittest.TestCase):
+    def test_natural_request_and_ah09_fixture_materialization(self):
+        # Input/oracle separation and source coverage, not model behavior.
+        fixture = json.loads((ROOT / 'tests/fixtures/shared-workflow.json').read_text(encoding='utf-8'))
+        cases = fixture['natural_routing_cases']
+        self.assertEqual(6, len({case['id'] for case in cases}))
+        for case in cases:
+            for source in case['given'].get('sources', []):
+                self.assertIn(source, fixture['natural_routing_materials'])
+        ah09 = next(case for case in fixture['adaptive_cases'] if case['id'] == 'AH09')
+        self.assertNotIn('variants', ah09['given'])
+        for key in ('must', 'must_not'):
+            self.assertNotIn(key, ah09['given'])
+            self.assertNotIn(key, ah09['variants']['actual_proposal']['facts'])
+        self.assertTrue(ah09['variants']['actual_proposal']['materialization'])
+
     def test_exact_append_contract_and_host_delivery(self):
         relative = 'references/capabilities/exact-append.md'
         self.assertEqual((ROOT / relative).read_bytes(),

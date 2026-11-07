@@ -74,6 +74,9 @@ class PayloadTests(unittest.TestCase):
         package = relocated / 'package'
         self.assertTrue((package / 'codex/.codex-plugin/plugin.json').is_file())
         self.assertTrue((package / '.claude-plugin/plugin.json').is_file())
+        for relative in ('SKILL.md', 'agents/openai.yaml'):
+            self.assertEqual((ROOT / 'codex/skills/hirameki' / relative).read_bytes(),
+                             (package / 'codex/skills/hirameki' / relative).read_bytes())
         for relative in ('references/capabilities/tasks.md',
                          'references/capabilities/session-traces.md',
                          'references/capabilities/natural-routing.md',

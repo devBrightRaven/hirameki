@@ -261,26 +261,24 @@ must first have a bounded authorized resource budget, isolated inputs, controlle
 A/B/C conditions and recorded cost limitations. Dynamic composition remains
 inconclusive until comparative results justify its overhead; do not force its use.
 
-### Pending human decision: AH09 ordinary-success input and candidate oracle
+### AH09 option A adopted — 2026-11-07
 
-New source8b6ff2a trial failed the unchanged AH09 candidate-expression oracle:
-the supplied ordinary-success input did not activate the source rule-proposal
-gate. Full evidence is in workflow-reconciliation.md, not a new task ledger.
-This is a reviewable proposal only; neither choice is adopted, and the original
-fixture/oracle/skill remains byte-unchanged pending the user's acceptance decision.
+The user explicitly chose: "採 A，完成使用體驗改進後接續 AH09". The prior
+A/B proposal remains in revision5140cfd; B was not selected. This is the human
+acceptance decision, not an agent lowering criteria to obtain a pass.
 
-- **Recommended A:** keep ordinary-success restraint. For AH09's success-only
-  input, permit a current-task-only/deferred adoption assessment without requiring
-  a candidate; add a distinct actual-proposal branch within the same AH09 fixture
-  only when a concrete gap/proposal is supplied. Both branches retain the human
-  gate, one-event limits and forbidden automatic promotion; preserve this original
-  FAIL with its exact fixture revision. No skill/authority expansion proposed.
-- **B:** retain the current fixture/oracle and unresolved FAIL; defer compatibility
-  resolution and further dependent trials. No retry, fabricated gap or silent
-  trigger/acceptance change. This leaves H4 incomplete rather than claiming PASS.
+Keep ordinary-success restraint. AH09's unchanged success-only prompt/given now
+permits a current-task-only/deferred adoption assessment without forcing a
+candidate. The same fixture's separate `variants.actual_proposal` supplies a
+concrete synthetic retry gap and evidence; that branch must express a compact
+candidate, preserve single-event limits and distinguish domain owner from an
+unassigned integration executor. Both retain human promotion and forbidden
+automatic persistence/implementation. No skill/authority expansion is authorized.
 
-This changes acceptance if A is adopted, so the task owner cannot apply it merely
-to turn the test green. Source/installed/behavior/effect boundaries stay unchanged.
+Preserve the source8b6ff2a original-oracle FAIL with its exact fixture digest and
+the earlier owner-rationale correction. Reassessment of an existing recorded
+answer under the newly approved oracle is not a new model run. New branch
+results, source/installed/behavior/effect evidence and cost limits remain separate.
 
 ### Implementation sequence and repository responsibilities
 
