@@ -1,5 +1,119 @@
 # 整體工作流對帳 — 2026-11-04
 
+## AH09 installed 邊界與 compose 明示入口（2026-11-08）
+
+使用既有 fixture `43faadf1a3685edac1f694c943511e94bf4b6b0668382ea792eca6dd9419efa6`
+的 AH09 actual_proposal 做 fresh installed invocation；不是 success-only 新重跑，
+A 裁定及原歷史 FAIL 均保留。Subject 實讀 installed auto-improve／proposal-contract
+與合成證據，正確提出最小重試修正、保留一次對照與效益未知、executor unassigned，
+但沒有明列領域 owner 或人類永久採納 gate。獨立 oracle 逐列判 **FAIL／答案不完整**；
+不是 unsupported-owner、缺 JSON 或發生未授權修改。所查工具紀錄無寫入事件，
+整個合成 case file-set／bytes 未變。
+
+當次選路增加既有獨立審查，再由主 Agent 修正答覆，沒有第二次模型試跑或改 skill：
+auto-improve 僅承接未知主責的候選分流，真正 code owner 未知、executor unassigned，
+明列 needs-evidence／人類 Promotion gate。修正 artifact 的同 oracle 複查 PASS，
+原 native FAIL 不變；沒有正式候選保存／實作／發布／部署或自動晉升。這是當次
+bounded correction，不證明模型自發遵循改善或 C beats B，也不據此增寫永久規則。
+審查與主 Agent 修正本身使用模型資源；未重跑 subject，不是零模型成本流程。
+
+HR03 explicit：重用同 retrieval fixture，以明示 hirameki:compose 要求成品；實讀
+installed compose 與 writing-zh-tw、按測試 registry 選 research，交付有來源與效果
+未知的成品，排除退役承諾。12個 fixture 檔前後不變，獨立內容／明示入口驗收 PASS。
+此為 Codex umbrella 的明示意圖相容性，不是 native slash-parser；先前 natural
+HR03 沒讀 compose 的 NOT-EXERCISED 維持，不能拿此替代自然觸發／使用效果。
+
+本次安裝後 pilot 共十次 native invocation，包含首輪配置 BLOCKED、corrected 分支
+及這兩次，到此不擴模型試驗。維持既有 resolver sol/low、provider／billing unknown、
+hook clamp 與 startup 副作用未完整稽核等限制；沒有 Claude／真實跨機或成本效果比較。
+Source、候選、parent修正及 runtime結果各自分列，唯一進度仍為 tasks。
+
+## 原 goal active 後的 installed next／capture（2026-11-08）
+
+使用者已恢復原 goal，Claude 本輪仍指定延後；#8／#4 merge 尚待批准。未重部署或
+改 skill，沿用已安裝 source 與既有 HR01 inventory／SW01 capture 分支，沒有給定
+正確 skill/reference 路徑。另在原 dotcodex baseline 補 immutable source delta：
+118 identities 無增減、116 entry bytes 未變、兩個 privacy entry 改變，skill-owned
+差異共六路徑；原 dispositions／consumer 與行為限制不自動升格。
+
+HR01 inventory：fresh invocation 讀 installed Hirameki→next／tasks／natural-routing
+及 gate，原生 reader offset0／20 與雙 revision pins 可定位。24 active、26 uncertain、
+23 exceptions 與 partial 均保留；pending restore 未被當成任務執行。兩頁原樣 tool
+readback 等於 saved receipts，parent 另跑 installed reader 得相同 parsed results；
+整個合成 Vault file-set／bytes 未變。這新增一次 installed next 證據，不覆蓋較早
+resume 的 NOT-EXERCISED，也不推論 compose 或普遍自然觸發。
+
+SW01 首輪 BLOCKED：parent 把 private staging 放進 Vault，subject 算出7、讀
+installed capture bridge／writer 契約，helper 路徑猜錯後自行修正，prepare 再因
+Vault 內 staging 拒絕。只有一份合成 draft 新增，pain-point 無候選；誠實 not-saved，
+不能把 exit0 當保存 PASS。保留此配置錯誤，沒有為它修改 writer 或驗收判準。
+
+更正 materialization 為 case root 的 vault/／private/，dispatch 前 assert private
+位於 Vault 外；同一合成事件由新 fresh invocation 重驗，不算新獨立觀察。它先把
+required key 拼成 pain_point 得 exit3，之後同一 explicit synthetic 根省略 required、
+讀 AGENTS 確認 pain-point，再 prepare／apply 回 created。parent 核對唯一候選、
+frozen base64 draft、plan hash、written bytes、target 全一致；fixture 原 bytes 未變，
+新增 note／draft／plan。限定 capture outcome 與 routing 過程分列；不宣稱所有 gates
+無錯。只保存單次陳述、影響、事件與未知，無整併／永久晉升／真實 Vault 寫入。
+
+三次均沿用既有 resolver 請求 sol/low，無 provider／billing 獨立認證；hook clamp
+仍可見，沒有 syscall 啟動副作用稽核。沒有 Claude／真實跨機／成本效果比較。
+原生事件與完整合成 receipts 留在本機；方法／歷史失敗見既有 dotcodex forward-tests。
+
+同輪 AH11：沿用既有 materialized_variant，operator 先用 installed writer 對合成
+目標 apply 一次，對 fresh subject 隱去回應，僅給相同 approved frozen plan/hash、
+stable synthetic task/run identity 與 replay 授權。Subject 先讀目標／plan／digest 再
+apply，同 writer 回 already_applied／written_bytes0；parent 核對唯一 receipt、
+note/plan hashes、全 case file-set／bytes 不變。沒有真實 native session 中斷或 resume，
+此分支不推出 durable runtime。仍請求 sol/low，provider／billing 未獨立認證。
+
+## 已授權本機部署及 fresh Codex 驗收（2026-11-08）
+
+後續使用者明示「claude端暫時不驗」：Claude native／adapter 行為驗收在本輪列為
+使用者指定延後／NOT-RUN，不作為本輪 Codex 交付的阻擋條件。這不撤銷既有 Claude
+結果或接管原 Owner，也不以 Codex 證據補成 Claude PASS；跨 runtime 的完整驗收保持
+未完成，待使用者恢復該範圍後接續。既有其他授權與具名 merge 停點不變。
+
+使用者已分別批准兩個具名 PR 的 merge 及本機標準 managed update／runtime 驗收。
+dotcodex main `6ca37b15f66380f514b879b777b582ad1a29d06a` 已安裝，Hirameki
+marketplace 更新到 main `154328127ace0df2e29bde1ee5172509948f3606`；來源交付的
+限定 byte/set 查核通過，不能由此推論 model use。恢復材料與完整私人環境證據
+留在本機，不把 registry、安裝清單、個人檔案 fingerprints 或 usage dump 放進 repo。
+
+managed updater 首次 exit 1，原因是 Codex 原生 legacy command migration 產物被
+dotcodex verifier 的 extra-file gate 判 failed；不是 Hirameki 缺檔。後續 local source
+修正只辨識精確形狀且對應已比對 source command 的轉換候選，回 unverified／上層
+partial 3，沒有成功 digest／信任轉換／刪 cache。15項同測試 red1/current green，
+24項相關測試與獨立隔離重現通過。修正尚未合併／部署；main updater 原 FAIL 保留。
+詳見既有 dotcodex forward-tests 的本日段落，不另建進度或 fixture 正本。
+
+fresh app-server 發現五個指定 enabled entry、零 loader errors，核對選中來源位置。
+初次 unqualified Hirameki 名稱查詢及 security-review standalone 路徑假設不成立，
+改用實際 namespaced／bundled 路徑後通過；這些 invocation 錯誤保持可追溯。
+
+| 既有案例／新 installed invocation | 可觀察結果 | 邊界 |
+|---|---|---|
+| HR02 | 自然選 Hirameki→lens；讀 installed entry、natural-routing、lens，使用測試 registry 及 scoped search/read，回答主張差異並保留未記錄原因 | 限定 PASS；首次猜錯路徑後自行修復保留 |
+| HR01-resume | 讀 current task authority，保留 withdrawn item，執行授權合成 verifier／exit 0 | Task outcome PASS；next entry NOT-EXERCISED |
+| HR03 | 有來源的服務成品，保留 scope／效果未測限制 | Task outcome PASS；compose entry NOT-EXERCISED |
+| HR06 | 一句話 direct，沒有技能或工具 | 負向對照 PASS |
+
+重用既有 HR 合成 fixture bytes，不預告正確 skill/reference 路徑；每次為 fresh native
+Codex，既有 execution resolver 請求 sol/low，實際 provider identity／billing unknown。
+四次 exit 0、所有合成資料前後 file-set／bytes 相同。沒有使用者中途修正；prompt
+給定範圍／測試 registry 不等同真實預設 Vault 的無提示使用驗收。
+事件中有既有 hook timeout clamp，HR02 另有第三方 Chrome manifest/catalog 名稱錯誤；
+不能因 prompt 禁網就宣稱 CLI startup 無背景更新。沒有修第三方 cache 或其他 Owner。
+此輪沒有 absent/original/consolidated 對照，不支持自然觸發普遍改善、成本或效果主張。
+
+H6/G1 的本次真實交付事件已依既有 standing 最小候選授權，從 installed
+auto-improve capture-handoff／Hirameki session-traces 接到 installed exact writer。
+在選定 candidate folder 以三個具體字串 bounded 查重無命中；不是全 Vault 查無重複。
+`prepare --create`／frozen plan／`apply` 回 created，parent exact readback 相同；
+candidate `yatagarasu-af6b3e1d-39e4-489f-82d9-853b1dcc449a`，僅保存摘要、影響、
+事件／source 引用及未知。沒有保存對話、raw runtime 或安裝清單；私人 note／plan／
+path 不公開。保存不等於 Dream 接收、跨機整併、永久批准或修正已部署。
+
 ## Goal continuation: local delivery preflight and verifier correction
 
 The user requested continuation after privacy cleanup. The existing tracker still
@@ -452,13 +566,13 @@ work ledger:
 
 | Existing task | Evidence still needed | Boundary / next authorized response |
 |---|---|---|
-| H1/H3/H4, G7 | Fresh installed-source discovery/reference use and behavior on named Codex/Claude targets | Current publication/byte matches do not provide this; use supported authorized isolation, while real payload changes/deployment retain separate authority and receipts |
-| H3/H4, G4 | Original Claude adapter AH10/common-fixture result and its own revision/tool/model evidence | Review delivered owner artifacts when available; no substitute Claude execution or takeover |
+| H1/H3/H4, G7 | Codex 有具名 installed discovery/reference 與十次 pilot，AH09 native FAIL 保留；不能推論全 profile／一般遵循或效果 | 本批模型試驗停止擴大；依具體缺口處理，不用更多容易案例洗掉 FAIL。Claude 本輪指定延後 |
+| H3/H4, G4 | Original Claude adapter AH10/common-fixture result and its own revision/tool/model evidence | 使用者指定本輪 NOT-RUN／延後，不阻擋本輪 Codex 交付；不替代 Claude 執行或接管，完整跨 runtime 狀態未完成 |
 | H6, G4/5.2 | Original Dream-side revision-bound input/output plus accept/reject receipts | Validate delivered exchange with existing schemas; do not infer a consumer or modify the private store |
 | H1/H6, G6 | Owner-confirmed preflight/maintenance boundary and any named source consumer acceptance | Source opt-in adapter and Tsuku task6.7 can be cited; Tsuku task6.5 formal release authority and deployment remain separate; do not activate Tsuku |
 | G2/G7/6.3 | Actual cross-machine synchronization, owner consolidation/conflict and receipts | Single-filesystem fixtures are insufficient; preserve origin ownership and partial coverage |
 | H2/H5/6.4 | Comparable attributable cost/quality evidence before any further high-impact retirement or claim C beats B | Keep existing provisional dispositions/optional selection; no forced dynamic workflow, invented savings or extra paid model experiment |
-| H6/G7 | Named deployment/loaded evidence followed by the existing observation window and outcome | No deployment authority in this batch; source CI or an accepted candidate cannot start that window or prove effect |
+| H6/G7 | 已批准安裝／指定入口使用有具名證據；原 updater FAIL 與後續分類修正尚未合併，真實使用觀察／效果未齊 | PR #8／#4 新 merge 仍待批准；後續依適用既有授權交付，不把 source CI、保存或一次 pilot 當觀察窗口／效果完成 |
 
 These are not new approval gates for the completed local source work. They state
 why its evidence does not close the full task scopes; continue any independent

@@ -1,11 +1,15 @@
 # Tasks
 
-Latest authorization, 2026-11-07: the user explicitly requested comprehensive
+Publication authorization, 2026-11-07: the user explicitly requested comprehensive
 GitHub publication and a persistent goal, followed immediately by implementation.
 This supersedes the earlier push delay for this harness batch: existing work
 branches, linked issue/PR updates and bounded repo issues are authorized. No
-merge/release/deploy, new paid experiments, permanent hooks/schedules or other
-owner worktree changes are authorized. The active goal owns continuation; this
+release, new paid experiments, permanent hooks/schedules or other
+owner worktree changes are authorized. Subsequently the user explicitly approved
+merging dotcodex PR #7 and Hirameki PR #2, then on 2026-11-08 approved this machine's
+standard managed deployment and Codex runtime acceptance. These named approvals
+do not authorize unrelated merges, other-machine deployment or owner takeover.
+The existing goal owns continuation; this
 file remains the single integration progress authority.
 
 Published integration links: Hirameki #1 / PR #2, dotcodex PR #7,
@@ -13,6 +17,44 @@ Shikigarasu #2, Akegarasu #13. H3 native/shared source implementation is in
 progress; publication and goal creation do not complete H1–H6.
 
 ## Current checkpoint (2026-11-07)
+
+### 後續部署／原生驗收（2026-11-08）
+
+- 使用者最新裁定：「claude端暫時不驗」。本輪不執行 Claude native／adapter 行為驗收，
+  狀態為使用者指定延後／NOT-RUN，不列作本輪 Codex 交付阻擋。原 Owner 邊界與歷史
+  缺口保留，不用 Codex PASS 替代 Claude，也不據此勾選整體 interoperability 完成。
+- H3/G7：兩 PR 已合併。dotcodex deployment checkout 已到 main
+  `6ca37b15f66380f514b879b777b582ad1a29d06a`，installer／routing readiness 通過；
+  Hirameki 刷新來源為 main `154328127ace0df2e29bde1ee5172509948f3606`。
+  首次 managed updater exit 1：原生 command migration 產物被 extra-file gate 判失敗。
+  本機分類修正經同測試 red/green、24項相關測試與獨立審查；只降為 unverified，
+  不認證轉換，尚未合併／部署。原首次 FAIL 保留，整體交付仍有 partial 停點。
+- H2/H4：fresh native skills/list 發現五個指定入口；HR02 自然選 Hirameki→lens 並讀取
+  installed references，限定行為 PASS。HR01-resume 與 HR03 task outcome PASS，但直接
+  執行、未讀 next／compose，該入口 NOT-EXERCISED；HR06 direct 負向對照 PASS。
+  保留初次入口猜錯、自行修復、既有 hook clamp／Chrome 名稱不一致啟動錯誤；
+  合成資料前後不變。不是三入口普遍觸發、Claude、跨機或成本／效果 PASS。
+- H6/G1：本次交付分類線索以既有 installed writer 最小保存，exclusive create／exact
+  readback 通過；candidate `yatagarasu-af6b3e1d-39e4-489f-82d9-853b1dcc449a`。
+  只公開ID／結果，非 Dream ingestion、跨機整併、永久改善批准或效果。
+- 使用者後續恢復原 goal 為 active；先前 blocked 及當時工具不能恢復的狀態留在歷史。
+  H1：同一 baseline 增加 immutable source delta 對帳，118 entry identity 未增減，
+  116 entry bytes 未變、兩個 privacy entry 改變；不自動更新歷史 disposition 或宣稱退役。
+  H2/H4：新 HR01 inventory fresh installed invocation 實際讀 next／tasks 並使用兩頁
+  reader／revision pins，parent observer/readback 與 fixture controls 一致；保留三類／partial。
+  H6/G1：SW01 installed 首輪因 parent staging 配置在 Vault 內而 BLOCKED，沒有保存；
+  更正為 Vault 外後的新 invocation 完成同一合成事件 create／exact readback。
+  拼錯 required key 的同根自修仍保留，capture outcome 不等於完整 routing compliance。
+  AH11 同 plan lost-response 重放使用 installed writer，already_applied／0 bytes，
+  整個合成 case 不變；不是實際 native session 中斷或 durable-runtime 驗收。
+  AH09 installed actual-proposal 原生答案因領域 owner／明示人類 gate 缺漏而 FAIL；
+  主 Agent 依獨立審查修正答覆後的 artifact PASS，不回填原 native 結果、不改 skill。
+  Compose 明示入口實讀 installed reference／writing-zh-tw 並交付成品，限定 PASS；
+  先前自然 HR03 的 NOT-EXERCISED 維持。本次安裝後 pilot 到十次 invocation，
+  停止擴大模型試驗，成本／使用效果仍無改善主張。
+  原 H1–H6／G1–G7 完整 checkbox 不變，不另建 goal／進度正本；細節與限制見對帳。
+
+以下為2026-11-07歷史 checkpoint，後續狀態以上述具名證據為準。
 
 - H1/H2:118 canonical entries have scoped provisional dispositions;37 external
   declarations,7 declared marketplaces and19selectors remain separately inventoried.
@@ -98,8 +140,9 @@ other owners' worktrees retain their existing boundaries.
   in both current/proposed arms; comparative benefit remains inconclusive.
   A subsequent HR01 inventory trial exercised the exact source payload and
   native reader calls across two pinned pages; retained tool events, independent
-  replay and before/after hashes support this bounded PASS. Fresh-installed
-  discovery, Claude behavior and effect remain unverified.
+  replay and before/after hashes support this bounded source PASS. Subsequent
+  named installed results are recorded in the current checkpoint above; Claude
+  acceptance is user-deferred this round and effect remains unverified.
   Evidence and limitations are in workflow-reconciliation.md;
   this uses existing H1/H2/H3 work, not a second progress ledger.
   Public-source privacy cleanup removes machine inventory/parity fingerprints,
@@ -115,8 +158,9 @@ other owners' worktrees retain their existing boundaries.
   integration owner within H3. This documentation cleanup does not close H3.
   User-requested goal continuation completed a read-only delivery preflight and
   corrected the existing dotcodex verifier's stale-extra-file acceptance, with
-  isolated red/green and independent review. No runtime/cache was changed; the
-  goal tracker remains blocked and merge/deployment retain their own approval.
+  isolated red/green and independent review. That historical preflight changed no
+  runtime/cache; later deployment authorization, active goal and remaining merge
+  boundary are recorded in the current checkpoint above.
 - [ ] H4 (6.2, 6.6): Add AH01–AH12 alongside existing SW01–SW08 fixtures; retain
   source/fixture hashes, prompt, actual tools, confirmable model/effort, selected
   path, child count, side effects, evidence and limitations. Separate runtime
