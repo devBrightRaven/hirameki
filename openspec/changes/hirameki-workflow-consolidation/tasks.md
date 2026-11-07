@@ -20,6 +20,9 @@ progress; publication and goal creation do not complete H1–H6.
 
 ### 後續部署／原生驗收（2026-11-08）
 
+- 使用者最新裁定：「claude端暫時不驗」。本輪不執行 Claude native／adapter 行為驗收，
+  狀態為使用者指定延後／NOT-RUN，不列作本輪 Codex 交付阻擋。原 Owner 邊界與歷史
+  缺口保留，不用 Codex PASS 替代 Claude，也不據此勾選整體 interoperability 完成。
 - H3/G7：兩 PR 已合併。dotcodex deployment checkout 已到 main
   `6ca37b15f66380f514b879b777b582ad1a29d06a`，installer／routing readiness 通過；
   Hirameki 刷新來源為 main `154328127ace0df2e29bde1ee5172509948f3606`。

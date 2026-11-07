@@ -2,6 +2,11 @@
 
 ## 已授權本機部署及 fresh Codex 驗收（2026-11-08）
 
+後續使用者明示「claude端暫時不驗」：Claude native／adapter 行為驗收在本輪列為
+使用者指定延後／NOT-RUN，不作為本輪 Codex 交付的阻擋條件。這不撤銷既有 Claude
+結果或接管原 Owner，也不以 Codex 證據補成 Claude PASS；跨 runtime 的完整驗收保持
+未完成，待使用者恢復該範圍後接續。既有其他授權與具名 merge 停點不變。
+
 使用者已分別批准兩個具名 PR 的 merge 及本機標準 managed update／runtime 驗收。
 dotcodex main `6ca37b15f66380f514b879b777b582ad1a29d06a` 已安裝，Hirameki
 marketplace 更新到 main `154328127ace0df2e29bde1ee5172509948f3606`；來源交付的
