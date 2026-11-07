@@ -1,5 +1,47 @@
 # 整體工作流對帳 — 2026-11-04
 
+## 已授權本機部署及 fresh Codex 驗收（2026-11-08）
+
+使用者已分別批准兩個具名 PR 的 merge 及本機標準 managed update／runtime 驗收。
+dotcodex main `6ca37b15f66380f514b879b777b582ad1a29d06a` 已安裝，Hirameki
+marketplace 更新到 main `154328127ace0df2e29bde1ee5172509948f3606`；來源交付的
+限定 byte/set 查核通過，不能由此推論 model use。恢復材料與完整私人環境證據
+留在本機，不把 registry、安裝清單、個人檔案 fingerprints 或 usage dump 放進 repo。
+
+managed updater 首次 exit 1，原因是 Codex 原生 legacy command migration 產物被
+dotcodex verifier 的 extra-file gate 判 failed；不是 Hirameki 缺檔。後續 local source
+修正只辨識精確形狀且對應已比對 source command 的轉換候選，回 unverified／上層
+partial 3，沒有成功 digest／信任轉換／刪 cache。15項同測試 red1/current green，
+24項相關測試與獨立隔離重現通過。修正尚未合併／部署；main updater 原 FAIL 保留。
+詳見既有 dotcodex forward-tests 的本日段落，不另建進度或 fixture 正本。
+
+fresh app-server 發現五個指定 enabled entry、零 loader errors，核對選中來源位置。
+初次 unqualified Hirameki 名稱查詢及 security-review standalone 路徑假設不成立，
+改用實際 namespaced／bundled 路徑後通過；這些 invocation 錯誤保持可追溯。
+
+| 既有案例／新 installed invocation | 可觀察結果 | 邊界 |
+|---|---|---|
+| HR02 | 自然選 Hirameki→lens；讀 installed entry、natural-routing、lens，使用測試 registry 及 scoped search/read，回答主張差異並保留未記錄原因 | 限定 PASS；首次猜錯路徑後自行修復保留 |
+| HR01-resume | 讀 current task authority，保留 withdrawn item，執行授權合成 verifier／exit 0 | Task outcome PASS；next entry NOT-EXERCISED |
+| HR03 | 有來源的服務成品，保留 scope／效果未測限制 | Task outcome PASS；compose entry NOT-EXERCISED |
+| HR06 | 一句話 direct，沒有技能或工具 | 負向對照 PASS |
+
+重用既有 HR 合成 fixture bytes，不預告正確 skill/reference 路徑；每次為 fresh native
+Codex，既有 execution resolver 請求 sol/low，實際 provider identity／billing unknown。
+四次 exit 0、所有合成資料前後 file-set／bytes 相同。沒有使用者中途修正；prompt
+給定範圍／測試 registry 不等同真實預設 Vault 的無提示使用驗收。
+事件中有既有 hook timeout clamp，HR02 另有第三方 Chrome manifest/catalog 名稱錯誤；
+不能因 prompt 禁網就宣稱 CLI startup 無背景更新。沒有修第三方 cache 或其他 Owner。
+此輪沒有 absent/original/consolidated 對照，不支持自然觸發普遍改善、成本或效果主張。
+
+H6/G1 的本次真實交付事件已依既有 standing 最小候選授權，從 installed
+auto-improve capture-handoff／Hirameki session-traces 接到 installed exact writer。
+在選定 candidate folder 以三個具體字串 bounded 查重無命中；不是全 Vault 查無重複。
+`prepare --create`／frozen plan／`apply` 回 created，parent exact readback 相同；
+candidate `yatagarasu-af6b3e1d-39e4-489f-82d9-853b1dcc449a`，僅保存摘要、影響、
+事件／source 引用及未知。沒有保存對話、raw runtime 或安裝清單；私人 note／plan／
+path 不公開。保存不等於 Dream 接收、跨機整併、永久批准或修正已部署。
+
 ## Goal continuation: local delivery preflight and verifier correction
 
 The user requested continuation after privacy cleanup. The existing tracker still

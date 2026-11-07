@@ -1,11 +1,15 @@
 # Tasks
 
-Latest authorization, 2026-11-07: the user explicitly requested comprehensive
+Publication authorization, 2026-11-07: the user explicitly requested comprehensive
 GitHub publication and a persistent goal, followed immediately by implementation.
 This supersedes the earlier push delay for this harness batch: existing work
 branches, linked issue/PR updates and bounded repo issues are authorized. No
-merge/release/deploy, new paid experiments, permanent hooks/schedules or other
-owner worktree changes are authorized. The active goal owns continuation; this
+release, new paid experiments, permanent hooks/schedules or other
+owner worktree changes are authorized. Subsequently the user explicitly approved
+merging dotcodex PR #7 and Hirameki PR #2, then on 2026-11-08 approved this machine's
+standard managed deployment and Codex runtime acceptance. These named approvals
+do not authorize unrelated merges, other-machine deployment or owner takeover.
+The existing goal owns continuation; this
 file remains the single integration progress authority.
 
 Published integration links: Hirameki #1 / PR #2, dotcodex PR #7,
@@ -13,6 +17,27 @@ Shikigarasu #2, Akegarasu #13. H3 native/shared source implementation is in
 progress; publication and goal creation do not complete H1–H6.
 
 ## Current checkpoint (2026-11-07)
+
+### 後續部署／原生驗收（2026-11-08）
+
+- H3/G7：兩 PR 已合併。dotcodex deployment checkout 已到 main
+  `6ca37b15f66380f514b879b777b582ad1a29d06a`，installer／routing readiness 通過；
+  Hirameki 刷新來源為 main `154328127ace0df2e29bde1ee5172509948f3606`。
+  首次 managed updater exit 1：原生 command migration 產物被 extra-file gate 判失敗。
+  本機分類修正經同測試 red/green、24項相關測試與獨立審查；只降為 unverified，
+  不認證轉換，尚未合併／部署。原首次 FAIL 保留，整體交付仍有 partial 停點。
+- H2/H4：fresh native skills/list 發現五個指定入口；HR02 自然選 Hirameki→lens 並讀取
+  installed references，限定行為 PASS。HR01-resume 與 HR03 task outcome PASS，但直接
+  執行、未讀 next／compose，該入口 NOT-EXERCISED；HR06 direct 負向對照 PASS。
+  保留初次入口猜錯、自行修復、既有 hook clamp／Chrome 名稱不一致啟動錯誤；
+  合成資料前後不變。不是三入口普遍觸發、Claude、跨機或成本／效果 PASS。
+- H6/G1：本次交付分類線索以既有 installed writer 最小保存，exclusive create／exact
+  readback 通過；candidate `yatagarasu-af6b3e1d-39e4-489f-82d9-853b1dcc449a`。
+  只公開ID／結果，非 Dream ingestion、跨機整併、永久改善批准或效果。
+- 原 H1–H6／G1–G7 完整 checkbox 不變。既有 goal tracker 仍 blocked，工具不能轉回
+  active；不另建 goal，也不因來源合併或本機部署宣稱整體完成。其餘證據詳見對帳。
+
+以下為2026-11-07歷史 checkpoint，後續狀態以上述具名證據為準。
 
 - H1/H2:118 canonical entries have scoped provisional dispositions;37 external
   declarations,7 declared marketplaces and19selectors remain separately inventoried.
