@@ -1,5 +1,18 @@
 # 整體工作流對帳 — 2026-11-04
 
+## Recorded direction: natural-request next/lens/compose outcome workflows
+
+The user explicitly requested recording the agreed direction as a GitHub issue.
+Existing design now records one umbrella with conditional model selection,
+preserved explicit commands, scope-aware next, question-driven lens and
+source-based compose; existing HR01–HR06 carry future acceptance. This is a
+design/task recording only, beyond the prior UI/README-only source change.
+No workflow body, trigger policy, task-reader gate, runtime, installed payload or
+other-owner worktree changed; no fresh model trial/effect or deployment claimed.
+H1/H2/H3 remain the task authority;
+[focused issue #3](https://github.com/devBrightRaven/hirameki/issues/3) links back
+to them and parent issue #1.
+
 ## Outcome-first Hirameki entry and user-approved AH09 A
 
 The user reported no reason/habit to invoke next/lens/compose and then explicitly

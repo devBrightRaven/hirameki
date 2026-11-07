@@ -90,6 +90,13 @@ other owners' worktrees retain their existing boundaries.
   preserve consumers, explicit entrypoints, rollback and governance. High-impact
   dispositions require controlled absent/original/consolidated behavioral evidence;
   inadequate samples remain inconclusive, not retirement authorization.
+  Recorded next/lens/compose direction ([issue #3](https://github.com/devBrightRaven/hirameki/issues/3)):
+  one umbrella, conditional natural-request
+  selection and preserved explicit commands; scope-aware next resumption,
+  question-driven evidence retrieval and source-based finished artifacts. Extend
+  existing HR01–HR06 with retrieval/state/negative controls; workflow bodies and
+  fresh-runtime benefit remain unimplemented/unverified. This line uses the
+  existing H1/H2/H3 work, not a second progress ledger.
 - [ ] H3 (2.1, 5.1): Extend existing canonical shared contracts with applicability,
   prerequisites, execution options, dependencies, verification, side effects,
   authorization, stop conditions and runtime adapter status. Reconcile adaptive

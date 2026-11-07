@@ -261,6 +261,71 @@ must first have a bounded authorized resource budget, isolated inputs, controlle
 A/B/C conditions and recorded cost limitations. Dynamic composition remains
 inconclusive until comparative results justify its overhead; do not force its use.
 
+### Hirameki outcome workflows: next, lens and compose — recorded direction
+
+2026-11-07 user decision: record this direction as
+[Hirameki issue #3](https://github.com/devBrightRaven/hirameki/issues/3), linked
+to parent issue #1; tasks.md remains the progress authority.
+Keep one Hirameki umbrella skill. The main agent selects the needed internal
+capability from the user's natural request; explicit next/lens/compose commands
+remain compatible. Selection is conditional model routing, not an always-on hook,
+background watcher, new permission or proof of installed-host behavior.
+
+This extends H1/H2/H3 and the existing HR01–HR06 acceptance surface. It is the
+workflow-body direction following the already published UI/README-only change;
+the following body changes are not yet implemented, deployed or effect-verified.
+Existing question-driven lens, purpose-driven compose, task reader, language
+skills, source contracts and save gates are reused rather than duplicated.
+
+| Capability | Natural request | Required useful result |
+|---|---|---|
+| next | Resume the project we left last time | Recover goal, current evidenced state, relevant decision and blocker; identify and continue an already-authorized next action |
+| lens | What changed in my thinking, and where do these records conflict? | Answer the question with passages, changes/contradictions, inference and unknowns; no invented history or mandatory concept-card production |
+| compose | Turn the accumulated material into a client introduction or article | Deliver the requested artifact using relevant sources and the existing writing entry; preserve author positions and unsupported claims as uncertain |
+
+For next, distinguish source-only handoff interpretation, actual task resumption
+and comprehensive inventory. A source-only reply identifies its limited scope
+without claiming current effective task state. Resumption checks the owning
+project task authority/current repo evidence and, when applicable, the existing
+task reader's exact-ID view; completed/withdrawn/superseded items are not reopened
+from an older note. Full inventory retains the existing validated view, paging,
+uncertainty and exception gates. Restore remains its explicit authorized operation
+with the existing conditional guide; no operation/authority gate is removed.
+Default output becomes current position, next action and blocker; inbox/week
+recaps are loaded only when relevant. Continue authorized work rather than
+ending every resumption with a fixed menu of two-to-four options.
+
+For lens, establish a question and authorized search scope, retrieve the smallest
+sufficient evidence set, compare sources and return one integrated answer.
+Dates establish provenance, not authority; source conflicts and reasons not
+recorded stay visible. Existing search/Obsidian tools suffice initially. Save,
+concept-card promotion and external research retain their own applicable gates.
+
+For compose, establish deliverable/audience/constraints, select relevant material,
+resolve or expose author-position conflicts, use the existing language-writing
+entry and check factual/source coverage before returning the requested finished
+artifact. Do not require lens, a separate outline approval or a council by default.
+Ordinary supplied-text edits retain their direct writing route; saving/publishing
+remain separate authorized operations.
+
+Use the existing Vault/project sources, source locators/revisions and task view.
+Do not add a central knowledge store, parallel task queue or three new top-level
+skills. Implementation order starts with one-project next resumption, then one
+actual source-based compose task and one question-driven lens task. Claude native
+adapter execution remains with its original owner; runtime acceptance is separate.
+
+Extend the existing HR cases, preserving prior fixture digests/results: HR01
+tests the three next scopes and stale/withdrawn records; HR02 tests retrieval,
+viewpoint conflicts and unknown reasons; HR03 tests source selection and actual
+artifact fidelity. HR04–HR06 keep repo-status, supplied-text editing and ordinary
+technical negative controls. Do not preselect every relevant source filename:
+bounded distractors and stale/conflicting records must test retrieval/state
+judgment rather than only summarization. Compare direct/current/proposed methods
+with matched inputs/tools/model where verifiable; measure correct completion,
+source/state accuracy, rework, human restatement and observable usage. Keep
+missing billing/identity unknown and inadequate samples inconclusive. No extra
+paid experiment, deployment or source migration follows from recording this plan.
+
 ### AH09 option A adopted — 2026-11-07
 
 The user explicitly chose: "採 A，完成使用體驗改進後接續 AH09". The prior
