@@ -1,5 +1,45 @@
 # 整體工作流對帳 — 2026-11-04
 
+## H3 contract reach and response-wait correction
+
+The current existing shared Shikigarasu entry/reference were read fully before
+considering another schema or dispatcher. Source semantics map as follows; this
+is an evidence index, not a new contract/registry or additional task authority.
+
+| Requested contract surface | Existing source location and verification boundary |
+|---|---|
+| Identity/version/intent | Conditional execution-selection.md, v1 heading and opening scope; no new per-skill YAML/parser consumer implemented |
+| Triggers/prerequisites/unsuitable paths | Applicability/prerequisites plus each path's condition/boundary; user/native invocation restrictions retained |
+| Direct/delegated/parallel/iterative/dynamic/durable support | Eight-path table; unsupported native capacity/persistence stays unknown, not an implemented durable runtime |
+| Dependencies/native adapter | Project/native contracts and capabilities are prerequisites; Native adapter status assigns discovery/tools/persistence/receipts to each adapter; Claude acceptance still open |
+| Verification/evidence | State/verification section, acceptance and task/run/capability revisions; source/tests/publish/deploy/load/behavior/outcome separated |
+| Side effects/permissions/stops | Hard ownership/authorization constraints, native resource/retry limits, actual target/prior receipt before replay; no authority escalation |
+| Cost/experience | Cost/latency/prior outcomes considered, comparable experiment required for benefit; actual usage/billing remains unknown in current pilot, no cost-saving inference; existing candidate/promotion/exchange links |
+| Independent review/closure | Main common entry has frozen authorized native policy, strict user/project/high-risk requirements and legacy two-pass fallback; no second checker |
+
+One actionable local verification gap was already documented: expired request
+waiting clamped its timeout to .01 and could keep consuming unrelated messages.
+Caller inspection found CLI/tests; initialize and skills/list share request().
+Source now raises existing queue.Empty before another read when remaining <=0.
+It retains45-second budget, APIs and own-child cleanup; no adapter/startup change.
+
+Same new deterministic test on helper2bf27f6 fails exit1 for both RPC phases,
+AssertionError: Empty not raised. Current focused16tests pass/exit0. Fresh eligible
+independent reviewer discovery_deadline_review reconstructed old source in an
+isolated copy with identical test bytes and reproduced both sides; final PASS,
+plus exact-deadline/sub-.01/empty-queue controls. Requested sol/high, actual model
+identity unverified. Hashes, portable reproduction and limitations are in the
+existing dotcodex forward-tests artifact, not only temporary files.
+
+Authorized source writer created minimal candidate
+yatagarasu-20261107-discovery-request-deadline; exact readback1,276bytes/SHA-256
+`04218d74e68a66f511a7786d310e70cc340e7033a0d3bc2082120b0aaf98c9e9`.
+One event/two phases; no raw note/plan/private path published, no promotion,
+Dream/sync/load/effect claim. The prior proxy timeout used another client and
+has no proven causal link. Response-wait tests do not establish a wall-clock
+bound for Popen/startup/stdin/filesystem/cleanup, real app-server/Windows runtime,
+loading or effects. H1–H6 full scopes remain open, other-owner work unchanged.
+
 ## Expanded installed-candidate inventory and discovery limit
 
 The existing dotcodex baseline/report now extend the earlier19-selector receipt

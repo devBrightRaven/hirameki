@@ -26,6 +26,9 @@ progress; publication and goal creation do not complete H1–H6.
   Existing discovery checker now has opt-in source/root/entry-byte binding;
   source1b81184 Windows/Ubuntu CI passed (Windows273script/138repo tests,1repo
   skip). Actual app-server/model loading, whole payload and effects remain open.
+  Subsequent response-wait deadline fix has same-test original red for both RPC
+  phases/current16tests green and independent review PASS; it does not bound
+  startup/stdin/filesystem/cleanup or prove actual app-server behavior.
 - H4:AH05 original two-module branch now has corrected same-test red12/current8
   green, independent native review and parent24CLI controls; user intervention0,
   operator correction1. AH10 Codex supplied-native/shared source-decision branch
