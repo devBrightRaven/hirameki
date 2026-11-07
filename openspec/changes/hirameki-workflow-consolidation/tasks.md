@@ -15,10 +15,13 @@ progress; publication and goal creation do not complete H1–H6.
 ## Current checkpoint (2026-11-07)
 
 - H1/H2:118 canonical entries have scoped provisional dispositions;37 external
-  declarations,7 marketplaces and19selectors are separately inventoried. Selected
-  CLI receipt observes19 installed/18 enabled, Superpowers disabled preserved;
-  38 other installed selectors remain outside that receipt. No skill retirement
-  or all-skill model benefit is established.
+  declarations,7 declared marketplaces and19selectors remain separately inventoried.
+  Expanded CLI receipt observes57 installed/56 enabled across17 marketplaces;
+  Superpowers disabled preserved. Pure file scan observes421 physical SKILL.md
+  candidates,416 with public metadata/five withheld,115 distinct canonical entry
+  hashes matching. Mekiki is located in existing Hirameki command/reference.
+  Existing-proxy initialize timed out before skills/list; discovery NOT-EXERCISED,
+  daemon status unknown. No skill retirement or all-skill model benefit is established.
 - H3:shared outcome/frozen-policy alignment has independent source reviews.
   Existing discovery checker now has opt-in source/root/entry-byte binding;
   source1b81184 Windows/Ubuntu CI passed (Windows273script/138repo tests,1repo

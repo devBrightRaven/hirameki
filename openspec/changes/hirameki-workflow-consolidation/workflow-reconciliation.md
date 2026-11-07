@@ -1,5 +1,52 @@
 # 整體工作流對帳 — 2026-11-04
 
+## Expanded installed-candidate inventory and discovery limit
+
+The existing dotcodex baseline/report now extend the earlier19-selector receipt
+without changing118 canonical entries, provisional dispositions or source-stage
+claims. Existing read-only CLI metadata reports57 plugins/17 marketplaces,
+56 enabled and Superpowers7.0.2 disabled. Six opaque host registration IDs are
+redacted; five associated entry names/paths/hashes are withheld. No raw private
+runtime/config/cache content is published. This remains evidence, not a registry.
+
+Existing pure scan_roots over62 explicit native/shared/registered-link/enabled
+exact-version-cache candidate roots observed421 physical parsable SKILL.md files:
+416 public-detail rows and five withheld count-only rows. No warnings or changed
+entry reads; no disabled payload scan. Eighteen identical-entry pairs are not
+capability equivalence or a retirement basis.115 distinct canonical entries have
+matching raw hashes; Auto-improve/Blueprint/shared Shikigarasu are present with
+different bytes. Nested/templates, manifest-at-root exclusion, normalized/raw
+hash distinction and non-atomic scan limits remain explicit. Zero-SKILL plugin
+folders do not establish absent tool/LSP/MCP capabilities. No queue state written.
+
+Public upstream HEAD/latest-release/first-three-tag metadata was checked for18
+repositories before the scan. No upgrades or provider repairs followed. Source
+policy marks Airtable/Canva disabled while CLI metadata reports enabled; effective
+runtime precedence/flags remain unverified. Do not auto-change either surface.
+
+Mekiki is existing commands/mekiki.md and the Codex references/mekiki.md, fully
+read at Hirameki b5609d2. The installed2.3.3 reference raw hash matches
+`26a969750473c2f5f8fa94193ebd41c6f38f54a176305236067c66520834cfba`.
+This is reference parity, not discovery/loading/behavior. Existing approval and
+native adapter ownership remain intact; no command execution or Claude config read.
+
+One bounded existing-proxy discovery probe used CLI0.167.0 after checking official
+release/proxy-relay source. Only initialize was sent; its20-second observation
+deadline expired without response. Skills/list was NOT-EXERCISED, not a failed
+skills response. Only the owned proxy child was terminated/reaped; no daemon
+start/stop, fallback, retry or model turn requested. Daemon status stays unknown,
+not absent. No source feature was added merely to retry the probe. Full server
+handler/startup effects, current model context and fresh runtime remain unverified.
+H1–H6 full scopes/checkboxes remain open; this is additional bounded inventory.
+
+Fresh independent read-only artifact review h1_census_evidence_review returned
+PASS after recomputing all118 canonical and416 public installed raw/normalized
+entry hashes, verifying counts/opaque withholding and Mekiki parity. Requested
+sol/high, actual model identity unverified. It did not attest historical CLI,
+network/proxy events, full filesystem/history, remote links or actual load/effect.
+Parent dotcodex validator, OpenSpec strict and scoped diff checks also passed;
+unchanged production suites were not rerun locally for this evidence-only batch.
+
 ## AH05 original fixture and AH10 Codex-side acceptance
 
 Existing shared manifest now includes reproducible two-module AH05 and common
