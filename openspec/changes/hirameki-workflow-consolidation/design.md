@@ -261,6 +261,27 @@ must first have a bounded authorized resource budget, isolated inputs, controlle
 A/B/C conditions and recorded cost limitations. Dynamic composition remains
 inconclusive until comparative results justify its overhead; do not force its use.
 
+### Pending human decision: AH09 ordinary-success input and candidate oracle
+
+New source8b6ff2a trial failed the unchanged AH09 candidate-expression oracle:
+the supplied ordinary-success input did not activate the source rule-proposal
+gate. Full evidence is in workflow-reconciliation.md, not a new task ledger.
+This is a reviewable proposal only; neither choice is adopted, and the original
+fixture/oracle/skill remains byte-unchanged pending the user's acceptance decision.
+
+- **Recommended A:** keep ordinary-success restraint. For AH09's success-only
+  input, permit a current-task-only/deferred adoption assessment without requiring
+  a candidate; add a distinct actual-proposal branch within the same AH09 fixture
+  only when a concrete gap/proposal is supplied. Both branches retain the human
+  gate, one-event limits and forbidden automatic promotion; preserve this original
+  FAIL with its exact fixture revision. No skill/authority expansion proposed.
+- **B:** retain the current fixture/oracle and unresolved FAIL; defer compatibility
+  resolution and further dependent trials. No retry, fabricated gap or silent
+  trigger/acceptance change. This leaves H4 incomplete rather than claiming PASS.
+
+This changes acceptance if A is adopted, so the task owner cannot apply it merely
+to turn the test green. Source/installed/behavior/effect boundaries stay unchanged.
+
 ### Implementation sequence and repository responsibilities
 
 This is the reviewable plan for H1–H6, not a second checklist. Keep tasks.md as

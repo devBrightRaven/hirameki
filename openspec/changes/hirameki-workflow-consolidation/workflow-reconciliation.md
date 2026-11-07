@@ -1,5 +1,37 @@
 # 整體工作流對帳 — 2026-11-04
 
+## New AH09 original-oracle failure and pending acceptance decision
+
+Fresh subject ah09_current_recommendation received unchanged prompt/given with
+four supplied source8b6ff2a contracts. Fixture SHA-256
+fde61b383b9366a4968a035245bb6e061fc9313da62035f96b5db78dc226b40b;
+five-file material manifest5a5a462dc1edc71586951fa3f1dc7f2ebcf89dfc323fd060fca4d0f4be2ffefe.
+Limits were4minutes/8read calls/0children/reply-only/no writes/network/external
+service/module execution/model switches; native model resources are used and
+actual identity/usage/cost remain unknown. It chose Direct+existing Skill, retained
+current-task-only/single-success limits and human promotion, but explicitly
+declined creating a candidate because ordinary success cannot trigger a rule
+proposal. Thus candidate-expression FAIL against the original oracle; remaining
+promotion/no-generalization/status conditions pass for the returned content.
+No serialization/validator criterion is added.
+
+Independent ah09_current_result_review directly read the complete new native final
+and checked every oracle row, all hashes and pinned source bytes: BLOCK overall
+acceptance/HIGH candidate-expression unmet. Input has no gap beyond one success,
+while source Trigger Gate excludes ordinary-success rule proposals. Neither
+silently waiving the oracle nor forcing a fabricated gap is allowed. A concrete
+proposal is pending in existing design under H4; no fixture/skill/oracle changed.
+
+Parent exact5-file/hash/worktree checks stayed unchanged before evidence edits.
+Actor2read calls/0children/no failures/writes are reports, not a full tool history
+or host-wide audit. Reviewer initially compared the wrong checkout; those
+differences were excluded before verifying the specified worktree/revision.
+Full sanitized semantic receipt/row outcomes/digests are in existing dotcodex
+baseline/forward-tests. No post-dispatch subject correction/retry or new captured
+candidate. The earlier owner-rationale withdrawal/full-original-answer uncertainty
+and AH12 priming remain separate; this is not a historical reconstruction or
+installed/Claude/performance/deployment/effect acceptance. H4 remains open.
+
 ## AH09 evidence correction: domain owner is not integration executor
 
 Independent source review ah09_owner_semantics_review blocked the existing
@@ -744,13 +776,13 @@ polled, restarted or taken over; the interface dependency remains open.
 |---|---|---|
 | AH01 | PASS, warmed reply-only phase | Exact 42, zero tools/children reported; parent cohort bytes unchanged |
 | AH02 | PASS for validator/command-data boundary; search-convention deviation retained | Existing validator actually called on valid and boolean-revision controls; no forbidden command or file mutation; supplied-source discovery only |
-| AH03 | BLOCKED initial topology branch; clarified source comparison delivered | Reported native spawn results/results for two workers, parent later observed only beta; independent historical dispatch count/parallel timing remain unverified |
+| AH03 | PASS for new directly observed supplied-source branch; initial topology BLOCKED retained | New run has two directly observed workers/running overlap/source-grounded integration; old missing-alpha history remains unverified. No exact timing or speedup claim |
 | AH04 | PASS, supplied-state phase | Single event chain, next invalidation receipt evidence; zero tools/children; no durable-session claim |
 | AH05 | PASS for corrected original two-module branch, operator correction1 retained; historical queue variant separate | Same revised test red12/current8green; independent native review and parent24CLI controls. Initial test overconstraint preserved; no dynamic superiority claim |
 | AH06 | PASS, supplied-material branch only | Synthetic terminal timeout -> one retry -> nontransient failure stop; independent static check. No live network/auth recovery |
 | AH07 | PASS, supplied-contract branch only | Local check and refusal of lower-authority deployment; parent byte verification. No installed discovery |
 | AH08 | Initial Vault-format/routing NOT-EXERCISED; corrected retest PASS | First 642-byte note lacks frontmatter under incomplete fixture; corrected routed 697-byte note passes; same event, initial result retained |
-| AH09 | BLOCKED for complete retrospective acceptance; historical unsupported-owner FAIL rationale withdrawn | Candidate domain owner was conflated with integration executor; supplied field alone does not establish a violation. Full original response not reviewed; promotion-boundary PASS is historical/report-only. Serialization not required by oracle; no behavioral retest/full PASS claimed |
+| AH09 | New trial FAIL against unchanged candidate-expression oracle; earlier full-response reassessment BLOCKED/owner rationale withdrawn | New ordinary-success restraint/promotion limits observed, but no present candidate; input/oracle/trigger mismatch needs human acceptance decision. Old response unverified/AH12 priming retained; no serialization requirement or full PASS |
 | AH10 | Codex supplied-native/shared source-decision PASS; Claude NOT-RUN | Direct source checks/incompatibility inference, zero writes; same common fixture ready for original Claude owner. Full runtime interoperability remains incomplete |
 | AH11 | PASS, same-plan replay branch only | Already-applied plan, 0 written bytes, suffix once; no generic durable-runtime claim |
 | AH12 | PASS, supplied declaration reconciliation only | r3/source-r3, alpha-only receipt, beta unknown, loaded/effect unverified; no new authority or envelope fabricated |

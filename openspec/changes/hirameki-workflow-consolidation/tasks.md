@@ -47,6 +47,10 @@ progress; publication and goal creation do not complete H1–H6.
   New AH03 trial now directly observes2 native workers with disjoint readsets,
   running overlap and completed source-grounded integration;7 fixture files stay
   unchanged. The older missing-alpha/initial topology limits remain historical.
+  New AH09 current-source trial FAILS the unchanged candidate-expression oracle,
+  while respecting ordinary-success/promotion limits. Input/oracle/trigger mismatch
+  needs human acceptance clarification (pending proposal in existing design);
+  no fixture/skill changed. Earlier owner-rationale correction stays separate.
 - Historical failures remain in reconciliation/forward-tests:SW03 first FAIL,
   AH03 topology/dispatch limits,AH08 missing-prerequisite/frontmatter first result,
   AH09 historical unsupported-owner FAIL (rationale later withdrawn after contract
