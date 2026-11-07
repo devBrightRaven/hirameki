@@ -1,5 +1,39 @@
 # 整體工作流對帳 — 2026-11-04
 
+## Native Windows counterexample and entry-origin correction
+
+Published dotcodex 2150f99 / Hirameki 2aa1a86 are verified remote/Draft PR heads;
+Hirameki CI and dotcodex Ubuntu succeeded, but dotcodex Windows run 42342915150
+job 128314354955 FAILED: deployment scripts 270 tests, one failure/two errors,
+repository-contract step skipped. Bound-match, bound CLI and digest-drift cases
+all hit premature Unexpected source entry path. Earlier source/Popen PASSes did
+not establish Windows correctness; the failed run remains evidence.
+
+Root.resolve expanded the Windows temporary 8.3 directory while the reported
+entry used its short representation. The source correction checks native Path
+basename, resolved parent-directory origin, resolved entry identity, approved
+root and digest. An alias of the whole approved directory is accepted; a file
+symlink from another parent is refused before reading, even with the same target.
+Both independent reviewers isolated published2150f99 with SAME added tests:
+approved-directory alias red for expected path refusal; wrong-parent negative
+control passes. Corrected full local module has 15 passing tests.
+
+An uncommitted intermediate used case-sensitive string basenames. Both reviewers
+BLOCKed P2 on Windows case-only regression. Path basename comparison restores
+native OS semantics, with actual-filesystem case test; both final scoped reviews
+PASS. The intermediate native-Windows red was not executable locally and is not
+claimed. Original Windows CI failure, review BLOCKs and later narrower PASSes
+are preserved, not replaced with one aggregate green.
+
+Latest helper SHA36371271afbc0cb8d337674d51ddb041de8d1088502c26cb8bd319d0ebb73716;
+tests SHAdd7c9f2242bf31aceea8f36359524334bcb04dd420ede643886a404f640e8869.
+Corrected Windows CI is pending at this source snapshot; inspect exact-head
+PR #7 Checks/receipt for the subsequent result. Linux alias reproduction and
+source reviews cannot close Windows acceptance, and Windows unit tests cannot
+prove actual app-server/model loading, deployment or effects. No owner work,
+model turn or installer was invoked. Detailed reconstruction is in existing
+dotcodex forward-tests; the preceding H1/H3 checkpoint below is historical.
+
 ## H1 declaration coverage and source-bound discovery feature — 2026-11-07
 
 Prior goal turn was progress: engineering pilot/capture evidence published as

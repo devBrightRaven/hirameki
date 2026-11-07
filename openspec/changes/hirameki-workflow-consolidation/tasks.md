@@ -52,6 +52,14 @@ full payload or effects claimed; remaining timeout/raw-error/startup and externa
 CLI-key compatibility limits are recorded in reconciliation/forward-tests.
 H1/H3 remain open for full coverage/adapter acceptance; no deployment authorized.
 
+Windows CI counterexample: dotcodex2150f99 Windows deployment-script suite failed
+1failure/2errors among270 tests on 8.3 entry-origin aliases; Ubuntu/Hirameki passed.
+Production correction + same-test independent alias red/current15green and both
+final source reviews PASS are complete; intermediate Windows basename-case P2
+BLOCKs remain recorded. Corrected native Windows CI is pending at this snapshot;
+use exact-head PR Checks/receipt for its subsequent result. No loader/deployment/
+effect completion follows from these tests; H1/H3 full scopes remain open.
+
 ## 2026-11-07 Harness consolidation extension
 
 User directive extends this change to shared harness rationalization and adaptive
