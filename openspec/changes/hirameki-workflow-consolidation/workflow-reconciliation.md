@@ -1,5 +1,25 @@
 # 整體工作流對帳 — 2026-11-04
 
+## H3 explicit identity and supported cost-recording semantics
+
+The existing shared conditional reference now names
+shikigarasu-execution-selection/v1. Its consequential-record paragraph explicitly
+keeps expected cost class unknown without evidence, requires runtime-provided
+actual usage with task/run and retry/review scope, and forbids inferring billing
+or savings from tool/token counts alone. Simple tasks still need no routing
+report. No registry/parser/logger, new model/authority or review-gate change.
+
+Reference SHA-256 changes from
+`3246650b1dabc29bf07d1a753470a3fa935fd8072a396d83f1b09b9cbcdb37c7` to
+`e2a962353b6a871a6254e68367c17f8c2a4b81a2cce44108eab0c33e64a8f46c`.
+Historical AH results retain the prior readset. Six static guards plus one
+isolated real-common copy fixture pass; fixture installer readiness is expected
+incomplete/internal3 because the synthetic registry is absent, not a deployment
+PASS. Fresh independent source review selection_cost_contract_review PASS after
+full common/reference inspection, six guards and validator; requested sol/high,
+actual identity unverified. No new native behavior/cost/runtime trial or owner
+work occurred. Full H3/runtime acceptance remains open.
+
 ## H1 lifecycle matrix and existing owner interface receipts
 
 The existing dotcodex baseline/report now include a component matrix separating
@@ -64,13 +84,13 @@ is an evidence index, not a new contract/registry or additional task authority.
 
 | Requested contract surface | Existing source location and verification boundary |
 |---|---|
-| Identity/version/intent | Conditional execution-selection.md, v1 heading and opening scope; no new per-skill YAML/parser consumer implemented |
+| Identity/version/intent | Existing conditional reference names shikigarasu-execution-selection/v1 and opening scope; no new registry or per-skill YAML/parser consumer implemented |
 | Triggers/prerequisites/unsuitable paths | Applicability/prerequisites plus each path's condition/boundary; user/native invocation restrictions retained |
 | Direct/delegated/parallel/iterative/dynamic/durable support | Eight-path table; unsupported native capacity/persistence stays unknown, not an implemented durable runtime |
 | Dependencies/native adapter | Project/native contracts and capabilities are prerequisites; Native adapter status assigns discovery/tools/persistence/receipts to each adapter; Claude acceptance still open |
 | Verification/evidence | State/verification section, acceptance and task/run/capability revisions; source/tests/publish/deploy/load/behavior/outcome separated |
 | Side effects/permissions/stops | Hard ownership/authorization constraints, native resource/retry limits, actual target/prior receipt before replay; no authority escalation |
-| Cost/experience | Cost/latency/prior outcomes considered, comparable experiment required for benefit; actual usage/billing remains unknown in current pilot, no cost-saving inference; existing candidate/promotion/exchange links |
+| Cost/experience | Cost/latency/prior outcomes considered; consequential expected class unknown without evidence, actual usage only when runtime-supported with run/retry/review scope; current pilot billing/benefit remain unknown; existing candidate/promotion/exchange links |
 | Independent review/closure | Main common entry has frozen authorized native policy, strict user/project/high-risk requirements and legacy two-pass fallback; no second checker |
 
 One actionable local verification gap was already documented: expired request

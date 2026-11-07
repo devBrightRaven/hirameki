@@ -32,6 +32,8 @@ progress; publication and goal creation do not complete H1–H6.
   Subsequent response-wait deadline fix has same-test original red for both RPC
   phases/current16tests green and independent review PASS; it does not bound
   startup/stdin/filesystem/cleanup or prove actual app-server behavior.
+  Conditional selection reference now explicitly identifies contract v1 and
+  supported-usage/cost evidence; source review/guards/payload parity pass only.
 - H4:AH05 original two-module branch now has corrected same-test red12/current8
   green, independent native review and parent24CLI controls; user intervention0,
   operator correction1. AH10 Codex supplied-native/shared source-decision branch
