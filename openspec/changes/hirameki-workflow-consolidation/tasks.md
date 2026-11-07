@@ -34,6 +34,9 @@ progress; publication and goal creation do not complete H1–H6.
   startup/stdin/filesystem/cleanup or prove actual app-server behavior.
   Conditional selection reference now explicitly identifies contract v1 and
   supported-usage/cost evidence; source review/guards/payload parity pass only.
+  Subsequent Linux network-isolated empty-profile native discovery passed for
+  one source-bound common entry (real app-server,0 model/thread requests), with
+  exact-driver independent replay. Real-profile/reference use/behavior stay open.
 - H4:AH05 original two-module branch now has corrected same-test red12/current8
   green, independent native review and parent24CLI controls; user intervention0,
   operator correction1. AH10 Codex supplied-native/shared source-decision branch

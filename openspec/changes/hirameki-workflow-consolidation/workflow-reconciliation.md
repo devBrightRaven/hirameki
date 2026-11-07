@@ -1,5 +1,41 @@
 # 整體工作流對帳 — 2026-11-04
 
+## Selected isolated native discovery, not a model trial
+
+Completion audit found one independently testable gap: native metadata discovery
+of the current source payload. After current CLI help/official rust-v0.167.0
+foreground-stdio/config inspection and successful bwrap capability check, source
+675e8c8 was copied into a disposable empty-profile project. Existing checker
+ce72edd7a4c39c58a2a15b0c6ce0813873758120d2a29250942086b1882cb3a0 was reused;
+no new runtime/installer/registry or model experiment was implemented.
+
+The owned foreground process used separate network/PID/user/IPC namespaces,
+read-only host binds and empty masked agent roots; selected protected mountpoint,
+network, mask and writable-task assertions passed before startup. Child-only
+CODEX_HOME/XDG roots did not change parent/live config. Host reads remain broader
+than a strict allowlist; no complete privacy sandbox claim. No auth/session copy,
+daemon lifecycle, real-profile deployment or owner work occurred.
+
+Actual stdin methods were initialize/initialized/skills-list only; discovered1
+enabled source/path/raw-entry-bound common entry, errors0, model/thread0, owned
+process reaped. All3 copied files unchanged. Installed CLI declared0.167.0 after
+the run; binary/source parity not attested. Fresh independent reviewer
+isolated_native_discovery_review copied the EXACT driver into a new temporary
+root and reproduced once, exit0/scoped PASS; requested sol/high, actual identity
+unverified. This is repeated verification of one event, not independent pain
+observations or comparative cost. Receipt/driver/helper/payload hashes and a
+portable equivalent recipe are durable in existing dotcodex baseline/forward-tests.
+The same independent reviewer also statically reviewed and executed that portable
+recipe once: exit0/discovered1/errors0/reported model-turns0. Its lack of audited
+stdin is explicit; it is reproducibility-code validation, not another method trace.
+
+The earlier existing-proxy initialize timeout and skills/list NOT-EXERCISED
+remain unchanged for that transport/profile. This new result does not diagnose
+the old timeout. Reference hashes are copy/readback only; no model consumed the
+reference in this test. Real user-profile/fresh model behavior, Claude,
+cross-machine/Dream, Windows native metadata and effects remain open. H1–H6 full
+scope/checkboxes stay open; no extra model budget or activation was assumed.
+
 ## H3 explicit identity and supported cost-recording semantics
 
 The existing shared conditional reference now names
