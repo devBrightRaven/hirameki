@@ -1,5 +1,36 @@
 # 整體工作流對帳 — 2026-11-04
 
+## 本機續辦：catalog 輸入邊界（2026-11-08）
+
+使用者選擇先做本機剩餘工作，Claude 日後由其原 Owner 接續。跨機、Dream／Claude
+接口與使用效果仍各自等待；本輪沒有 Claude／Tsuku 操作、交接寄送或模型行為重跑。
+H1–H6 的本機／外部等待拆分在原 tasks checkpoint，沒有第二個 goal／任務正本。
+
+前批 dotcodex PR #8 已合併為 `fb78449c94c6a2bd14580686aa7e315e4e73d05f`，
+Hirameki PR #4 合併為 `9933c69a835d5ce138d85c2e756d47dbd43d932f`；標準
+managed pull／installer 已完成，原生命令轉換仍 unverified、整體 partial／exit3。
+[具名交付收據](https://github.com/devBrightRaven/hirameki/issues/1#issuecomment-6711639868)
+承接下方歷史「尚未合併／部署」快照，沒有把 source parity 當成新模型載入或效果。
+
+本機查核發現既有 verifier 對 marketplace JSON root／plugins entries 未先驗型別，
+非物件會產生 AttributeError；bootstrap 的既有例外處理也不捕捉此錯誤，導致沒有
+RESULT_JSON 並中止後續驗證。只在既有解析入口補 object／list-of-objects gate，
+沿用 ValueError→私密安全 failed 收據；不略過錯誤 entry，不修改原生命令轉換規則。
+
+兩個新增 regression methods 覆蓋11種錯誤形狀與實際 verifier→bootstrap→finish。
+同測試原版 `ef98aaf57515048b4c3e981d2edb537f06e11d72` 為 red／exit1，
+10個預期 AttributeError error subresults；修正版 verifier/bootstrap/update 共39項通過。
+合成整合檢查確認 bad failed／good complete 兩份 plugin step 與總 failed／exit1，
+保留後續收據、無成功 digest／raw marker／私人路徑洩露，fixture file-set／bytes 不變。
+Native actions／current-state 用 mocks；不是實際部署，未取得新的 Windows 或使用效果證據。
+Fresh 獨立 reviewer 在隔離副本核對 baseline、覆蓋同份新測試並重現 red／39 green，
+另驗 operation-report 一項，source 審查 PASS；精確 digests 在 dotcodex forward-tests。
+
+最小線索經既有 installed writer exclusive create／exact readback 保存：
+candidate `yatagarasu-acc06852-6882-4c43-a480-8b23661214e4`，1224 bytes。
+只公開 ID／結果，未公開私人 note／plan／路徑；不是跨機、Dream ingestion 或永久規則晉升。
+本輪 source 修正尚未合併或部署，不能由前批部署收據推論本輪已交付。
+
 ## AH09 installed 邊界與 compose 明示入口（2026-11-08）
 
 使用既有 fixture `43faadf1a3685edac1f694c943511e94bf4b6b0668382ea792eca6dd9419efa6`

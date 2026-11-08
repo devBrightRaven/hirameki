@@ -18,6 +18,27 @@ progress; publication and goal creation do not complete H1–H6.
 
 ## Current checkpoint (2026-11-07)
 
+### 本機續辦與外部等待分流（2026-11-08）
+
+使用者選擇「先做本機剩餘工作」；Claude 醒來後由其原 Owner 接續 Claude 部分。
+本輪不操作 Claude、不寄交接、不新增模型行為試驗；原 H/G 完整範圍與 checkbox 保留。
+goal 工具目前仍為 blocked，不另建 goal，也不以此停止已授權本機工作。
+
+| 原項目 | 本機已交付／本輪續辦 | 未完成部分及下一步 |
+|---|---|---|
+| H1/H2 | 118 項 source inventory、consumer／暫定處置及 source delta；既有 redirect 與 reference 抽離已實作 | 高影響處置的收益仍 inconclusive；不以少呼叫／名稱重複退役，暫不擴模型試驗 |
+| H3/H6 | 共用 selection contract 與部署驗證已交付；本輪補 catalog 型別邊界，避免 AttributeError 中止整批收據 | 新修正僅 source；原生命令轉換仍 unverified，不假設已認證轉換 |
+| H4 | 已保留分側 SW/AH 結果與十次 installed pilot；本批不再重跑 AH09 | 原 FAIL／NOT-EXERCISED 不改判；Claude 部分留原 Owner 後續接續 |
+| H5 | A/B/C 已有 bounded pilot，未證明 C 較佳 | 保留既有精簡能力及按需選路；沒有成本／效能改善主張，不強制 dynamic path |
+| H6/G2/G4/G6 | 本機 candidate create／append／safe replay 有具名收據 | Dream 交換、Tsuku 具名接口、真實跨機同步／整併分別等待適用 Owner 或參與者，不接管 |
+| G7 | PR #8/#4 已合併並在既有授權內部署；具名收據見對帳 | 整體 partial／exit3；真實使用觀察窗口及效果仍未齊，合成案例不計真實使用 session |
+
+本輪 catalog 修正：兩個新增 regression methods 的同測試原版因預期 AttributeError
+為 red／exit1（10個 error subresults，非匯入／建置失敗），修正版39項相關測試通過。
+原 native migration 分類及未知界線不變。獨立審查／交付版本另記於對帳，不將本輪
+source 修正稱為已安裝、模型使用或效果改善。Fresh 獨立 reviewer 已在隔離副本重現
+相同 red／39 green，另驗 operation-report，source 審查 PASS；新修正未部署。
+
 ### 後續部署／原生驗收（2026-11-08）
 
 - 使用者最新裁定：「claude端暫時不驗」。本輪不執行 Claude native／adapter 行為驗收，
