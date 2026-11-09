@@ -1,5 +1,138 @@
 # 整體工作流對帳 — 2026-11-04
 
+## Claude 原 Owner intake：component PASS、consumer BLOCK（2026-11-09）
+
+收到既有 thread 的 Owner 回信與 issue 回連。Source heads：
+[Akegarasu PR #14](https://github.com/devBrightRaven/akegarasu-no-yume/pull/14)
+`0e2b1fe37ba4ecb64af8fdf4ee8b1873bf40413c`、
+[Shikigarasu PR #3](https://github.com/devBrightRaven/shikigarasu/pull/3)
+`26af8a236364d3761886456733ae27720cda1cd8`。發布前遠端重查：兩 PR 已由外部合併，
+merge 分別為 `7a42b59dfe52d6403602fee29087760f071f666e`／
+`ed1e390f35b7ee0bc2c939cbc445c0ad3507d7a5`；受測 heads 未變，缺口並未因此消除。
+原 Owner 保有實作與 runtime 範圍；本次只核對固定來源與隔離合成成果。
+
+### G4/H6 consumer
+
+完整讀取 Owner 的 docs/harness-exchange.md、原 test／synthetic records 及自己的
+proposal-contract／pure validator（dotcodex `607a1d5`；helper bytes 與已合併 main
+相同）。私有 repo 原始 source／fixture 只留本機私有
+acceptance set，不鏡像到本公開 repo。原兩個 CLI tests 以既有 Cli.guard=True
+阻止 core sockets／child processes，每步原 CLI 使用明示暫存 --store，由主責及
+fresh reviewer 各自重現2 tests／exit0；146份 source file-set／bytes 均不變。
+未跑其398項全套、未讀真實 store／排程或執行 live exchange。
+
+原 proposal fixture 直接交給既有 validate_candidate，實際拒絕
+`unknown or missing candidate fields`。只在記憶體移除 synthetic 的診斷複本再驗，
+仍拒 `invalid layer`。原檔沒有修改，沒有另造「修正後 PASS」。兩個最小差異說明
+其 schema 宣告尚未滿足 consumer closed contract；不表示 Akegarasu 核心不能 ingest
+opaque artifact。Fresh 獨立 consumer review 判 component PASS／integration BLOCK。
+
+另外：proposal tag 前綴不是完整 identity，source raw-file digest 與 canonical
+candidate fingerprint 是不同 binding，不可直接代用；不合規 candidate 不能取得
+有效 fingerprint。target／lesson revision 不證明 implemented source。現有
+自由文字 outcome 也未交付完整既有 result／experiment binding，因此保持
+needs-evidence，不能從 accepted／neutral 直接生成有效效果回條。完整欄位對照
+追加在原 design 的交換段落；不新增 schema、文字抽取器或永久 service。
+原 Owner 的最小後續是修 proposal fixture 並連動 digest／引用／文件；consumer
+仍用原 validator，不自行修改私有來源來讓結果通過。
+N5 的 kind_not_recordable 只證明 record-file 不接受 decision；CLI actor 欄位本身
+不認證真人，不能據此宣稱所有 agent 自行採納都被工具阻止。人類批准仍由 host
+與可追溯授權證據建立，不在本次新增認證或另一個 Promotion gate。
+
+[Consumer 修正要求已回到原 issue](https://github.com/devBrightRaven/akegarasu-no-yume/issues/13#issuecomment-6734527415)，
+writer 的當時入口／版本差異也只請原 Owner 提供證據，不讀其私有設定。
+此 consumer 缺口以既有 installed writer exclusive create／exact readback 最小保存為
+candidate `yatagarasu-b36f0e48-dfea-436b-b819-4e5d4267a9f5`。
+只公開 ID／結果，私人 note／draft／plan 不入 repo；不是另一獨立事件、Dream ingestion
+或永久規則晉升。
+
+### H4/AH10 Claude 側
+
+已完整讀取具名 report、prompt、result、tool log 與 inputs.sha256。主責從三個固定
+來源重算全部16份 inputs，逐項等於 Owner manifest；原 whole fixture
+`fde61b383b9366a4968a035245bb6e061fc9313da62035f96b5db78dc226b40b`
+的 AH10 object 與現有 fixture 逐欄相同，並非整份新舊 fixture bytes 相同。
+Shared contract 固定 def9fc66、native adapter 固定 e31c4dd；沒有把它說成目前
+installed reference 被實際載入。
+
+提供的 artifact 一致支持五個 Read/Grep 動作、Direct／靜態不相容判斷，以及
+未使用子代理的回報。Prompt 把允許至多一個 worker 收窄為不委派，因此0 children
+不是自由選路的獨立證據。保留大範圍 Grep 截斷／未讀完 native agents/skills、
+effort 未確認及 before/after runtime 狀態屬 Owner 當時觀察等限制。Model 名稱
+是其 runtime artifact 的回報，未獨立認證 provider。這是 artifact/source hash
+複核，不是重跑 Claude runtime 或重新證明完整 side-effect scope。
+
+目前記為 Owner-reported 限定 source-decision PASS，加上本次 consumer artifact
+一致性／input binding 查核；不回填 installed discovery、plugin agent availability、
+full interoperability 或 effect。個人 runtime／usage／account 資料不轉貼。
+Fresh 獨立 artifact review 重算16份 input hashes 並核對 fixture／prompt／工具摘要，
+本次三份 canonical 文件的一致性 PASS。其另確認 Owner 公開 report／tool-log 含
+個機 installed/cache parity、account/runtime inventory 與 usage 的匯出範圍問題，
+須由原 Owner 清理；本輪不鏡像其數值、不修改原產物、不稱為 credential leak。
+公開版本清理與歷史版本處理分開，不推定可改寫 Git history 或已消除所有副本。
+[原 Owner 的公開範圍修正要求](https://github.com/devBrightRaven/shikigarasu/issues/2#issuecomment-6734549303)
+只列欄位類別與必要保留證據，沒有複製原數值；尚不是已修正收據。
+
+### Writer 與其餘邊界
+
+已查 Codex 所在 delivered helper 的 prepare --help，實際列出 --create。這不反駁
+Claude 當時另一 payload 缺功能的回報；相同2.3.3字串不能建立 payload 相同。
+當時 helper 入口／契約與直接寫入／修正文的收據仍需原 Owner 對帳。保存授權
+不自動豁免既有 writer gate；不補造 frozen-plan／exclusive-create 證據，也不代改
+其候選或處理尚未確認的 Syncthing conflict。D1/D2 出處仍 unknown。
+此項不阻擋上述獨立 consumer 查核；兩 PR 已合併的最新遠端狀態如本節開頭，
+不是本輪 Codex 的 merge／部署動作。真實交換、跨機與效果仍各自保留，沒有新的
+模型試驗、排程或 live-store 操作。
+
+### 同輪收到的 Claude source mapping 與 Codex runner 線索
+
+[Shikigarasu PR #4](https://github.com/devBrightRaven/shikigarasu/pull/4)
+head `971530bc8fd954ceec16e825e94cef7bac2031ca` 已合併至 main
+`5ce3481f2348b9f2f2fb789eb6b7810e3d1ef018`。本次讀取九檔 diff：既有 dispatch、
+角色／審查入口與 source anchors 對照 shared selection、verification、review、
+continuity、capture；沒有因此把 PR #3 的舊 source-supplied AH10 升為新文字行為驗收。
+Source anchors 不是模型選路、已載入或效果證據，也不擴張 Codex 對 Claude 的操作權。
+
+[原 Owner 分層回報](https://github.com/devBrightRaven/shikigarasu/issues/2#issuecomment-6725472037)
+包含部署與 Windows 測試觀察；本次只接收具名結果，不鏡像私人環境清單、不代跑
+其 runtime。其 Windows 完整測試曾在 test_success_captures_stdout_and_persists_terminal_result
+讀到 metadata.exit_status 為空；後兩次單跑通過不能抹去首輪 FAIL。原因目前只是
+時序假說，不是 Claude mapping 已失敗的判斷。後續 Codex 已在自己的隔離 checkout
+定位並修正如下；原 Windows FAIL 保留，不用 Linux 結果冒充 Windows 重驗。
+
+### H4 Codex runner：terminal publication 修正
+
+[Shikigarasu Draft PR #5](https://github.com/devBrightRaven/shikigarasu/pull/5)，source
+`bfb14d260ca70f47c2f82c8ed786ef55b4741a2c`，base `5ce3481`。原 shared helper
+先發布 result.json 再寫 final metadata；結果發布點讀回可仍見 running／空 exit_status。
+現在先寫 final metadata、再發布 result。兩個既有 supervisor terminal 呼叫點共用
+此修正，涵蓋成功／非零退出／逾時與無 child 的啟動失敗；沒有改 API、schema、
+CLI、程序啟動或 Claude adapter。只改 runner、tests 及既有兩份驗證說明。
+
+- 主責首版單一回歸測試在原 runner 穩定四個預期 assertion failures，保留原紀錄。
+  最終兩項新測試由 fresh 獨立 reviewer 在隔離 baseline／current 副本使用相同 bytes
+  重驗：base exit1／兩項／五個預期失敗，current exit0／兩項 PASS；第五個失敗為
+  metadata 寫入失敗時舊版已發布 result。不是 import／環境錯誤當作 behavioral RED。
+- 主責及 reviewer 各自 runner 12項 PASS；reviewer 另驗不存在的執行檔仍為 failed、
+  metadata/result 一致。四檔 source review PASS，受審 bytes 與發布內容相同。
+  核心 runner SHA-256 `be0775786399a1c3708c88a0de4e2db453d3f68da46add91690670e9262d5a22`，
+  最終 test SHA-256 `5e3efb48fee05db67b0b115c92d7b7cfdc70629ac9270122820f0b0481bf873d`。
+- 實際 npm test -- --run 六項 Python 套件 12／12／8／6／28／12 tests 均通過；
+  兩項 PowerShell 步驟因缺 pwsh 無結果，整體 exit1，完整 local gate 未通過。
+  使用者明示只對本批覆蓋 commit 前置要求，可 commit／push／Draft，將既有
+  repository-only PowerShell 檢查交 CI。沒有修改長期規則或把本機 gate 改判 PASS。
+  Exact-head [CI 42581329518](https://github.com/devBrightRaven/shikigarasu/actions/runs/42581329518)
+  已 completed／success：repository-only PowerShell 及六項 Python 套件均通過。
+  CI 是 Linux repository checks，不替代完整 local gate 或原生 Windows。
+- 原生 Windows、實際 crash／power loss、程序樹 containment、runtime loaded 與效果
+  未驗；沒有本輪 merge／部署、模型 pilot、Owner 工作樹或私人設定操作。
+- 最小來源 candidate `yatagarasu-b65c7fe0-5c7f-4059-b377-e573e891f339` 以既有 installed
+  writer exclusive create／exact readback 保存；三個 literal queries 只查已授權的
+  pain-point 範圍，無匹配不代表跨機去重完整。只公開 ID，私人 note／plan／logs
+  留在私有 acceptance set，保存不是 Dream ingestion、採納或永久規則修改。
+
+沿用原 issue／tasks，不新增平行工作佇列或新驗證 runtime。
+
 ## 本機續辦：catalog 輸入邊界（2026-11-08）
 
 使用者選擇先做本機剩餘工作，Claude 日後由其原 Owner 接續。跨機、Dream／Claude
@@ -597,13 +730,13 @@ work ledger:
 
 | Existing task | Evidence still needed | Boundary / next authorized response |
 |---|---|---|
-| H1/H3/H4, G7 | Codex 有具名 installed discovery/reference 與十次 pilot，AH09 native FAIL 保留；不能推論全 profile／一般遵循或效果 | 本批模型試驗停止擴大；依具體缺口處理，不用更多容易案例洗掉 FAIL。Claude 本輪指定延後 |
-| H3/H4, G4 | Original Claude adapter AH10/common-fixture result and its own revision/tool/model evidence | 使用者指定本輪 NOT-RUN／延後，不阻擋本輪 Codex 交付；不替代 Claude 執行或接管，完整跨 runtime 狀態未完成 |
-| H6, G4/5.2 | Original Dream-side revision-bound input/output plus accept/reject receipts | Validate delivered exchange with existing schemas; do not infer a consumer or modify the private store |
+| H1/H3/H4, G7 | Codex 有具名 installed discovery/reference 與十次 pilot，AH09 native FAIL 保留；不能推論全 profile／一般遵循或效果 | 本批模型試驗停止擴大；依具體缺口處理，不用更多容易案例洗掉 FAIL。Claude 新交付見2026-11-09 intake |
+| H3/H4, G4 | Claude 已回傳限定 AH10 source-decision 與 artifacts；installed/fresh discovery、完整 interoperability 仍未驗 | 16份 input bindings 已複核，保留 prompt／工具及身份限制；不代跑或接管，舊 NOT-RUN 留在歷史 |
+| H6, G4/5.2 | Dream component 收據已回傳並在隔離 copy 重現；brv1 fixture 不相容、result／experiment binding 未齊 | 既有 validator 保留拒絕；原 Owner 修 fixture／引用，consumer 保持 needs-evidence，不操作私人 store |
 | H1/H6, G6 | Owner-confirmed preflight/maintenance boundary and any named source consumer acceptance | Source opt-in adapter and Tsuku task6.7 can be cited; Tsuku task6.5 formal release authority and deployment remain separate; do not activate Tsuku |
 | G2/G7/6.3 | Actual cross-machine synchronization, owner consolidation/conflict and receipts | Single-filesystem fixtures are insufficient; preserve origin ownership and partial coverage |
 | H2/H5/6.4 | Comparable attributable cost/quality evidence before any further high-impact retirement or claim C beats B | Keep existing provisional dispositions/optional selection; no forced dynamic workflow, invented savings or extra paid model experiment |
-| H6/G7 | 已批准安裝／指定入口使用有具名證據；原 updater FAIL 與後續分類修正尚未合併，真實使用觀察／效果未齊 | PR #8／#4 新 merge 仍待批准；後續依適用既有授權交付，不把 source CI、保存或一次 pilot 當觀察窗口／效果完成 |
+| H6/G7 | 已批准合併／本機部署有具名收據，整體仍 partial／3；真實使用觀察／效果未齊 | 最新交付回條 #6720760286 承接舊 merge/deploy 待批快照；不把 source CI、保存或一次 pilot 當觀察窗口／效果完成 |
 
 These are not new approval gates for the completed local source work. They state
 why its evidence does not close the full task scopes; continue any independent
@@ -1149,7 +1282,7 @@ polled, restarted or taken over; the interface dependency remains open.
 | AH07 | PASS, supplied-contract branch only | Local check and refusal of lower-authority deployment; parent byte verification. No installed discovery |
 | AH08 | Initial Vault-format/routing NOT-EXERCISED; corrected retest PASS | First 642-byte note lacks frontmatter under incomplete fixture; corrected routed 697-byte note passes; same event, initial result retained |
 | AH09 | A approved: success-only reassessment PASS and supplied proposal branch PASS, independently reviewed; original-oracle FAIL retained | Success deferral reuses recorded output, proposal has new needs-evidence compact result; no automatic promotion. Earlier owner-cohort answer remains unverified/AH12 priming retained; no fresh-runtime/Claude/effect claim |
-| AH10 | Codex supplied-native/shared source-decision PASS; Claude NOT-RUN | Direct source checks/incompatibility inference, zero writes; same common fixture ready for original Claude owner. Full runtime interoperability remains incomplete |
+| AH10 | Codex supplied-native/shared source-decision PASS；Claude Owner-reported limited source-decision PASS，input/artifact binding 已複核 | Claude固定source供應、prompt收窄不委派、Grep截斷與effort未確認均保留；未重跑Claude或證明installed discovery／full runtime interoperability；見2026-11-09 intake |
 | AH11 | PASS, same-plan replay branch only | Already-applied plan, 0 written bytes, suffix once; no generic durable-runtime claim |
 | AH12 | PASS, supplied declaration reconciliation only | r3/source-r3, alpha-only receipt, beta unknown, loaded/effect unverified; no new authority or envelope fabricated |
 
