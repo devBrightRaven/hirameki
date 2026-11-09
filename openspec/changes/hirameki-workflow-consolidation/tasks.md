@@ -45,9 +45,18 @@ native／Dream 實作，整合仍由 Codex 承接；不操作其工作樹、程�
   Akegarasu #14 merge `7a42b59`，原受測 heads 未變；合併不解除上述 consumer／隱私缺口。
   Shikigarasu #4 亦已合併至 `5ce3481`，承接 Claude shared-contract source mapping；
   Owner 回報其部署及 Windows 測試結果，尚非 Codex 獨立認證。Windows test runner
-  曾讀到 terminal exit_status 為空，後兩次通過；保留原失敗，Codex 側續查。
+  曾讀到 terminal exit_status 為空，後兩次通過；保留原失敗。
   本輪未執行 Owner merge／部署，不重開 AH09 或原十次模型 pilot。D1/D2 出處維持
   unknown；真實交換、跨機、fresh runtime 與效果仍另驗。
+- H4：Codex 已在自己的隔離 checkout 修正 runner terminal 發布順序，交付
+  [Shikigarasu Draft PR #5](https://github.com/devBrightRaven/shikigarasu/pull/5)，
+  source `bfb14d2`。同一最終新測試由獨立 reviewer 重現 baseline 兩項／五個預期
+  失敗，修正版 runner 12項通過；六項 Python 套件通過，完整 npm gate 因缺 pwsh
+  為 exit1／兩步無結果。使用者明示本批可先 commit／push／Draft，PowerShell
+  repository-only 交 CI；不改長期 gate，完整 local／Windows 未驗，不 merge／deploy。
+  Exact-head CI [42581329518](https://github.com/devBrightRaven/shikigarasu/actions/runs/42581329518)
+  已 completed／success（repository-only PowerShell 及六項 Python 套件），不替代完整 local gate。
+  最小候選已由既有 writer 保存，ID／方法與限制見原對帳；非 Dream 接收或晉升。
 
 ### 本機續辦與外部等待分流（2026-11-08）
 

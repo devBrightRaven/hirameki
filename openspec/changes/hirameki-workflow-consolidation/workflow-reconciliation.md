@@ -97,8 +97,41 @@ Source anchors 不是模型選路、已載入或效果證據，也不擴張 Code
 包含部署與 Windows 測試觀察；本次只接收具名結果，不鏡像私人環境清單、不代跑
 其 runtime。其 Windows 完整測試曾在 test_success_captures_stdout_and_persists_terminal_result
 讀到 metadata.exit_status 為空；後兩次單跑通過不能抹去首輪 FAIL。原因目前只是
-時序假說，Codex 側需查 runner／測試的完成判準；尚未重現或修正，也不是 Claude
-mapping 已失敗的判斷。沿用原 issue／tasks，不新增平行工作佇列。
+時序假說，不是 Claude mapping 已失敗的判斷。後續 Codex 已在自己的隔離 checkout
+定位並修正如下；原 Windows FAIL 保留，不用 Linux 結果冒充 Windows 重驗。
+
+### H4 Codex runner：terminal publication 修正
+
+[Shikigarasu Draft PR #5](https://github.com/devBrightRaven/shikigarasu/pull/5)，source
+`bfb14d260ca70f47c2f82c8ed786ef55b4741a2c`，base `5ce3481`。原 shared helper
+先發布 result.json 再寫 final metadata；結果發布點讀回可仍見 running／空 exit_status。
+現在先寫 final metadata、再發布 result。兩個既有 supervisor terminal 呼叫點共用
+此修正，涵蓋成功／非零退出／逾時與無 child 的啟動失敗；沒有改 API、schema、
+CLI、程序啟動或 Claude adapter。只改 runner、tests 及既有兩份驗證說明。
+
+- 主責首版單一回歸測試在原 runner 穩定四個預期 assertion failures，保留原紀錄。
+  最終兩項新測試由 fresh 獨立 reviewer 在隔離 baseline／current 副本使用相同 bytes
+  重驗：base exit1／兩項／五個預期失敗，current exit0／兩項 PASS；第五個失敗為
+  metadata 寫入失敗時舊版已發布 result。不是 import／環境錯誤當作 behavioral RED。
+- 主責及 reviewer 各自 runner 12項 PASS；reviewer 另驗不存在的執行檔仍為 failed、
+  metadata/result 一致。四檔 source review PASS，受審 bytes 與發布內容相同。
+  核心 runner SHA-256 `be0775786399a1c3708c88a0de4e2db453d3f68da46add91690670e9262d5a22`，
+  最終 test SHA-256 `5e3efb48fee05db67b0b115c92d7b7cfdc70629ac9270122820f0b0481bf873d`。
+- 實際 npm test -- --run 六項 Python 套件 12／12／8／6／28／12 tests 均通過；
+  兩項 PowerShell 步驟因缺 pwsh 無結果，整體 exit1，完整 local gate 未通過。
+  使用者明示只對本批覆蓋 commit 前置要求，可 commit／push／Draft，將既有
+  repository-only PowerShell 檢查交 CI。沒有修改長期規則或把本機 gate 改判 PASS。
+  Exact-head [CI 42581329518](https://github.com/devBrightRaven/shikigarasu/actions/runs/42581329518)
+  已 completed／success：repository-only PowerShell 及六項 Python 套件均通過。
+  CI 是 Linux repository checks，不替代完整 local gate 或原生 Windows。
+- 原生 Windows、實際 crash／power loss、程序樹 containment、runtime loaded 與效果
+  未驗；沒有本輪 merge／部署、模型 pilot、Owner 工作樹或私人設定操作。
+- 最小來源 candidate `yatagarasu-b65c7fe0-5c7f-4059-b377-e573e891f339` 以既有 installed
+  writer exclusive create／exact readback 保存；三個 literal queries 只查已授權的
+  pain-point 範圍，無匹配不代表跨機去重完整。只公開 ID，私人 note／plan／logs
+  留在私有 acceptance set，保存不是 Dream ingestion、採納或永久規則修改。
+
+沿用原 issue／tasks，不新增平行工作佇列或新驗證 runtime。
 
 ## 本機續辦：catalog 輸入邊界（2026-11-08）
 
