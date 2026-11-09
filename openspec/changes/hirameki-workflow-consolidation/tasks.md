@@ -18,6 +18,37 @@ progress; publication and goal creation do not complete H1–H6.
 
 ## Current checkpoint (2026-11-07)
 
+### 原 Owner 已回傳；consumer 及 Claude AH10 對帳（2026-11-09）
+
+原 goal 已由使用者恢復 active。收到 Claude 原 Owner 的具名回信及三個既有 issue
+回連；以固定 PR heads 查核，不再把「Owner 尚無交付」當成目前狀態。Claude 保有
+native／Dream 實作，整合仍由 Codex 承接；不操作其工作樹、程序、排程或私人 store。
+
+- H3/H6、G4/5.1：Akegarasu PR #14 source `0e2b1fe` 的兩個原 CLI tests，在私有
+  隔離 source copy／暫存 --store、既有 socket/subprocess guard 啟用下由主責及獨立
+  reviewer 重現 PASS，146個 source 檔案不變。這只證明原生 component 循環。
+  同一 proposal fixture 被既有 brv1 validator 拒絕 unknown/missing fields；只在
+  記憶體移除 synthetic 的診斷複本仍拒 invalid layer，未改 fixture 或當成修正版。
+  Consumer integration 為 BLOCK；原 Owner 需修 fixture、digest／引用及文件，
+  完整 result／experiment 綁定缺口保持 needs-evidence。對應表在原 design 第7節補充。
+- H4/AH10：Shikigarasu PR #3 source `26af8a2` 的 Claude supplied-native/shared
+  source-decision 結果為 Owner 報告的限定 PASS。主責獨立重算16個 input hashes、
+  核對 AH10 object 與現有 fixture 相同，及五項工具動作／prompt／result 一致；
+  沒有重跑 Claude。Prompt 收窄為不委派、folder-wide Grep 截斷、effort 未確認，
+  source-supplied 與 installed reference 版本不同等限制保留；不勾整體 interoperability。
+  Fresh 獨立 artifact review 同意上述分層；另確認 Owner 公開 report／tool-log 有
+  個機 inventory／account／usage 匯出範圍問題，交原 Owner 清理，不轉貼數值或改其檔案。
+- Writer follow-up：Claude 自述舊 helper 缺 create 而直接寫候選；Codex 所在 payload
+  的 prepare --help 已確認有 --create。版本字串不證明同 payload，當時入口／契約
+  及 sync-conflict 仍待原 Owner 證據，不跨 origin 改筆記或回補不存在的 writer 收據。
+- 發布前重查：兩個 Owner PR 已由外部合併，Shikigarasu #3 merge `ed1e390`、
+  Akegarasu #14 merge `7a42b59`，原受測 heads 未變；合併不解除上述 consumer／隱私缺口。
+  Shikigarasu #4 亦已合併至 `5ce3481`，承接 Claude shared-contract source mapping；
+  Owner 回報其部署及 Windows 測試結果，尚非 Codex 獨立認證。Windows test runner
+  曾讀到 terminal exit_status 為空，後兩次通過；保留原失敗，Codex 側續查。
+  本輪未執行 Owner merge／部署，不重開 AH09 或原十次模型 pilot。D1/D2 出處維持
+  unknown；真實交換、跨機、fresh runtime 與效果仍另驗。
+
 ### 本機續辦與外部等待分流（2026-11-08）
 
 使用者選擇「先做本機剩餘工作」；Claude 醒來後由其原 Owner 接續 Claude 部分。

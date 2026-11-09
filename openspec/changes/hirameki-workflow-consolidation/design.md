@@ -160,6 +160,27 @@ limitations；欄位序列化正本是該 skill 的 proposal-contract「Separate
 outcome 區分 improved/no-improvement/regressed/inconclusive，不能以 deployment
 verified 替代。純 validator 不讀證據、不證明因果、不執行回退，尚未接通 live dream。
 
+#### Akegarasu 原 Owner 交付的 consumer 對帳（2026-11-09，G4/H6）
+
+已定位原 Owner 的 PR #14，固定 source
+`0e2b1fe37ba4ecb64af8fdf4ee8b1873bf40413c`；`docs/harness-exchange.md` 第2、5節
+描述既有 record 的承接位置。以下是既有 closed contract 的對帳，不擴張 schema、
+不新增 store／adapter service，也不把原生 CLI 接受任意來源檔當成 brv1 合規。
+
+| 承接項 | Consumer 判準／保留差異 |
+|---|---|
+| proposal 本體 | 必須原樣通過既有 validate_candidate；source-pinned fixture 有額外欄位及不合法 layer，當前 consumer BLOCK，不刪欄位／改值後冒稱原檔通過 |
+| proposal identity／origin／revision | 取已驗證的完整 candidate；tags 只是查找 label，ID 前綴不足以識別。Record writer 是寫入者主張，不能一般化為 proposal origin 或授權證明 |
+| 來源 digest／candidate_sha256 | ingest 的 source_revision 綁 raw artifact bytes；fingerprint 綁 canonical candidate JSON。這是不同 binding，不可直接代用；目前不合規 candidate 不能取得有效 fingerprint |
+| lesson accepted／result decision | context_advice 不等於已批准 source 修改、已實作或已部署；decide 的 actor 欄位不證明真人批准，N5 只拒絕 record-file 寫 decision。仍需既有獨立 result envelope 與實際批准證據 |
+| tested source_revision | target_revision 是被判斷的目標版本，lesson_revision 是 lesson 內容版本；兩者不自動證明修正後 implemented／tested source |
+| experiment identity／method／baseline_control | 自由文字／tags 不自動升為 closed experiment 欄位；由可讀取、digest 綁定的報告與既有 validate_experiment_result 承接。缺必要資料回 needs-evidence，不新增文字抽取器或捏造值 |
+| outcome／limitations | helped／neutral／harmed／unknown 與四類 outcome 可做明示標籤對照；仍須實際對照方法、證據與限制，不把 label 轉換當成效果證明 |
+
+Component 的合成 CLI 循環已在隔離 copy 重現；consumer fixture 不相容及缺少完整
+result／experiment binding 仍需原 Owner／整合者分別補證。修正來源 fixture 時必須
+連動其 digest／引用與文件，不改 Owner schema 或真實 store 來遷就 consumer。
+
 離線不需要先新增排程：第一版在自然接續／收尾、使用者要求時重查一次遠端，
 失敗即停止本節點重試。已授權的 Vault 候選保留，遠端查核與發布結果分開。
 發布逾時為 unknown；恢復先查候選 ID、repo、既有內容，再判斷沿用／追加／新建。
