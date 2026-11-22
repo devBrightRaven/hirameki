@@ -6,7 +6,7 @@ import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'scripts'))
-from workflow_routes import load_routes, resolve
+from workflow_routes import load_routes, resolve, task_contract
 
 
 class RouteTests(unittest.TestCase):
@@ -123,6 +123,92 @@ class RouteTests(unittest.TestCase):
         self.assertIn('installed language-writing', contract)
         self.assertIn('does not authorize saving', contract)
         self.assertIn('No hook is required', contract)
+        self.assertIn('short answer to a pending clarification', contract)
+        self.assertIn('Keep the original request and source limits', contract)
+
+    def test_compose_decides_deliverable_before_resolving_vault(self):
+        for entry, config in (
+            ('commands/compose.md', 'Read `vault:` from'),
+            ('codex/skills/hirameki/references/compose.md', 'Resolve vault configuration through'),
+        ):
+            with self.subTest(entry=entry):
+                body = (ROOT / entry).read_text(encoding='utf-8')
+                self.assertLess(body.index('## Purpose before procedure'), body.index(config))
+                self.assertIn('ask one focused question', body)
+                self.assertIn('After the user answers, continue', body)
+                self.assertIn('A short answer can resolve the pending question', body)
+                self.assertIn('original source and save limits', body)
+                self.assertIn('Never write unless the user approves that displayed content.', body)
+
+    def test_compose_resolves_topic_or_accepts_delegated_choice_before_vault_setup(self):
+        for directory in ('commands', 'codex/skills/hirameki/references'):
+            with self.subTest(directory=directory):
+                body = (ROOT / directory / 'compose.md').read_text(encoding='utf-8')
+                purpose = body.split('## Purpose before procedure', 1)[1].split('## Material to deliverable', 1)[0]
+                purpose = ' '.join(purpose.split())
+                for rule in ('topic or category', 'explicitly delegates the topic',
+                             'deliverable and audience are clear',
+                             'within the authorized scope', 'directly deliver a proposal',
+                             'ask one focused question'):
+                    self.assertIn(rule, purpose)
+
+    def test_compose_uses_language_writing_only_for_language_work(self):
+        for directory in ('commands', 'codex/skills/hirameki/references'):
+            with self.subTest(directory=directory):
+                body = (ROOT / directory / 'compose.md').read_text(encoding='utf-8')
+                self.assertEqual(1, body.count('installed language-writing entry'))
+                self.assertIn('For prose drafts, prose outlines, edits or language review', body)
+                self.assertIn('For a technical review, check the requested behavior and evidence', body)
+
+    def test_next_and_lens_determine_scope_before_vault_setup(self):
+        for directory in ('commands', 'codex/skills/hirameki/references'):
+            for name, decision in (('next', '## Scope before tools'),
+                                   ('lens', '## Question-driven exploration')):
+                with self.subTest(directory=directory, workflow=name):
+                    body = (ROOT / directory / (name + '.md')).read_text(encoding='utf-8')
+                    self.assertLess(body.index(decision), body.index('Setup not complete'))
+                    section = body[body.index(decision):body.index('Setup not complete')]
+                    self.assertIn('For Vault-dependent work only', section)
+
+    def test_next_resumes_from_current_repository_authority_before_any_vault_lookup(self):
+        for directory in ('commands', 'codex/skills/hirameki/references'):
+            with self.subTest(directory=directory):
+                body = (ROOT / directory / 'next.md').read_text(encoding='utf-8')
+                scope = ' '.join(body.split('## Scope before tools', 1)[1].split('## Purpose modes', 1)[0].split())
+                resume = scope.split('- Resume:', 1)[1].split('- Inventory:', 1)[0]
+                for clause in ('Start with the named project\'s current task authority',
+                               'Use a handoff when requested or needed',
+                               'skip Vault setup', 'completed, withdrawn or superseded'):
+                    self.assertIn(clause, resume)
+                self.assertIn('when current evidence confirms that it is still open', scope)
+
+    def test_next_loads_the_existing_reader_contract_only_when_needed(self):
+        for directory in ('commands', 'codex/skills/hirameki/references'):
+            with self.subTest(directory=directory):
+                body = (ROOT / directory / 'next.md').read_text(encoding='utf-8')
+                self.assertIn('## Indexed tasks', body)
+                indexed = body.split('## Indexed tasks', 1)[1].split('## Relevant sources', 1)[0]
+                self.assertIn('references/capabilities/tasks.md', indexed)
+                self.assertIn('## Task view (shared step)', indexed)
+                self.assertIn('For an explicit restore request', indexed)
+                self.assertIn('task-restore/operation.md', indexed)
+                self.assertNotIn('--page-size 20 --offset 0', body)
+                self.assertNotIn('--validate-restore', body)
+                reader = task_contract(ROOT / directory, 'next').read_text(encoding='utf-8')
+                for rule in ('### Exact task lookup', '--task-id <exact-id>',
+                             '--expected-view-revision', 'details_returned=false',
+                             'a verified `restore_pending` task is active before index integration'):
+                    self.assertIn(rule, reader)
+
+    def test_lens_checks_claim_authority_even_for_supplied_passages(self):
+        for directory in ('commands', 'codex/skills/hirameki/references'):
+            with self.subTest(directory=directory):
+                body = (ROOT / directory / 'lens.md').read_text(encoding='utf-8')
+                evidence = ' '.join(body.split('## Evidence retrieval', 1)[0].split())
+                for rule in ('For supplied passages and retrieved notes alike',
+                             'who made each claim', 'draft proposals and third-party quotations',
+                             'explicit adoption or replacement', 'within its stated scope'):
+                    self.assertIn(rule, evidence)
 
     def test_public_roster_and_copies(self):
         routes = load_routes()

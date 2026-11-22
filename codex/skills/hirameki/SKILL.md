@@ -1,6 +1,6 @@
 ---
 name: hirameki
-description: Use when invoking Hirameki workflows; capturing, organizing, finding concepts in, or checking stuck work from Obsidian vault notes; or preserving decisions, journals and handoffs. Also use for decision-forming intent such as "should I", "which one", "torn between", "pros and cons", "要不要", "應該選", "該不該", "猶豫", "どうしよう", "どちら", "迷って", or "比較". Not for passing preferences or mechanical actions with no meaningful choice.
+description: Use when invoking Hirameki workflows; capturing, organizing, finding concepts in, or checking stuck work from Obsidian vault notes; or preserving decisions, journals and handoffs. Use when asked to assemble a sourced artifact from Obsidian vault notes. Also use when forming a consequential decision, expressed for example as "should I", "which one", "torn between", "pros and cons", "要不要", "應該選", "該不該", "猶豫", "どうしよう", "どちら", "迷って", or "比較". Answer routine technical comparisons, passing preferences, and mechanical requests directly. Ordinary supplied-text edits use a language-writing skill.
 ---
 
 # Hirameki
@@ -9,12 +9,12 @@ Run Hirameki's Obsidian vault workflows in Codex with the same shared capabiliti
 
 ## Vault Config Resolution
 
-Before any workflow that reads or writes the vault, resolve vault configuration in this order:
+Resolve vault configuration only when the selected workflow needs vault access.
 
-1. Use explicitly supplied current-task vault root and language when present.
-2. Resolve missing values from Codex's own `~/.codex/hirameki-local.md`. Never read another agent's configuration, personal memory or runtime as a fallback.
-3. After resolving the vault root, read folder paths from `## Vault Structure` in `{vault}/AGENTS.md`. This is the canonical source for daily, inbox, research, journal, handoff, templates, and content-folder resolution.
-4. If the vault root or required canonical folder paths are still missing, stop and respond: `Setup not complete. Please run hirameki:init to configure the vault root or canonical folder layout.`
+1. Follow the host routing policy first when the runtime supplies one. Pass the current task's explicit scope and needed read/write access. Reuse an applicable confirmed destination for the same task and access. Do not replace it with a legacy vault root. If routing needs a selection or reports an unavailable destination, follow that result and do not fall back to legacy configuration or initialize another vault.
+2. Without a host routing policy, or where it explicitly permits fallback, use the current task's supplied vault root and language before resolving missing values from Codex's own `~/.codex/hirameki-local.md`. Never read another agent's configuration, personal memory or runtime as a fallback.
+3. Use the selected vault's `## Vault Structure` in `{vault}/AGENTS.md` as the canonical source for required folder paths. Reuse folder information already verified by the host for this operation.
+4. For an unconfigured standalone installation, if the vault root or required canonical folder paths are missing, stop and respond: `Setup not complete. Please run hirameki:init to configure the vault root or canonical folder layout.`
 
 Explicit current-task settings may support an isolated trial without a machine-local file; they do not authorize persisting that configuration. Missing ordinary setup is handled by `hirameki:init`, not cross-agent discovery.
 

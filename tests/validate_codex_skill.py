@@ -69,6 +69,10 @@ def test_codex_skill_shape() -> None:
     assert frontmatter["name"] == "hirameki"
     assert frontmatter["description"].startswith("Use when "), "Hirameki description must lead with trigger conditions"
     assert "Obsidian vault" in frontmatter["description"]
+    assert "assemble a sourced artifact from Obsidian vault notes" in frontmatter["description"]
+    assert "ordinary supplied-text edits use a language-writing skill" in frontmatter["description"].lower()
+    assert "forming a consequential decision" in frontmatter["description"]
+    assert "Answer routine technical comparisons" in frontmatter["description"]
     assert len(frontmatter["description"]) <= 1024
 
     for language, phrases in {
@@ -225,6 +229,11 @@ def test_codex_vault_resolution_has_one_layout_source() -> None:
     assert "{vault}/agents.md" in router
     assert "canonical source" in router
     assert "never read another agent's configuration" in router
+    resolution = router.split("## vault config resolution", 1)[1].split("## command routing", 1)[0]
+    assert "follow the host routing policy first" in resolution, "Vault destination must honor host routing"
+    assert resolution.index("follow the host routing policy first") < resolution.index("hirameki-local.md")
+    assert "do not replace it with a legacy vault root" in resolution
+    assert "do not fall back to legacy configuration" in resolution
     assert "~/.claude/" not in router
     assert "migration fallback" not in init
     assert "vault root and language only" in init
@@ -419,11 +428,20 @@ def test_triage_batch_save_contract() -> None:
 
 def test_language_and_presence_rules_in_both_hosts() -> None:
     immediate_restore = 'A valid restore_pending task is visible and actionable now; do not require waiting for scheduled integration before the task can resume.'
-    for path in (ROOT / 'commands/next.md', ROOT / 'commands/triage.md',
-                 ROOT / 'references/capabilities/tasks.md',
-                 SKILL / 'references/next.md', SKILL / 'references/triage.md',
-                 SKILL / 'references/capabilities/tasks.md'):
-        assert immediate_restore in path.read_text(encoding='utf-8'), f'{path}: approved restore must be actionable before index integration'
+    section = '## Task view (shared step)'
+    lookup = '### Exact task lookup'
+    for root, entries in ((ROOT, ROOT / 'commands'), (SKILL, SKILL / 'references')):
+        capability = (root / 'references/capabilities/tasks.md').read_text(encoding='utf-8')
+        task_view = capability.split(section, 1)[1].split(lookup, 1)[0]
+        assert immediate_restore in task_view
+        for rule in ('even at exit 0', 'same offset with a smaller page size',
+                     'retain both revision pins', 'first complete JSON page',
+                     'no raw-note fallback for clipped output'):
+            assert rule in task_view
+        next_entry = (entries / 'next.md').read_text(encoding='utf-8')
+        assert 'references/capabilities/tasks.md' in next_entry
+        triage_entry = (entries / 'triage.md').read_text(encoding='utf-8')
+        assert immediate_restore in triage_entry
     template_rule = (
         "Template headings and labels are structure: render them and all prose in the vault `language`"
     )

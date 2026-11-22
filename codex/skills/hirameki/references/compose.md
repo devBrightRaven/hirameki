@@ -7,25 +7,41 @@ argument-hint: "[draft|edit|outline|voice|frame|review] <material or purpose>"
 
 For a natural-language request, apply `references/capabilities/natural-routing.md` under the currently loaded skill root; do not require the user to name this capability. Preserve the actual request as input.
 
-Resolve vault configuration through the umbrella Hirameki adapter. Read `## Vault Structure` from `<vault>/AGENTS.md` only when this task needs vault material; use explicit supplied material without a vault scan.
-If a vault-dependent request lacks configuration, stop and respond: "Setup not complete. Please run `/hirameki:__init` first." A supplied draft can be edited without opening the vault or requiring setup.
-
 Input: $ARGUMENTS. Preserve the requested operation: an edit is not a request for a new article, an outline is not a request for full prose, and a review is not publication authority.
 
 ## Purpose before procedure
 
 Automatic selection is for cross-note source selection, author-position handling or requested vault artifact delivery. Ordinary supplied-text drafts and outlines use the relevant language-writing entry directly; an explicit compose request remains supported without requiring vault access.
 
-Use the stated audience, purpose and acceptance criteria. Ask only when a missing fact materially changes the result. Do not run a mandatory voice → frame ritual, scan the full vault, or write a draft first merely to decide whether it deserves to exist.
+Use the request and prior context to identify the deliverable, audience and
+topic or category. When they are clear, produce the requested artifact from
+authorized material. If the user explicitly delegates the topic and the
+deliverable and audience are clear, select one supported by the material within
+the authorized scope. Then directly deliver a proposal or other requested
+artifact. Make reasonable, reversible choices and state assumptions that affect
+the result.
 
-- `draft` / `edit` / `outline`: use supplied material and the relevant installed language-writing entry when available. Preserve facts, uncertainty, quotation and URLs. If that entry is unavailable, disclose the limit and do not claim it ran.
+If a material choice about the deliverable, audience, topic or source scope
+still needs the user, ask one focused question before resolving Vault
+configuration or searching material that depends on it. Ask about the work
+itself in the user's terms. A short answer can resolve the pending question.
+After the user answers, continue under the original source and save limits.
+Ask again only for a separate material decision that remains unresolved.
+
+Do not run a mandatory voice → frame ritual, scan the full vault, or write a draft first merely to decide whether it deserves to exist.
+
+- `draft` / `edit` / `outline`: preserve facts, uncertainty, quotations and URLs in the requested form.
 - `voice`: use provided author samples or narrowly selected, authorized vault passages. Separate supplied/vault-supported positions from style inference; never invent personal anecdotes or beliefs.
 - `frame`: assess audience, overlap, useful outcome and evidence before investing further. Apply narrative tension or the Only-I criterion only when the work's purpose warrants them.
-- `review`: select the needed existing review pipeline, not a new mandatory panel.
+- `review`: review the requested aspect. For a technical review, check the requested behavior and evidence. For an independent review, follow the gate below.
 
 Technical documentation is judged by correctness, reproducibility and usefulness. Do not KILL a useful tutorial merely because it lacks personal uniqueness, emotional stakes or a literary reversal. Recommendations to consolidate drafts are proposals, not deletion authority.
 
 ## Material to deliverable
+
+Resolve Vault configuration only when the selected work needs Vault access.
+Resolve vault configuration through the umbrella Hirameki adapter. Read `## Vault Structure` from `<vault>/AGENTS.md` only when this task needs vault material; use explicit supplied material without a vault scan.
+If a vault-dependent request lacks configuration, stop and respond: "Setup not complete. Please run `/hirameki:__init` first." A supplied draft can be edited without opening the vault or requiring setup.
 
 For a topic/folder request without named notes, search only the authorized
 material with the topic, offer name or distinctive phrases using available
@@ -34,10 +50,10 @@ status/disposition; do not use search snippets as the final evidence. Include
 relevant service boundaries and contrary evidence, not only promotional matches.
 Keep retired offers and unrelated material out unless their history is requested.
 
-Use the relevant installed language-writing entry when available, passing the
-requested artifact, audience, verified claims and unresolved limits. Read its
-contract before using its tools; do not invent a tool/skill invocation. If it is
-unavailable, disclose that and write directly without claiming the entry ran.
+For prose drafts, prose outlines, edits or language review, use one relevant
+installed language-writing entry. Read its contract first or reuse it if
+already loaded. Carry through the requested artifact, audience, verified
+claims and unresolved limits. If unavailable, work directly and report the limitation.
 Check the finished artifact against the selected passages: claims, quotations
 and author positions must be supported; measurable benefits remain hypotheses
 without measured outcomes. Return the requested artifact, not just a plan or

@@ -12,6 +12,9 @@ Choose only what materially helps the current request; do not run all entries.
 
 For natural input, pass the user's actual request and supplied scope into the
 selected contract. Do not discard it as if only text after a command name counted.
+A short answer to a pending clarification continues the selected workflow
+when the prior request still applies. Keep the original request and source limits;
+the answer supplies only the missing decision.
 Do not ask the user to select an internal capability or announce a routing menu.
 Resolve vault configuration only if the selected operation needs a vault read/write.
 

@@ -17,7 +17,6 @@ Input: $ARGUMENTS (optional)
 
 ---
 
-## Default mode — action aggregation
 ## Task view (shared step)
 
 Resolve vault and `{research}` through the umbrella adapter. When `<vault>/<research>/tidy/tasks/index.json` exists, resolve `<HIRAMEKI_TASK_ROOT>` from an explicitly configured machine-local `task_view_root`, otherwise the directory containing the actually loaded Hirameki SKILL.md when it contains the bundled scripts, otherwise the verified source checkout containing this loaded reference. Check that both `scripts/task_view_cli.py` and `scripts/TASK_GATE_VERSION` exist there. Do not use Claude configuration, CLAUDE_PLUGIN_ROOT, a guessed cache path, or a recursive filesystem search. If an explicit root is invalid, report unavailable rather than silently switching roots. A plugin-only payload without these files is not yet wired; report that limitation.
@@ -28,7 +27,9 @@ This is a bounded preview, not a complete baseline when `pagination.all_displaye
 
 For further pages, replace --offset with a reported next_offset and include --expected-revision <index_revision> and --expected-view-revision <view_revision> from the first response. Both tokens must match; index, source or restore-overlay changes invalidate a combined inventory. Report that change and discard any combined completeness claim; do not combine incompatible pages, retry via another interpreter, or silently fall back to old notes. A later empty page never proves an empty task list.
 
-Read further pages when needed for the requested scope; a requested comprehensive inventory requires all relevant pages. A bounded orientation/checkpoint may report a preview with totals and deferred next offsets, but must not rank unseen tasks or conclude they are finished. If an individual page is too large for the output channel, reduce page size and read complete records; tool truncation is not successful inspection. This presentation option does not reduce full reader validation or change the writer/dry-run archive gate.
+Read further pages when needed for the requested scope; a requested comprehensive inventory requires all relevant pages. A bounded orientation/checkpoint may report a preview with totals and deferred next offsets, but must not rank unseen tasks or conclude they are finished. Paging does not reduce full reader validation or change the writer/dry-run archive gate.
+
+If output is visibly clipped, even at exit 0, tool truncation is not successful inspection. Re-read the same offset with a smaller page size and retain both revision pins if established. Set pins only from the first complete JSON page. If the smallest page still clips, report an incomplete inventory with no raw-note fallback for clipped output.
 
 Read `<G>` from that root's `scripts/TASK_GATE_VERSION`; missing/blank/multiline version is unavailable, never a hard-coded fallback. Use a verified Python 3.10+ executable: python3 then python only when the first cannot launch (including a Store stub). Do not retry a real CLI data/schema failure as an interpreter failure. On Windows use PowerShell native argument arrays, not cmd wrappers. This step is read-only.
 
@@ -42,6 +43,26 @@ If no index exists, print 「尚無有效待辦索引，以下由原始紀錄推
 
 Raw-note fallback must respect explicit task dispositions: exclude the same item marked finished (已完成, 完成, [x], ✓ Done), withdrawn (撤回, withdrawn), or superseded (已取代, superseded), including a later closing Wrap block in the scanned window. Interpret the mark in context, not by substring: 未完成 is not closed; a replacement remains a separate open item. Unmarked items without explicit status evidence are `status uncertain`, not confirmed active tasks. Keep them visible in a separate uncertain list in default and stuck modes; never automatically archive them. Explicit unfinished or reopened evidence may establish active status; missing an index or repeating an Open item does not. Repetition does not reopen a closed item; only newer explicit reopening does.
 
+
+### Exact task lookup
+
+For a known ID, replace `--page-size 20 --offset 0` with `--task-id <exact-id>`
+in the same verified reader command. Pass `--data` relative to the selected
+Vault root. The reader validates the full index and
+returns the selected task (including archived tasks), both revisions, source
+digests and global uncertainty and exceptions. This is a read-only lookup.
+Keep the selected status and global diagnostics distinct. Use the effective
+state: a verified `restore_pending` task is active before index integration.
+An effectively archived task stays closed. An unconfirmed task has no verified
+next action.
+
+A missing ID returns nonzero `task-not-found`. An oversized result returns
+nonzero `output-limit-exceeded` and `details_returned=false`. The default
+response ceiling is 16384 UTF-8 bytes (`--max-output-bytes`, 1024..65536).
+Report the unavailable detail and preserve the uncertainty; never substitute
+a partial raw-note view or weaken validation for the exact task.
+
+## Default mode — action aggregation
 
 When a valid task view exists, use its three sections instead of Steps 1-2 raw aggregation. Stuck mode can add source evidence about active items, but must not reintroduce archived items. Count or repetition alone does not establish unfinished status.
 

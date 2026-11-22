@@ -42,3 +42,7 @@ save this SHALL 只套用完整顯示的 current artifact；save all SHALL 僅�
 #### Scenario: Runtime-only evidence
 - **WHEN** 改善來源是個人 runtime 檔
 - **THEN** 共享紀錄記必要清理後主張與 hash，不送出完整私有檔。
+
+#### Scenario: Host routing and legacy vault configuration differ
+- **WHEN** 需要讀寫 Vault 的工作已由宿主路由選定目的地，或宿主回報目的地衝突或不可用，且同時存在舊設定
+- **THEN** 沿用同一任務及操作範圍已確認的宿主結果。若須選擇或目的地不可用，維持該狀態，依宿主流程處理。舊設定不得自行取代宿主結果。
