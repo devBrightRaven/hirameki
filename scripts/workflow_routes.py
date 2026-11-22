@@ -28,6 +28,9 @@ def resolve(name, arguments='', root=ROOT):
 
 
 def task_contract(root, name):
-    """Resolve the task capability preserved behind the legacy redirect."""
+    """Locate the task-view reference named by the entrypoint."""
     root = Path(root)
-    return root / ('capabilities/tasks.md' if name == 'tasks' else name + '.md')
+    if name in ('next', 'tasks'):
+        references = root.parent / 'references' if root.name == 'commands' else root
+        return references / 'capabilities/tasks.md'
+    return root / (name + '.md')

@@ -86,6 +86,32 @@ command contract, Codex adapter, workflow smoke tests, local gate, and CI pass.
 - `tests/test_workflow_routes.py`: five primary entries, permanent shortcuts,
   legacy redirects and argument preservation; canonical/adapter capability parity.
   This is deterministic contract validation, not fresh-dialogue acceptance.
+  Compose puts deliverable clarification before Vault access in both entrypoints
+  and retains the explicit save gate. HR03's existing retrieval case and two
+  clarification variants define expected behavior; the relocated package test
+  verifies the bytes of both Compose entrypoints.
+  A short audience reply continues the pending request with its prior source
+  and save limits. HR03 keeps that case alongside the more explicit reply.
+  A topic choice that still needs the user is clarified before Vault setup.
+  HR03 also contrasts category clarification, a short answer continuing the
+  original request, and an explicitly delegated topic with direct delivery.
+  A shared source guard requires one conditional language-writing route.
+  HR03 also has a technical-review and a sourced prose-outline control for
+  future host behavior checks. Keep those oracles out of the model inputs.
+  Both next and lens decide scope before Vault setup, including the HR01
+  source-only handoff and the HR02 supplied-passages comparison. The package
+  test checks exact next, lens and compose bytes in both entrypoint folders.
+  HR01's repository-only resume starts from current project authority and
+  executes only the verified open step, with no Vault setup or stale handoff.
+  Indexed next requests use the existing task-view reference. Reader tests
+  follow that reference and cover shared paging, revision drift, and uncertainty.
+  Exact-ID lookup and explicit restore use their documented read-only gates.
+  Both Lens entrypoints apply the same evidence rules to pasted passages or
+  retrieved notes. HR02 contrasts a newer draft quote with explicit adoption.
+
+- `tests/validate_codex_skill.py` checks that discovery metadata names sourced
+  composition and preserves the ordinary supplied-text edit boundary. Native
+  request inspection and model selection are separate acceptance steps.
   Also checks session-trace delivery, all three entrypoints, create/append clue
   sections, removal of premature skip rules and the unchanged batch-write gate.
   Behavioral acceptance must separately exercise completed-work pickup, one-event
@@ -124,7 +150,8 @@ command contract, Codex adapter, workflow smoke tests, local gate, and CI pass.
 - `tests/test_open_handoff.mjs`: handoff action behavior.
 - `tests/validate_codex_skill.py`: Codex adapter contract.
   Includes canonical/adapter visible decision-reminder parity and its no-write boundary;
-  static parity does not prove ordinary-work automatic triggering.
+  also checks host destination precedence and the single Vault Structure source.
+  Static checks do not prove ordinary-work automatic triggering.
 - `tests/validate_release_contract.py`: release and package test-chain parity.
 - `tests/test_codex_task_payload.py`: acceptance payload and actual npm tarball
   delivery; bundled task readers and gate run from relocated package roots

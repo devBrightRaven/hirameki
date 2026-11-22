@@ -77,6 +77,10 @@ class PayloadTests(unittest.TestCase):
         for relative in ('SKILL.md', 'agents/openai.yaml'):
             self.assertEqual((ROOT / 'codex/skills/hirameki' / relative).read_bytes(),
                              (package / 'codex/skills/hirameki' / relative).read_bytes())
+        for directory in ('commands', 'codex/skills/hirameki/references'):
+            for name in ('next', 'lens', 'compose'):
+                relative = f'{directory}/{name}.md'
+                self.assertEqual((ROOT / relative).read_bytes(), (package / relative).read_bytes(), relative)
         for relative in ('references/capabilities/tasks.md',
                          'references/capabilities/session-traces.md',
                          'references/capabilities/natural-routing.md',

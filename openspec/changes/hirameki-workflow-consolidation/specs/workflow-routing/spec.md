@@ -11,6 +11,10 @@ Hirameki SHALL 提供 next、lens、compose、decision-trace、triage 五個主�
 - **WHEN** 使用者要求接續具名專案
 - **THEN** 使用 next 契約，保留該專案範圍，不額外執行探索或創作。
 
+#### Scenario: Repository evidence is sufficient for continuation
+- **WHEN** 具名專案的任務正本與目前 repo 證據足以判定下一步，且請求不涉及 Vault
+- **THEN** 從已確認仍有效的步驟開始，限使用者已授權的行動。交接有明示需求或足以改變結果的缺口時才加讀。舊交接不得重開已完成、撤回或已取代的工作。
+
 #### Scenario: Mechanical action is not a decision
 - **WHEN** 使用者只要求修改一個明示 typo
 - **THEN** 不因存在選擇文字而啟動 decision-trace 或全套 Hirameki。

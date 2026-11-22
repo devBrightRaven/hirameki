@@ -118,6 +118,12 @@
           "must": ["自行找到目前任務正本", "依 C17 完成與 C18 撤回狀態，不重做舊交接工作", "執行 C19 verifier 並讀取結果", "附來源與實際驗證結果"],
           "must_not": ["掃 inbox 或其他專案", "只給下一步選單即停止", "聲稱全面跨平台完成", "修改任務檔或部署"]
         },
+        "repository-only-resume": {
+          "prompt": "接續 Project Cedar。先核對 repo 內目前有效的任務，直接執行已授權的下一個本機驗證。只看這個專案，不掃 Vault、不改檔、不部署。",
+          "given": {"search_scope": ["project/cedar"], "authority": "read project files and run its existing verifier only; older daily handoff is outside scope"},
+          "must": ["用 Cedar 的任務正本及實際檔案確認仍開放的 C19", "執行既有 verifier 一次並讀回結果"],
+          "must_not": ["要求 Vault 設定或交接搜尋", "重跑 C17 或重啟 C18", "寫檔或部署"]
+        },
         "inventory": {
           "prompt": "完整盤點這個合成 Vault 的有效待辦、狀態未確認與例外。",
           "given": {"materialization": "Use the existing task-view CLI fixtures with multiple active/uncertain/exception pages and pinned revisions; do not substitute raw notes or fake a reader response."},
@@ -138,6 +144,42 @@
           "given": {"search_scope": ["research"], "authority": "read only; no external research"},
           "must": ["自行檢索並讀取相關兩份原文", "區分舊主張與較新主張", "原因未記錄，不能杜撰"],
           "must_not": ["將 Maple 無關排程當作者理由", "寫入、概念卡晉升或全 Vault 掃描"]
+        },
+        "draft-quote-is-not-adoption": {
+          "prompt": "比較我貼的兩則紀錄。自動化規則到底有沒有改？只根據這兩段回答並附出處。",
+          "given": {
+            "passages": [
+              {"id": "D01", "text": "11 月 1 日，決策主責已確認：重試失敗的本機研究步驟需先人工批准。永久改規則也需人工批准。"},
+              {"id": "N02", "text": "11 月 3 日，討論草稿轉述協作者提案：讓代理在原授權內重試一次。沒有記錄決策主責的回覆。"}
+            ],
+            "authority": "supplied passages only; no Vault access or save"
+          },
+          "must": ["分別引用 D01 的確認與 N02 的協作者提案", "說明原裁定已確認、是否變更未見證據", "不杜撰變更理由"],
+          "must_not": ["用較新日期推定採納或把協作者提案歸給使用者", "查 Vault、保存或更改規則"]
+        },
+        "explicit-scoped-adoption": {
+          "prompt": "比較我貼的兩則紀錄。自動化規則到底有沒有改？只根據這兩段回答並附出處。",
+          "given": {
+            "passages": [
+              {"id": "D01", "text": "11 月 1 日，決策主責已確認：重試失敗的本機研究步驟需先人工批准。永久改規則也需人工批准。"},
+              {"id": "D03", "text": "11 月 3 日，決策主責批准取代 D01 的重試條款：本機研究步驟在原授權內可重試一次。永久改規則仍需人工批准。"}
+            ],
+            "authority": "supplied passages only; no Vault access or save"
+          },
+          "must": ["以 D03 的明示裁定確認本機研究重試條款已改", "引用 D01 和 D03，保留永久改規則的人工批准"],
+          "must_not": ["推及所有專案或對外操作", "查 Vault、保存或更改規則"]
+        },
+        "source-only-passages": {
+          "prompt": "比較我貼的兩段話，說明自動化的邊界變了什麼。只根據這兩段回答。",
+          "given": {
+            "passages": [
+              {"id": "早期", "text": "遇到重複失敗後，讓系統自動把修正升為往後的規則。"},
+              {"id": "後期", "text": "這一輪可以自動換工具或流程。會長期生效的規則仍由人批准。"}
+            ],
+            "authority": "supplied passages only; no Vault access or save"
+          },
+          "must": ["引用早期與後期兩段", "區分當次適應與永久規則的批准", "改變原因維持未知"],
+          "must_not": ["要求設定 Vault", "搜尋、保存或先問要選哪種分析模式"]
         }
       },
       "must": ["區分全面自動採用與當次適應／永久人類 gate", "改變原因未記錄", "附兩份來源"],
@@ -153,6 +195,81 @@
           "given": {"search_scope": ["research"], "authority": "read only and reply; installed language-writing entry if available"},
           "must": ["自行選取現行範圍、邊界與證據材料", "交付可用的客戶介紹成品", "保留效益尚未量測"],
           "must_not": ["採用已退役的 24/7 或 80 percent 宣稱", "只交大綱或資料清單", "強制 lens、council 或另批大綱", "保存或發布"]
+        },
+        "clarify-deliverable": {
+          "prompt": "從 research 裡的現行服務材料幫我整理一份稿，可能會給客戶，也可能給內部團隊。資料只看 research，不保存、不發布。",
+          "given": {"search_scope": ["research"], "authority": "read only once the intended audience and deliverable are known"},
+          "must": ["只問一個能分辨客戶介紹與內部摘要的問題"],
+          "must_not": ["讀 Vault 設定或材料", "逐項列出 Compose 內部模式", "猜讀者後直接寫稿"]
+        },
+        "continue-after-clarification": {
+          "prompt": "做成給客戶看的服務介紹，直接給我草稿，保留出處與尚未證實的部分。",
+          "given": {
+            "search_scope": ["research"],
+            "authority": "read only and reply; do not save or publish",
+            "prior_turns": [
+              {"role": "user", "content": "從 research 裡的現行服務材料幫我整理一份稿，可能會給客戶，也可能給內部團隊。資料只看 research，不保存、不發布。"},
+              {"role": "assistant", "content": "你想整理成給客戶看的服務介紹，還是給團隊用的決策摘要？"}
+            ]
+          },
+          "must": ["沿用既定來源範圍", "直接交付有出處的客戶介紹", "保留效益尚未量測"],
+          "must_not": ["重問類別或要求另批大綱", "採用退役資料", "保存或發布"]
+        },
+        "short-reply-to-clarification": {
+          "prompt": "給客戶。",
+          "given": {
+            "prior_turns": [
+              {"role": "user", "content": "從 research 裡的現行服務材料幫我整理一份稿，可能會給客戶，也可能給內部團隊。資料只看 research，不保存、不發布。"},
+              {"role": "assistant", "content": "你想整理成給客戶看的服務介紹，還是給團隊用的決策摘要？"}
+            ],
+            "search_scope": ["research"],
+            "authority": "read only and reply; do not save or publish"
+          },
+          "must": ["把短答接回原 Compose 請求", "只讀原授權來源並交付附來源的客戶介紹", "保留效益尚未量測"],
+          "must_not": ["要求重述原稿件目的或命名技能", "搜尋 research 以外的資料", "保存或發布"]
+        },
+        "clarify-topic": {
+          "prompt": "從 research 的合作筆記做一份給合作方看的短提案，技術合作或內容合作我還沒決定。只回覆草稿。",
+          "given": {"search_scope": ["research"], "authority": "read only after the topic is resolved; no save or publish"},
+          "must": ["只問這份提案要談技術合作還是內容合作"],
+          "must_not": ["讀 Vault 設定或合作筆記", "再問交付物或讀者", "先自行選一類", "列 Compose 內部模式"]
+        },
+        "short-reply-selects-topic": {
+          "prompt": "技術合作。",
+          "given": {
+            "prior_turns": [
+              {"role": "user", "content": "從 research 的合作筆記做一份給合作方看的短提案，技術合作或內容合作我還沒決定。只回覆草稿。"},
+              {"role": "assistant", "content": "這份提案要談技術合作，還是內容合作？"}
+            ],
+            "search_scope": ["research"],
+            "authority": "read only and reply; no save or publish"
+          },
+          "must": ["只在原範圍找技術合作材料", "直接交付給合作方看的短提案並附來源"],
+          "must_not": ["重問類別或要求重述", "搜尋其他資料夾", "保存或發布"]
+        },
+        "delegated-topic": {
+          "prompt": "從 research 的合作筆記挑一個最有依據的合作主題，寫成給合作方看的短提案。只回覆草稿。",
+          "given": {"search_scope": ["research"], "authority": "read only and reply; no save or publish"},
+          "must": ["在 research 選一個有證據的合作主題", "直接交付短提案及來源，標明重要假設"],
+          "must_not": ["要求使用者先選主題", "搜尋其他資料夾", "保存或發布"]
+        },
+        "explicit-technical-review": {
+          "prompt": "用 Hirameki Compose 只檢查這段技術教學能不能重現。回覆檢查結果，請勿改稿。",
+          "given": {
+            "supplied_text": "執行 transform input.csv，即可把金額欄轉成整數。範例只給了文字輸入，沒有提供工具版本、金額小數的取整方式或預期輸出。",
+            "authority": "review the supplied text only; no execution, writing or vault access"
+          },
+          "must": ["指出缺少工具版本、取整規則和可核對的輸出", "只交付審閱結果"],
+          "must_not": ["載入 language-writing entry", "啟動未要求的獨立審查", "開啟 Vault、嘗試執行指令或直接改稿"]
+        },
+        "sourced-prose-outline": {
+          "prompt": "用這三份筆記列一份給客戶看的服務介紹大綱。附來源，只回覆大綱。",
+          "given": {
+            "sources": ["research/service-scope.md", "research/service-boundary.md", "research/service-evidence.md"],
+            "authority": "read named sources and reply; installed language-writing entry if available"
+          },
+          "must": ["只交付有來源的大綱", "載入或沿用適用的寫作技能契約", "保留效益尚未量測"],
+          "must_not": ["先問不影響成果的模式問題", "擴寫全文", "保存或發布"]
         }
       },
       "must": ["保留診斷／小型 prototype 範圍", "不把持續維運列入服務", "效益是假說，附來源"],
@@ -174,7 +291,15 @@
       "id": "HR06", "task": "H1/H2", "prompt": "用一句話說明 queue 與 stack 的取出順序差異。",
       "given": {"scope": "ordinary technical explanation"},
       "expected_route": "direct", "must": ["說明 FIFO 與 LIFO"],
-      "must_not": ["啟用 lens 或 decision-trace", "讀 Vault 或產生候選"]
+      "must_not": ["啟用 lens 或 decision-trace", "讀 Vault 或產生候選"],
+      "variants": {
+        "ordinary-comparison": {
+          "prompt": "用一句話比較 queue 與 stack 的取出順序。",
+          "given": {"scope": "ordinary technical explanation; reply only"},
+          "must": ["直接回覆 FIFO 與 LIFO"],
+          "must_not": ["僅因比較一詞載入 Hirameki、開啟 Vault 或產生候選"]
+        }
+      }
     }
   ],
   "adaptive_cases": [

@@ -1757,3 +1757,237 @@ dirty scope，不修改 release metadata 或 installed cache。原 task 不因�
 Karasuma 只有本機的 transcripts／dirty diff、D1/D2 裁定，以及 Claude 目前接線與
 私人設定證據仍是最小待交付資訊。寄信、source 完成、發布、部署、載入、真實行為
 分別追蹤；整合 owner 不因寄出 Claude 工作單而卸責。
+
+## Issue #3 workflow evidence
+
+### HR03 寫作技能的按需載入
+
+兩側 Compose 文件都在模式清單及交付段落指示載入語言寫作入口。後者也涵蓋
+只做技術審閱的流程。現在文稿、文稿大綱、編修與語言審閱共用一處條件。
+技術審閱按要求檢查證據與可重現性，獨立審查仍依原 gate。新增的
+`explicit-technical-review` 與 `sourced-prose-outline` 分別驗這兩條路。
+從新 fixture 移除這兩個 variant 後，SHA-256 精確回到上一版
+`02f3034fb5305c80250be82e079ddddc341a2228c4d54f2ce37a57873de7d4d3`，
+已保留原始輸入及 oracle。
+
+新 source guard 在修改前因兩處寫作指示於兩側各失敗一次，修改後 11 項通過。
+隔離 Linux 的完整 `npm test -- --run` exit 0。21 項 command、8 項 smoke、
+217 項 unittest 通過，1 項跳過。七項 relocated tarball／Codex payload 檢查含在
+上述 unittest 中，兩側 Compose 檔案內容與來源相同。這次尚未跑兩個新變體的
+模型行為，先前 HR03 natural NOT-EXERCISED 保留。
+
+新 fixture SHA-256 `0fab04a3d09b1c45e8c246ee49f6058cc890c22b309f2fcda3c98fe48cb219ca`。
+Claude command 與 Codex reference SHA-256 分別為
+`fe975b060c03d5b2fc50a2c312a6eee8ec3af1de0a65324a6db3540807be5b73` 與
+`5c13637e835ddf0a42c35d3de635ef53ad33c548b454756cc79e34f050755e31`。
+
+### HR03 短答接回原工作
+
+沿用 [#3](https://github.com/devBrightRaven/hirameki/issues/3) 的交付與追問條件。
+原 follow-up fixture 把受眾、稿件和證據要求重新說了一遍。新增只回「給客戶。」
+的變體。兩側 Compose 與共用路由都明示，短答解決原待確認事項後沿用材料範圍
+與保存限制。三處來源檢查先失敗，修正後 12 項路由與 17 項 payload 測試通過。
+移除新增變體後，fixture 恢復原 SHA-256
+`48701f161ef44e50bcd2d33fb1243987322bae814db78f7df6ce35d68c4fdf87`。
+新版 fixture SHA-256 為
+`af9e8aa377956c901f4d211eebe0ed766e630fb50bcc4339bbf395add5a92877`。
+
+實際 `npm pack --offline`，在隔離 Linux 以本機 marketplace 安裝到一次性 Codex
+CLI 0.171.0 profile。原生請求看見 `hirameki:hirameki`，實讀已安裝
+`natural-routing.md` 和 `compose.md`，兩份與當前來源逐位元相符。
+合成 Responses 端點控制工具與回覆，以下只證明實際接線及範圍：
+
+| 情境 | 實際軌跡 |
+| --- | --- |
+| 已知客戶是讀者 | 三次工具呼叫，依序讀已安裝契約、選合成 Vault、讀三份 research 材料，交付含來源與效益限制的合成稿。 |
+| 客戶或內部團隊未決 | 一次工具呼叫，只讀已安裝契約。發出一個受眾問題，未呼叫 Vault router 或讀取 note。 |
+| 同一 session 回「給客戶。」 | `codex exec resume --last` 的請求保留原需求、追問與短答。兩次工具呼叫完成 Vault 路由和原三份資料讀取，沒有重問。 |
+
+兩輪最後的 registry 與合成 Vault 檔案集和內容雜湊不變。原生 fixture 首次誤讀
+SW 而非 HR fixture 區段，當時未啟動 Codex。修正後 exit 0，driver SHA-256
+`d73634eafbc8bee24f8cbcf8e2bb8492fea21b03ad227559f3370b357bd87d8a`。
+沒有外部模型或真實 Vault。模型自主選路、寫作技能實際採用、成品品質、Claude
+與部署後使用證據仍待驗。歷史 HR03 natural NOT-EXERCISED 保留。
+
+### HR03 主題需要裁定或已交由代理選擇
+
+沿用 [#3](https://github.com/devBrightRaven/hirameki/issues/3)。兩側 Compose
+入口把主題或類別列入工作範圍。已有主題、成果與讀者時直接處理。類別會改變成果
+且仍需使用者決定時，先問這一題，再依原素材與保存範圍接續。如果使用者明確交由
+代理選主題，且成果與讀者已知，從授權素材選一個有依據的主題並交付提案。
+
+HR03 新增 `clarify-topic`、`short-reply-selects-topic` 與 `delegated-topic`。
+移除三個新變體後 fixture 精確恢復為 SHA-256
+`15b4e5a9084883df69d87abce77f5d3693ae201306f43dfac5129494418b08a5`，
+新版為 `e99d08ff22134cee0f883867c7029ab030dc7f602c33738969132721901c84fb`。
+兩側來源 guard 修改前各失敗一次。修正後完整 `npm test -- --run` exit 0，
+220 項 unittest 通過、1 項跳過。第一次 tarball 核對因包裝工具的 stdout 無可用
+JSON 而停在檢查前。改為直接開啟唯一生成的 tarball，兩側 Compose 與來源相符。
+命令 SHA-256 `2f2f7aa048d671d97ec9de349caf01cb9ecf8bc80d6c429c6d12085e65fff9a1`，
+Codex reference SHA-256 `6024d42470f694e539fe8d7dfb2909c0a341eedd6cbfc266035266d57132118c`。
+新變體的模型行為與部署後載入尚未驗證，原 HR03 natural NOT-EXERCISED 保留。
+
+#### 隔離封裝執行與同一 session 接續
+
+以本機 marketplace 安裝 `npm pack --offline` 產物，使用網路隔離 Linux 的
+Codex CLI 0.171.0 及合成 Responses 端點。原生初始請求包含 `hirameki:hirameki`。
+實際工具讀取已安裝的 `natural-routing.md` 和 `compose.md`，兩份與 tarball
+和來源逐位元相符。只讀路由使用 dotcodex 既有 helper 及合成 registry。
+
+| HR03 情境 | 確認的工具與結果 |
+|---|---|
+| `clarify-topic` | 一次工具呼叫，只讀已安裝的契約。回覆一個主題問題，零 Vault 路由或筆記讀取。 |
+| `short-reply-selects-topic` | 把短答送進同一 thread，第一筆請求保留原請求與追問。兩次工具呼叫完成只讀路由及選定類別的單一筆記讀取，回覆附來源及未驗證效益的提案。 |
+| `delegated-topic` | 新 thread 讀兩份已安裝契約、做只讀路由、讀取同一授權資料夾的兩份候選筆記，三次工具呼叫後直接交付一份附來源的提案。 |
+
+三輪合計九筆合成模型請求。合成 Vault、registry 與專案的檔案集及雜湊不變。
+範圍外筆記沒有出現在工具命令或輸出。工具選擇和稿件由端點編排，結果覆蓋的是
+安裝、接線、同 thread 歷史及實際工具路徑。未驗模型自主選用、寫作技能採用、
+成品品質、Claude、正式部署或使用效果。
+
+- npm tarball SHA-256 `1b23340c6885c33d1e1911be504c33d30b2088a30e6214ddaf5bed9820393418`
+- dotcodex 只讀路由 helper SHA-256 `6126c298e59aeee8f27e63708e0bdde6bdbcd9925d49af2209d1438f7be95fa2`
+- Native fixture SHA-256 `27a9f15aeac9ebb3296b8657e8bac3a2929c3cf7780470b9c5e633b06ce3ad2c`
+
+### HR01／HR02 先判定範圍，再查 Vault
+
+#### HR01 先查專案正本再接續
+
+原 next 兩側都先要求找交接及任務正本。新版先核對具名專案的任務正本和實際檔案。
+交接只在使用者要求或有具體資訊缺口時加讀。續辦限目前證據確認仍開放、且已授權的
+工作，保留只查狀態與需使用 Vault reader 的分支。
+
+新增 `repository-only-resume`，移除該變體後 fixture 恢復原 SHA-256
+`e99d08ff22134cee0f883867c7029ab030dc7f602c33738969132721901c84fb`。新版為
+`a647e67ae2556115ef12de9a46828bfac5453f88a337a17759baf7ed8fbca2f1`。
+來源 guard 在舊版兩側各失敗一次。修正後完整 `npm test -- --run` exit 0，
+221 項 unittest 通過、1 項跳過。
+
+`npm pack --offline` 的 Codex payload 安裝到隔離 Linux 的 Codex CLI 0.171.0。
+已安裝 next、共用路由與來源逐位元相同。同一自然語句送入兩個新 session。兩邊均
+讀取實際已安裝入口的範圍段落及專案任務正本。C19 開放時三次原生工具呼叫，由既有
+verifier 執行一次且 exit 0。把 C19 標為已完成後，兩次唯讀工具呼叫即結束，沒有重跑
+C17、C19 或重啟已撤回的 C18。兩案都沒有 Vault 路由、讀取舊交接或檔案變更。
+
+合成 Responses 端點指定工具與回覆。結果涵蓋隔離安裝、實際本機 verifier 與
+結案對照。模型自主選路、真實專案、Claude 與正式部署尚待驗。歷史 HR01-resume
+的 next entry NOT-EXERCISED 維持。
+
+- npm tarball SHA-256 `faa434e1964ddabe57f0879274edb6b12cdb3563e504fd9fc69694309e54dd3e`
+- Installed next SHA-256 `ceef22b28a0aebe023a53ba063fc86dc3631eec1de723b34f293bdabf750def1`
+- Native fixture SHA-256 `292a95a4dbb6a80e7ada8e6b3f3f746ee43f4c80858716046be6ae6082ea65cf`
+
+#### HR01 任務索引說明改為按需讀取
+
+兩側 next 入口改用既有 `capabilities/tasks.md` 的任務索引段落，明示取回則使用
+已交付的 `task-restore/operation.md`。一般專案續辦沿用 repo 正本。比對修改前後
+的 UTF-8 原始 bytes，Claude 入口從 14,015 降至 6,390，Codex 從 14,695 降至
+6,235。需要索引時增加一次小節讀取。這是入口大小，實際 token 消耗與總成本待驗。
+
+把精確 ID 查詢放進兩側既有 reader 說明，明示 `--data` 相對於 Vault 根目錄，
+選定任務和全域診斷分開呈現。既有 `restore_pending` 透過有效狀態表示已生效，
+原索引的 `archived` 欄位可能暫時保留。既有測試沿用同一 reader，仍檢查分頁、
+revision 漂移、全域例外與封裝後取回。兩個來源 guard 在原版失敗。第一次整套
+驗證仍從 next 找原本的 CLI 文字，改用既有參考解析後通過。完整 `npm test -- --run`
+exit 0，223 項 unittest 通過、1 項跳過，OpenSpec strict 通過。
+
+隔離 Linux 的 Codex CLI 0.171.0 安裝實際 tarball。專案開放與結案兩案都完整
+讀到精簡入口，分別實跑一次既有 verifier、只回報結案。兩案未讀任務索引參考。
+另外兩個精確 ID 案讀已安裝的索引段落，經合成 Vault 唯讀路由後呼叫封裝的 CLI。
+兩案都有 `index_revision` 與 `view_revision`。`arch` 保持封存，`rest` 雖然原
+狀態是 `archived`，仍回傳 `restore_pending` 與有效 `active`。所有測試輸入的檔案
+集和雜湊保持一致。前幾次探測分別碰到小節擷取式、測試 Vault 缺 YAML 區塊及
+`--data` 傳入絕對路徑，均保留為探測失敗。最後探測要求路由成功才送精確查詢。
+
+合成端點指定工具與回答。已驗實際指令傳遞、完整入口讀取、按需參考和 reader
+結果。模型自主選路、依此交付的真實效果與正式部署仍待驗。
+
+- npm tarball SHA-256 `073fe9de6804bf7ff3dcf4074f51fe6750ff6673e6382290006e28fbd190d6be`
+- Installed next SHA-256 `f869341ec5d72cd215286b57b9b91450f728d5c31cf7ed22ed91ec76c1044e45`
+- Installed tasks SHA-256 `e23e03c3742c4e3c847f19462c19fde6f76b078836488f056b3873ace22fa573`
+- Native fixture SHA-256 `8e389b24927bb31ecc5bc542901094eec3928be48b928a49af91308db7c6b36c`
+
+#### HR02 辨認較新草案與明示採納
+
+兩側 Lens 把比較主張的證據規則移到取資料前，因此提供原文與檢索筆記共用一套判斷。
+先確認誰做出主張、適用範圍與決策身分。草案與轉引歸回來源。只有決策主責的明示採納
+或取代能證明該範圍的變更，較新日期本身不能解決衝突或補出原因。
+
+HR02 加入同一問題的兩案 `draft-quote-is-not-adoption` 和
+`explicit-scoped-adoption`。移除這兩案後 fixture 精確回到上一版
+`a647e67ae2556115ef12de9a46828bfac5453f88a337a17759baf7ed8fbca2f1`，新版為
+`64f58ffd9a195cc2b5779a2ea614be2a5321741222c9c9af01dbe7cb9216b7a5`。
+來源 guard 在兩側原版各失敗一次。修正後完整 `npm test -- --run` exit 0，222 項
+unittest 通過、1 項跳過，OpenSpec strict 通過。
+
+隔離 Linux 的 Codex CLI 0.171.0 以本機 marketplace 安裝 tarball。兩個新 session
+各發兩筆合成請求、實讀一次完整的已安裝 Lens 與共用路由，內容與 tarball 和來源
+逐位元相同。草案案附兩筆出處並保留採納未知。明示案只確認本機研究可重試一次，
+保留永久改規則的人工批准。兩案零 Vault 讀寫、專案檔案未變。
+合成端點指定工具與答案，本輪驗到來源及範圍送入模型的接線，模型自行辨認決策、
+自然選用、Claude 與正式部署仍待驗。
+
+- npm tarball SHA-256 `2916875c9635626d5c17703f6d929bc2207d322ad1e4990f4ca82db18869e09a`
+- Installed Lens SHA-256 `81e20ea6a2c12eb0dc76c6163cde4dd8f9e0cb76f259440c88f46bbeada0e053`
+- Native fixture SHA-256 `f760d75c6d52794068d7f2fb0519192da3ff1a2e4f838c316fb3fb5c27c13e7c`
+
+#### 先前來源檢查
+
+next 的只讀交接、續辦與盤點先分流。Lens 先確定要比較的問題與材料。
+只根據提供內容回答的工作可直接完成，需要 Vault 才解析設定。Lens 缺少
+會改變答案或授權來源的決定時，在取資料前追問一次；不再為輸出語言另讀 Vault。
+既有 HR01 source-only 保留，新 HR02 supplied-passages 放在同一 fixture。
+移除該新增變體後，fixture 回到上一版原始 bytes。
+
+修改前兩個入口、兩側 runtime 的來源順序檢查共失敗四次。修改後 12 項
+路由測試通過，隔離 Linux `npm test -- --run` exit 0，21 項 command、
+8 項 smoke、219 項 unittest 通過，1 項跳過。實際 tarball 逐位元組
+核對兩側六個 next／lens／compose 檔案。HR01／HR02 的新版本模型
+選路、實際 Vault 讀取及部署仍待驗。
+
+新 fixture SHA-256 `eb5134dd7edd598ac81433876db01a9d08766dfcd682569e40fd7effbd5d9ed2`。
+
+### Codex 的模型選路輸入
+
+在隔離 Codex CLI 0.171.0 的前後兩個專案 skill 快照，`initialize`、
+`initialized`、`skills/list` 各找到一個已啟用的 Hirameki，路徑正確。
+Discovery 回應兩版均有完整 SKILL description 與介面短介。另用同一 HR03
+自然語句，在獨立網路／home 執行唯讀、無批准互動的 `codex exec --ephemeral`。
+每版恰有一個請求到本機合成 Responses 端點。請求內有完整 SKILL description，
+未見介面短介。新句只在修正版請求中出現；端點只回固定字樣，未執行模型選路。
+
+原 description SHA-256（整個 SKILL.md）
+`84aef077f653f8c492a4e8f8bd516da72abfd65fa21f13ec909481fa0fcbdd8f`；
+修正版 `caa33f781265791292bd800467b1dbb82be124c1cc0ff69e1a21d2f46e43afff`。
+只加來源成品提示與一般供稿編修界線。原 UI 短介、預設 prompt、決策 trigger 及
+正文維持原樣。靜態 guard 修正前因缺提示失敗，修正後通過；原 tarball 套件七項
+通過。前次完整 metadata 替換的 BLOCK 未改判。此證據限定為隔離 Codex 的
+discovery 及送出的選路輸入。實際選用、HR05 負向行為、安裝狀態、Claude 和用量待驗。
+
+### HR06 比較語句的入口界線
+
+Codex 的 Hirameki description 原把「比較」等列為決策訊號。新版將這些詞例
+限定在有實質影響的決策，明示一般技術比較可直接回答。三語詞例、短介、預設
+prompt、工作流正文與保存門檻保留。前次整段 metadata 替換的 BLOCK 仍有效。
+
+沿用 HR02 供稿比較作為正向範圍，HR06 新增同樣出現「比較」的一般技術題，保留
+原案例。舊 metadata 未通過新增 source guard。新版 validator、12 項路由測試、
+7 項實際打包測試及 OpenSpec strict 通過。
+
+兩版來源分別經 npm pack、本機 marketplace 安裝與新 Codex CLI 0.171.0 探索。
+把兩個題目各送一次至隔離 loopback Responses。四筆請求均包含既有三語詞例及
+來源成品提示，只有新版帶有技術比較直答界線。這些自然請求在初始送出時沒有
+注入整個 Hirameki 正文。兩個合成 Vault、宿主 registry 和舊設定均未變。
+此驗證到初始模型輸入；兩個案例的實際模型選路、回答品質和用量尚未執行。
+
+- 原入口 SHA-256 `f86453632dab36078b0a832e0c04d4dc040d6f43a7c0684453bbd7651d2db62e`
+- 新入口 SHA-256 `fff03e92cfce6f5ac324d4212653f32464631c9709b259725b5c419af79c24e9`
+- 合成案例 SHA-256 `48701f161ef44e50bcd2d33fb1243987322bae814db78f7df6ce35d68c4fdf87`
+- 打包及原生請求 fixture SHA-256 `5b06dd672e68cabc5d674ccced8c727a67b31ccee844b06214f10f34a938785c`
+
+## 原 Owner 修正版 consumer 對帳（2026-11-22）
+
+重查既有 issues 的原 Owner 回覆，[Akegarasu #13](https://github.com/devBrightRaven/akegarasu-no-yume/issues/13#issuecomment-6735704601)
+及 [Shikigarasu #2](https://github.com/devBrightRaven/shikigarasu/issues/2#issuecomment-6735701032)。
+兩份修正均以具名 Draft 提供。以下是 Codex 對該 Draft source 的重驗，歷史 merged
+結果另見下一節，未改 Owner checkout 或實際 store。

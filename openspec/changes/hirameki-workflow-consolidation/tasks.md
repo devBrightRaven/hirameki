@@ -151,6 +151,12 @@ other owners' worktrees retain their existing boundaries.
   preserve consumers, explicit entrypoints, rollback and governance. High-impact
   dispositions require controlled absent/original/consolidated behavioral evidence;
   inadequate samples remain inconclusive, not retirement authorization.
+  Focused follow-up for issue #3: compare scope before reading Vault sources.
+  Next starts from current project authority, with shared paged and exact-ID
+  views when needed. Lens preserves claim attribution and explicit adoption.
+  Compose asks for a material missing topic or audience and reuses the
+  applicable writing skill for a sourced artifact. Keep the existing
+  save gate. Scoped HR evidence is in workflow-reconciliation.md.
   Recorded next/lens/compose direction ([issue #3](https://github.com/devBrightRaven/hirameki/issues/3)):
   one umbrella, conditional natural-request
   selection and preserved explicit commands; scope-aware next resumption,

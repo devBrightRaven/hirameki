@@ -29,8 +29,9 @@ This is a bounded preview when `pagination.all_displayed` is false. For active, 
 
 For subsequent pages use the reported next_offset and pin both --expected-revision <index_revision> and --expected-view-revision <view_revision> from the first response. Changed index, source or restore overlay invalidates the combined inventory: report it and stop. Discard the completeness claim, do not combine the pages, and do not retry through another interpreter or fall back to raw notes. A later empty page does not mean the full list is empty.
 
-A comprehensive inventory requires all relevant pages. A bounded orientation may show a preview with totals and next offsets, but must not rank unseen tasks. If output is too large, reduce page size and read complete records; tool truncation is not successful inspection. “Every” below means every returned record plus explicit omitted counts until all requested pages have been read. Paging does not weaken full reader validation or the archive gate.
+A comprehensive inventory requires all relevant pages. A bounded orientation may show a preview with totals and next offsets, but must not rank unseen tasks. “Every” below means every returned record plus explicit omitted counts until all requested pages have been read. Paging does not weaken full reader validation or the archive gate.
 
+If output is visibly clipped, even at exit 0, tool truncation is not successful inspection. Re-read the same offset with a smaller page size and retain both revision pins if established. Set pins only from the first complete JSON page. If the smallest page still clips, report an incomplete inventory with no raw-note fallback for clipped output.
 
 Before running, check that `${CLAUDE_PLUGIN_ROOT}/scripts/task_view_cli.py` exists. If it is missing, say so explicitly (「外掛目錄缺少任務檢視腳本」: the installed plugin payload does not yet ship the task-view scripts, a plugin payload limitation), then use the raw-note fallback below as unverified candidates only; never imply the task view ran or that nothing is open.
 
@@ -40,11 +41,29 @@ Run the line with `python3`; if it cannot start (command not found, or a Windows
 - **狀態未確認**: every `uncertain` task with its reason (the `exceptions` entry for that task_id) and source link. Keep each item's own reason visible (for example a stale gate version versus missing evidence); never merge uncertain items under one generic label.
 - **例外**: every `exceptions` entry with its path.
 
-Never hide uncertain tasks or exceptions, and never read an empty list as "all done" when `view_status` is not `complete`. A task the view lists as archived is not open: do not re-derive it from raw notes. List every returned record individually; never collapse records into ID ranges or "and N more" without the omitted counts above. A non-zero exit whose JSON exception reason is `page-index-revision-changed` or `page-effective-view-changed` (a revision mismatch on a later page) is not an unreadable index: report the mismatch and stop, with no raw-note fallback. Any other non-zero exit or unparseable output: say 「待辦索引無法讀取」 and fall back to the raw-note behavior below.
+Never hide uncertain tasks or exceptions, and never read an empty list as "all done" when `view_status` is not `complete`. A task the view lists as archived is not open: do not re-derive it from raw notes. List every returned record individually; never collapse records into ID ranges or "and N more" without the omitted counts above. A non-zero exit whose JSON exception reason is `page-index-revision-changed` or `page-effective-view-changed` (a revision mismatch on a later page) is not an unreadable index: report the mismatch and stop, with no raw-note fallback. For other non-zero exits or unparseable output without visible clipping, say 「待辦索引無法讀取」 and use the raw-note behavior below.
 
 If no index exists, keep the raw-note behavior below unchanged and print exactly one line: 「尚無有效待辦索引，以下由原始紀錄推導，未經歸檔驗證。」
 
 The raw-note fallback excludes items explicitly finished (「已完成」, 「完成」, `✓ Done`, `[x]`, `Done`), withdrawn (「撤回」, `withdrawn`) or superseded (「已取代」, `superseded`), including a later closing Wrap block in the scanned window. Interpret marks in context: 未完成 is not closed; a replacement is a separate item. Unmarked items without explicit status evidence are `status uncertain`, not confirmed active tasks. Keep them visible in a separate uncertain list in default and stuck modes; never automatically archive them. Explicit unfinished or reopened evidence may establish active status; missing an index or repeating an Open item does not. repetition cannot reopen a closed item, only newer explicit reopening does. If an existing index is unreadable, raw notes produce unverified candidates, not authoritative active or completed state; do not silently discard indexed closure or bypass a cross-page revision mismatch.
+
+### Exact task lookup
+
+For a known ID, replace `--page-size 20 --offset 0` with `--task-id <exact-id>`
+in the same verified reader command. Pass `--data` relative to the selected
+Vault root. The reader validates the full index and
+returns the selected task (including archived tasks), both revisions, source
+digests and global uncertainty and exceptions. This is a read-only lookup.
+Keep the selected status and global diagnostics distinct. Use the effective
+state: a verified `restore_pending` task is active before index integration.
+An effectively archived task stays closed. An unconfirmed task has no verified
+next action.
+
+A missing ID returns nonzero `task-not-found`. An oversized result returns
+nonzero `output-limit-exceeded` and `details_returned=false`. The default
+response ceiling is 16384 UTF-8 bytes (`--max-output-bytes`, 1024..65536).
+Report the unavailable detail and preserve the uncertainty; never substitute
+a partial raw-note view or weaken validation for the exact task.
 
 ---
 

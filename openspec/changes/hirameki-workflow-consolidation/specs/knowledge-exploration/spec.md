@@ -15,6 +15,18 @@ lens SHALL 按主題選歷史、關聯、主張查核、機會或模式分析；
 - **WHEN** 問某想法何時形成
 - **THEN** 交付可回查時間線，不額外列七類機會或固定四份檔案。
 
+#### Scenario: Supplied passages are sufficient
+- **WHEN** 使用者已提供要比較的原文並限定為回覆
+- **THEN** 直接依原文作有來源的比較。只有仍會改變答案或授權來源的歧義才追問，只有需要讀寫 Vault 才解析設定。
+
+#### Scenario: Newer material is a draft or an attributed quote
+- **WHEN** 較新的材料是草案或轉述，且沒有決策主責的採納或取代證據
+- **THEN** 列出原決策、草案或引文的各自來源與範圍，保留目前是否變更的未知。有明示採納或取代時，只確認其指定的範圍。
+
+#### Scenario: Routine technical comparison uses comparison wording
+- **WHEN** 使用者只要求比較常見技術概念，沒有筆記分析、持久成果或重大決策需求
+- **THEN** 直接回答。單憑「比較」字樣不得啟動 Hirameki 或解析 Vault。
+
 ### Requirement: Graduating cards uses one contract
 概念卡晉升 SHALL 沿用 atomic claim、來源、既有 card 查重與確認契約，harvest/graduate/lens 不得各自保存不同版本的同一 claim。
 

@@ -7,10 +7,10 @@ argument-hint: "[history|positions|bridge|challenge|opportunities|patterns|cards
 
 For a natural-language request, apply `${CLAUDE_PLUGIN_ROOT}/references/capabilities/natural-routing.md`; do not require the user to name this capability. Preserve the actual request as input.
 
-Read `vault:` from `~/.claude/vault-local.md` for the vault root, then read `## Vault Structure` from `<vault>/AGENTS.md` (fall back to `~/.claude/vault-local.md`, then `~/.claude/CLAUDE.md` for setups predating 1.4.3) to get the vault path, the research folder location, and the list of content folders.
-If required configuration is missing, stop and respond: "Setup not complete. Please run `/hirameki:__init` first." Supplied text may be analysed without reading a vault; resolve configuration only before a vault read or write.
-
-Input: $ARGUMENTS. Infer the question and requested scope from supplied context; if neither is identifiable, ask one focused question.
+Input: $ARGUMENTS. Infer the question and scope from the request and supplied
+context. If a missing decision would materially change the answer or the
+authorized sources, ask one focused question before retrieving material.
+When supplied passages suffice, answer directly from them.
 
 ## Question-driven exploration
 
@@ -29,7 +29,18 @@ Choose only the capabilities needed for the question, not a fixed arc / position
 
 State inspected scope, sources and coverage limits. Start with supplied notes, topics or folder paths; expand only as needed to answer the question. Do not silently scan the entire vault for a narrow question. An unreadable source is not an empty source.
 
+For supplied passages and retrieved notes alike, identify who made each claim,
+its scope and whether it records a decision. Attribute draft proposals and
+third-party quotations to their sources. Treat explicit adoption or replacement
+by the decision owner as evidence of change within its stated scope. A later
+date alone leaves conflicting claims unresolved. State an unrecorded reason as
+unknown, count repeated copies as one source event, and omit unrelated matches.
+
 ## Evidence retrieval
+
+For Vault-dependent work only, resolve configuration before opening notes or saving.
+Read `vault:` from `~/.claude/vault-local.md` for the vault root, then read `## Vault Structure` from `<vault>/AGENTS.md` (fall back to `~/.claude/vault-local.md`, then `~/.claude/CLAUDE.md` for setups predating 1.4.3) to get the vault path, the research folder location, and the list of content folders.
+If required configuration is missing, stop and respond: "Setup not complete. Please run `/hirameki:__init` first."
 
 When the user names a topic rather than every note, use available file/search or
 Obsidian tools in the authorized folder with topic names, task IDs or distinctive
@@ -37,10 +48,6 @@ phrases. Read candidate passages and their dates/source links; a filename match
 or search snippet is not evidence of the author's position. Follow relevant
 links only as needed. If evidence is insufficient, expand within the authorized
 scope or report the gap; do not silently search another vault.
-
-Compare claims and their scopes before treating them as a change of mind. A
-newer date does not resolve an unresolved contradiction. State an absent reason
-as unknown; repeated copies are one source event. Keep unrelated matches out.
 
 ## Integrated result
 
@@ -56,4 +63,4 @@ A reusable lesson supported by at least two independent events may prompt manual
 
 Analysis alone never authorizes a write. If saving is requested, show the full draft and target path, then ask `Action? (save this / skip / edit)`. Save only the displayed, approved content; changes require another display and approval. A new analysis note belongs at `{research}/lens/YYYY-MM-DD-{slug}.md`; preserve existing notes, naming and frontmatter. Card destinations follow the shared card contract.
 
-Print the full path after each successful write. On failure, report what did and did not persist; do not claim completion. Write output in the language specified in `## Vault Structure` → `language`.
+Print the full path after each successful write. On failure, report what did and did not persist; do not claim completion. Use the requested language, otherwise the resolved vault language when applicable or the current conversation language.

@@ -20,7 +20,7 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
-from workflow_routes import load_routes
+from workflow_routes import load_routes, task_contract
 REDIRECTS = load_routes()["redirects"]
 
 COMMANDS_DIR = Path(__file__).parent.parent / "commands"
@@ -423,12 +423,13 @@ def main() -> None:
         content = path.read_text(encoding="utf-8")
         errors = check_file(name, content)
         if name == "tasks":
-            capability = COMMANDS_DIR.parent / "references/capabilities/tasks.md"
+            capability = task_contract(COMMANDS_DIR, name)
             content = capability.read_text(encoding="utf-8")
             errors += check_file("task-capability", content)
         if name in TASK_VIEW_COMMANDS:  # Claude commands only; Codex adapter owns its own
+            reader = task_contract(COMMANDS_DIR, name).read_text(encoding="utf-8")
             for phrase in TASK_VIEW_REQUIRED:
-                if phrase not in content:
+                if phrase not in reader:
                     errors.append(f"Missing task view content: {phrase!r}")
         if name == "tidy":
             for phrase in TIDY_TASKS_REQUIRED:
